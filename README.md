@@ -404,11 +404,33 @@ These are controls implemented using the above functions.  They are opinionated 
 
 There are also some pre-defined screens which are made available if you use `control_system()` instead of `ui_system()`:
 
-*	`control.prompt` - first argument is a 
+*	`control.prompt` - takes two arguments, see `guide/images/control-screen-prompt.png` for how it looks
+	*	argument `0`: the string to edit
+	*	argument `1`: title of the prompt
 
 ### `control_navbar(title, next_title, next_screen)`
 
 Displays a navigation bar for the screen with a centred title, and "back" button if the screen is not top-level.  If `next_screen` is supplied, it displays a button on the right-hand side for navigating to the next page.
+
+### `control_navbar(title, next_title, next_screen)`
+
+Adds a navigation bar for the screen with a centred title, and "back" button if the screen is not top-level.  If `next_screen` is supplied, it displays a button on the right-hand side for navigating to the next page.
+
+The "back" button will automatically close the current screen.
+
+### `control_dialog(title, width, height, text_ok, text_cancel)`
+
+Displays a dialog.  It returns the acceptance state of the dialog:
+
+*	`0` - the dialog has not been closed
+*	`1` - the dialog was just closed by clicking "OK"
+*	`-1` - the dialog was just closed by clicking "cancel"
+
+Note, if `1` or `-1` is returned, the screen containing the dialog has _already been closed_ (much like the "back" button of `control_navbar()`) so you do not need to close this yourself.
+
+If `width` or `height` are `-1`, then default values are used.
+
+If `text_cancel` is `-1`, the dialog has no cancel button.  If `text_ok` is `-1`, the dialog has no OK button.
 
 ### `control_button(text)`
 
