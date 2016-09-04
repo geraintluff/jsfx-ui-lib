@@ -30,12 +30,16 @@ ui_screen() == "main" ? (
 
 	control_button("Click me") ? (
 		ui_screen_open("second-screen");
-		ui_screen_set(0, 4.5); // Pass arguments between screens
+		// Pass arguments between screens
+		ui_screen_set(0, 1);
+		ui_screen_set(1, 4.5);
 	);
 ) : ui_screen() == "second-screen" ? (
 	control_navbar("Second screen", -1, -1);
 	ui_push_height(50);
-		slidervalue = control_hslider(slidervalue, 0, 1, 0);
+		lowvalue = ui_screen_get(0);
+		highvalue = ui_screen_get(1);
+		slidervalue = control_hslider(slidervalue, lowvalue, highvalue, 0);
 	ui_pop();
 ) : control_system();
 ```
@@ -63,13 +67,13 @@ next_array_start = safe_to_use;
 
 If you are not using the memory buffer for anything else, then the first argument should be `0`.
 
-## Screen management functions
-
 ### `ui_start(defaultScreen)`
 
-This should be the first thing you call.  It resets the viewport, does some error-checking, detects clicks - generally important. :)
+This should be the first thing you call in `@gfx`.  It resets the viewport, does some error-checking, detects clicks - generally important. :)
 
-If the screen is not set, it is set to `defaultScreen`.
+If the screen is not set (`0`), it is set to `defaultScreen`.
+
+## Screen management functions
 
 ### `ui_screen()`
 
