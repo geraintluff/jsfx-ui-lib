@@ -246,13 +246,13 @@ Pads in one direction only, with the default padding.
 
 ### `ui_pad1(pixels)`, `ui_pad2(xpixels, ypixels)`, `ui_pad4(left, top, right, bottom)`
 
-This insets the current viewport by an appropriate amount in each direction.  The three numbered variants are for different numbers of arguments.  If any of the padding values is a negative number, the default padding for that direction is used.
+This insets the current viewport by an appropriate amount in each direction.  The three numbered variants are for different numbers of arguments.  If any of the padding values is `-1`, the default padding for that direction is used.
 
 It does *not* change the stack.
 
 ### `ui_padding(hpadding, vpadding);`
 
-This sets the default padding for each direction.  If you supply a negative number for either, the padding in that direction is unchanged.
+This sets the default padding for each direction.  If you supply `-1` for either, the padding in that direction is unchanged.
 
 ## Graphics
 
