@@ -1,5 +1,7 @@
 # `ui-lib.jsfx-inc`: pretty UIs for REAPER's JS effects
 
+This is a library/framework for creating complex UIs in REAPER's JSFX language.
+
 ```
 import ui-lib-jsfx-inc
 
@@ -12,42 +14,47 @@ ui_start("main"); // Default screen
 
 ui_screen() == "main" ? (
 	control_navbar("Main screen", -1, -1)
-	ui_split_topratio(0.5);
+
+	ui_split_leftratio(0.5);
 		ui_textwrap("Here is some center-aligned wrapped text");
 	ui_pop();
 
 	control_button("Click me") ? (
-		ui_screen_open("slider");
+		ui_screen_open("second-screen");
 		ui_screen_set(0, 4.5); // Pass arguments between screens
 	);
-) : ui_screen() == "slider" ? (
-	control_navbar("Slider text", -1, -1);
-
-	// Split the screen into three vertical sliders
-	ui_split_leftratio(1/3); // split horizontally
-		myvar1 = ui_vslider(myvar1, 0, 1, 0); // Linear between 0 and 1
-	ui_split_next();
-		myvar2 = ui_vslider(myvar2, 0, 100, 2); // Low-biased (better accuracy near 0)
-	ui_split_next();
-		myvar3 = ui_vslider(myvar3, 1, 100, log(100/1)); // Logarithmic
-	ui_split_next();
+) : ui_screen() == "second-screen" ? (
+	...
 ) : control_system();
 ```
+
+## Overview
+
+At any given time, the library is displaying one "screen".  These screens are identified by non-zero values (often a string constant).  The screens are stored in a stack, so you can open screens (with arguments) and then close them to return to your previous state.
+
+The library also provides a stack of drawing contexts - each context holds a current viewport, colour, font, and so on.  The initial context is the whole screen with a default font/colour.  This lets you draw layouts and controls that fit into the space available.  It also provides mouse/keyboard methods (e.g. `ui_click()`, `ui_drag()`) which return whether/how the user is interacting with that particular viewport..
+
+There is a set of pre-made controls (the functions `control_*()`), and some pre-made screens (e.g. a text-entry dialog) to make things as easy as possible.
+
+## Setup
 
 ### `ui_setup(memstart)`
 
 This must be called in `@init`.  It reserves a section of the memory buffer for use by the UI library.  It returns the next index that it is not using.
 
 ```
+// Let's say we have a section reserved to to FFTs in
 fft_buffer = 0;
 fft_buffer_end = fft_buffer + 512;
 
+// Set up the UI library
 safe_to_use = ui_setup(fft_buffer_end, 10, 10);
 
+// It lets us know how much space it uses
 next_array_start = safe_to_use;
 ```
 
-If you are not using the memory, buffer, then the first argument should be `0`.
+If you are not using the memory buffer for anything else, then the first argument should be `0`.
 
 ## Screen management functions
 
