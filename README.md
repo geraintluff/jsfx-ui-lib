@@ -168,11 +168,12 @@ It's called "split" because the two layers on the stack are now non-overlapping.
 
 ```
 ui_split_bottom(100);
-	ui_fill(0, 128, 0);
+	ui_border_top();
 	ui_text("footer");
 ui_pop();
 // Viewport is now everything *except* the footer
-ui_fill(0, 0, 0); // Does not overwrite the footer
+ui_color(64, 64, 64);
+ui_fill(); // Does not overwrite the footer
 ```
 
 ### `ui_split_topratio(ratio)`, etc.
@@ -203,11 +204,13 @@ ui_split_next();
 ui_pop();
 ```
 
-Calling `ui_split_n()` when the current layer was not created by `ui_split_*()` results in an error.
+Calling `ui_split_next()` when the current layer was not created by `ui_split_*()` results in an error.
 
 ### `ui_push_height(height)` and `ui_push_width(width)`
 
 Push a new alignment state to the stack with the specified height/width, using the current alignment.
+
+For example, if your alignment is central (`ui_align(0.5, 0.5)`) and you call `ui_push_height(50)`, then it will push a new viewport onto the stack, occupying the middle 50px of the previous viewport.
 
 ### `ui_push_heightratio(ratio)` and `ui_push_widthratio(ratio)`
 
