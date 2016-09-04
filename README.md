@@ -2,6 +2,8 @@
 
 This is a library/framework for creating complex UIs in REAPER's JSFX language.
 
+It requires REAPER v4.60 or above.
+
 ## Overview
 
 At any given time, the library is displaying one "screen".  These screens are identified by non-zero values (often a string constant).  The screens are stored in a stack, so you can open screens (with arguments) and then close them to return to your previous state.
