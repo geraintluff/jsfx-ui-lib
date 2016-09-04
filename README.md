@@ -2,8 +2,16 @@
 
 This is a library/framework for creating complex UIs in REAPER's JSFX language.
 
+## Overview
+
+At any given time, the library is displaying one "screen".  These screens are identified by non-zero values (often a string constant).  The screens are stored in a stack, so you can open screens (with arguments) and then close them to return to your previous state.
+
+The library also provides a stack of drawing contexts - each context holds a current viewport, colour, font, and so on.  The initial context is the whole screen with a default font/colour.  This lets you draw layouts and controls that fit into the space available.  It also provides mouse/keyboard methods (e.g. `ui_click()`, `ui_drag()`) which return whether/how the user is interacting with that particular viewport..
+
+There is a set of pre-made controls (the functions `control_*()`), and some pre-made screens (e.g. a text-entry dialog) to make things as easy as possible.
+
 ```
-import ui-lib-jsfx-inc
+import ui-lib.jsfx-inc
 
 @init
 ...
@@ -13,10 +21,11 @@ membuffer_end = ui_setup(membuffer_start); // It needs some working memory
 ui_start("main"); // Default screen
 
 ui_screen() == "main" ? (
-	control_navbar("Main screen", -1, -1)
+	control_navbar("Main screen", -1, -1);
 
-	ui_split_leftratio(0.5);
-		ui_textwrap("Here is some center-aligned wrapped text");
+	ui_split_topratio(0.5);
+		ui_pad();
+		ui_wraptext("Here is some center-aligned text, which wraps around onto a new line if it gets too long.");
 	ui_pop();
 
 	control_button("Click me") ? (
@@ -24,17 +33,15 @@ ui_screen() == "main" ? (
 		ui_screen_set(0, 4.5); // Pass arguments between screens
 	);
 ) : ui_screen() == "second-screen" ? (
-	...
+	control_navbar("Second screen", -1, -1);
+	ui_push_height(50);
+		slidervalue = control_hslider(slidervalue, 0, 1, 0);
+	ui_pop();
 ) : control_system();
 ```
 
-## Overview
-
-At any given time, the library is displaying one "screen".  These screens are identified by non-zero values (often a string constant).  The screens are stored in a stack, so you can open screens (with arguments) and then close them to return to your previous state.
-
-The library also provides a stack of drawing contexts - each context holds a current viewport, colour, font, and so on.  The initial context is the whole screen with a default font/colour.  This lets you draw layouts and controls that fit into the space available.  It also provides mouse/keyboard methods (e.g. `ui_click()`, `ui_drag()`) which return whether/how the user is interacting with that particular viewport..
-
-There is a set of pre-made controls (the functions `control_*()`), and some pre-made screens (e.g. a text-entry dialog) to make things as easy as possible.
+![Example of main screen](guide/images/top-demo.png)
+![Example of second screen](guide/images/top-demo-2.png)
 
 ## Setup
 
