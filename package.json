@@ -1,0 +1,16 @@
+{
+  "name": "jsfx-ui-lib",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build.js",
+  "dependencies": {
+    "jsfx-preprocessor": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "node build.js"
+  },
+  "author": "Geraint Luff <luffgd@gmail.com>",
+  "license": "ISC",
+  "private": true
+}
