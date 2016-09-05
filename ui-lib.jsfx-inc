@@ -1376,23 +1376,22 @@ function control_dragvalue(value, range_low, range_high, curve_bias) local(value
 	value;
 );
 
-function control_dial(value, range_low, range_high, curve_bias)  local(valueratio, screenratio, centrex, centrey, radius, inner_radius, lowangle, highangle, angle) (
+function control_dial(value, range_low, range_high, curve_bias)  local(valueratio, screenratio, centrex, centrey, radius, inner_radius, angle) (
 	ui_push();
 		radius = min(ui_width(), ui_height())/2 - 1;
 		centrex = (ui_left() + radius) + (ui_width() - radius*2 - 1)*ui_halign();
 		centrey = (ui_top() + radius) + (ui_height() - radius*2 - 1)*ui_valign();
 		inner_radius = radius - 3;
-
-		screenratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
 		lowangle = -2.3;
 		highangle = 2.3;
+
+		screenratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
 		angle = lowangle + (highangle - lowangle)*(screenratio*0.98 + 0.01);
 		
-		ui_colora(220, 220 ,220, 1);
 		control_color_fill_enabled();
 		gfx_circle(centrex, centrey, radius, 1, 1);
 		
-		control_color_fill_inset();
+		control_color_text_enabled();
 		gfx_arc(centrex, centrey, inner_radius, lowangle, angle, 1);
 		gfx_arc(centrex + 1, centrey, inner_radius, lowangle, angle, 1);
 		gfx_arc(centrex, centrey + 1, inner_radius, lowangle, angle, 1);
@@ -1404,6 +1403,31 @@ function control_dial(value, range_low, range_high, curve_bias)  local(valuerati
 	ui_pad1(5);
 	control_color_text_enabled();
 	control_dragvalue(value, range_low, range_high, curve_bias);
+);
+
+function control_dial_angle(angle) local(radius, centrex, centrey, inner_radius) (
+	ui_push();
+		radius = min(ui_width(), ui_height())/2 - 1;
+		centrex = (ui_left() + radius) + (ui_width() - radius*2 - 1)*ui_halign();
+		centrey = (ui_top() + radius) + (ui_height() - radius*2 - 1)*ui_valign();
+		inner_radius = radius - 3;
+
+		control_color_fill_enabled();
+		gfx_circle(centrex, centrey, radius, 1, 1);
+		
+		control_color_text_enabled();
+		
+		gfx_circle(centrex + sin(angle)*inner_radius, centrey - cos(angle)*inner_radius, 1.5, 1, 1);
+
+		control_finish_enabled_circle(centrex, centrey, radius);
+	ui_pop();
+	ui_pad1(5);
+	control_color_text_enabled();
+	
+	angle = control_dragvalue(angle, -0.1, 2*$pi + 0.1, 0);
+	angle < 0 ? angle += 2*$pi;
+	angle >= 2*$pi ? angle -= 2*$pi;
+	angle;
 );
 
 function control_dialog(title, width, height, doneText, cancelText) local(accepted) (

@@ -1318,10 +1318,8 @@ function uix_slider_ratio_to_value(ratio, range_low, range_high, curve_bias) loc
 );
 
 function control_hslider(value, range_low, range_high, curve_bias) local(valueratio, screenratio) (
+	// We calculate screenratio first (before updating value) because then any rounding/limiting applied to the value is reflected in the UI
 	screenratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
-	ui_mouse_down() || ui_drag() ? (
-		value = uix_slider_ratio_to_value(ui_mouse_xratio(), range_low, range_high, curve_bias);
-	);
 
 	ui_push();
 		control_color_fill_inset();
@@ -1339,14 +1337,16 @@ function control_hslider(value, range_low, range_high, curve_bias) local(valuera
 
 		control_border();
 	ui_pop();
+
+	ui_mouse_down() || ui_drag() ? (
+		value = uix_slider_ratio_to_value(ui_mouse_xratio(), range_low, range_high, curve_bias);
+	);
 	value;
 );
 
 function control_vslider(value, range_low, range_high, curve_bias) local(valueratio, screenratio) (
+	// We calculate screenratio first (before updating value) because then any rounding/limiting applied to the value is reflected in the UI
 	screenratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
-	ui_mouse_down() || ui_drag() ? (
-		value = uix_slider_ratio_to_value(1 - ui_mouse_yratio(), range_low, range_high, curve_bias);
-	);
 
 	ui_push();
 		control_color_fill_inset();
@@ -1364,6 +1364,10 @@ function control_vslider(value, range_low, range_high, curve_bias) local(valuera
 
 		control_border();
 	ui_pop();
+
+	ui_mouse_down() || ui_drag() ? (
+		value = uix_slider_ratio_to_value(1 - ui_mouse_yratio(), range_low, range_high, curve_bias);
+	);
 	value;
 );
 
@@ -1376,7 +1380,8 @@ function control_dragvalue(value, range_low, range_high, curve_bias) local(value
 	value;
 );
 
-function control_dial(value, range_low, range_high, curve_bias)  local(valueratio, screenratio, centrex, centrey, radius, inner_radius, angle) (
+function control_dial(value, range_low, range_high, curve_bias)  local(valueratio, screenratio, centrex, centrey, radius, inner_radius, highangle, lowangle, angle) (
+	screenratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
 	ui_push();
 		radius = min(ui_width(), ui_height())/2 - 1;
 		centrex = (ui_left() + radius) + (ui_width() - radius*2 - 1)*ui_halign();
@@ -1385,7 +1390,6 @@ function control_dial(value, range_low, range_high, curve_bias)  local(valuerati
 		lowangle = -2.3;
 		highangle = 2.3;
 
-		screenratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
 		angle = lowangle + (highangle - lowangle)*(screenratio*0.98 + 0.01);
 		
 		control_color_fill_enabled();
@@ -1402,6 +1406,7 @@ function control_dial(value, range_low, range_high, curve_bias)  local(valuerati
 	ui_pop();
 	ui_pad1(5);
 	control_color_text_enabled();
+
 	control_dragvalue(value, range_low, range_high, curve_bias);
 );
 

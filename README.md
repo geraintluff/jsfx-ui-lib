@@ -527,6 +527,8 @@ ui_pop();
 
 The initial value for this (upon loading a screen) should be `0`.
 
+NOTE: in order to capture all keypresses (e.g. so that the space bar gets routed to the effect instead of starting/stopping playback), you'll need to put `options:want_all_kb` in the header of your effect.
+
 ### `control_textinput_hasfocus(inputstate)`
 
 Inspects the state to see whether it currently focused or not.
