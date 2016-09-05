@@ -472,9 +472,9 @@ display_text = value == 1 ? "foo" : value == 2 ? "bar" : "baz";
 value = control_selector(value, display_text, (value + 1)%3, (value + 2)%3);
 ```
 
-### `control_hslider(value, range_low, range_high, curve_bias)`
+### `control_hslider(value, range_low, range_high, curve_bias)` and `control_vslider(...)`
 
-Displays a horizontal slider.  Returns the new value.
+Displays a horizontal/vertical slider.  Returns the new value.
 
 The value of `curve_bias` determines how the displayed proportion of the slider corresponds to the actual values. `0` is linear, and you can get a logarithmic scale using `log(high/low)`:
 

@@ -1271,6 +1271,38 @@ function control_hslider(value, range_low, range_high, curve_bias) local(valuera
 	value;
 );
 
+function control_vslider(value, range_low, range_high, curve_bias) local(valueratio, screenratio) (
+	valueratio = max(0, min(1, (value - range_low)/(range_high - range_low)));
+	screenratio = curve_bias ? (
+		log(valueratio*(exp(curve_bias) - 1) + 1)/curve_bias
+	) : valueratio;
+	ui_mouse_down() || ui_drag() ? (
+		newscreenratio = max(0, min(1, 1 - ui_mouse_yratio()));
+		valueratio = curve_bias ? (
+			(exp(newscreenratio*curve_bias) - 1)/(exp(curve_bias) - 1)
+		) : newscreenratio;
+		value = range_low + (range_high - range_low)*valueratio;
+	);
+
+	ui_push();
+		control_color_fill_inset();
+		ui_fill();
+		control_finish_inset(1);
+
+		ui_push();
+			control_color_fill_enabled();
+			barheight = floor((ui_height() - 1)*screenratio + 1.5);
+			ui_split_bottom(barheight);
+				ui_fill();
+				control_finish_enabled(1);
+			ui_pop();
+		ui_pop();
+
+		control_border();
+	ui_pop();
+	value;
+);
+
 function control_dialog(title, width, height, doneText, cancelText) local(accepted) (
 	accepted = 0;
 	ui_push();
