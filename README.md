@@ -378,6 +378,14 @@ Whether this element was clicked before and the mouse is still down.  It returns
 
 Note: this does not start returning true immediately after mouse-down - it waits either a short amount of time, or until the mouse has moved a bit.  If you want an immediate response, you should check `ui_mouse_down()` or `ui_press()` as well.
 
+### `ui_drag_x()` and `ui_drag_y()`
+
+The distance (relative to mouse-down) the mouse has been dragged in each direction since mouse-down.
+
+### `ui_drag_xdelta()` and `ui_drag_ydelta()`
+
+The distance (relative to mouse-down) the mouse has been dragged in each direction since the last frame.
+
 ## Keyboard
 
 REAPER's native `gfx_getchar()` function pops a character off the queue every time it's called - this is awkward if more than one control might be interested in the key's value.
@@ -491,6 +499,16 @@ value = control_hslider(value, 0, 1, -3);
 // Logarithmic slider
 value = control_hslider(value, low, high, log(high/low));
 ```
+
+### `control_dial(value, range_low, range_high, curve_bias)`
+
+Displays a circular dial.  Returns the new value.
+
+This dial uses the "enabled" colour.  If you want to display text within the dial (in the centre), use `control_color_text_enabled()`.
+
+### `control_dial_angle(angle)`
+
+Displays a circular dial that rotates a full circle.  `angle` is the current value (in radians) and the new value is returned (cast to the range between `0` and `2π`).
 
 ### `control_textinput(string, inputstate)`
 
