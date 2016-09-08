@@ -49,6 +49,8 @@ ui_screen() == "main" ? (
 ![Example of main screen](guide/images/top-demo.png)
 ![Example of second screen](guide/images/top-demo-2.png)
 
+It's worth noting that in the above example, the value of `slidervalue` is not saved (it would have to be saved in a `@serialize` block).  See the "hidden sliders" section at the bottom of this document for how you can use hidden sliders to automatically save state and also make your parameters automatable.
+
 ## Setup
 
 ### `ui_setup(memstart)`
@@ -599,3 +601,23 @@ Sets the colour to the control border colour.
 Draws an arrow aligned towards one edge of the element (it is *not* centred).
 
 Values for `direction` are `0` (left), `1` (top), `2` (right) and `3` (bottom).
+
+## Automation, saving state, and "hidden sliders"
+
+If you're not using the built-in sliders, then any variables you control using this UI must be saved using a `@serialize` block.  They will also not be automatable.
+
+```
+@serialize
+file_var(0, slidervalue); // Works for both read/write
+```
+
+However, you can make a slider hidden from the GUI (by preceding the name with "-"), and then control its value from your GUI:
+
+```
+slider1:0<0,1,0>-Slider Name
+
+@gfx
+slider1 = control_hslider(slider1, 0, 1, 0);
+```
+
+Like any other sliders, they are automatable and their state is saved automatically.
