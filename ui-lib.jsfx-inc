@@ -823,10 +823,10 @@ function ui_push_rightoftext(text) local(text_width)  (
 );
 
 function ui_pad4(l, t, r, b) (
-	l < 0 ? l = uix_drawconfig_current[15/*uix_DRAWCONFIG:HPADDING*/];
-	r < 0 ? r = uix_drawconfig_current[15/*uix_DRAWCONFIG:HPADDING*/];
-	t < 0 ? t = uix_drawconfig_current[16/*uix_DRAWCONFIG:VPADDING*/];
-	b < 0 ? b = uix_drawconfig_current[16/*uix_DRAWCONFIG:VPADDING*/];
+	l < 0 ? l = -l*uix_drawconfig_current[15/*uix_DRAWCONFIG:HPADDING*/];
+	r < 0 ? r = -r*uix_drawconfig_current[15/*uix_DRAWCONFIG:HPADDING*/];
+	t < 0 ? t = -t*uix_drawconfig_current[16/*uix_DRAWCONFIG:VPADDING*/];
+	b < 0 ? b = -b*uix_drawconfig_current[16/*uix_DRAWCONFIG:VPADDING*/];
 	uix_drawconfig_current[9/*uix_DRAWCONFIG:LEFT*/] += l;
 	uix_drawconfig_current[10/*uix_DRAWCONFIG:TOP*/] += t;
 	uix_drawconfig_current[11/*uix_DRAWCONFIG:WIDTH*/] -= l + r;

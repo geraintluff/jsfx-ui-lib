@@ -41,7 +41,7 @@ ui_screen() == "main" ? (
 	ui_push_height(50);
 		lowvalue = ui_screen_get(0);
 		highvalue = ui_screen_get(1);
-		slidervalue = control_hslider(slidervalue, lowvalue, highvalue, 0);
+		myslidervalue = control_hslider(myslidervalue, lowvalue, highvalue, 0);
 	ui_pop();
 ) : control_system();
 ```
@@ -49,7 +49,7 @@ ui_screen() == "main" ? (
 ![Example of main screen](guide/images/top-demo.png)
 ![Example of second screen](guide/images/top-demo-2.png)
 
-It's worth noting that in the above example, the value of `slidervalue` is not saved (it would have to be saved in a `@serialize` block).
+It's worth noting that in the above example, the value of `myslidervalue` is not saved (it would have to be saved in a `@serialize` block).
 
 Alternatively, see the ["hidden sliders" section](#automation-saving-state-and-hidden-sliders) at the bottom of this document for how to use hidden sliders to automatically save state, and also make your parameters automatable.
 
@@ -610,7 +610,7 @@ If you're not using the built-in sliders, then any variables you control using t
 
 ```
 @serialize
-file_var(0, slidervalue); // Works for both read/write
+file_var(0, myslidervalue); // Works for both read/write
 ```
 
 However, you can make a slider hidden from the GUI (by preceding the name with "-").  Like any other sliders, they are automatable and their state is saved automatically.
