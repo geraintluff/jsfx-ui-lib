@@ -320,6 +320,10 @@ Fills the current viewport with the current colour.
 
 ## Mouse
 
+### `ui_interacted()`
+
+Whether the user recently interacted with the UI using the mouse or keyboard.  This can be checked (at the end of the `@gfx` block, or elsewhere) to perform recalculations (similar to the `@slider` block).
+
 ### `ui_mouse_x()` and `ui_mouse_y()`
 
 Mouse position relative to current viewport.
