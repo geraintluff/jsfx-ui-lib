@@ -51,6 +51,7 @@ function uix_setgfxcolorrgba(r, g, b, a) (
 	gfx_g = uix_clamp1(g/255);
 	gfx_b = uix_clamp1(b/255);
 	gfx_a = uix_clamp1(a);
+	0;
 );
 function uix_setgfxcolor() (
 	uix_setgfxcolorrgba(
@@ -671,7 +672,7 @@ function ui_pop() local(prev) (
 		uix_font_dirty ? uix_setgfxfont();
 		1;
 	);
-	0;
+	uix_setgfxcolor();
 );
 function ui_split_top(height) local(oldTop) (
 	height == -1 ? height = ui_texth() + uix_drawconfig_current[16/*uix_DRAWCONFIG:VPADDING*/]*2;

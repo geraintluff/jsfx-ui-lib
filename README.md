@@ -1,6 +1,6 @@
-# `ui-lib.jsfx-inc`: pretty UIs for REAPER's JS effects
+# `ui-lib.jsfx-inc`: easy UIs for REAPER's JS effects
 
-This is a library/framework for creating complex UIs in REAPER's JSFX language.
+This is a library/framework for creating UIs in REAPER's JSFX language in a straightforward way.
 
 It requires REAPER v4.60 or above.
 
@@ -20,7 +20,7 @@ import ui-lib.jsfx-inc
 membuffer_end = ui_setup(membuffer_start); // It needs some working memory
 
 @gfx
-ui_start("main"); // Default screen
+ui_start("main"); // Default screen is "main"
 
 ui_screen() == "main" ? (
 	control_navbar("Main screen", -1, -1);
@@ -581,7 +581,7 @@ For each of these three states, there are two functions, to apply before and aft
 *	`control_background_{state}(state)` - fills the viewport with a background pattern for a control, and sets `ui_color()` to something contrasting
 *	`control_finish_{state}(state)` - adds gloss/shadows to the element, on top. Strength is in the range (0, 1], with `1` being the default.
 
-The `state` argument is the current mouse hover/click/drag state, which af.  If ommitted (`0` supplied), this is taken from the current mouse state.  However, if you are drawing a complex control where the hover state needs to be consistent (e.g. a slider, where the active part of the slider should respond to mouse hovers), you can use `control_state()` to get an opaque state value to use later.
+The `state` argument is the current mouse hover/click/drag state, which affects the display.  If ommitted (`0` supplied), this is taken from the current mouse state.  However, if you are drawing a complex control where the hover state needs to be consistent (e.g. a slider, where the active part of the slider should respond to mouse hovers), you can use `control_state()` to get an opaque state value to use later.
 
 These functions are designed to work together, but you might use a "finish" on its own to let custom controls fit in (e.g. an oscilloscope drawn on a different background colour, but still finished with `control_finish_enabled()`).
 
@@ -603,19 +603,15 @@ ui_pop();
 
 NOTE: the `control_color_*_*()` functions use the current mouse hover/click/drag state to decide on the colour.  Since the regions for checking that state depend on the viewport, you probably want to assign these colours *before* changing the viewport - see `control_color_fill_enabled()` in the above example.
 
-#### `control_border()`
-
-Draws a border around the element.  Used for the outside of interactive controls, but not for internal boundaries.
-
-#### `control_color_border()`
-
-Sets the colour to the control border colour.
-
 #### `control_arrow(direction)`
 
 Draws an arrow aligned towards one edge of the element (it is *not* centred).
 
 Values for `direction` are `0` (left), `1` (top), `2` (right) and `3` (bottom).
+
+## Themes
+
+Currently there are only two themes (available to select using `control_start()`).
 
 ## Automation, saving state, and "hidden sliders"
 
