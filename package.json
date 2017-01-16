@@ -6,9 +6,12 @@
   "dependencies": {
     "jsfx-preprocessor": "^1.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.js",
+    "nodemon": "nodemon build.js -e txt --"
   },
   "author": "Geraint Luff <luffgd@gmail.com>",
   "license": "ISC",

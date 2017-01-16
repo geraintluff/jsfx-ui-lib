@@ -394,6 +394,10 @@ The distance (relative to mouse-down) the mouse has been dragged in each directi
 
 The distance (relative to mouse-down) the mouse has been dragged in each direction since the last frame.
 
+### `ui_scroll_x()` and `ui_scroll_y()`
+
+Whether the scroll-wheel has moved, and the mouse is inside the current viewport.
+
 ## Keyboard
 
 REAPER's native `gfx_getchar()` function pops a character off the queue every time it's called - this is awkward if more than one control might be interested in the key's value.
@@ -420,9 +424,13 @@ These are controls implemented using the above functions.  They are opinionated 
 
 There are also some pre-defined screens which are made available if you use `control_system()` instead of `ui_system()`:
 
-*	`control.prompt` - takes two arguments, see `guide/images/control-screen-prompt.png` for how it looks
+*	`control.prompt` - takes two arguments, see `guide/images/control-screen-prompt.png` for how it looks in the default theme
 	*	argument `0`: the string to edit
 	*	argument `1`: title of the prompt
+	
+### `control_start(default_screen, theme)`
+
+This is a replacement for `ui_start()` that includes a second argument to select a theme.  Themes are identified by string constants, and the current themes are `"default"` and `"black"`.  Any unrecognised theme is treated as `"default"`.
 
 ### `control_navbar(title, next_title, next_screen)`
 
@@ -545,7 +553,7 @@ Inspects the state to see whether it currently focused or not.
 
 This alters the input state to set the input to be focused.
 
-Note: this does not take the focus *away* from any other inputs - you must do that yourself.
+**Warning:** this does not take the focus *away* from any other inputs - you must do that yourself.
 
 ### `control_textinput_unfocus(inputstate)`
 
@@ -561,33 +569,34 @@ This is a replacement for `ui_system()` that includes some built-in screens:
 
 ### Drawing functions
 
-These functions are used to make the above controls, so you can use them if you wish to match this look with custom elements.  There are three states:
+These functions are used to make the above controls, so you can use them if you wish to match this look with custom elements.  There are four states:
 
 *	`enabled` - used by buttons and the active part of sliders
 *	`disabled` - used by disabled buttons
 *	`inset` - used for meters/displays, and the inactive part of sliders
+*	`passive` - used by nav-bar and other non-interactive elements
 
-There are three functions for each of these states:
+For each of these three states, there are two functions, to apply before and after your control:
 
-*	`control_color_fill_{state}()` - sets the colour to the appropriate background colour, ready to call `ui_fill()`
-*	`control_color_text_{state}()` - sets the colour to the appropriate text colour, ready to call `ui_text()`
-*	`control_finish_{state}(strength)` - adds gloss/shadows to the element. Strength should be `1` unless you want it deliberately flatter.
+*	`control_background_{state}(state)` - fills the viewport with a background pattern for a control, and sets `ui_color()` to something contrasting
+*	`control_finish_{state}(state)` - adds gloss/shadows to the element, on top. Strength is in the range (0, 1], with `1` being the default.
 
-Although these functions form a nice set when used together (in the order fill, text, finish), they can be used for any - for example, the
+The `state` argument is the current mouse hover/click/drag state, which af.  If ommitted (`0` supplied), this is taken from the current mouse state.  However, if you are drawing a complex control where the hover state needs to be consistent (e.g. a slider, where the active part of the slider should respond to mouse hovers), you can use `control_state()` to get an opaque state value to use later.
 
-If an element comprises multiple states (e.g. sliders which have an `enabled` element on top of an `inset` groove), it is recommended to draw `inset` first, and then either `enabled` or `disabled` on top.
+These functions are designed to work together, but you might use a "finish" on its own to let custom controls fit in (e.g. an oscilloscope drawn on a different background colour, but still finished with `control_finish_enabled()`).
+
+If an element comprises multiple states (e.g. sliders which have an `enabled` element on top of an `inset` groove), it is recommended to draw `inset` first (including the finish), and then either `enabled` or `disabled` on top.
 
 ```
 // Custom element, with an "enabled" section sitting inside an "inset" groove
 ui_push();
-	control_color_fill_inset();
-	ui_fill();
+	state = control_state();
+	control_background_inset();
 	control_finish_inset();
 	
-	control_color_fill_enabled();
 	ui_push_widthratio(0.5); // Fill half the width
-		ui_fill();
-		control_finish_enabled();
+		control_background_enabled(state); // Hover state saved from earlier
+		control_finish_enabled(state);
 	ui_pop();
 ui_pop();
 ```
@@ -627,4 +636,20 @@ You can then read/control its value from your GUI:
 
 ```
 slider1 = control_hslider(slider1, 0, 1, 0);
+```
+
+## Development
+
+The code is in `pad-synth.txt`.  This project makes use of a [JSFX preprocessor](https://www.npmjs.com/package/jsfx-preprocessor) to generate `pad-synth.jsfx`.
+
+This means that to assemble the final code, you'll need Node.js installed.
+
+```
+node build.js
+```
+
+To monitor with `nodemon`, use `npm run nodemon` - you can also specify any additional locations to write the result to (e.g. the [JSFX collection](https://github.com/geraintluff/jsfx)):
+
+```
+npm run nodemon -- ../jsfx-collection/pad-synth.jsfx
 ```
