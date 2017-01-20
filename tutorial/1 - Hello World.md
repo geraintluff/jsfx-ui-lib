@@ -16,6 +16,8 @@ ui_start();
 ui_text("Hello, world!");
 ```
 
+Let's go through this code step-by-step:
+
 ## The set-up
 
 ### Importing the library
@@ -74,7 +76,7 @@ ui_start();
 
 If you run your effect at this point, you should see a blank grey screen.
 
-### Draw some text
+## Draw some text
 
 Now, let's draw some text to the screen, using `ui_text()`:
 
@@ -84,6 +86,20 @@ ui_start();
 ui_text("Hello, world!");
 ```
 
-And here's what that should look like:
+## And we're done!
+
+Here's what that should look like in total:
+
+```eel2
+desc:JSFX UI: Hello World
+import ui-lib.jsfx-inc
+
+@init
+freemem = ui_setup(0);
+
+@gfx
+ui_start();
+ui_text("Hello, world!");
+```
 
 ![screenshot](images/1-1.png)

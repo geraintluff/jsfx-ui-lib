@@ -1,16 +1,14 @@
 # JSFX-UI tutorial - The Stack
 
-The library always has a "drawing state".  This holds various drawing parameters such as current viewport, colour, font, and so on.
+Now we've drawn some text to the screen, we can move on to slightly more complicated layouts.
 
-The library actually keeps a stack of these drawing states.  Let's look at a simple example, where we modify the viewport.
+The library has a stack "drawing states".  Each drawing state holds various drawing parameters such as current viewport, colour, font, and so on.
 
-## Altering the viewport
+Let's look at a simple example, where we specify the size of a button.
 
-The initial viewport is the whole available screen.
+## Draw a button
 
-### Drawing a button
-
-To draw a button, we call `control_button()` with the text to include as the button text:
+First, we draw a button, we call `control_button()` with the text to include as the button text:
 
 ```eel2
 @gfx
@@ -19,7 +17,7 @@ ui_start();
 control_button("Press me");
 ```
 
-Since the viewport starts as the whole screen, this button will fill the whole screen:
+The initial viewport is the whole available screen.  This means that our button will fill the whole screen:
 
 ![screenshot](images/2-1.png)
 
@@ -155,6 +153,8 @@ ui_text("bottom-right");
 ```
 
 ![screenshot](images/2-12.png)
+
+The alignment is a property of the drawing state.  This means that if you change the alignment in the current drawing state, then it will be reset when you clear that drawing state using `ui_pop()`.
 
 ### `ui_push_above()` and others
 
