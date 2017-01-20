@@ -4,7 +4,9 @@ This is a library/framework for creating UIs in REAPER's JSFX language in a stra
 
 It requires REAPER v4.60 or above.
 
-## Overview
+The best way to get started is with the [**tutorials**](tutorials/).  Once you've gone through that, hopefully the API docs below will make sense.
+
+## API and design
 
 At any given time, the library is displaying one "screen".  These screens are identified by non-zero values (often a string constant).  The screens are stored in a stack, so you can open screens (with arguments) and then close them to return to your previous state.
 
