@@ -13,8 +13,7 @@ First, we specify a default screen.  This is an argument we pass into `ui_start(
 ui_start("main"); // Our default screen is called "main"
 ```
 
-Note: the actual identifier is a number.  However, strings are represented by numbers, and the same string *constant* is represented by the same number anywhere in the code (`"my string" == "my string"`), so they make for convenient and readable identifiers for screens
-```
+Note: the actual identifier is a number.  However, strings are represented by numbers, and the same string *constant* is represented by the same number anywhere in the code (`"my string" == "my string"`), so they make for convenient and readable identifiers for screens.
 
 ## Checking the current screen
 
