@@ -4,7 +4,7 @@ This is a library/framework for creating UIs in REAPER's JSFX language in a stra
 
 It requires REAPER v4.60 or above.
 
-The best way to get started is with the [**tutorials**](tutorials/).  Once you've gone through that, hopefully the API docs below will make sense.
+The best way to get started is with the [**tutorial**](tutorial/).  Once you've gone through that, hopefully the API docs below will make sense.
 
 ## API and design
 
