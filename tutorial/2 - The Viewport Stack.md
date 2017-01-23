@@ -177,19 +177,3 @@ ui_pop();
 ```
 
 ![screenshot](images/2-13.png)
-
-### Custom graphics
-
-At some point you might want to draw your own display (or even create custom components by defining a function) while fitting in with the layout logic provided by the UI library.  This is what you'll need:
-
-#### Geometry
-
-You can get the current viewport size/shape using `ui_left()`, `ui_right()`, `ui_top()`, `ui_bottom()`, `ui_height()` and `ui_width()`.
-
-It might be worth noting that (similarly to `gfx_w` and `gfx_h`) the right/bottom sides of the viewport (`ui_right()` and `ui_bottom()`) are slightly over the edge.  If you are drawing a line down the side, you might want to use `ui_right() - 1` or similar.
-
-#### Colours
-
-If you are changing the colour (`gfx_a`/`gfx_r`/`gfx_g`/`gfx_b`), then you should be aware that this colours may be reset if you use UI library code (e.g. `ui_text()`).
-
-As such, you might want to use `ui_color(r, g, b)` or, `ui_colora(r, g, b, a)` instead.  As well as modifying the appropriate `gfx_` variables, this changes the colour in the current drawing state (as used by `ui_text()` or others).  The RGB values are in the range (0-255), but alpha is still (0-1).

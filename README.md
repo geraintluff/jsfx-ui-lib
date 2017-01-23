@@ -48,8 +48,8 @@ ui_screen() == "main" ? (
 ) : control_system();
 ```
 
-![Example of main screen](guide/images/top-demo.png)
-![Example of second screen](guide/images/top-demo-2.png)
+![Example of main screen](demo/images/top-demo.png)
+![Example of second screen](demo/images/top-demo-2.png)
 
 It's worth noting that in the above example, the value of `myslidervalue` is not saved (it would have to be saved in a `@serialize` block).
 
@@ -420,13 +420,36 @@ Consumes the current key, and returns the next one (or `0` if there are none).
 
 Returns `ui_key()` if the value is a printable character (32-127), `0` otherwise.
 
+## Drawing utilities
+
+### `ui_graph(buffer, length, y_low, y_high)`
+
+This plots the values in the buffer using the current colour, scaled to the current viewport.
+
+The arguments `y_low` and `y_high` specify the range of the graph.  If they are equal, then the graph is auto-scaled, keeping that value in the centre.
+
+### `ui_graph_step(buffer, count, step, y_low, y_high)`
+
+Same as `ui_graph()`, except it steps across the buffer instead of plotting all the values.
+
+Useful for real/imaginary plots, e.g.:
+
+```eel2
+// Buffer is 256 complex pairs = 512 elements long
+control_background_technical();
+ui_color(192, 128, 64);
+ui_graph_step(buffer, 256, 2, -1, 1); // real
+ui_color(64, 128, 192);
+ui_graph_step(buffer + 1, 256, 2, -1, 1); // imaginary
+```
+
 ## Complex controls
 
 These are controls implemented using the above functions.  They are opinionated - they have fixed colours and layouts.  However, they can be used to create a powerful UI more easily.
 
 There are also some pre-defined screens which are made available if you use `control_system()` instead of `ui_system()`:
 
-*	`control.prompt` - takes two arguments, see `guide/images/control-screen-prompt.png` for how it looks in the default theme
+*	`control.prompt` - takes two arguments
 	*	argument `0`: the string to edit
 	*	argument `1`: title of the prompt
 	
@@ -567,12 +590,13 @@ This is a replacement for `ui_system()` that includes some built-in screens:
 
 ### Drawing functions
 
-These functions are used to make the above controls, so you can use them if you wish to match this look with custom elements.  There are four states:
+These functions are used to make the above controls, so you can use them if you wish to match this look with custom elements.  There are five states:
 
 *	`enabled` - used by buttons and the active part of sliders
 *	`disabled` - used by disabled buttons
 *	`inset` - used for meters/displays, and the inactive part of sliders
 *	`passive` - used by nav-bar and other non-interactive elements
+*	`technical` - used for technical displays (e.g. graphs). Usually dark/black, but may be tinted.
 
 For each of these three states, there are two functions, to apply before and after your control:
 
@@ -598,8 +622,6 @@ ui_push();
 	ui_pop();
 ui_pop();
 ```
-
-NOTE: the `control_color_*_*()` functions use the current mouse hover/click/drag state to decide on the colour.  Since the regions for checking that state depend on the viewport, you probably want to assign these colours *before* changing the viewport - see `control_color_fill_enabled()` in the above example.
 
 #### `control_arrow(direction)`
 

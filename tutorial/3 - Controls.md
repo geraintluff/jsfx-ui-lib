@@ -8,7 +8,9 @@ There are some built-in elements (such as buttons, sliders, dials and readouts),
 
 ## Buttons
 
-To draw a button, use `control_button()`.
+To draw a button, use `control_button(text)`.
+
+There is also `control_indicator_button(text, enabled)`, which is displayed as greyed-out (but is still clickable!) if `enabled` is `0`.
 
 This function will return `1` when the user clicks the button.  You can therefore use this in a conditional statement to run code:
 
@@ -18,8 +20,8 @@ ui_split_top(50);
 		press_counter += 1;
 	);
 ui_split_next();
-	control_button("+ 100") ? (
-		press_counter += 100;
+	control_indicator_button("Reset", press_counter > 0) ? (
+		press_counter = 0;
 	);
 ui_pop();
 
