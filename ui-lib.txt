@@ -1503,7 +1503,7 @@ function control_background_technical(state) (
 	) : (
 		ui_color(32, 32, 32);
 		ui_fill();
-		ui_color(255, 255, 255);
+		ui_color(192, 128, 64);
 	);
 );
 
