@@ -1924,7 +1924,6 @@ function control_dial_angle(angle) local(radius, centrex, centrey, inner_radius,
 	y1 = centrey - cos(angle)*inner_radius*0.5;
 	x2 = centrex + sin(angle)*inner_radius;
 	y2 = centrey - cos(angle)*inner_radius;
-	ui_color(255, 255, 255);
 	uix_thick_line(x1, y1, x2, y2);
 	
 	ui_pad1(5);
