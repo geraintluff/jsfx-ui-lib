@@ -1,6 +1,6 @@
 # JSFX-UI tutorial - Hello World
 
-The UI library has a lot of features and can be quite intimidating, but I promise it's not too bad really. :)  Let's start with a very simple example.
+The UI library has a lot of features and can seem weird, but I promise it's not too bad really. :)  Let's start with a very simple example.
 
 Here is the code:
 

@@ -4,56 +4,25 @@ This is a library/framework for creating UIs in REAPER's JSFX language in a stra
 
 It requires REAPER v4.60 or above.
 
-The best way to get started is with the [**tutorial**](tutorial/).  Once you've gone through that, hopefully the API docs below will make sense.
+The best way to get started is [**this guide**](tour/), which explains how the library works, using code examples and screenshots.  Once you've gone through that, hopefully the API docs below will make sense.
 
-## API and design
+## Features
 
-At any given time, the library is displaying one "screen".  These screens are identified by non-zero values (often a string constant).  The screens are stored in a stack, so you can open screens (with arguments) and then close them to return to your previous state.
+*	Flexible layouts
+*	Built-in controls
+	*	buttons
+	*	sliders
+	*	dials
+	*	selectors
+	*	text-input boxes
+*	Multiple screens (including argument-passing)
+*	Themes ([default](demo/theme-default.png), [black](demo/theme-black.png), [tron](demo/theme-tron.png))
 
-The library also provides a stack of drawing contexts - each context holds a current viewport, colour, font, and so on.  The initial context is the whole screen with a default font/colour.  This lets you draw layouts and controls that fit into the space available.  It also provides mouse/keyboard methods (e.g. `ui_click()`, `ui_drag()`) which return whether/how the user is interacting with that particular viewport..
+![screenshot](demo/theme-default.png)
 
-There is a set of pre-made controls (the functions `control_*()`), and some pre-made screens (e.g. a text-entry dialog) to make things as easy as possible.
+# API Reference
 
-```
-import ui-lib.jsfx-inc
-
-@init
-...
-membuffer_end = ui_setup(membuffer_start); // It needs some working memory
-
-@gfx
-ui_start("main"); // Default screen is "main"
-
-ui_screen() == "main" ? (
-	control_navbar("Main screen", -1, -1);
-
-	ui_split_topratio(0.5);
-		ui_pad();
-		ui_wraptext("Here is some center-aligned text, which wraps around onto a new line if it gets too long.");
-	ui_pop();
-
-	control_button("Click me") ? (
-		ui_screen_open("second-screen");
-		// Pass arguments between screens
-		ui_screen_set(0, 1);
-		ui_screen_set(1, 4.5);
-	);
-) : ui_screen() == "second-screen" ? (
-	control_navbar("Second screen", -1, -1);
-	ui_push_height(50);
-		lowvalue = ui_screen_get(0);
-		highvalue = ui_screen_get(1);
-		myslidervalue = control_hslider(myslidervalue, lowvalue, highvalue, 0);
-	ui_pop();
-) : control_system();
-```
-
-![Example of main screen](demo/images/top-demo.png)
-![Example of second screen](demo/images/top-demo-2.png)
-
-It's worth noting that in the above example, the value of `myslidervalue` is not saved (it would have to be saved in a `@serialize` block).
-
-Alternatively, see the ["hidden sliders" section](#automation-saving-state-and-hidden-sliders) at the bottom of this document for how to use hidden sliders to automatically save state, and also make your parameters automatable.
+Here is the full API reference.  It is recommended you start with the [**guided tour**](tour/)
 
 ## Setup
 

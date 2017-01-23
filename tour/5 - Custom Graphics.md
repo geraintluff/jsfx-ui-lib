@@ -111,9 +111,9 @@ ui_split_bottom(50);
 ui_pop();
 ```
 
-![screenshot](images/5-5.png)
+![screenshot](images/5-6.png)
 
 Here is the same layout, rendered with two different themes (note that the colour of the graph changes):
 
-![screenshot](images/5-5b.png)
-![screenshot](images/5-5c.png)
+![screenshot](images/5-6b.png)
+![screenshot](images/5-6c.png)
