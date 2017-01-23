@@ -346,7 +346,7 @@ Returns whether the mouse was just pressed outside the current viewport.
 
 Returns whether the mouse was just released inside the current viewport.
 
-#### `ui_click_clear()`
+### `ui_click_clear()`
 
 You probably shouldn't have overlapping click regions - but if you do you can use `ui_click_clear()` to stop later code from detecting it.  No mouse-related functions will return true in later code.
 
@@ -437,10 +437,6 @@ This is a replacement for `ui_start()` that includes a second argument to select
 ### `control_navbar(title, next_title, next_screen)`
 
 Displays a navigation bar for the screen with a centred title, and "back" button if the screen is not top-level.  If `next_screen` is supplied, it displays a button on the right-hand side for navigating to the next page.
-
-### `control_navbar(title, next_title, next_screen)`
-
-Adds a navigation bar for the screen with a centred title, and "back" button if the screen is not top-level.  If `next_screen` is supplied, it displays a button on the right-hand side for navigating to the next page.
 
 The "back" button will automatically close the current screen.
 
@@ -613,7 +609,19 @@ Values for `direction` are `0` (left), `1` (top), `2` (right) and `3` (bottom).
 
 ## Themes
 
-Currently there are only two themes (available to select using `control_start()`).
+Currently there are only two themes:
+
+*	`default`
+*	`black`
+
+These are identified using the *numerical values* of these string constants, not string comparison!
+
+You can select a theme by using `control_start()` instead of `ui_start()`:
+
+```
+@gfx
+control_start("main", "black");
+```
 
 ## Automation, saving state, and "hidden sliders"
 
