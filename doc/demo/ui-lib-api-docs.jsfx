@@ -1,0 +1,231 @@
+desc: ui-lib.jsfx-inc - API documentation
+import ui-lib.jsfx-inc
+
+in_pin:none
+out_pin:none
+options:want_all_kb
+
+@init
+freemem = ui_setup(0);
+
+@gfx 690 500
+control_start("page", api_theme);
+
+ui_split_bottomtext(-1);
+	ui_split_rightratio(1/3);
+		ui_split_right(120);
+			!api_theme ? api_theme = "default";
+			api_theme === "tron" ? (
+				api_theme_next = "black";
+				api_theme_prev = "default";
+			) : api_theme === "black" ? (
+				api_theme_next = "default";
+				api_theme_prev = "tron";
+			) : (
+				api_theme_next = "tron";
+				api_theme_prev = "black";
+			);
+			api_theme = control_selector(api_theme, api_theme, api_theme_next, api_theme_prev);
+		ui_pop();
+
+		ui_align(0.8, 0.5);
+		ui_text("Theme:");
+	ui_pop();
+ui_pop();
+
+ui_screen() == "page" ? (
+	control_navbar("ui-lib.jsfx-inc");
+	ui_pad();
+	ui_align(0, 0);
+	ui_padtop(ui_wraptext("This is the API documentation for JSFX UI library. It is available as text, or as an interactive JSFX effect."));
+	ui_padtop(ui_texth());
+	ui_align(0.5, 0.5);
+	ui_padtop();
+	ui_split_toptext(-1);
+		ui_push_widthratio(0.5);
+			control_button("Introduction") ? (
+				ui_screen_open("page_0");
+				page_0_setup = 0;
+			);
+		ui_pop();
+	ui_pop();
+	ui_split_toptext(-1);
+		ui_push_widthratio(0.5);
+			control_button("Interactive example") ? (
+				ui_screen_open("page_1");
+				page_1_setup = 0;
+			);
+		ui_pop();
+	ui_pop();
+) : ui_screen() == "page_0" ? (
+	control_navbar("Introduction");
+	ui_pad();
+	ui_align(0, 0);
+	ui_padtop(ui_wraptext("You should read the getting-started tour first (see GitHub), which explains some important concepts such as the viewport stack.\n\nHowever, here are a few short examples so you know what you're dealing with:"));
+	ui_padtop(ui_texth());
+	ui_align(0.5, 0.5);
+	ui_padtop();
+	ui_split_toptext(-1);
+		ui_push_widthratio(0.5);
+			control_button("Hello World") ? (
+				ui_screen_open("page_0_0");
+				page_0_0_setup = 0;
+			);
+		ui_pop();
+	ui_pop();
+	ui_split_toptext(-1);
+		ui_push_widthratio(0.5);
+			control_button("Viewport stack example") ? (
+				ui_screen_open("page_0_1");
+				page_0_1_setup = 0;
+			);
+		ui_pop();
+	ui_pop();
+) : ui_screen() == "page_0_0" ? (
+	control_navbar("Hello World");
+	ui_pad();
+	ui_align(0, 0);
+	ui_padtop(ui_wraptext("Here's a simple Hello World example.\n\nWe import the library in the header, and in @init we allocate it some of the memory buffer. It returns the first unused memory slot. In @gfx, we always call ui_start() first, to reset the UI state.\n\nThen, we call ui_text() to draw some text to the screen."));
+	ui_padtop(ui_texth());
+	ui_align(0.5, 0.5);
+	ui_split_rightratio(0.5);
+		ui_padleft();
+		ui_text("Hello World");
+	ui_pop();
+	ui_push();
+		control_background_technical();
+		ui_push();
+		ui_pad();
+			ui_font("Courier New", 12, 1, 0);
+			ui_align(0, 0.5);
+			ui_text("desc:JSFX UI: Hello World\nimport ui-lib.jsfx-inc\n\n@init\nfreemem = ui_setup(0);\n\n@gfx\nui_start();\nui_text(\"Hello, world!\");");
+		ui_pop();
+		control_finish_technical();
+	ui_pop();
+) : ui_screen() == "page_0_1" ? (
+	control_navbar("Viewport stack example");
+	ui_pad();
+	ui_align(0, 0);
+	ui_padtop(ui_wraptext("The current \"viewport\" has position and size.  It also stores other bits of drawing state, such as colour and font properties.\n\n"));
+	ui_padtop(ui_texth());
+	ui_align(0.5, 0.5);
+	ui_split_rightratio(0.5);
+		ui_padleft();
+		ui_border();
+		// Pad the viewport
+		ui_pad();
+		
+		ui_push_height(100);
+			// new viewport has smaller height
+			ui_color(192, 128, 0);
+			ui_border();
+			ui_pad();
+		
+			ui_split_left(50);
+				ui_color(0, 215, 215);
+				ui_border();
+			ui_pop();
+		
+			// remaining viewport is now smaller
+			// because we used ui_split_left() above
+			ui_color(215, 0, 215);
+			ui_border();
+			ui_text("some text");
+		ui_pop();
+	ui_pop();
+	ui_push();
+		control_background_technical();
+		ui_push();
+		ui_pad();
+			ui_font("Courier New", 12, 1, 0);
+			ui_align(0, 0.5);
+			ui_text("ui_border();\n// Pad the viewport\nui_pad();\n\nui_push_height(100);\n\t// new viewport has smaller height\n\tui_color(192, 128, 0);\n\tui_border();\n\tui_pad();\n\n\tui_split_left(50);\n\t\tui_color(0, 215, 215);\n\t\tui_border();\n\tui_pop();\n\n\t// remaining viewport is now smaller\n\t// because we used ui_split_left() above\n\tui_color(215, 0, 215);\n\tui_border();\n\tui_text(\"some text\");\nui_pop();");
+		ui_pop();
+		control_finish_technical();
+	ui_pop();
+) : ui_screen() == "page_1" ? (
+	control_navbar("Interactive example");
+	ui_pad();
+	ui_align(0, 0);
+	ui_padtop(ui_wraptext("Displays a button, and if it has been clicked, returns the duration of the click in seconds.\n\nIf \"enabled\" is set to 0, it will appear greyed-out and will ignore all clicks."));
+	ui_padtop(ui_texth());
+	ui_align(0.5, 0.5);
+	ui_split_rightratio(0.5);
+		ui_padleft();
+		clicked = control_indicator_button(#text, enabled);
+		
+		total_click_duration += clicked;
+	ui_pop();
+			!page_1_setup ? total_click_duration = 0;
+	ui_split_bottom(44);
+		ui_pad(-1, 0);
+		ui_split_leftratio(0.4);
+			ui_align(1, 0.5);
+			ui_text("total duration: ");
+			ui_pop();
+		
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
+			ui_textnumber(total_click_duration, "%f");
+		ui_pop();
+		control_finish_inset();
+	ui_pop();
+	ui_split_bottom(44);
+		ui_pad(-1, 0);
+		ui_split_leftratio(0.4);
+			ui_align(1, 0.5);
+			ui_text("clicked: ");
+			ui_pop();
+		
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
+			ui_textnumber(clicked, "%f");
+		ui_pop();
+		control_finish_inset();
+	ui_pop();
+	ui_split_bottom(118);
+		control_group("parameters");
+		ui_split_topratio(1/2);
+			ui_pad(0, -0.5);
+			!page_1_setup ? strcpy(#text, "button text");
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("#text: ");
+			ui_pop();
+			page_1_param0_state = control_textinput(#text, page_1_param0_state);
+		ui_split_next();
+			ui_pad(0, -0.5);
+			!page_1_setup ? enabled = 1;
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("enabled: ");
+			ui_pop();
+			ui_split_left(60);
+				enabled = control_switch(enabled);
+			ui_pop();
+			ui_align(0, 0.5);
+			ui_padleft();
+			ui_text(enabled ? "on" : "off");
+		ui_pop();
+		page_1_setup = 1;
+	ui_pop();
+	ui_push();
+		control_background_technical();
+		ui_push();
+		ui_pad();
+			ui_font("Courier New", 12, 1, 0);
+			ui_align(0, 0.5);
+			ui_text("clicked = control_indicator_button(#text, enabled);\n\ntotal_click_duration += clicked;");
+		ui_pop();
+		control_finish_technical();
+	ui_pop();
+) : control_system();
+
+@serialize
+file_var(0, api_theme);

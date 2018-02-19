@@ -2,7 +2,7 @@
 
 Now we've drawn some text to the screen, we can move on to slightly more complicated layouts.
 
-The library has a stack "drawing states".  Each drawing state holds various drawing parameters such as current viewport, colour, font, and so on.
+The library has a stack of "drawing states".  Each drawing state holds various drawing parameters such as current viewport, colour, font, and so on.
 
 Let's look at a simple example, where we specify the size of a button.
 

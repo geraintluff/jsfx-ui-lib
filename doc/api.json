@@ -1,0 +1,34 @@
+{
+	"title": "ui-lib.jsfx-inc",
+	"text": "This is the API documentation for JSFX UI library. It is available as text, or as an interactive JSFX effect.",
+	"children": [
+		{
+			"title": "Introduction",
+			"text": "You should read the getting-started tour first (see GitHub), which explains some important concepts such as the viewport stack.\n\nHowever, here are a few short examples so you know what you're dealing with:",
+			"children": [
+				{
+					"title": "Hello World",
+					"text": "Here's a simple Hello World example.\n\nWe import the library in the header, and in @init we allocate it some of the memory buffer. It returns the first unused memory slot. In @gfx, we always call ui_start() first, to reset the UI state.\n\nThen, we call ui_text() to draw some text to the screen.",
+					"displayCode": "desc:JSFX UI: Hello World\nimport ui-lib.jsfx-inc\n\n@init\nfreemem = ui_setup(0);\n\n@gfx\nui_start();\nui_text(\"Hello, world!\");",
+					"code": "ui_text(\"Hello World\");"
+				},
+				{
+					"title": "Viewport stack example",
+					"text": "The current \"viewport\" has position and size.  It also stores other bits of drawing state, such as colour and font properties.\n\n",
+					"code": "ui_border();\n// Pad the viewport\nui_pad();\n\nui_push_height(100);\n\t// new viewport has smaller height\n\tui_color(192, 128, 0);\n\tui_border();\n\tui_pad();\n\n\tui_split_left(50);\n\t\tui_color(0, 215, 215);\n\t\tui_border();\n\tui_pop();\n\n\t// remaining viewport is now smaller\n\t// because we used ui_split_left() above\n\tui_color(215, 0, 215);\n\tui_border();\n\tui_text(\"some text\");\nui_pop();"
+				}
+			]
+		},
+		{
+			"title": "Interactive example",
+			"api": {
+				"function": "control_indicator_button",
+				"args": [{"type": "text", "name": "text", "start": "button text"}, {"type": "bool", "name": "enabled", "default": 1}],
+				"return": {"type": "bool", "name": "clicked"}
+			},
+			"code": "clicked = control_indicator_button(#text, enabled);\n\ntotal_click_duration += clicked;",
+			"return": [{"type": "bool", "name": "clicked"}, {"type": "number", "name": "total duration", "var": "total_click_duration", "default": 0}],
+			"text": "Displays a button, and if it has been clicked, returns the duration of the click in seconds.\n\nIf \"enabled\" is set to 0, it will appear greyed-out and will ignore all clicks."
+		}
+	]
+}
