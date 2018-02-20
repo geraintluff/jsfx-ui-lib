@@ -258,6 +258,7 @@ function ui_start(defaultScreen) local(i, click, clickdelta, imgW, imgH) (
 		uix_prev_mouse_y = uix_mouse_y;
 		uix_mouse_x = mouse_x;
 		uix_mouse_y = mouse_y;
+		(mouse_cap&67) && (mouse_x != uix_prev_mouse_x || mouse_y != uix_prev_mouse_y) ? uix_interacted = 1;
 
 		uix_scroll_y = mouse_wheel;
 		uix_scroll_x = mouse_hwheel;

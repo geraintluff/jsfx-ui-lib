@@ -11,6 +11,8 @@ options:want_all_kb
 
 @init
 freemem = ui_setup(0);
+api_buffer_length = 1024;
+freemem = (api_buffer = freemem) + buffer_length;
 
 @gfx 690 550
 control_start("page", api_theme);
@@ -59,7 +61,7 @@ function filloutParams(params, pageId) {
 		}
 		param.var = param.var || param.name;
 		if (param.type === 'boolean') param.type = 'bool';
-		if (param.type === 'integer') param.type = 'int';
+		if (param.type === 'integer' || param.type === "pointer") param.type = 'int';
 	});
 }
 

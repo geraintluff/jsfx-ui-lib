@@ -120,6 +120,14 @@
 					"text": "This is a screen ID provided by control_system().  It provides a convenient way to prompt the user for text entry.\n\nThe screen takes two arguments: a mutable string, and a title for the popup.",
 					"code": "control_button(\"Open text prompt\") ? (\n\tui_screen_open(\"control.prompt\");\n\tui_screen_arg(0, #entered_text);\n\tui_screen_arg(1, \"Prompt title\");\n);",
 					"return": {"type": "text", "name": "#entered_text", "default": "text prompt result"}
+				},
+				{
+					"api": {
+						"function": "ui_reserve_image",
+						"args": {"type": "int", "min": 0, "max": 127}
+					},
+					"text": "The UI library uses some of the offscreen buffers (0-127) for its own use.  If there are any buffers (or loaded images) that you are also using, you can notify the UI library so that it avoids them.\n\nThe UI library uses buffers from the end (127 downards), so they are unlikely to clash unless you are loading a large number of images or are using offscreen buffers yourself.",
+					"displayCode": "@gfx\n\n// Draw something to buffer #95\ngfx_dest = 95;\ngfx_drawstr(\"foo\");\n\n// Avoid conflict\nui_reserve_image(95);\n\n// This resets gfx_dest, so we're fine\nui_start(\"main\");\n/* etc. */"
 				}
 			]
 		},
@@ -547,6 +555,37 @@
 						{"function": "ui_border_right"}
 					],
 					"text": "Draws a border in the current colour."
+				},
+				{
+					"title": "Plotting graphs",
+					"api": [
+						{
+							"function": "ui_graph",
+							"args": [
+								{"type": "pointer", "name": "buffer"},
+								{"type": "int", "name": "length", "min": 1},
+								{"name": "min_y"},
+								{"name": "max_y"}
+							]
+						},
+						{
+							"function": "ui_graph_step",
+							"args": [
+								{"type": "pointer", "name": "buffer"},
+								{"type": "int", "name": "count", "min": 1},
+								{"type": "int", "name": "step", "min": 1},
+								{"name": "min_y"},
+								{"name": "max_y"}
+							]
+						}
+					],
+					"params": [
+						{"name": "min_y", "min": -2, "max": 0, "start": -1},
+						{"name": "max_y", "min": 0, "max": 2, "start": 1}
+					],
+					"code": "i = 0;\nwhile (i < api_buffer_length) (\n\tapi_buffer[i] = sin((i/api_buffer_length*1.7 + time_precise()*0.3)*2*$pi);\n\ti += 1\n);\n\nui_graph(api_buffer, api_buffer_length, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step(api_buffer, api_buffer_length>>6, 64, min_y, max_y);\n\n",
+					"displayCode": "ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step(buffer, 16, 64, min_y, max_y);\n\n",
+					"text": "Plots a graph from a buffer.  If min_y and max_y are the same, the graph is centered around that value, and auto-scaled to fit the data."
 				}
 			]
 		},
@@ -566,15 +605,19 @@
 						{
 							"function": "ui_wraptext",
 							"args": {"type": "text", "name": "#text", "start": "here is some text"},
-							"return": {"type": "int", "name": "height"}
+							"return": {"type": "int", "name": "height", "min": 0}
 						},
 						{
 							"function": "ui_wraptext_height",
 							"args": {"type": "text", "name": "#text", "start": "here is some text"},
-							"return": {"type": "int", "name": "height"}
+							"return": {"type": "int", "name": "height", "min": 0}
 						}
 					],
-					"text": "ui_wraptext() draws text into the viewport, using the current alignment.  Text wraps, but is not shrunk to fit, so may overflow.\n\nui_wraptext_height() measures the text without actually drawing it (which is useful for positioning things around wrapped text)."
+					"text": "ui_wraptext() draws text into the viewport, using the current alignment.  Text wraps, but is not shrunk to fit, so may overflow.\n\nui_wraptext_height() measures the text without actually drawing it (which is useful for positioning things around wrapped text).",
+					"displayCode": "height = ui_wraptext(#longtext);",
+					"code": "height = ui_wraptext(\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum molestie facilisis enim at imperdiet. Cras molestie tristique purus ut cursus. Duis sagittis nisl id urna luctus posuere. Duis vel lorem aliquam, condimentum tellus quis, placerat risus. Duis auctor libero ante, nec bibendum ante volutpat ac.\");",
+					"params": [],
+					"return": {"type": "int", "name": "height"}
 				},
 				{
 					"api": {
@@ -625,15 +668,192 @@
 			]
 		},
 		{
-			"title": "Unsorted",
+			"title": "User input",
 			"children": [
 				{
-					"api": {
-						"function": "ui_reserve_image",
-						"args": {"type": "int", "min": 0, "max": 127}
-					},
-					"text": "The UI library uses some of the offscreen buffers (0-127) for its own use.  If there are any buffers (or loaded images) that you are also using, you can notify the UI library so that it avoids them.\n\nThe UI library uses buffers from the end (127 downards), so they are unlikely to clash unless you are loading a large number of images or are using offscreen buffers yourself.",
-					"displayCode": "@gfx\n\n// Draw something to buffer #95\ngfx_dest = 95;\ngfx_drawstr(\"foo\");\n\n// Avoid conflict\nui_reserve_image(95);\n\n// This resets gfx_dest, so we're fine\nui_start(\"main\");\n/* etc. */"
+					"title": "Mouse",
+					"text": "For raw mouse state, you can still use mouse_x, mouse_y and mouse_cap.  These functions deal with more complex interactions, like dragging and hovering.\n\nFor any function that takes a \"button index\" argument, it uses the standard JSFX numbers of 1=left, 2=right, 64=middle.  Omitting this argument defaults to 1 (left click).",
+					"children": [
+						{
+							"title": "Mouse position",
+							"api": [
+								{
+									"function": "ui_mouse_x",
+									"return": {"name": "relative_x"}
+								},
+								{
+									"function": "ui_mouse_xratio",
+									"return": {"name": "relative_x"}
+								},
+								{
+									"function": "ui_mouse_y",
+									"return": {"name": "relative_x"}
+								},
+								{
+									"function": "ui_mouse_yratio",
+									"return": {"name": "relative_y"}
+								}
+							],
+							"text": "These functions return the mouse position relative to the current viewport, either in absolute pixels or as a ratio.",
+							"displayCode": "x = ui_mouse_x();\ny = ui_mouse_y();\nx_ratio = ui_mouse_xratio();\ny_ratio = ui_mouse_yratio();",
+							"code": "ui_border();\n\nx = ui_mouse_x();\ny = ui_mouse_y();\nx_ratio = ui_mouse_xratio();\ny_ratio = ui_mouse_yratio();",
+							"return": [{"type": "int", "name": "x"}, {"name": "x_ratio"}, {"type": "int", "name": "y"}, {"name": "y_ratio"}]
+						},
+						{
+							"api": [
+								{
+									"function": "ui_click",
+									"args": {"type": "enum", "name": "button", "enum": [1, 2, 64], "default": 1},
+									"return": {"type": "bool", "name": "pressed"}
+								},
+								{
+									"function": "ui_clickcount",
+									"args": {"type": "enum", "name": "button", "enum": [1, 2, 64], "default": 1},
+									"return": {"type": "int", "name": "count", "min": 0}
+								}
+							],
+							"text": "ui_click() returns whether the user clicked within this viewport, and released within this viewport.  If the mouse moved outside the viewport within this time and then back in again, it still counts as a \"click\".  It returns 0, or the duration of the click.\n\nui_clickcount() can be used to detect double-clicks/triple-clicks/etc.",
+							"code": "ui_click() ? (\n\tui_fill();\n\n\tlast_clickcount = ui_clickcount();\n);",
+							"params": [],
+							"return": [
+								{"name": "last_clickcount", "type": "int", "start": 0}
+							]
+						},
+						{
+							"title": "Mouse movement",
+							"api": [
+								{"function": "ui_mouse_dx", "return": {"name": "dx"}},
+								{"function": "ui_mouse_dy", "return": {"name": "dy"}}
+							],
+							"text": "Returns the mouse movement since the last frame.",
+							"code": "dx = ui_mouse_dx();\ndy = ui_mouse_dy();\n\n// Draw mouse movement\nmx = mouse_x;\nmy = mouse_y;\ngfx_line(mx, my, mx - dx, my - dy);",
+							"return": [{"type": "int", "name": "dx"}, {"type": "int", "name": "dy"}]
+						},
+						{
+							"title": "Mouse-down event",
+							"api": [
+								{
+									"function": "ui_mouse_down",
+									"args": {"type": "enum", "name": "button", "enum": [1, 2, 64], "default": 1},
+									"return": {"type": "bool", "name": "event"}
+								},
+								{
+									"function": "ui_mouse_down_outside",
+									"args": {"type": "enum", "name": "button", "enum": [1, 2, 64], "default": 1},
+									"return": {"type": "bool", "name": "event"}
+								}
+							],
+							"text": "Returns whether the mouse button has just been pressed, either inside the current viewport (ui_mouse_down) or outside (ui_mouse_down_outside).",
+							"code": "event_counter1 += ui_mouse_down(1);\nevent_counter2 += ui_mouse_down(2);\nevent_counter64 += ui_mouse_down(64);",
+							"params": [],
+							"return": [
+								{"type": "int", "name": "event_counter1", "start": 0},
+								{"type": "int", "name": "event_counter2", "start": 0},
+								{"type": "int", "name": "event_counter64", "start": 0}
+							]
+						},
+						{
+							"title": "Mouse-up event",
+							"api": [
+								{
+									"function": "ui_mouse_up",
+									"args": {"type": "enum", "name": "button", "enum": [1, 2, 64], "default": 1},
+									"return": {"type": "bool", "name": "event"}
+								}
+							],
+							"text": "Returns whether the mouse button has just been released, while the mouse is inside the current viewport.",
+							"code": "event_counter1 += ui_mouse_up(1);\nevent_counter2 += ui_mouse_up(2);\nevent_counter64 += ui_mouse_up(64);",
+							"params": [],
+							"return": [
+								{"type": "int", "name": "event_counter1", "start": 0},
+								{"type": "int", "name": "event_counter2", "start": 0},
+								{"type": "int", "name": "event_counter64", "start": 0}
+							]
+						},
+						{
+							"title": "Mouse dragging",
+							"api": [
+								{
+									"function": "ui_drag",
+									"args": {"type": "enum", "name": "button", "enum": [1, 2, 64], "default": 1},
+									"return": {"type": "bool", "name": "drag_time"}
+								},
+								{
+									"function": "ui_drag_x",
+									"args": {"type": "enum", "name": "button", "enum": [1, 2, 64], "default": 1},
+									"return": {"name": "drag_x"}
+								},
+								{
+									"function": "ui_drag_y",
+									"args": {"type": "enum", "name": "button", "enum": [1, 2, 64], "default": 1},
+									"return": {"name": "drag_y"}
+								}
+							],
+							"text": "Returns whether the current viewport is currently being dragged or held-down (mouse-down within the viewport, then moved or held for a period of time).\n\nui_drag() returns either 0, or the time since mouse-down.",
+							"displayCode": "drag_time = ui_drag();\ndrag_x = ui_drag_x();\ndrag_y = ui_drag_y();",
+							"code": "ui_border();\ndrag_time = ui_drag();\ndrag_x = ui_drag_x();\ndrag_y = ui_drag_y();",
+							"params": [],
+							"return": [
+								{"type": "bool", "name": "drag_time"},
+								{"name": "drag_x", "type": "int"},
+								{"name": "drag_y", "type": "int"}
+							]
+						},
+						{
+							"title": "Scroll wheel",
+							"api": [
+								{"function": "ui_scroll_x", "return": {"name": "dx"}},
+								{"function": "ui_scroll_y", "return": {"name": "dy"}}
+							],
+							"text": "Returns the scroll-wheel movement since the last frame.",
+							"code": "dx = ui_scroll_x();\ndy = ui_scroll_y();",
+							"return": [{"type": "int", "name": "dx"}, {"type": "int", "name": "dy"}]
+						},
+						{
+							"api": {"function": "ui_hover", "return": {"type": "bool", "name": "hover"}},
+							"text": "Returns whether the mouse position is inside the current viewport.",
+							"code": "hover = ui_hover();\n\nhover ? ui_fill();"
+						},
+						{
+							"api": {
+								"function": "ui_press",
+								"args": {"type": "enum", "name": "button", "enum": [1, 2, 64], "default": 1},
+								"return": {"type": "bool", "name": "pressed"}
+							},
+							"text": "Whether the user originally clicked within the viewport, and is currently hovering over it with the mouse-button pressed down.\n\nReturns either 0, or the time since the original press.\n\nIf the user clicks and drags away from the viewport, then back into it, that still counts as \"pressing\".",
+							"code": "pressed = ui_press();\n\npressed ? ui_fill();",
+							"params": []
+						},
+						{
+							"title": "Clear the mouse status",
+							"api": {"function": "ui_click_clear"},
+							"text": "Prevents any later code from registering clicks, drags, and so on.  In essence, it release all currently-held mouse buttons, but without triggering any events.\n\nThis is most useful when what's on the screen is about to change - it is done automatically when opening/closing screens, so that the new page does not register any events it shouldn't.\n\nThis does not affect mouse_cap, only the functions available in this UI library."
+						}
+					]
+				},
+				{
+					"title": "Keyboard",
+					"api": [
+						{
+							"function": "ui_key",
+							"return": {"type": "int", "min": 0, "name": "char"}
+						},
+						{
+							"function": "ui_key_printable",
+							"return": {"type": "int", "min": 0, "name": "char"}
+						},
+						{
+							"function": "ui_key_next",
+							"return": {"type": "int", "min": 0, "name": "char"}
+						}
+					],
+					"code": "char = ui_key();\n\nlastchar = char ? char : lastchar;",
+					"return": [{"type": "int", "min": 0, "name": "char"}, {"type": "int", "min": 0, "name": "lastchar"}],
+					"text": "ui_key() returns the char code of the latest unhandled key-press, or 0 if there is none.\n\nui_key() will return the same char code until ui_key_next() is called, or until the next frame (more precisely, the next call to ui_start()).  This lets multiple sections of code \"peek\" at the latest key, and choose whether to ignore it or claim it.\n\nui_key_printable() is similar, but it also returns 0 for non-printable characters.\n\nIf you want to receive the full range of keypresses (including things like space/escape, which normally go to the host), put \"options:want_all_kb\" in the header of your effect."
+				},
+				{
+					"api": {"function": "ui_interacted", "return": {"type": "boolean", "name": "interacted"}},
+					"text": "This function returns whether the user has interacted with this effect since last frame.\n\nInteraction is defined as: pressing/releasing any mouse button or control key, scrolling the mouse wheel, moving the mouse while a button is held down, or pressing a key."
 				}
 			]
 		}
