@@ -146,19 +146,7 @@ function ui_screen_close() (
 	) : ui_error("Cannot close top-level screen");
 );
 
-function ui_screen_close_id(id) (
-	while (uix_screenstack_currentlayer > 0 && ui_screen() == id) (
-		ui_screen_close();
-	);
-);
-
-function ui_screen_close_to(id) (
-	while (uix_screenstack_currentlayer > 0 && ui_screen() != id) (
-		ui_screen_close();
-	);
-);
-
-function ui_screen_get(index) local(screen, offset) (
+function ui_screen_arg(index) local(screen, offset) (
 	screen = (uix_screenstack + uix_screenstack_step*uix_screenstack_currentlayer);
 	offset = index + UI_SCREEN#;
 	offset < uix_screenstack_step ? (
@@ -168,7 +156,7 @@ function ui_screen_get(index) local(screen, offset) (
 	);
 );
 
-function ui_screen_set(index, value) local(screen, offset) (
+function ui_screen_arg(index, value) local(screen, offset) (
 	screen = (uix_screenstack + uix_screenstack_step*uix_screenstack_currentlayer);
 	offset = index + 1;
 	offset < uix_screenstack_step ? (
@@ -416,21 +404,17 @@ function ui_color_refresh() (
 	uix_setgfxcolor();
 );
 
-function ui_color(r, g, b) (
-	uix_drawconfig_current[uix_DRAWCONFIG#RED] = r;
-	uix_drawconfig_current[uix_DRAWCONFIG#GREEN] = g;
-	uix_drawconfig_current[uix_DRAWCONFIG#BLUE] = b;
-	uix_drawconfig_current[uix_DRAWCONFIG#ALPHA] = 1;
-	uix_setgfxcolor();
-);
-
-function ui_colora(r, g, b, a) (
+function ui_color(r, g, b, a) (
 	uix_drawconfig_current[uix_DRAWCONFIG#RED] = r;
 	uix_drawconfig_current[uix_DRAWCONFIG#GREEN] = g;
 	uix_drawconfig_current[uix_DRAWCONFIG#BLUE] = b;
 	uix_drawconfig_current[uix_DRAWCONFIG#ALPHA] = a;
 	uix_setgfxcolor();
 );
+function ui_color(r, g, b) (
+	ui_color(r, g, b, 1);
+);
+
 
 function ui_align(halign, valign) (
 	halign >= 0 && halign <= 1 ? uix_drawconfig_current[uix_DRAWCONFIG#HALIGN] = halign;
@@ -559,6 +543,9 @@ function ui_textnumber(number, format) local(text) (
 	sprintf(#uix_textnumber, format ? format : "%f", number);
 	ui_text(#uix_textnumber);
 );
+function ui_textnumber(number) (
+	ui_textnumber(number, "%f");
+);
 
 function ui_parsenumber(text, default) local(text_length, i, char, result, digit, hadDigit, hadDecimal, decimalFactor) (
 	text_length = strlen(text);
@@ -586,6 +573,9 @@ function ui_parsenumber(text, default) local(text_length, i, char, result, digit
 		i += 1;
 	);
 	hadDigit ? sign*result/decimalFactor : default;
+);
+function ui_parsenumber(number) (
+	ui_parsenumber(number, 0);
 );
 
 function uix_fitline(text, start, text_end, width) local(i, result, line, line_end, char, hadspace, overflowed, text_w, text_h) (
@@ -709,7 +699,6 @@ function ui_push() local(i, oldlayer) (
 		);
 		// Some things shouldn't just be copied
 		uix_drawconfig_current[uix_DRAWCONFIG#SPLIT_DIRECTION] = -1;
-		1;
 	);
 	0;
 );
@@ -987,11 +976,11 @@ function ui_padding(hpadding, vpadding) (
 	vpadding >= 0 ? uix_drawconfig_current[uix_DRAWCONFIG#VPADDING] = vpadding;
 );
 
-function ui_hpadding() (
+function ui_padding_x() (
 	uix_drawconfig_current[uix_DRAWCONFIG#HPADDING];
 );
 
-function ui_vpadding() (
+function ui_padding_y() (
 	uix_drawconfig_current[uix_DRAWCONFIG#VPADDING];
 );
 
@@ -1354,26 +1343,26 @@ function uix_gloss(strength) local(width, height, topalpha, bottomalpha) (
 		);
 	);
 
-	ui_colora(0, 0, 0, 0.1);
+	ui_color(0, 0, 0, 0.1);
 	ui_border();
 );
 
 function uix_circle_shade(x, y, r, angle, shadowstrength) (
 	ui_push();
-		ui_colora(255, 255, 255, 0.3);
+		ui_color(255, 255, 255, 0.3);
 		gfx_arc(x, y + 1, r, -1.5 + angle, 1.5 + angle, 1);
 		gfx_arc(x, y + 1, r - 0.3, -1 + angle, 1 + angle, 1);
 		gfx_a = 0.15;
 		//gfx_arc(x, y + 2, r, -0.5 + angle, 0.5 + angle, 1);
 
 		angle += $pi;
-		ui_colora(0, 0, 0, 0.2*shadowstrength);
+		ui_color(0, 0, 0, 0.2*shadowstrength);
 		gfx_arc(x, y - 1, r, -1.2 + angle, 1.2 + angle, 1);
 		gfx_arc(x, y - 1, r, -0.8 + angle, 0.8 + angle, 1);
 		gfx_a = 0.15;
 		//gfx_arc(x, y - 2, r, -0.5 + angle, 0.5 + angle, 1);
 
-		ui_colora(0, 0, 0, 0.1);
+		ui_color(0, 0, 0, 0.1);
 		gfx_circle(x, y, r, 0, 1);
 	ui_pop();
 );
@@ -1458,7 +1447,7 @@ function control_finish_enabled(state) (
 			ui_color(0, 0, 0);
 		) : (
 			uix_gloss(1);
-			ui_colora(102, 102, 102, 0.25);
+			ui_color(102, 102, 102, 0.25);
 			ui_border();
 		);
 	ui_pop();
@@ -1504,7 +1493,7 @@ function control_finish_passive(state) (
 			uix_gloss(1);
 		) : (
 			uix_gloss(0.5);
-			ui_colora(102, 102, 102, 0.5);
+			ui_color(102, 102, 102, 0.5);
 			ui_border();
 		);
 	ui_pop();
@@ -1545,7 +1534,7 @@ function control_finish_disabled(state) (
 			uix_dotted_line(ui_right(), ui_bottom(), ui_left(), ui_bottom(), 1, 3);
 			uix_dotted_line(ui_left(), ui_bottom(), ui_left(), ui_top(), 1, 3);
 		) : (
-			ui_colora(0, 0, 0, 0.1);
+			ui_color(0, 0, 0, 0.1);
 			ui_border();
 		);
 	ui_pop();
@@ -1556,7 +1545,7 @@ function control_finish_disabled(state) (
 //		uix_control_theme == uix_THEME#BLACK_AND_WHITE ? (
 //			0
 //		) : (
-//			ui_colora(0, 0, 0, 0.1);
+//			ui_color(0, 0, 0, 0.1);
 //			gfx_circle(x, y, r, 0, 1);
 //		);
 //	ui_pop();
@@ -1586,7 +1575,7 @@ function control_finish_inset() local(strength, height, topalpha, bottomalpha) (
 			ui_border();
 		) : uix_control_theme == uix_THEME#TRON ? (
 			uix_gloss(-0.2);
-			ui_colora(0, 0, 0, 0.1);
+			ui_color(0, 0, 0, 0.1);
 			ui_border();
 			ui_color(32, 32, 32);
 		) : (
@@ -1610,7 +1599,7 @@ function control_finish_inset() local(strength, height, topalpha, bottomalpha) (
 				0, 0, 0, 0,
 				0, 0, 0, (bottomalpha - topalpha)/height
 			);
-			ui_colora(102, 102, 102, 0.5);
+			ui_color(102, 102, 102, 0.5);
 			ui_border();
 		);
 	ui_pop();
@@ -1650,7 +1639,7 @@ function control_finish_technical(state) (
 			uix_dotted_line(ui_left(), ui_bottom(), ui_left(), ui_top(), 2, 2);
 		) : uix_control_theme == uix_THEME#TRON ? (
 			uix_gloss(1.5);
-			ui_colora(0, 0, 0, 0.2);
+			ui_color(0, 0, 0, 0.2);
 			ui_border();
 			ui_color(205, 147, 74);
 		) : (
@@ -1665,7 +1654,7 @@ function control_group(text) local(texth, textw, textl, textr, textv) (
 	uix_control_theme == uix_THEME#TRON ? (
 		ui_fontsize(16);
 
-		ui_pad(ui_hpadding()/2, ui_vpadding()/2);
+		ui_pad(ui_padding_x()/2, ui_padding_y()/2);
 
 		ui_push();
 			ui_color(128, 128, 128);
@@ -1673,7 +1662,7 @@ function control_group(text) local(texth, textw, textl, textr, textv) (
 		ui_pop();
 
 		strlen(text) > 0 ? (
-			ui_split_bottom(ui_texth() + ui_vpadding()/2);
+			ui_split_bottom(ui_texth() + ui_padding_y()/2);
 				ui_color(128, 128, 128);
 				ui_border_top();
 
@@ -1701,10 +1690,10 @@ function control_group(text) local(texth, textw, textl, textr, textv) (
 			uix_control_theme == uix_THEME#BLACK_AND_WHITE ? (
 				ui_color(255, 255, 255);
 			) : (
-				ui_colora(102, 102, 102, 0.5);
+				ui_color(102, 102, 102, 0.5);
 			);
 
-			ui_pad(ui_hpadding()/2, 0);
+			ui_pad(ui_padding_x()/2, 0);
 			ui_split_top(texth);
 				ui_padleft();
 				ui_padright();
@@ -1714,7 +1703,7 @@ function control_group(text) local(texth, textw, textl, textr, textv) (
 					ui_align(0, 0.5);
 				);
 
-				ui_push_width(textw + ui_hpadding());
+				ui_push_width(textw + ui_padding_x());
 					textl = ui_left();
 					textr = ui_right();
 					textv = ui_top() + ui_height()/2;
@@ -1762,7 +1751,7 @@ function control_readout(text) local() (
 	ui_pop();
 );
 
-function control_indicator_button(text, status) local(click) (
+function control_button(text, status) local(click) (
 	ui_push();
 		status ? control_background_enabled() : control_background_disabled();
 		ui_text(text);
@@ -1772,9 +1761,8 @@ function control_indicator_button(text, status) local(click) (
 	ui_pop();
 	click;
 );
-
 function control_button(text) (
-	control_indicator_button(text, 1);
+	control_button(text, 1);
 );
 
 function control_arrow(direction) local(size, tmp, centerx, centery, point1x, point1y, point2x, point2y, point3x, point3y) ( // left, up, right, down
@@ -1829,7 +1817,7 @@ function control_selector(value, text, next_value, prev_value) local(buttonwidth
 		buttonwidth = min(ui_height()/2, ui_width()/2);
 
 		ui_halign() <= 0.5 ? ui_split_left(buttonwidth) : ui_split_right(buttonwidth);
-			ui_colora(255, 255, 255, 0.8);
+			ui_color(255, 255, 255, 0.8);
 			ui_split_topratio(0.5);
 				next_value != value ? control_background_enabled() : control_background_disabled();
 				control_arrow(1);
@@ -2080,21 +2068,21 @@ function control_dialog(title, width, height, doneText, cancelText) local(accept
 			ui_color(0, 0, 0);
 			ui_fill();
 		) : uix_control_theme == uix_THEME#TRON ? (
-			ui_colora(0, 0, 0, 0.5);
+			ui_color(0, 0, 0, 0.5);
 			ui_fill();
 		) : (
-			ui_colora(0, 0, 0, 0.2);
+			ui_color(0, 0, 0, 0.2);
 			ui_fill();
 		);
 	ui_pop();
 
-	!width ? width = ui_width()*0.8;
-	!height ? height = ui_height()*0.8;
+	width <= 0 ? width = min(ui_width()*0.8, 450);
+	height <= 0 ? height = min(ui_height()*0.8, 350);
 
-	title >= 0 ? height += ui_text_height(title) + ui_vpadding()*2;
+	title >= 0 ? height += ui_text_height(title) + ui_padding_y()*2;
 
-	width = min(width + ui_hpadding()*2, ui_width());
-	height = min(height + ui_vpadding()*2, ui_height());
+	width = min(width + ui_padding_x()*2, ui_width());
+	height = min(height + ui_padding_y()*2, ui_height());
 	ui_pad((ui_width() - width)/2, (ui_height() - height)/2);
 	ui_push();
 		uix_control_theme == uix_THEME#BLACK_AND_WHITE ? (
@@ -2105,12 +2093,12 @@ function control_dialog(title, width, height, doneText, cancelText) local(accept
 		) : uix_control_theme == uix_THEME#TRON ? (
 			ui_color($x45, $x45, $x45);
 			ui_fill();
-			ui_colora(255, 255, 255, 0.1);
+			ui_color(255, 255, 255, 0.1);
 			ui_border();
 		) : (
 			ui_color(242, 242, 242);
 			ui_fill();
-			ui_colora(102, 102, 102, 0.5);
+			ui_color(102, 102, 102, 0.5);
 			ui_border();
 		);
 	ui_pop();
@@ -2152,6 +2140,18 @@ function control_dialog(title, width, height, doneText, cancelText) local(accept
 	ui_pad();
 	accepted ? ui_screen_close();
 	accepted;
+);
+
+function control_dialog(title, doneText, cancelText) local(accepted) (
+	control_dialog(title, -1, -1, doneText, cancelText);
+);
+
+function control_dialog(title, doneText) local(accepted) (
+	control_dialog(title, doneText, -1);
+);
+
+function control_dialog(title) local(accepted) (
+	control_dialog(title, "OK");
 );
 
 function control_switch(value) local(state) (
@@ -2245,7 +2245,7 @@ function control_textinput(text, prompt_selectpacked) local(text_length, prompt_
 		control_background_inset();
 
 		ui_mouse_down() ? (
-			char_index = uix_control_closest_substring_width(text, ui_mouse_x() - ui_hpadding());
+			char_index = uix_control_closest_substring_width(text, ui_mouse_x() - ui_padding_x());
 			(mouse_cap&8) ? ( // Shift
 				prompt_selecttrail = char_index;
 			) : (
@@ -2255,7 +2255,7 @@ function control_textinput(text, prompt_selectpacked) local(text_length, prompt_
 			uix_control_cursortimeoffset = time_precise();
 		);
 		ui_drag() ? (
-			prompt_selecttrail = uix_control_closest_substring_width(text, ui_mouse_x() - ui_hpadding());
+			prompt_selecttrail = uix_control_closest_substring_width(text, ui_mouse_x() - ui_padding_x());
 			uix_control_cursortimeoffset = time_precise();
 		);
 		(ui_drag() || ui_click()) && ui_clickcount() == 2 ? (
@@ -2427,10 +2427,10 @@ function control_textnumber(actualnumber, number, format) local(i) (
 
 function control_system() local(prompt_title, prompt_text, prompt_init, prompt_selectlow, prompt_selecthigh, textx, texty, selectw, t, char, OK) (
 	ui_screen() == "control.prompt" ? (
-		prompt_text = ui_screen_get(0);
-		prompt_title = ui_screen_get(1);
-		prompt_init = ui_screen_get(2);
-		prompt_selectpacked = ui_screen_get(3);
+		prompt_text = ui_screen_arg(0);
+		prompt_title = ui_screen_arg(1);
+		prompt_init = ui_screen_arg(2);
+		prompt_selectpacked = ui_screen_arg(3);
 
 		!prompt_init ? (
 			while (gfx_getchar()) (
@@ -2441,7 +2441,7 @@ function control_system() local(prompt_title, prompt_text, prompt_init, prompt_s
 			prompt_selectpacked = control_textinput_focus(prompt_selectpacked);
 		);
 
-		OK = control_dialog(prompt_title, 0, (ui_texth() + ui_vpadding()*2)*3, "done", "cancel");
+		OK = control_dialog(prompt_title, 0, (ui_texth() + ui_padding_y()*2)*3, "done", "cancel");
 
 		ui_push_heighttext(-1);
 			prompt_selectpacked = control_textinput(#control_prompt_text, prompt_selectpacked);
@@ -2454,12 +2454,12 @@ function control_system() local(prompt_title, prompt_text, prompt_init, prompt_s
 			OK = -1;
 		);
 
-		ui_screen_set(2, prompt_init);
-		ui_screen_set(3, prompt_selectpacked);
+		ui_screen_arg(2, prompt_init);
+		ui_screen_arg(3, prompt_selectpacked);
 
 		OK ? (
 			(OK == 1) ? strcpy(prompt_text, #control_prompt_text);
-			ui_screen_close_id("control.prompt");
+			ui_screen() == "control.prompt" ? ui_screen_close();
 		);
 	) : ui_system();
 );

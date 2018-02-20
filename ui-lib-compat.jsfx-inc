@@ -1,0 +1,37 @@
+@init
+
+function ui_screen_close_id(id) (
+	while (ui_screen_level() && ui_screen() == id) (
+		ui_screen_close();
+	);
+);
+
+function ui_screen_close_to(id) (
+	while (ui_screen_level() && ui_screen() != id) (
+		ui_screen_close();
+	);
+);
+
+function ui_screen_get(index) (
+	ui_screen_arg(index);
+);
+
+function ui_screen_set(index, value) (
+	ui_screen_arg(index, value);
+);
+
+function ui_colora(r, g, b, a) (
+	ui_color(r, g, b, a);
+);
+
+function control_indicator_button(text, enabled) (
+	control_button(text, enabled);
+);
+
+function ui_hpadding() (
+	ui_padding_x();
+);
+
+function ui_vpadding() (
+	ui_padding_y();
+);
