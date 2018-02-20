@@ -421,7 +421,7 @@ There are also some pre-defined screens which are made available if you use `con
 *	`control.prompt` - takes two arguments
 	*	argument `0`: the string to edit
 	*	argument `1`: title of the prompt
-	
+
 ### `control_start(default_screen, theme)`
 
 This is a replacement for `ui_start()` that includes a second argument to select a theme.  Themes are identified by string constants, and the current themes are `"default"` and `"black"`.  Any unrecognised theme is treated as `"default"`.
@@ -584,7 +584,7 @@ ui_push();
 	state = control_state();
 	control_background_inset();
 	control_finish_inset();
-	
+
 	ui_push_widthratio(0.5); // Fill half the width
 		control_background_enabled(state); // Hover state saved from earlier
 		control_finish_enabled(state);
