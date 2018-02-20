@@ -120,14 +120,6 @@
 					"text": "This is a screen ID provided by control_system().  It provides a convenient way to prompt the user for text entry.\n\nThe screen takes two arguments: a mutable string, and a title for the popup.",
 					"code": "control_button(\"Open text prompt\") ? (\n\tui_screen_open(\"control.prompt\");\n\tui_screen_arg(0, #entered_text);\n\tui_screen_arg(1, \"Prompt title\");\n);",
 					"return": {"type": "text", "name": "#entered_text", "default": "text prompt result"}
-				},
-				{
-					"api": {
-						"function": "ui_reserve_image",
-						"args": {"type": "int", "min": 0, "max": 127}
-					},
-					"text": "The UI library uses some of the offscreen buffers (0-127) for its own use.  If there are any buffers (or loaded images) that you are also using, you can notify the UI library so that it avoids them.\n\nThe UI library uses buffers from the end (127 downards), so they are unlikely to clash unless you are loading a large number of images or are using offscreen buffers yourself.",
-					"displayCode": "@gfx\n\n// Draw something to buffer #95\ngfx_dest = 95;\ngfx_drawstr(\"foo\");\n\n// Avoid conflict\nui_reserve_image(95);\n\n// This resets gfx_dest, so we're fine\nui_start(\"main\");\n/* etc. */"
 				}
 			]
 		},
@@ -577,15 +569,35 @@
 								{"name": "min_y"},
 								{"name": "max_y"}
 							]
+						},
+						{
+							"function": "ui_graph_circular",
+							"args": [
+								{"type": "pointer", "name": "buffer"},
+								{"type": "int", "name": "count", "min": 1},
+								{"type": "int", "name": "step", "min": 1},
+								{"type": "int", "name": "offset", "min": 0},
+								{"name": "min_y"},
+								{"name": "max_y"}
+							]
 						}
 					],
 					"params": [
 						{"name": "min_y", "min": -2, "max": 0, "start": -1},
-						{"name": "max_y", "min": 0, "max": 2, "start": 1}
+						{"name": "max_y", "min": 0, "max": 2, "start": 1},
+						{"type": "int", "name": "offset", "min": 0, "max": 15, "start": 0}
 					],
-					"code": "i = 0;\nwhile (i < api_buffer_length) (\n\tapi_buffer[i] = sin((i/api_buffer_length*1.7 + time_precise()*0.3)*2*$pi);\n\ti += 1\n);\n\nui_graph(api_buffer, api_buffer_length, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step(api_buffer, api_buffer_length>>6, 64, min_y, max_y);\n\n",
-					"displayCode": "ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step(buffer, 16, 64, min_y, max_y);\n\n",
+					"code": "i = 0;\nwhile (i < api_buffer_length) (\n\tapi_buffer[i] = sin((i/api_buffer_length*2)*2*$pi);\n\ti += 1\n);\n\nui_graph(api_buffer, api_buffer_length, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(api_buffer, api_buffer_length>>6, 64, offset, min_y, max_y);\n\n",
+					"displayCode": "ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(buffer, 16, 64, offset, min_y, max_y);\n\n",
 					"text": "Plots a graph from a buffer.  If min_y and max_y are the same, the graph is centered around that value, and auto-scaled to fit the data."
+				},
+				{
+					"api": {
+						"function": "ui_reserve_image",
+						"args": {"type": "int", "min": 0, "max": 127}
+					},
+					"text": "The UI library uses some of the offscreen buffers (0-127) for its own use.  If there are any buffers (or loaded images) that you are also using, you can notify the UI library so that it avoids them.\n\nThe UI library uses buffers from the end (127 downards), so they are unlikely to clash unless you are loading a large number of images or are using offscreen buffers yourself.",
+					"displayCode": "@gfx\n\n// Draw something to buffer #95\ngfx_dest = 95;\ngfx_drawstr(\"foo\");\n\n// Avoid conflict\nui_reserve_image(95);\n\n// This resets gfx_dest, so we're fine\nui_start(\"main\");\n/* etc. */"
 				}
 			]
 		},
