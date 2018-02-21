@@ -358,10 +358,10 @@
 						{
 							"function": "ui_set_rect",
 							"args": [
-								{"type": "int", "name": "left", "start": "ui_left() + ui_width()*0.25", "min": 0, "max": "gfx_w"},
-								{"type": "int", "name": "top", "start": "ui_top() + ui_height()*0.25", "min": 0, "max": "gfx_h"},
-								{"type": "int", "name": "width", "start": "ui_width()*0.5", "min": 0, "max": "gfx_w"},
-								{"type": "int", "name": "height", "start": "ui_height()*0.5", "min": 0, "max": "gfx_h"}
+								{"type": "int", "name": "left", "start": {"code": "ui_left() + ui_width()*0.25"}, "min": 0, "max": "gfx_w"},
+								{"type": "int", "name": "top", "start": {"code": "ui_top() + ui_height()*0.25"}, "min": 0, "max": "gfx_h"},
+								{"type": "int", "name": "width", "start": {"code": "ui_width()*0.5"}, "min": 0, "max": "gfx_w"},
+								{"type": "int", "name": "height", "start": {"code": "ui_height()*0.5"}, "min": 0, "max": "gfx_h"}
 							]
 						}
 					],
@@ -449,7 +449,7 @@
 									"return": {"type": "int", "name": "padding_vertical", "min": 0}
 								}
 							],
-							"params": [{"type": "int", "name": "pad_x", "min": 0, "max": 50, "start": "ui_padding_x()"}, {"type": "int", "name": "pad_y", "min": 0, "max": 50, "start": "ui_padding_y()"}],
+							"params": [{"type": "int", "name": "pad_x", "min": 0, "max": 50, "start": {"code": "ui_padding_x()"}}, {"type": "int", "name": "pad_y", "min": 0, "max": 50, "start": {"code": "ui_padding_y()"}}],
 							"code": "ui_border();\n\nui_padding(pad_x, pad_y);\nui_pad();\n\nui_border();",
 							"text": "These functions allow you to read or set the default padding.  Different themes have different default padding sizes."
 						}
@@ -866,6 +866,262 @@
 				{
 					"api": {"function": "ui_interacted", "return": {"type": "boolean", "name": "interacted"}},
 					"text": "This function returns whether the user has interacted with this effect since last frame.\n\nInteraction is defined as: pressing/releasing any mouse button or control key, scrolling the mouse wheel, moving the mouse while a button is held down, or pressing a key."
+				}
+			]
+		},
+		{
+			"title": "Themed controls",
+			"children": [
+				{
+					"title": "Drawing your own controls",
+					"text": "No UI library can provide everything, so it provides some ways to draw custom controls that fit into the theme.",
+					"children": [
+						{
+							"api": {"function": "control_state", "return": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none"]}},
+							"displayCode": "state = control_state();",
+							"code": "ui_border();\nstate = control_state();strcpy(#state, state);",
+							"return": "#state",
+							"text": "This returns the current mouse-interaction state of the current viewport.\n\nThese values match what can be passed into control_background_*() and control_finish_*().  This lets you assemble a composite control that shares a single press/hover/drag state.\n\nReported states are \"press\", \"hover\", \"drag\" and \"none\", in that order of precedence - so if the user has clicked and dragged, but is still within the control (so it counts as a press), then it will report \"press\"."
+						},
+						{
+							"title": "Styling for custom controls",
+							"api": [
+								{"function": "control_background_enabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_background_enabled_circle", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_background_disabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_background_passive", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_background_inset", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_background_technical", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_finish_enabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_finish_enabled_circle", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_finish_disabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_finish_passive", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_finish_inset", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_finish_technical", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}}
+							],
+							"text": "These help you create custom controls that fit into the theme, by drawing a background and an overlay in the appropriate style, including setting an appropriate ui_color().\n\nIf state is omitted (\"auto\"), it is calculated using the current mouse interaction.  However when creating a composite control it's useful to have a shared state (e.g. when any part of the control is pressed, the whole control displays as pressed).",
+							"code": "ui_split_topratio(1/6);\n\tui_pad();\n\tcontrol_background_enabled(state);\n\tui_text(\"enabled\");\n\tcontrol_finish_enabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_enabled_circle(state);\n\tui_text(\"circle\");\n\tcontrol_finish_enabled_circle(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_disabled(state);\n\tui_text(\"disabled\");\n\tcontrol_finish_disabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_passive(state);\n\tui_text(\"passive\");\n\tcontrol_finish_passive(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_inset(state);\n\tui_text(\"inset\");\n\tcontrol_finish_inset(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_technical(state);\n\tui_text(\"technical\");\n\tcontrol_finish_technical(state);\nui_pop();",
+							"params": [{"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}]
+						},
+						{
+							"api": {
+								"function": "control_arrow",
+								"args": {"name": "direction", "type": "enum", "enum": ["left", "up", "right", "down"], "default": "down"}
+							},
+							"text": "Draws a triangle in the current viewport, using the current colour."
+						}
+					]
+				},
+				{
+					"title": "Screen decoration and layout",
+					"children": [
+						{
+							"api": [
+								{
+									"function": "control_navbar",
+									"args": ["#title"],
+									"return": {"name": "action", "type": "enum", "enum": [0, -1]}
+								},
+								{
+									"function": "control_navbar",
+									"args": ["#title", "#next_title", "next_screen_id"],
+									"return": {"name": "action", "type": "enum", "enum": [0, -1, 1]}
+								}
+							],
+							"text": "Draws a navigation bar at the top of the viewport.  This is probably the first thing you want to draw.\n\nIf this is not the first screen on the screen stack, it automatically adds a \"back\" button which returns to the screen below.  If parameters for the next screen are supplied, a button drawn on the opposite side to the \"back\" button. When pressed, it opens the screen with the given ID.\n\nThe returned action is 0 if nothing was clicked and it expects to stay on this screen, -1 if \"back\" was clicked, and 1 if the next screen was clicked.  These screens will be closed/opened automatically, so you only need to check if you want to perform an additional action (such as saving results or writing screen arguments).  This also means that any screen arguments should be read *before* the call to control_navbar(), or they might be read from the incorrect screen.",
+							"params": [{"name": "#title", "default": "screen title"}, {"name": "#next_title", "default": "screen title"}],
+							"code": "control_navbar(#title, #next_title, \"options\");\n\nui_text(\"screen contents go here\");"
+						},
+						{
+							"api": [
+								{
+									"function": "control_dialog",
+									"args": ["#title"],
+									"return": {"name": "action", "type": "enum", "enum": [0, 1]}
+								},
+								{
+									"function": "control_dialog",
+									"args": ["#title", "#ok"],
+									"return": {"name": "action", "type": "enum", "enum": [0, 1]}
+								},
+								{
+									"function": "control_dialog",
+									"args": ["#title", "#ok", "#cancel"],
+									"return": {"name": "action", "type": "enum", "enum": [0, 1, -1]}
+								},
+								{
+									"function": "control_dialog",
+									"args": ["#title", {"name": "width", "type": "int", "min": 0}, {"name": "height", "type": "int", "min": 0}, "#ok", "#cancel"],
+									"return": {"name": "action", "type": "enum", "enum": [0, 1, -1]}
+								}
+							],
+							"text": "Decorates the viewport to be a dialog.  Afterwards, the viewport is inside the area of the dialog.  This is probably the first thing you want to draw inside your screen.\n\nThe returned action is 0 if nothing was clicked and it expects to stay on this screen, -1 if \"cancel\" was clicked, and 1 if \"OK\" was clicked - if either of these is clicked, the screen will close itself, so you only need to check if you want to perform an additional action (such as saving results or writing screen arguments).  This also means that any screen arguments should be read *before* the call to control_navbar(), or they might be read from the incorrect screen.\n\nIf \"cancel\" is omitted, then no cancel button will be displayed.",
+							"params": [{"name": "#title", "default": "screen title"}, {"name": "#ok", "default": "OK"}, {"name": "has_cancel", "type": "bool", "default": 1}, {"name": "#cancel", "default": "cancel"}],
+							"code": "has_cancel ? (\n\tcontrol_dialog(#title, #ok, #cancel);\n) : (\n\tcontrol_dialog(#title, #ok);\n);\n\nui_text(\"dialog contents go here\");"
+						},
+						{
+							"api": {"function": "control_group", "args": {"type": "text", "name": "#label", "start": "group label"}},
+							"text": "This draws a labelled group indicator in the current viewport, and adds padding so that elements are placed inside this group.",
+							"code": "control_group(#label);ui_text(\"Control group contents\");"
+						}
+					]
+				},
+				{
+					"title": "Buttons, readouts and switches",
+					"children": [
+						{
+							"api": [
+								{"function": "control_readout", "args": {"type": "text", "name": "#text", "start": "text value"}},
+								{"function": "control_readoutnumber", "args": [{"name": "value"}, {"name": "format", "type": "text", "default": "%f"}]}
+							],
+							"text": "Displays a non-interactive value display (\"inset\" style)."
+						},
+						{
+							"api": {
+								"function": "control_button",
+								"args": [{"type": "text", "name": "#text", "start": "text value"}, {"type": "bool", "name": "enabled", "default": 1}],
+								"return": {"name": "click"}
+							},
+							"text": "Displays a button (\"enabled\" style).  Triggers on mouse-up, and returns the time since mouse-down, or 0 if there was no click.\n\nIf \"enabled\" is 0, it is drawn using \"disabled\" style, and always returns 0 (ignoring clicks).",
+							"return": [{"name": "click"}, {"name": "click_total"}],
+							"code": "click = control_button(#text, enabled);\nclick_total += click;"
+						},
+						{
+							"api": {
+								"function": "control_selector",
+								"args": ["value", "#text", "next_value", "prev_value"],
+								"return": {"name": "value", "start": 0}
+							},
+							"text": "Displays a selector for switching between a fixed number of values.  If next_value or prev_value are equal to the current value, their corresponding controls are greyed-out.",
+							"params": [],
+							"code": "sprintf(#selector_text, \"option #%i\", value);\n// increment, maximum 10\nnext_value = min(10, value + 1);\n// decrement, minimum 0\nprev_value = max(0, value - 1);\n\nvalue = control_selector(value, #selector_text,\n\t\tnext_value, prev_value);"
+						},
+						{
+							"api": {
+								"function": "control_switch",
+								"args": {"name": "bool_value", "type": "bool"},
+								"return": {"name": "bool_value", "type": "bool", "start": 1}
+							},
+							"params": [],
+							"text": "Displays an on/off switch for a boolean value."
+						}
+					]
+				},
+				{
+					"title": "Sliders",
+					"api": [
+						{
+							"function": "control_slider_left",
+							"args": ["value", "left_value", "right_value", {"name": "curve", "default": 0}, {"name": "default", "default": null}],
+							"return": "value"
+						},
+						{
+							"function": "control_slider_x",
+							"args": ["value", "left_value", "right_value", {"name": "curve", "default": 0}, {"name": "default", "default": null}],
+							"return": "value"
+						},
+						{
+							"function": "control_slider_bottom",
+							"args": ["value", "bottom_value", "top_value", {"name": "curve", "default": 0}, {"name": "default", "default": null}],
+							"return": "value"
+						},
+						{
+							"function": "control_slider_y",
+							"args": ["value", "bottom_value", "top_value", {"name": "curve", "default": 0}, {"name": "default", "default": null}],
+							"return": "value"
+						}
+					],
+					"text": "Draws a horizontal or vertical slider.\n\nThe \"curve\" parameter determines how the visual position of the slider corresponds to the actual values.  Positive values give more accuracy on the left/top side, negative on the right/bottom.  For a logarithmic scale, use curve=log(left_value/right_value).\n\nSliders with a particular side (e.g. \"left\") will show a link between the current value and that side.  control_slider_x() and control_slider_y() will not show that link, but *may* show a link between the current value and the default value, if one is provided.",
+					"params": [],
+					"return": {"name": "value", "start": 0.5},
+					"code": "ui_split_topratio(1/4);\n\tui_split_left(50);\n\t\tui_text(\"curve=0\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 0, 0.5);\nui_split_next();\n\tui_split_left(50);\n\t\tui_text(\"curve=2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 2, 0.5);\nui_split_next();\n\tui_split_left(50);\n\t\tui_text(\"curve=-2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, -2, 0.5);\nui_split_next();\n\tui_split_left(50);\n\t\tui_text(\"slider_x\");\n\tui_pop();\n\tvalue = control_slider_x(value, 0, 1, 0, 0.5);\nui_pop();"
+				},
+				{
+					"title": "Dials",
+					"api": [
+						{
+							"function": "control_dial_left",
+							"args": ["value", "left_value", "right_value", {"name": "curve", "default": 0}, {"name": "default", "default": null}],
+							"return": "value"
+						},
+						{
+							"function": "control_dial",
+							"args": ["value", "left_value", "right_value", {"name": "curve", "default": 0}, {"name": "default", "default": null}],
+							"return": "value"
+						},
+						{
+							"function": "control_dial_angle",
+							"args": ["angle", {"name": "default", "default": null}],
+							"return": {"name": "angle", "min": 0, "max": "2*$pi"}
+						}
+					],
+					"text": "Draws a rotating dial.  The \"curve\" parameter works the same was as for sliders.\n\nLike sliders, control_dial_left() will show a link between the current value and the left value, and control_slider() will not show that link (but may show a link to the default value).\n\ncontrol_dial_angle() provides a dial that can rotate freely, returning a value between 0 and 2*PI, where 0 is vertical.",
+					"params": [],
+					"return": [{"name": "value", "start": 0.5}, {"name": "angle", "start": 0}],
+					"code": "ui_split_topratio(1/3);\n\tvalue = control_dial_left(value, 0, 1);\nui_split_next();\n\tvalue = control_dial(value, 0, 1);\nui_split_next();\n\tangle = control_dial_angle(angle, 0);\nui_pop();"
+				},
+				{
+					"title": "Text inputs",
+					"text": "JSFX has no built-in text inputs, so this isn't quite as smooth as a native control, but it's functional.  It supports selecting with the mouse (including double-clicking on words) or keyboard.\n\nText inputs pack their internal state into an opaque state value, which you need to store and pass back to it next time, otherwise they won't work.  You should not store this state in presets/sliders, or attempt to manipulate it directly - use the appropriate functions.\n\nIf you want to enter interesting characters (like space) which would otherwise be handled by the host, put \"options:want_all_kb\" in the header of your effect.",
+					"children": [
+						{
+							"api": {
+								"function": "control_textinput",
+								"args": ["#text", "opaquestate"],
+								"return": "opaquestate"
+							},
+							"params": [],
+							"return": {"name": "#text", "start": "text input value"},
+							"text": "Draws a text input, constantly updating the mutable string #text."
+						},
+						{
+							"api": {
+								"function": "control_textinput_focused",
+								"args": ["opaquestate"],
+								"return": {"name": "hasfocus", "type": "bool"}
+							},
+							"displayCode": "control_textinput_focused(opaquestate) ? (\n\t/* do whatever */\n);",
+							"text": "Returns whether the given text input currently has focus (i.e. is processing keyboard events)."
+						},
+						{
+							"api": {
+								"function": "control_textinput_focus",
+								"args": ["opaquestate"],
+								"return": "opaquestate"
+							},
+							"displayCode": "opaquestate = control_textinput_focus(opaquestate);",
+							"text": "Demand focus for this input element"
+						},
+						{
+							"api": {
+								"function": "control_textinput_unfocus",
+								"args": ["opaquestate"],
+								"return": "opaquestate"
+							},
+							"displayCode": "opaquestate = control_textinput_unfocus(opaquestate);",
+							"text": "Decline focus for this input element"
+						},
+						{
+							"api": [
+								{
+									"function": "control_hidden_text",
+									"args": ["#text"],
+									"return": {"name": "state", "type": "enum", "enum": [0, 1, -1]}
+								},
+								{
+									"function": "control_hidden_textnumber",
+									"args": ["number", {"name": "#display_format", "default": "%f"}],
+									"return": "number"
+								},
+								{
+									"function": "control_hidden_textnumber",
+									"args": ["number", "display_number", {"name": "#display_format", "default": "%f"}],
+									"return": "number"
+								}
+							],
+							"text": "Draws a control that when inactive displays using ui_text() or ui_textnumber(), but when right-clicked or triple-clicked, displays a text input for editing the value.\n\ncontrol_hidden_text() returns whether it is active: 0 if inactive/hidden, 1 if currently focused, and -1 if it just lost focus (so it drew itself, but does not expect to draw itself next frame).\n\nFor control_hidden_textnumber, if you need to display a different number than the actual value (e.g. due to rounding issues), you can set display_number to a different value from the actual number."
+						}
+					]
 				}
 			]
 		}

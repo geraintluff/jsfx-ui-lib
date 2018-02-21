@@ -14,7 +14,7 @@ freemem = ui_setup(0);
 api_buffer_length = 1024;
 freemem = (api_buffer = freemem) + buffer_length;
 
-@gfx 690 550
+@gfx 730 590
 control_start("page", api_theme);
 
 function api_print_function_signature(code) (
@@ -54,14 +54,21 @@ function indent(code, N) {
 }
 
 function filloutParams(params, pageId) {
-	[].concat(params).forEach((param, index) => {
+	return [].concat(params).map((param, index) => {
+		if (typeof param === 'string') {
+			param = {name: param};
+		}
 		param.name = param.name || ('arg' + (index + 1));
 		if (param.type == 'text' && param.name[0] !== '#') {
 			param.name = '#' + param.name;
 		}
+		if (!param.type && param.name[0] == '#') {
+			param.type = 'text';
+		}
 		param.var = param.var || param.name;
 		if (param.type === 'boolean') param.type = 'bool';
 		if (param.type === 'integer' || param.type === "pointer") param.type = 'int';
+		return param;
 	});
 }
 
@@ -69,13 +76,13 @@ function filloutApi(api, pageId) {
 	api.pageId = api.pageId || pageId;
 	api.setupVar = api.setupVar = api.pageId + '_setup';
 
-	if (api.params) filloutParams(api.params, pageId);
-	if (api.return) filloutParams(api.return, pageId);
+	if (api.params) api.params = filloutParams(api.params, pageId);
+	if (api.return) api.return = filloutParams(api.return, pageId);
 	api.api = [].concat(api.api || []);
 	api.api.forEach(def => {
 		def.args = [].concat(def.args || []);
-		def.args.forEach(arg => filloutParams(arg, pageId));
-		if (def.return) filloutParams(def.return, pageId);
+		def.args = filloutParams(def.args, pageId);
+		if (def.return) def.return = filloutParams(def.return, pageId)[0];
 	});
 
 	if (!api.title && api.api.length) {
@@ -163,11 +170,13 @@ function addScreen(api) {
 				var start = param.start || param.default;
 				if (typeof start == 'number' && param.type !== 'text') {
 					demoCode += indent(param.var + ' = ' + start + ';', 3);
+				} else if (typeof start == 'object' && typeof start.code === 'string') {
+					demoCode += indent(param.var + ' = ' + start.code + ';', 3);
 				} else if (typeof start == 'string') {
 					if (param.type === 'text') {
 						demoCode += indent('strcpy(' + param.var + ', ' + JSON.stringify(start) + ');', 3);
 					} else {
-						demoCode += indent(param.var + ' = ' + start + ';', 3);
+						demoCode += indent(param.var + ' = ' + JSON.stringify(start) + ';', 3);
 					}
 				}
 			});
@@ -226,7 +235,20 @@ ui_split_leftratio(0.4);
 	ui_text(` + JSON.stringify(param.var + ': ') + `);
 ui_pop();
 `, 3);
-				if (param.type === 'text') {
+				if (param.type === 'enum' && param.enum) {
+					var options = [].concat(param.enum);
+					var nextVar = pageId + '_param' + paramIndex + '_next';
+					var prevVar = pageId + '_param' + paramIndex + '_prev';
+					var textVar = pageId + '_param' + paramIndex + '_text';
+					options.forEach((option, index) => {
+						demoCode += indent((index > 0 ? ') : ' : '') + param.var + ' == ' + JSON.stringify(option) + ' ? (', 3);
+						demoCode += indent(nextVar + ' = ' + JSON.stringify(options[(index + 1)%options.length]) + ';', 4);
+						demoCode += indent(prevVar + ' = ' + JSON.stringify(options[(index - 1 + options.length)%options.length]) + ';', 4);
+						demoCode += indent(textVar + ' = ' + JSON.stringify(option + "") + ';', 4);
+					});
+					demoCode += indent(');', 3);
+					demoCode += indent(param.var  + ' = control_selector(' + [param.var, textVar, nextVar, prevVar].join(', ')  + ');', 3);
+				} else if (param.type === 'text') {
 					var stateVar = pageId + '_param' + paramIndex + '_state';
 					demoCode += indent(stateVar  + ' = control_textinput(' + param.var + ', ' + stateVar + ');', 3);
 				} else if (param.type === 'bool') {
@@ -247,12 +269,13 @@ ui_split_right(60);
 	ui_textnumber(` + param.var + `, ` + (param.type === 'int' ? '"%i"' : '"%f"') + `);
 ui_pop();
 ui_padright();`, 3);
- 					demoCode += indent(param.var  + ' = control_hslider(' + param.var + ', ' + min + ', ' + max + ', 0);', 3);
+					if (typeof start === 'number') {
+						demoCode += indent(param.var  + ' = control_slider_left(' + param.var + ', ' + min + ', ' + max + ', 0, ' + start + ');', 3);
+					} else {
+						demoCode += indent(param.var  + ' = control_slider_left(' + param.var + ', ' + min + ', ' + max + ', 0);', 3);
+					}
 					if (param.type == 'int') {
 						demoCode += indent(param.var + ' = floor(' + param.var + ' + 0.5);', 3);
-					}
-					if (typeof start === 'number') {
-						demoCode += indent('ui_click() && ui_clickcount() == 2 ? ' + param.var + ' = ' + start + ';', 3);
 					}
 				}
 			});
@@ -264,8 +287,8 @@ ui_padright();`, 3);
 		demoCode += indent(`
 ui_push();
 	control_background_technical();
-	ui_push();
-	ui_pad();
+	ui_push_clip();
+		ui_pad();
 		ui_font("Courier New", 14, 1, 0);
 		ui_align(0, 0.5);
 		ui_text(` + JSON.stringify(displayCode) + `);

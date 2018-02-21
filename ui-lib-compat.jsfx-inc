@@ -35,3 +35,19 @@ function ui_hpadding() (
 function ui_vpadding() (
 	ui_padding_y();
 );
+
+function control_hslider(value, range_low, range_high, curve_bias) (
+	control_slider_left(value, range_low, range_high, curve_bias);
+);
+
+function control_vslider(value, range_low, range_high, curve_bias) (
+	control_slider_bottom(value, range_low, range_high, curve_bias);
+);
+
+function control_dial(value, range_low, range_high, curve_bias) (
+	control_dial_left(value, range_low, range_high, curve_bias);
+);
+
+function control_textnumber(actual, display, format) (
+	control_hidden_textnumber(actual, display, format);
+);

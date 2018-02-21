@@ -1394,8 +1394,12 @@ function uix_dotted_line(x1, y1, x2, y2, drawlength, skiplength) local(distance,
 	);
 );
 
+function uix_control_state(state) (
+	(!state || state == "auto") ? control_state() : state;
+);
+
 function control_background_enabled(state) local(shade) (
-	state = state ? state : control_state();
+	state = uix_control_state(state);
 	shade = (state == "press") ? 0.5 : (state == "hover") ? 0.75 : (state == "drag") ? 0.75 : 1;
 	uix_control_theme == 1/*uix_THEME:BLACK_AND_WHITE*/ ? (
 		ui_push();
@@ -1425,7 +1429,7 @@ function control_background_enabled(state) local(shade) (
 );
 
 function control_background_enabled_circle(x, y, r, state) local(shade) (
-	state = state ? state : control_state();
+	state = uix_control_state(state);
 	shade = (state == "press") ? 0.5 : (state == "hover") ? 0.75 : (state == "drag") ? 0.75 : 1;
 
 	uix_control_theme == 1/*uix_THEME:BLACK_AND_WHITE*/ ? (
@@ -1444,6 +1448,9 @@ function control_background_enabled_circle(x, y, r, state) local(shade) (
 		(state == "press") ? ui_color(230, 230, 230) : ui_color(255, 255, 255);
 		ui_color(255, 255, 255);
 	);
+);
+function control_background_enabled_circle(state) (
+	control_background_enabled_circle(ui_left() + ui_width()*0.5, ui_top() + ui_height()*0.5, min(ui_height(), ui_width())*0.5, state);
 );
 
 function control_finish_enabled(state) (
@@ -1469,6 +1476,9 @@ function control_finish_enabled_circle(x, y, r, state) (
 	) : (
 		uix_circle_shade(x, y, r, 0, 1);
 	);
+);
+function control_finish_enabled_circle(state) (
+	control_finish_enabled_circle(ui_left() + ui_width()*0.5, ui_top() + ui_height()*0.5, min(ui_height(), ui_width())*0.5, state);
 );
 
 function control_background_passive(state) (
@@ -1775,23 +1785,27 @@ function control_button(text) (
 
 function control_arrow(direction) local(size, tmp, centerx, centery, point1x, point1y, point2x, point2y, point3x, point3y) ( // left, up, right, down
 	size = min(ui_height(), ui_width());
-	direction == 0 ? (
+	direction == "left" || direction == 0 ? (
+		direction = 0;
 		centerx = size/2;
 		centery = ui_height()/2;
-	) : direction == 1 ? (
+	) : direction == "up" || direction == 1 ? (
+		direction = 1;
 		centerx = ui_width()/2;
 		centery = size/2;
-	) : direction == 2 ? (
+	) : direction == "right" || direction == 2 ? (
+		direction = 2;
 		centerx = ui_width() - size/2;
 		centery = ui_height()/2;
 	) : (
+		direction = 3;
 		centerx = ui_width()/2;
 		centery = ui_height() - size/2;
 	);
 	centerx += ui_left();
 	centery += ui_top();
 
-	size = min(size, ui_texth());
+	size = min(size, ui_texth()*2);
 	size *= 0.5;
 	angle = direction*$pi/2;
 
@@ -1828,12 +1842,12 @@ function control_selector(value, text, next_value, prev_value) local(buttonwidth
 			ui_color(255, 255, 255, 0.8);
 			ui_split_topratio(0.5);
 				next_value != value ? control_background_enabled() : control_background_disabled();
-				control_arrow(1);
+				control_arrow("up");
 				next_value != value ? control_finish_enabled() : control_finish_disabled();
 				ui_click() ? value = next_value;
 			ui_split_next();
 				prev_value != value ? control_background_enabled() : control_background_disabled();
-				control_arrow(3);
+				control_arrow("down");
 				prev_value != value ? control_finish_enabled() : control_finish_disabled();
 				ui_click() ? value = prev_value;
 			ui_pop();
@@ -1898,7 +1912,7 @@ function uix_slider_ratio_to_value(ratio, range_low, range_high, curve_bias) loc
 	range_low + (range_high - range_low)*valueratio;
 );
 
-function control_hslider(value, range_low, range_high, curve_bias) local(valueratio, screenratio, state, barwidth) (
+function uix_control_slider_h(value, range_low, range_high, curve_bias, hasDefault, defaultValue, linkToLeft) local(valueratio, screenratio, state, barwidth) (
 	// We calculate screenratio first (before updating value) because then any rounding/limiting applied to the value is reflected in the UI
 	screenratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
 
@@ -1938,10 +1952,31 @@ function control_hslider(value, range_low, range_high, curve_bias) local(valuera
 		valueratio += ui_scroll_y()/uix_scroll_scale;
 		value = uix_slider_ratio_to_value(valueratio, range_low, range_high, curve_bias);
 	);
+	hasDefault && ui_click() && ui_clickcount() == 2 ? (
+		value = default;
+	);
 	value;
 );
+function control_slider_left(value, range_low, range_high, curve_bias, default) (
+	uix_control_slider_h(value, range_low, range_high, curve_bias, 1, default, 1);
+);
+function control_slider_left(value, range_low, range_high, curve_bias) (
+	uix_control_slider_h(value, range_low, range_high, curve_bias, 0, 0, 1);
+);
+function control_slider_left(value, range_low, range_high) (
+	control_slider_left(value, range_low, range_high, 0);
+);
+function control_slider_x(value, range_low, range_high, curve_bias, default) (
+	uix_control_slider_h(value, range_low, range_high, curve_bias, 1, default, 0);
+);
+function control_slider_x(value, range_low, range_high, curve_bias) (
+	uix_control_slider_h(value, range_low, range_high, curve_bias, 0, 0, 0);
+);
+function control_slider_x(value, range_low, range_high) (
+	control_slider_x(value, range_low, range_high, 0);
+);
 
-function control_vslider(value, range_low, range_high, curve_bias) local(valueratio, screenratio, state, barheight) (
+function uix_control_slider_v(value, range_low, range_high, curve_bias, hasDefault, default, linkToTop) local(valueratio, screenratio, state, barheight) (
 	// We calculate screenratio first (before updating value) because then any rounding/limiting applied to the value is reflected in the UI
 	screenratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
 
@@ -1983,6 +2018,24 @@ function control_vslider(value, range_low, range_high, curve_bias) local(valuera
 	);
 	value;
 );
+function control_slider_bottom(value, range_low, range_high, curve_bias, default) (
+	uix_control_slider_v(value, range_low, range_high, curve_bias, 1, default, 1);
+);
+function control_slider_bottom(value, range_low, range_high, curve_bias) (
+	uix_control_slider_v(value, range_low, range_high, curve_bias, 0, 0, 1);
+);
+function control_slider_bottom(value, range_low, range_high) (
+	control_slider_bottom(value, range_low, range_high, 0);
+);
+function control_slider_y(value, range_low, range_high, curve_bias, default) (
+	uix_control_slider_v(value, range_low, range_high, curve_bias, 1, default, 0);
+);
+function control_slider_y(value, range_low, range_high, curve_bias) (
+	uix_control_slider_v(value, range_low, range_high, curve_bias, 0, 0, 0);
+);
+function control_slider_y(value, range_low, range_high) (
+	control_slider_y(value, range_low, range_high, 0);
+);
 
 function uix_control_dragvalue(value, range_low, range_high, curve_bias) local(valueratio, deltay) (
 	ui_drag() || ui_scroll_y() ? (
@@ -2009,7 +2062,7 @@ function uix_thick_line(x1, y1, x2, y2) (
 	gfx_line(x1, y1 - 1, x2, y2 - 1, 1);
 );
 
-function control_dial(value, range_low, range_high, curve_bias)  local(valueratio, screenratio, centrex, centrey, radius, inner_radius, highangle, lowangle, angle, x1, x2, y1, y2) (
+function uix_control_dial(value, range_low, range_high, curve_bias, hasDefault, default, linkToLeft)  local(valueratio, screenratio, centrex, centrey, radius, inner_radius, highangle, lowangle, angle, x1, x2, y1, y2) (
 	screenratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
 
 	radius = min(ui_width(), ui_height())/2 - 1;
@@ -2044,6 +2097,24 @@ function control_dial(value, range_low, range_high, curve_bias)  local(valuerati
 
 	uix_control_dragvalue(value, range_low, range_high, curve_bias);
 );
+function control_dial_left(value, range_low, range_high, curve_bias, default) (
+	uix_control_dial(value, range_low, range_high, curve_bias, 1, default, 1);
+);
+function control_dial_left(value, range_low, range_high, curve_bias) (
+	uix_control_dial(value, range_low, range_high, curve_bias, 0, 0, 1);
+);
+function control_dial_left(value, range_low, range_high) (
+	control_dial_left(value, range_low, range_high, 0);
+);
+function control_dial(value, range_low, range_high, curve_bias, default) (
+	uix_control_dial(value, range_low, range_high, curve_bias, 1, default, 0);
+);
+function control_dial(value, range_low, range_high, curve_bias) (
+	uix_control_dial(value, range_low, range_high, curve_bias, 0, 0, 0);
+);
+function control_dial(value, range_low, range_high) (
+	control_dial(value, range_low, range_high, 0);
+);
 
 function control_dial_angle(angle) local(radius, centrex, centrey, inner_radius, x1, x2, y1, y2) (
 	radius = min(ui_width(), ui_height())/2 - 1;
@@ -2065,6 +2136,13 @@ function control_dial_angle(angle) local(radius, centrex, centrey, inner_radius,
 	angle = uix_control_dragvalue(angle, -0.1, 2*$pi + 0.1, 0);
 	angle < 0 ? angle += 2*$pi;
 	angle >= 2*$pi ? angle -= 2*$pi;
+	angle;
+);
+function control_dial_angle(angle, default) (
+	angle = control_dial_angle(angle);
+	ui_click() && ui_clickcount() == 2 ? (
+		angle = default;
+	);
 	angle;
 );
 
@@ -2410,27 +2488,50 @@ function control_textinput(text, prompt_selectpacked) local(text_length, prompt_
 	prompt_selectpacked;
 );
 
-uix_control_textnumber_active_x =uix_control_textnumber_active_y = -1;
-uix_control_textnumber_state;
-function control_textnumber(actualnumber, number, format) local(i) (
-	uix_control_textnumber_active_x == ui_left() && uix_control_textnumber_active_y == ui_top() ? (
+uix_control_hidden_text_active_x =uix_control_hidden_text_active_y = -1;
+uix_control_hidden_text_state;
+function control_hidden_text(text) local(i) (
+	uix_control_hidden_text_active_x == ui_left() && uix_control_hidden_text_active_y == ui_top() ? (
 		ui_key() == 27 || ui_key() == 13 || ui_mouse_down_outside(1) || ui_mouse_down_outside(2) || ui_mouse_down_outside(64) ? (
-			actualnumber = ui_parsenumber(#uix_control_textnumber, $pi);
+			uix_control_hidden_text_active_x = uix_control_hidden_text_active_y = -1;
+		);
+		uix_control_hidden_text_state = control_textinput(text, uix_control_hidden_text_state);
+	) : (
+		ui_text(text);
+		ui_click(2) || (ui_click() && ui_clickcount() == 3) ? ( // Right-click
+			uix_control_hidden_text_active_x = ui_left();
+			uix_control_hidden_text_active_y = ui_top();
+			// TODO: select-all here, when it's implemented
+			uix_control_hidden_text_state = control_textinput_focus(0);
+		);
+	);
+);
+function control_hidden_textnumber(actualnumber, number, format) local(i) (
+	uix_control_hidden_text_active_x == ui_left() && uix_control_hidden_text_active_y == ui_top() ? (
+		ui_key() == 27 || ui_key() == 13 || ui_mouse_down_outside(1) || ui_mouse_down_outside(2) || ui_mouse_down_outside(64) ? (
+			uix_control_hidden_text_active_x = uix_control_hidden_text_active_y = -1;
 			ui_key() != 27 ? (
-				uix_control_textnumber_active_x = uix_control_textnumber_active_y = -1;
+				actualnumber = ui_parsenumber(#uix_control_hidden_textnumber, $pi);
 			);
 		);
-		uix_control_textnumber_state = control_textinput(#uix_control_textnumber, uix_control_textnumber_state);
+		uix_control_hidden_text_state = control_textinput(#uix_control_hidden_textnumber, uix_control_hidden_text_state);
 	) : (
 		ui_textnumber(number, format);
 		ui_click(2) || (ui_click() && ui_clickcount() == 3) ? ( // Right-click
-			sprintf(#uix_control_textnumber, format ? format : "%f", number);
-			uix_control_textnumber_active_x = ui_left();
-			uix_control_textnumber_active_y = ui_top();
-			uix_control_textnumber_state = control_textinput_focus(0);
+			sprintf(#uix_control_hidden_textnumber, format ? format : "%f", number);
+			uix_control_hidden_text_active_x = ui_left();
+			uix_control_hidden_text_active_y = ui_top();
+			// TODO: select-all here, when it's implemented
+			uix_control_hidden_text_state = control_textinput_focus(0);
 		);
 	);
 	actualnumber;
+);
+function control_hidden_textnumber(number, format) (
+	control_hidden_textnumber(number, number, format);
+);
+function control_hidden_textnumber(number) (
+	control_hidden_textnumber(number, "%f");
 );
 
 function control_system() local(prompt_title, prompt_text, prompt_init, prompt_selectlow, prompt_selecthigh, textx, texty, selectw, t, char, OK) (
