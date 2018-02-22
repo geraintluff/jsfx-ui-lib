@@ -41,7 +41,7 @@ ui_screen() == "options" ? (
 	control_navbar("ui-lib.jsfx-inc", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
-	ui_padtop(ui_wraptext("This is the API documentation for JSFX UI library. It is available as text, or as an interactive JSFX effect."));
+	ui_padtop(ui_wraptext("This is the API documentation for JSFX UI library. It is available as Markdown, HTML, or as an interactive JSFX effect."));
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
@@ -642,6 +642,8 @@ ui_screen() == "options" ? (
 			opacity = 1;
 			page_2_0_1_setup = 1;
 		);
+		ui_pad(50, 50);
+		
 		ui_push_clip(opacity);
 			// Draw circles across the whole screen
 			ui_color(0, 255, 0);
@@ -678,7 +680,7 @@ ui_screen() == "options" ? (
 			ui_pad();
 			ui_font("Courier New", 14, 1, 0);
 			ui_align(0, 0.5);
-			ui_text("ui_push_clip(opacity);\n\t// Draw circles across the whole screen\n\tui_color(0, 255, 0);\n\tgfx_y = 0;\n\twhile (gfx_y < gfx_h + 30) (\n\t\tgfx_x = (gfx_y*0.5)%35;\n\t\twhile (gfx_x < gfx_w + 30) (\n\t\t\tgfx_circle(gfx_x, gfx_y, 15, 1);\n\t\t\tgfx_x += 35;\n\t\t);\n\t\tgfx_y += 30;\n\t);\nui_pop();");
+			ui_text("ui_pad(50, 50);\n\nui_push_clip(opacity);\n\t// Draw circles across the whole screen\n\tui_color(0, 255, 0);\n\tgfx_y = 0;\n\twhile (gfx_y < gfx_h + 30) (\n\t\tgfx_x = (gfx_y*0.5)%35;\n\t\twhile (gfx_x < gfx_w + 30) (\n\t\t\tgfx_circle(gfx_x, gfx_y, 15, 1);\n\t\t\tgfx_x += 35;\n\t\t);\n\t\tgfx_y += 30;\n\t);\nui_pop();");
 		ui_pop();
 		control_finish_technical();
 	ui_pop();
@@ -704,6 +706,7 @@ ui_screen() == "options" ? (
 	ui_split_rightratio(0.5);
 		ui_padleft();
 		!page_2_0_2_setup ? (
+			vertical_align = 0.5;
 			page_2_0_2_setup = 1;
 		);
 		ui_align(0.5, vertical_align);
@@ -740,7 +743,7 @@ ui_screen() == "options" ? (
 				ui_textnumber(vertical_align, "%f");
 			ui_pop();
 			ui_padright();
-			vertical_align = control_slider_left(vertical_align, 0, 1, 0);
+			vertical_align = control_slider_left(vertical_align, 0, 1, 0, 0.5);
 		ui_pop();
 	ui_pop();
 	ui_push();
@@ -1214,7 +1217,7 @@ ui_screen() == "options" ? (
 	api_print_function_signature("ui_pad();");
 	ui_padtop();
 	ui_align(0, 0);
-	ui_padtop(ui_wraptext("This function shrinks the current viewport by the specified amount.\n\nWhen the padding size is omitted (in ui_pad() or in the side-specific variations), it uses a default padding size.  This is the sa"));
+	ui_padtop(ui_wraptext("This function shrinks the current viewport by the specified amount.\n\nWhen the padding size is omitted (in ui_pad() or in the side-specific variations), it uses a default padding size.  This is also the padding size added when using ui_split_*text()."));
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
@@ -2180,14 +2183,14 @@ ui_screen() == "options" ? (
 	ui_split_rightratio(0.5);
 		ui_padleft();
 		!page_5_4_setup ? (
-			strcpy(#format, "%.2f");
+			number = 3.14159265359;
 			page_5_4_setup = 1;
 		);
 		ui_textnumber(number, #format);
 	ui_pop();
-	ui_split_bottom(118);
+	ui_split_bottom(74);
 		control_group("parameters");
-		ui_split_topratio(1/2);
+		ui_split_topratio(1/1);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
 				ui_align(1, 0.5);
@@ -2198,14 +2201,7 @@ ui_screen() == "options" ? (
 				ui_textnumber(number, "%f");
 			ui_pop();
 			ui_padright();
-			number = control_slider_left(number, 0, 1, 0);
-		ui_split_next();
-			ui_pad(0, -0.5);
-			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#format: ");
-			ui_pop();
-			page_5_4_param1_state = control_textinput(#format, page_5_4_param1_state);
+			number = control_slider_left(number, -100, 100, 0, 3.14159265359);
 		ui_pop();
 	ui_pop();
 	ui_push();
@@ -3892,22 +3888,22 @@ ui_screen() == "options" ? (
 			page_7_3_setup = 1;
 		);
 		ui_split_topratio(1/4);
-			ui_split_left(50);
+			ui_split_left(70);
 				ui_text("curve=0");
 			ui_pop();
 			value = control_slider_left(value, 0, 1, 0, 0.5);
 		ui_split_next();
-			ui_split_left(50);
+			ui_split_left(70);
 				ui_text("curve=2");
 			ui_pop();
 			value = control_slider_left(value, 0, 1, 2, 0.5);
 		ui_split_next();
-			ui_split_left(50);
+			ui_split_left(70);
 				ui_text("curve=-2");
 			ui_pop();
 			value = control_slider_left(value, 0, 1, -2, 0.5);
 		ui_split_next();
-			ui_split_left(50);
+			ui_split_left(70);
 				ui_text("slider_x");
 			ui_pop();
 			value = control_slider_x(value, 0, 1, 0, 0.5);
@@ -3935,7 +3931,7 @@ ui_screen() == "options" ? (
 			ui_pad();
 			ui_font("Courier New", 14, 1, 0);
 			ui_align(0, 0.5);
-			ui_text("ui_split_topratio(1/4);\n\tui_split_left(50);\n\t\tui_text(\"curve=0\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 0, 0.5);\nui_split_next();\n\tui_split_left(50);\n\t\tui_text(\"curve=2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 2, 0.5);\nui_split_next();\n\tui_split_left(50);\n\t\tui_text(\"curve=-2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, -2, 0.5);\nui_split_next();\n\tui_split_left(50);\n\t\tui_text(\"slider_x\");\n\tui_pop();\n\tvalue = control_slider_x(value, 0, 1, 0, 0.5);\nui_pop();");
+			ui_text("ui_split_topratio(1/4);\n\tui_split_left(70);\n\t\tui_text(\"curve=0\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 0, 0.5);\nui_split_next();\n\tui_split_left(70);\n\t\tui_text(\"curve=2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 2, 0.5);\nui_split_next();\n\tui_split_left(70);\n\t\tui_text(\"curve=-2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, -2, 0.5);\nui_split_next();\n\tui_split_left(70);\n\t\tui_text(\"slider_x\");\n\tui_pop();\n\tvalue = control_slider_x(value, 0, 1, 0, 0.5);\nui_pop();");
 		ui_pop();
 		control_finish_technical();
 	ui_pop();

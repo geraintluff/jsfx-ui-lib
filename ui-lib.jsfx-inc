@@ -1912,10 +1912,11 @@ function uix_slider_ratio_to_value(ratio, range_low, range_high, curve_bias) loc
 	range_low + (range_high - range_low)*valueratio;
 );
 
-function uix_control_slider_h(value, range_low, range_high, curve_bias, hasDefault, defaultValue, linkToLeft) local(valueratio, screenratio, state, barwidth) (
+function uix_control_slider_h(value, range_low, range_high, curve_bias, hasDefault, defaultValue, linkToLeft) local(valueratio, screenratio, state, barwidth, handlesize) (
 	// We calculate screenratio first (before updating value) because then any rounding/limiting applied to the value is reflected in the UI
 	screenratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
 
+	handlesize = ui_height();
 	ui_push();
 		uix_control_theme == 2/*uix_THEME:TRON*/ ? (
 			control_background_technical();
@@ -1926,8 +1927,13 @@ function uix_control_slider_h(value, range_low, range_high, curve_bias, hasDefau
 		state = control_state();
 
 		ui_push();
-			barwidth = floor((ui_width() - 1)*screenratio + 1.5);
-			ui_split_left(barwidth);
+			linkToLeft ? (
+				barwidth = floor((ui_width() - 1)*screenratio + 1.5);
+				ui_split_left(barwidth);
+			) : (
+				ui_align(screenratio, 0.5);
+				ui_push_width(handlesize);
+			);
 				uix_control_theme == 2/*uix_THEME:TRON*/ ? (
 					ui_color(121, 173, 185);
 					ui_fill();
@@ -1945,7 +1951,12 @@ function uix_control_slider_h(value, range_low, range_high, curve_bias, hasDefau
 	ui_pop();
 
 	ui_mouse_down() || ui_drag() ? (
-		value = uix_slider_ratio_to_value(ui_mouse_xratio(), range_low, range_high, curve_bias);
+		screenratio = linkToLeft ? (
+			ui_mouse_xratio()
+		) : (
+			(ui_mouse_x() - handlesize*0.5)/(ui_width() - handlesize);
+		);
+		value = uix_slider_ratio_to_value(screenratio, range_low, range_high, curve_bias);
 	);
 	ui_scroll_y() ? (
 		valueratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
@@ -1953,7 +1964,7 @@ function uix_control_slider_h(value, range_low, range_high, curve_bias, hasDefau
 		value = uix_slider_ratio_to_value(valueratio, range_low, range_high, curve_bias);
 	);
 	hasDefault && ui_click() && ui_clickcount() == 2 ? (
-		value = default;
+		value = defaultValue;
 	);
 	value;
 );
@@ -1976,10 +1987,11 @@ function control_slider_x(value, range_low, range_high) (
 	control_slider_x(value, range_low, range_high, 0);
 );
 
-function uix_control_slider_v(value, range_low, range_high, curve_bias, hasDefault, default, linkToTop) local(valueratio, screenratio, state, barheight) (
+function uix_control_slider_v(value, range_low, range_high, curve_bias, hasDefault, default, linkToTop) local(valueratio, screenratio, state, barheight, 	handlesize) (
 	// We calculate screenratio first (before updating value) because then any rounding/limiting applied to the value is reflected in the UI
 	screenratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
 
+	handlesize = ui_width();
 	ui_push();
 		uix_control_theme == 2/*uix_THEME:TRON*/ ? (
 			control_background_technical();
@@ -1990,8 +2002,13 @@ function uix_control_slider_v(value, range_low, range_high, curve_bias, hasDefau
 		state = control_state();
 
 		ui_push();
-			barheight = floor((ui_height() - 1)*screenratio + 1.5);
-			ui_split_bottom(barheight);
+			linkToLeft ? (
+				barheight = floor((ui_height() - 1)*screenratio + 1.5);
+				ui_split_bottom(barheight);
+			) : (
+				ui_align(0.5, screenratio);
+				ui_push_height(handlesize);
+			);
 				uix_control_theme == 2/*uix_THEME:TRON*/ ? (
 					ui_color(121, 173, 185);
 					ui_fill();
@@ -2009,7 +2026,12 @@ function uix_control_slider_v(value, range_low, range_high, curve_bias, hasDefau
 	ui_pop();
 
 	ui_mouse_down() || ui_drag() ? (
-		value = uix_slider_ratio_to_value(1 - ui_mouse_yratio(), range_low, range_high, curve_bias);
+		screenratio = linkToLeft ? (
+			1 - ui_mouse_yratio()
+		) : (
+			(ui_height() - ui_mouse_y() - handlesize*0.5)/(ui_height() - handlesize);
+		);
+		value = uix_slider_ratio_to_value(screenratio, range_low, range_high, curve_bias);
 	);
 	ui_scroll_y() ? (
 		valueratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
@@ -2076,7 +2098,7 @@ function uix_control_dial(value, range_low, range_high, curve_bias, hasDefault, 
 	highangle = 2.3;
 	angle = lowangle + (highangle - lowangle)*(screenratio*0.98 + 0.01);
 
-	uix_control_theme == 2/*uix_THEME:TRON*/ ? (
+	uix_control_theme == 2/*uix_THEME:TRON*/ || !linkToLeft ? (
 		ui_color(162, 228, 255);
 		ui_color(131, 184, 206);
 		uix_thick_arc(centrex, centrey, inner_radius, lowangle, highangle);

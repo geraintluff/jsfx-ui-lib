@@ -1,6 +1,6 @@
 {
 	"title": "ui-lib.jsfx-inc",
-	"text": "This is the API documentation for JSFX UI library. It is available as text, or as an interactive JSFX effect.",
+	"text": "This is the API documentation for JSFX UI library. It is available as Markdown, HTML, or as an interactive JSFX effect.",
 	"children": [
 		{
 			"title": "Introduction",
@@ -10,12 +10,14 @@
 					"title": "Hello World",
 					"text": "Here's a simple Hello World example.\n\nWe import the library in the header, and in @init we allocate it some of the memory buffer. It returns the first unused memory slot. In @gfx, we always call ui_start() first, to reset the UI state.\n\nThen, we call ui_text() to draw some text to the screen.",
 					"displayCode": "desc:JSFX UI: Hello World\nimport ui-lib.jsfx-inc\n\n@init\nfreemem = ui_setup(0);\n\n@gfx\nui_start();\nui_text(\"Hello, world!\");",
-					"code": "ui_text(\"Hello World\");"
+					"code": "ui_text(\"Hello World\");",
+					"screenshot": "images/hello-world.png"
 				},
 				{
 					"title": "Viewport stack example",
 					"text": "The current \"viewport\" has position and size.  It also stores other bits of drawing state, such as colour and font properties.\n\nWe have a stack of viewports - to draw a certain section of the screen (or in a particular colour, or many things) we push a new viewport/drawing-state to this stack, and pop it off to return to our previous state when we are done.",
-					"code": "ui_border();\nui_pad();\n\nui_push_height(100);\n\t// new viewport has smaller height\n\tui_color(192, 128, 0);\n\tui_border();\n\tui_pad();\n\n\tui_split_left(80);\n\t\tui_color(0, 215, 215);\n\t\tui_fill();\n\tui_pop();\n\n\t// remaining viewport is now smaller\n\t// because we used ui_split_left() above\n\tui_color(215, 0, 215);\n\tui_border();\n\tui_text(\"some text\");\nui_pop();"
+					"code": "ui_border();\nui_pad();\n\nui_push_height(100);\n\t// new viewport has smaller height\n\tui_color(192, 128, 0);\n\tui_border();\n\tui_pad();\n\n\tui_split_left(80);\n\t\tui_color(0, 215, 215);\n\t\tui_fill();\n\tui_pop();\n\n\t// remaining viewport is now smaller\n\t// because we used ui_split_left() above\n\tui_color(215, 0, 215);\n\tui_border();\n\tui_text(\"some text\");\nui_pop();",
+					"screenshot": "images/viewport-stack-example.png"
 				}
 			]
 		},
@@ -46,7 +48,8 @@
 						}
 					],
 					"text": "These methods resets the UI state for the start of each frame.  You must call one of these in @gfx, before any other UI code.\n\nThe default_screen variable is a screen identifier - see ui_screen().\n\ncontrol_start() has an additional \"theme\" parameter, which must be a string constant, one of: \"default\", \"tron\" or \"black\".",
-					"displayCode": "@gfx\n\nui_start(\"main\");\n\n//Or:\n@gfx\n\ncontrol_start(\"main\", \"tron\")"
+					"displayCode": "@gfx\n\nui_start(\"main\");\n\n//Or:\n@gfx\n\ncontrol_start(\"main\", \"tron\")",
+					"screenshot": ["images/themes/default.png", "images/themes/tron.png", "images/themes/black.png"]
 				},
 				{
 					"api": {
@@ -119,7 +122,8 @@
 					"title": "The \"control.prompt\" screen",
 					"text": "This is a screen ID provided by control_system().  It provides a convenient way to prompt the user for text entry.\n\nThe screen takes two arguments: a mutable string, and a title for the popup.",
 					"code": "control_button(\"Open text prompt\") ? (\n\tui_screen_open(\"control.prompt\");\n\tui_screen_arg(0, #entered_text);\n\tui_screen_arg(1, \"Prompt title\");\n);",
-					"return": {"type": "text", "name": "#entered_text", "default": "text prompt result"}
+					"return": {"type": "text", "name": "#entered_text", "default": "text prompt result"},
+					"screenshot": "images/control-prompt-screen.png"
 				}
 			]
 		},
@@ -139,7 +143,8 @@
 								}
 							],
 							"text": "ui_push() pushes a new viewport/state onto the stack.  The new state is a copy of the previous state, but changes to this new state do not affect the previous state.\n\nui_pop() removes the top later of the viewport/state stack.",
-							"code": "ui_push();\n\t// Indenting can help keep track of the stack\n\tui_color(255, 0, 255);\nui_pop();\n\n// Draws in default colour, because\n// we popped the altered one off\nui_text(\"some text\");"
+							"code": "ui_push();\n\t// Indenting can help keep track of the stack\n\tui_color(255, 0, 255);\nui_pop();\n\n// Draws in default colour, because\n// we popped the altered one off\nui_text(\"some text\");",
+							"screenshot": "images/ui_push.png"
 						},
 						{
 							"api": [
@@ -148,8 +153,9 @@
 									"args": {"name": "opacity", "min": 0, "max": 1, "default": 1}
 								}
 							],
-							"code": "ui_push_clip(opacity);\n\t// Draw circles across the whole screen\n\tui_color(0, 255, 0);\n\tgfx_y = 0;\n\twhile (gfx_y < gfx_h + 30) (\n\t\tgfx_x = (gfx_y*0.5)%35;\n\t\twhile (gfx_x < gfx_w + 30) (\n\t\t\tgfx_circle(gfx_x, gfx_y, 15, 1);\n\t\t\tgfx_x += 35;\n\t\t);\n\t\tgfx_y += 30;\n\t);\nui_pop();",
-							"text": "ui_push_clip() behaves a lot like ui_push(), except all changes are clipped to the current viewport, and have a global opacity applied.  If opacity is zero (or omitted), it is taken to be 1.\n\nInternally, this is implemented by copying the current screen state to a new buffer, drawing as normal (to that buffer, using gfx_dest), and then copying back with the appropriate opacity on the matching ui_pop() call."
+							"code": "ui_pad(50, 50);\n\nui_push_clip(opacity);\n\t// Draw circles across the whole screen\n\tui_color(0, 255, 0);\n\tgfx_y = 0;\n\twhile (gfx_y < gfx_h + 30) (\n\t\tgfx_x = (gfx_y*0.5)%35;\n\t\twhile (gfx_x < gfx_w + 30) (\n\t\t\tgfx_circle(gfx_x, gfx_y, 15, 1);\n\t\t\tgfx_x += 35;\n\t\t);\n\t\tgfx_y += 30;\n\t);\nui_pop();",
+							"text": "ui_push_clip() behaves a lot like ui_push(), except all changes are clipped to the current viewport, and have a global opacity applied.  If opacity is zero (or omitted), it is taken to be 1.\n\nInternally, this is implemented by copying the current screen state to a new buffer, drawing as normal (to that buffer, using gfx_dest), and then copying back with the appropriate opacity on the matching ui_pop() call.",
+							"screenshot": "images/ui_push_clip.png"
 						},
 						{
 							"title": "Push with height/width",
@@ -180,8 +186,9 @@
 								}
 							],
 							"code": "ui_align(0.5, vertical_align);\n\nui_push_height(height);\n\tui_border();\n\tui_align(0.5, 0.5);\n\tui_text(\"viewport has fixed height\");\nui_pop();",
-							"params": [{"type": "int", "name": "height", "min": 0, "max": 150}, {"name": "vertical_align", "min": 0, "max": 1}],
-							"text": "These methods let you push a new viewport to the stack, with a specified height/width.  Their position is determined by the current alignment."
+							"params": [{"type": "int", "name": "height", "min": 0, "max": 150}, {"name": "vertical_align", "min": 0, "max": 1, "default": 0.5}],
+							"text": "These methods let you push a new viewport to the stack, with a specified height/width.  Their position is determined by the current alignment.",
+							"screenshot": "images/ui_push_height.png"
 						},
 						{
 							"title": "Push above/below/left/right",
@@ -237,7 +244,8 @@
 							],
 							"code": "ui_align(0.5, vertical_align);\n\nui_push_height(height);\n\tui_border();\n\tui_align(0.5, 0.5);\n\tui_text(\"viewport has fixed height\");\nui_pop();\n\nui_push_above(height);\n\tui_color(0, 128, 255);\nui_border();\nui_align(0.5, 0.5);\n\tui_text(\"centered above\");\nui_pop();",
 							"params": [{"type": "int", "name": "height", "min": 0, "max": 150}, {"name": "vertical_align", "min": 0, "max": 1}],
-							"text": "These methods let you push a new viewport to the stack, fitting around the viewport that would be produced by ui_push_height() or ui_push_width()."
+							"text": "These methods let you push a new viewport to the stack, fitting around the viewport that would be produced by ui_push_height() or ui_push_width().",
+							"screenshot": "images/ui_push_above.png"
 						},
 						{
 							"title": "Splitting the viewport",
@@ -261,7 +269,8 @@
 							],
 							"params": [{"name": "height", "type": "int", "min": 0, "max": 200, "start": 80}],
 							"text": "The ui_split_*() functions push a new viewport/state onto the stack, anchored to one edge. Simultaneously, they shrink the previous viewport by the same amount, so that the two do not overlap.\n\nThis gives an easy way to carve out sections of the screen to place elements, and then guarantee that other elements will not overlap with them later.",
-							"code": "ui_split_top(height);\n\tui_color(0, 192, 255);\n\tui_border();\n\tui_text(\"split viewport\");\nui_pop();\n\n// Now reduced so they don't overlap\nui_color(215, 0, 215);\nui_border();\nui_text(\"remaining viewport\");"
+							"code": "ui_split_top(height);\n\tui_color(0, 192, 255);\n\tui_border();\n\tui_text(\"split viewport\");\nui_pop();\n\n// Now reduced so they don't overlap\nui_color(215, 0, 215);\nui_border();\nui_text(\"remaining viewport\");",
+							"screenshot": "images/ui_split_top.png"
 						},
 						{
 							"title": "Splitting with ratios",
@@ -285,7 +294,8 @@
 							],
 							"params": [{"name": "ratio", "min": 0, "max": 1, "start": 0.3}],
 							"text": "The ui_split_*ratio() functions work exactly like the ui_split_*() functions, but with the split point specified as a ratio of the height/width.",
-							"code": "ui_split_topratio(ratio);\n\tui_color(0, 192, 255);\n\tui_border();\n\tui_text(\"split viewport\");\nui_pop();\n\n// Now reduced so they don't overlap\nui_color(215, 0, 215);\nui_border();\nui_text(\"remaining viewport\");"
+							"code": "ui_split_topratio(ratio);\n\tui_color(0, 192, 255);\n\tui_border();\n\tui_text(\"split viewport\");\nui_pop();\n\n// Now reduced so they don't overlap\nui_color(215, 0, 215);\nui_border();\nui_text(\"remaining viewport\");",
+							"screenshot": "images/ui_split_topratio.png"
 						},
 						{
 							"title": "Splitting with text sizes",
@@ -309,14 +319,16 @@
 							],
 							"params": [{"name": "#text", "type": "text", "start": "splitting text"}],
 							"text": "The ui_split_*ratio() functions work like the ui_split_*() functions, but the split point is determined by the height/width of a text string, plus some appropriate padding (from ui_padding() and related functions).\n\nIf you supply a negative number, it is equivalent to the empty string (which still has non-zero height).",
-							"code": "ui_split_lefttext(#text);\n\tui_color(0, 192, 255);\n\tui_border();\n\t// Viewport fits the text neatly\n\tui_text(#text);\nui_pop();\n\nui_color(215, 0, 215);\nui_border();\nui_text(\"remaining viewport\");"
+							"code": "ui_split_lefttext(#text);\n\tui_color(0, 192, 255);\n\tui_border();\n\t// Viewport fits the text neatly\n\tui_text(#text);\nui_pop();\n\nui_color(215, 0, 215);\nui_border();\nui_text(\"remaining viewport\");",
+							"screenshot": "images/ui_split_lefttext.png"
 						},
 						{
 							"api": {
 								"function": "ui_split_next"
 							},
 							"code": "ui_split_topratio(1/4);\n\tui_color(255, 0, 0);\n\tui_border();\n\tui_text(\"first section\");\nui_split_next();\n\tui_color(128, 128, 0);\n\tui_border();\n\tui_text(\"second section\");\nui_split_next();\n\tui_color(0, 255, 0);\n\tui_border();\n\tui_text(\"third section\");\nui_split_next();\n\tui_color(0, 128, 255);\n\tui_border();\n\tui_text(\"fourth section\");\nui_pop();",
-							"text": "When you have performed a split using any of the ui_split_*() methods, you can use ui_split_next() to pop the viewport/state from the stack, and then re-split using the same height/width.\n\nThis lets you very easily subdivide into equal-sized pieces, or stack items up from one edge."
+							"text": "When you have performed a split using any of the ui_split_*() methods, you can use ui_split_next() to pop the viewport/state from the stack, and then re-split using the same height/width.\n\nThis lets you very easily subdivide into equal-sized pieces, or stack items up from one edge.",
+							"screenshot": "images/ui_split_next.png"
 						}
 					]
 				},
@@ -350,7 +362,8 @@
 					],
 					"return": [],
 					"text": "These return the boundaries and dimensions of the current viewport.\n\nMuch like gfx_w and gfx_h, the right/bottom edges are the first pixels that are *not* included in the viewport.",
-					"code": "ui_align(0, 0.5);\nui_textnumber(ui_left(), \"%i\");\n\nui_align(1, 0.5);\nui_textnumber(ui_right(), \"%i\");\n\nui_align(0.5, 0);\nui_textnumber(ui_top(), \"%i\");\n\nui_align(0.5, 1);\nui_textnumber(ui_bottom(), \"%i\");\n\nsprintf(#size, \"%i x %i\", ui_width(), ui_height());\nui_align(0.5, 0.5);\nui_text(#size);\n\nui_border();"
+					"code": "ui_align(0, 0.5);\nui_textnumber(ui_left(), \"%i\");\n\nui_align(1, 0.5);\nui_textnumber(ui_right(), \"%i\");\n\nui_align(0.5, 0);\nui_textnumber(ui_top(), \"%i\");\n\nui_align(0.5, 1);\nui_textnumber(ui_bottom(), \"%i\");\n\nsprintf(#size, \"%i x %i\", ui_width(), ui_height());\nui_align(0.5, 0.5);\nui_text(#size);\n\nui_border();",
+					"screenshot": "images/get-viewport.png"
 				},
 				{
 					"title": "Set viewport position",
@@ -402,7 +415,8 @@
 								{"type": "int", "name": "bottom", "min": 0, "max": 50, "start": 10}
 							],
 							"code": "ui_border();\n\nui_pad(left, top, right, bottom);\n\nui_border();",
-							"text": "This function shrinks the current viewport by the specified amount.\n\nWhen the padding size is omitted (in ui_pad() or in the side-specific variations), it uses a default padding size.  This is the sa"
+							"text": "This function shrinks the current viewport by the specified amount.\n\nWhen the padding size is omitted (in ui_pad() or in the side-specific variations), it uses a default padding size.  This is also the padding size added when using ui_split_*text().",
+							"screenshot": "images/ui_pad.png"
 						},
 						{
 							"title": "Single-edge padding",
@@ -472,7 +486,8 @@
 						}
 					],
 					"text": "This function sets the current drawing colour.  It uses RGB values in the 0-255 range, and an optional alpha in the 0-1 range.\n\nThese values are translated into the gfx_r/gfx_g/gfx_b/gfx_a variables.  If ui_color() is called with no arguments, these variables are recalculated.",
-					"code": "ui_split_topratio(0.5);\n\tui_color(red, green, blue, alpha);\n\tui_fill();\nui_pop();\n\n// This is not affected\nui_text(\"some text\");"
+					"code": "ui_split_topratio(0.5);\n\tui_color(red, green, blue, alpha);\n\tui_fill();\nui_pop();\n\n// This is not affected\nui_text(\"some text\");",
+					"screenshot": "images/ui_color.png"
 				},
 				{
 					"title": "Alignment",
@@ -491,7 +506,8 @@
 						}
 					],
 					"text": "These function set and read the current alignment.  They are ratios, so 0 means left/top, and 1 means right/bottom.\n\nIf an out-of-range value is passed to ui_align(), it is ignored.  This means you can set the alignments independently - e.g. ui_align(0, -1) will change the horizontal alignment to hard-left, but leave the vertical alignment unchanged.",
-					"code": "ui_align(horizontal, vertical);\nui_text(\"aligned text\");"
+					"code": "ui_align(horizontal, vertical);\nui_text(\"aligned text\");",
+					"screenshot": ["images/ui_align-1.png", "images/ui_align-2.png"]
 				},
 				{
 					"title": "Fonts",
@@ -522,7 +538,8 @@
 						}
 					],
 					"text": "Specify the font parameters, individually or all at once.\n\nThe UI library uses font index 16, and configures this accordingly.  ui_font() called with no arguments re-configures this font, in case it has been changed.",
-					"code": "ui_font(#face, size, bold, italics);\n\nui_text(\"Hello, world!\");"
+					"code": "ui_font(#face, size, bold, italics);\n\nui_text(\"Hello, world!\");",
+					"screenshot": "images/ui_font.png"
 				}
 			]
 		},
@@ -535,7 +552,8 @@
 						"function": "ui_fill",
 						"args": []
 					},
-					"text": "Fills the viewport with the current colour."
+					"text": "Fills the viewport with the current colour.",
+					"screenshot": "images/ui_fill.png"
 				},
 				{
 					"title": "ui_border() and others",
@@ -546,7 +564,8 @@
 						{"function": "ui_border_left"},
 						{"function": "ui_border_right"}
 					],
-					"text": "Draws a border in the current colour."
+					"text": "Draws a border in the current colour.",
+					"screenshot": "images/ui_border.png"
 				},
 				{
 					"title": "Plotting graphs",
@@ -589,7 +608,8 @@
 					],
 					"code": "i = 0;\nwhile (i < api_buffer_length) (\n\tapi_buffer[i] = sin((i/api_buffer_length*2)*2*$pi);\n\ti += 1\n);\n\nui_graph(api_buffer, api_buffer_length, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(api_buffer, api_buffer_length>>6, 64, offset, min_y, max_y);\n\n",
 					"displayCode": "ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(buffer, 16, 64, offset, min_y, max_y);\n\n",
-					"text": "Plots a graph from a buffer.  If min_y and max_y are the same, the graph is centered around that value, and auto-scaled to fit the data."
+					"text": "Plots a graph from a buffer.  If min_y and max_y are the same, the graph is centered around that value, and auto-scaled to fit the data.",
+					"screenshot": "images/ui_graph.png"
 				},
 				{
 					"api": {
@@ -610,7 +630,8 @@
 						"function": "ui_text",
 						"args": {"type": "text", "name": "#text", "start": "here is some text"}
 					},
-					"text": "Draws text into the viewport, using the current alignment.\n\nText not wrapped, but is shrunk to fit the space if necessary."
+					"text": "Draws text into the viewport, using the current alignment.\n\nText not wrapped, but is shrunk to fit the space if necessary.",
+					"screenshot": ["images/ui_text.png", "images/ui_text-scaling.png"]
 				},
 				{
 					"api": [
@@ -629,7 +650,8 @@
 					"displayCode": "height = ui_wraptext(#longtext);",
 					"code": "height = ui_wraptext(\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum molestie facilisis enim at imperdiet. Cras molestie tristique purus ut cursus. Duis sagittis nisl id urna luctus posuere. Duis vel lorem aliquam, condimentum tellus quis, placerat risus. Duis auctor libero ante, nec bibendum ante volutpat ac.\");",
 					"params": [],
-					"return": {"type": "int", "name": "height"}
+					"return": {"type": "int", "name": "height"},
+					"screenshot": "images/ui_wraptext.png"
 				},
 				{
 					"api": {
@@ -664,7 +686,9 @@
 							{"type": "text", "name": "#format", "start": "%.2f", "default": "%f"}
 						]
 					},
-					"text": "Formats a number using sprintf() formats, and draws it using ui_text()."
+					"params": {"name": "number", "min": -100, "max": 100, "start": 3.14159265359},
+					"text": "Formats a number using sprintf() formats, and draws it using ui_text().",
+					"screenshot": "images/ui_textnumber.png"
 				},
 				{
 					"api": {
@@ -901,14 +925,16 @@
 							],
 							"text": "These help you create custom controls that fit into the theme, by drawing a background and an overlay in the appropriate style, including setting an appropriate ui_color().\n\nIf state is omitted (\"auto\"), it is calculated using the current mouse interaction.  However when creating a composite control it's useful to have a shared state (e.g. when any part of the control is pressed, the whole control displays as pressed).",
 							"code": "ui_split_topratio(1/6);\n\tui_pad();\n\tcontrol_background_enabled(state);\n\tui_text(\"enabled\");\n\tcontrol_finish_enabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_enabled_circle(state);\n\tui_text(\"circle\");\n\tcontrol_finish_enabled_circle(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_disabled(state);\n\tui_text(\"disabled\");\n\tcontrol_finish_disabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_passive(state);\n\tui_text(\"passive\");\n\tcontrol_finish_passive(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_inset(state);\n\tui_text(\"inset\");\n\tcontrol_finish_inset(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_technical(state);\n\tui_text(\"technical\");\n\tcontrol_finish_technical(state);\nui_pop();",
-							"params": [{"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}]
+							"params": [{"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}],
+							"screenshot": ["images/custom-themed-controls-default.png", "images/custom-themed-controls-tron.png", "images/custom-themed-controls-black.png"]
 						},
 						{
 							"api": {
 								"function": "control_arrow",
 								"args": {"name": "direction", "type": "enum", "enum": ["left", "up", "right", "down"], "default": "down"}
 							},
-							"text": "Draws a triangle in the current viewport, using the current colour."
+							"text": "Draws a triangle in the current viewport, using the current colour.",
+							"screenshot": "images/control_arrow.png"
 						}
 					]
 				},
@@ -930,7 +956,8 @@
 							],
 							"text": "Draws a navigation bar at the top of the viewport.  This is probably the first thing you want to draw.\n\nIf this is not the first screen on the screen stack, it automatically adds a \"back\" button which returns to the screen below.  If parameters for the next screen are supplied, a button drawn on the opposite side to the \"back\" button. When pressed, it opens the screen with the given ID.\n\nThe returned action is 0 if nothing was clicked and it expects to stay on this screen, -1 if \"back\" was clicked, and 1 if the next screen was clicked.  These screens will be closed/opened automatically, so you only need to check if you want to perform an additional action (such as saving results or writing screen arguments).  This also means that any screen arguments should be read *before* the call to control_navbar(), or they might be read from the incorrect screen.",
 							"params": [{"name": "#title", "default": "screen title"}, {"name": "#next_title", "default": "screen title"}],
-							"code": "control_navbar(#title, #next_title, \"options\");\n\nui_text(\"screen contents go here\");"
+							"code": "control_navbar(#title, #next_title, \"options\");\n\nui_text(\"screen contents go here\");",
+							"screenshot": "images/control_navbar.png"
 						},
 						{
 							"api": [
@@ -957,12 +984,14 @@
 							],
 							"text": "Decorates the viewport to be a dialog.  Afterwards, the viewport is inside the area of the dialog.  This is probably the first thing you want to draw inside your screen.\n\nThe returned action is 0 if nothing was clicked and it expects to stay on this screen, -1 if \"cancel\" was clicked, and 1 if \"OK\" was clicked - if either of these is clicked, the screen will close itself, so you only need to check if you want to perform an additional action (such as saving results or writing screen arguments).  This also means that any screen arguments should be read *before* the call to control_navbar(), or they might be read from the incorrect screen.\n\nIf \"cancel\" is omitted, then no cancel button will be displayed.",
 							"params": [{"name": "#title", "default": "screen title"}, {"name": "#ok", "default": "OK"}, {"name": "has_cancel", "type": "bool", "default": 1}, {"name": "#cancel", "default": "cancel"}],
-							"code": "has_cancel ? (\n\tcontrol_dialog(#title, #ok, #cancel);\n) : (\n\tcontrol_dialog(#title, #ok);\n);\n\nui_text(\"dialog contents go here\");"
+							"code": "has_cancel ? (\n\tcontrol_dialog(#title, #ok, #cancel);\n) : (\n\tcontrol_dialog(#title, #ok);\n);\n\nui_text(\"dialog contents go here\");",
+							"screenshot": "images/control_dialog.png"
 						},
 						{
 							"api": {"function": "control_group", "args": {"type": "text", "name": "#label", "start": "group label"}},
 							"text": "This draws a labelled group indicator in the current viewport, and adds padding so that elements are placed inside this group.",
-							"code": "control_group(#label);ui_text(\"Control group contents\");"
+							"code": "control_group(#label);ui_text(\"Control group contents\");",
+							"screenshot": "images/control_group.png"
 						}
 					]
 				},
@@ -974,7 +1003,8 @@
 								{"function": "control_readout", "args": {"type": "text", "name": "#text", "start": "text value"}},
 								{"function": "control_readoutnumber", "args": [{"name": "value"}, {"name": "format", "type": "text", "default": "%f"}]}
 							],
-							"text": "Displays a non-interactive value display (\"inset\" style)."
+							"text": "Displays a non-interactive value display (\"inset\" style).",
+							"screenshot": "images/control_readout.png"
 						},
 						{
 							"api": {
@@ -984,7 +1014,8 @@
 							},
 							"text": "Displays a button (\"enabled\" style).  Triggers on mouse-up, and returns the time since mouse-down, or 0 if there was no click.\n\nIf \"enabled\" is 0, it is drawn using \"disabled\" style, and always returns 0 (ignoring clicks).",
 							"return": [{"name": "click"}, {"name": "click_total"}],
-							"code": "click = control_button(#text, enabled);\nclick_total += click;"
+							"code": "click = control_button(#text, enabled);\nclick_total += click;",
+							"screenshot": "images/control_button.png"
 						},
 						{
 							"api": {
@@ -994,7 +1025,8 @@
 							},
 							"text": "Displays a selector for switching between a fixed number of values.  If next_value or prev_value are equal to the current value, their corresponding controls are greyed-out.",
 							"params": [],
-							"code": "sprintf(#selector_text, \"option #%i\", value);\n// increment, maximum 10\nnext_value = min(10, value + 1);\n// decrement, minimum 0\nprev_value = max(0, value - 1);\n\nvalue = control_selector(value, #selector_text,\n\t\tnext_value, prev_value);"
+							"code": "sprintf(#selector_text, \"option #%i\", value);\n// increment, maximum 10\nnext_value = min(10, value + 1);\n// decrement, minimum 0\nprev_value = max(0, value - 1);\n\nvalue = control_selector(value, #selector_text,\n\t\tnext_value, prev_value);",
+							"screenshot": "images/control_selector.png"
 						},
 						{
 							"api": {
@@ -1003,7 +1035,8 @@
 								"return": {"name": "bool_value", "type": "bool", "start": 1}
 							},
 							"params": [],
-							"text": "Displays an on/off switch for a boolean value."
+							"text": "Displays an on/off switch for a boolean value.",
+							"screenshot": "images/control_switch.gif"
 						}
 					]
 				},
@@ -1034,7 +1067,8 @@
 					"text": "Draws a horizontal or vertical slider.\n\nThe \"curve\" parameter determines how the visual position of the slider corresponds to the actual values.  Positive values give more accuracy on the left/top side, negative on the right/bottom.  For a logarithmic scale, use curve=log(left_value/right_value).\n\nSliders with a particular side (e.g. \"left\") will show a link between the current value and that side.  control_slider_x() and control_slider_y() will not show that link, but *may* show a link between the current value and the default value, if one is provided.",
 					"params": [],
 					"return": {"name": "value", "start": 0.5},
-					"code": "ui_split_topratio(1/4);\n\tui_split_left(50);\n\t\tui_text(\"curve=0\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 0, 0.5);\nui_split_next();\n\tui_split_left(50);\n\t\tui_text(\"curve=2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 2, 0.5);\nui_split_next();\n\tui_split_left(50);\n\t\tui_text(\"curve=-2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, -2, 0.5);\nui_split_next();\n\tui_split_left(50);\n\t\tui_text(\"slider_x\");\n\tui_pop();\n\tvalue = control_slider_x(value, 0, 1, 0, 0.5);\nui_pop();"
+					"code": "ui_split_topratio(1/4);\n\tui_split_left(70);\n\t\tui_text(\"curve=0\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 0, 0.5);\nui_split_next();\n\tui_split_left(70);\n\t\tui_text(\"curve=2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 2, 0.5);\nui_split_next();\n\tui_split_left(70);\n\t\tui_text(\"curve=-2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, -2, 0.5);\nui_split_next();\n\tui_split_left(70);\n\t\tui_text(\"slider_x\");\n\tui_pop();\n\tvalue = control_slider_x(value, 0, 1, 0, 0.5);\nui_pop();",
+					"screenshot": "images/sliders.gif"
 				},
 				{
 					"title": "Dials",
@@ -1058,7 +1092,8 @@
 					"text": "Draws a rotating dial.  The \"curve\" parameter works the same was as for sliders.\n\nLike sliders, control_dial_left() will show a link between the current value and the left value, and control_slider() will not show that link (but may show a link to the default value).\n\ncontrol_dial_angle() provides a dial that can rotate freely, returning a value between 0 and 2*PI, where 0 is vertical.",
 					"params": [],
 					"return": [{"name": "value", "start": 0.5}, {"name": "angle", "start": 0}],
-					"code": "ui_split_topratio(1/3);\n\tvalue = control_dial_left(value, 0, 1);\nui_split_next();\n\tvalue = control_dial(value, 0, 1);\nui_split_next();\n\tangle = control_dial_angle(angle, 0);\nui_pop();"
+					"code": "ui_split_topratio(1/3);\n\tvalue = control_dial_left(value, 0, 1);\nui_split_next();\n\tvalue = control_dial(value, 0, 1);\nui_split_next();\n\tangle = control_dial_angle(angle, 0);\nui_pop();",
+					"screenshot": "images/dials.png"
 				},
 				{
 					"title": "Text inputs",
@@ -1072,7 +1107,8 @@
 							},
 							"params": [],
 							"return": {"name": "#text", "start": "text input value"},
-							"text": "Draws a text input, constantly updating the mutable string #text."
+							"text": "Draws a text input, constantly updating the mutable string #text.",
+							"screenshot": "images/control_textinput.png"
 						},
 						{
 							"api": {

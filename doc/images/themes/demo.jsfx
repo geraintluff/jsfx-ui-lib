@@ -1,0 +1,121 @@
+desc:JSFX UI Theme Demo
+import ui-lib.jsfx-inc
+options:want_all_kb
+
+@init
+freemem = ui_setup(0);
+
+buffer_length = 256;
+buffer = freemem;
+freemem += buffer;
+
+// Default theme
+theme = "default";
+
+// Default values for inputs
+demo2 = $pi/4;
+strcpy(#demo_input, "Text input");
+
+@block
+
+// Put something interesting in the buffer
+i = 0;
+angle = time_precise();
+while (i < buffer_length) (
+	buffer[i] = sin(angle + (i/buffer_length)*2*$pi);
+	i += 1;
+);
+
+@gfx 550 450
+ 
+control_start("menu", theme);
+
+ui_screen() == "showcase" ? (
+	ui_padding(12, 12);
+	control_navbar("UI Library Demo", "change theme", "theme-switcher");
+	ui_split_leftratio(0.7);
+		ui_split_bottomratio(0.3);
+			control_group("horizontal slider");
+			ui_push_height(30);
+				demo1 = control_hslider(demo1, -1, 1, -1);
+			ui_pop();
+		ui_pop();
+		ui_split_leftratio(1/3);
+			control_group("slider");
+			ui_push_width(30);
+				demo1 = control_vslider(demo1, -1, 1, 0);
+			ui_pop();
+		ui_split_next();
+			control_group("dials");
+			ui_split_topratio(0.5);
+				ui_push_height(50);
+					demo1 = control_dial(demo1, -1, 1, 0);
+				ui_pop();
+				ui_push_below(50);
+					ui_textnumber(demo1*100, "%i%%");
+				ui_pop();
+			ui_split_next();
+				ui_push_height(50);
+					demo2 = control_dial_angle(demo2);
+				ui_pop();
+				ui_push_below(50);
+					ui_textnumber((demo2/$pi*180 + 180)%360 - 180, "%i deg");
+				ui_pop();
+			ui_pop();
+		ui_split_next();
+			control_group("");
+			ui_split_topratio(1/4);
+				ui_push_heighttext(-1);
+					control_button("Button") ? demo_counter += 1;
+				ui_pop();
+			ui_split_next();
+				ui_push_heighttext(-1);
+					control_indicator_button("Disabled", 0);
+				ui_pop();
+			ui_split_next();
+				ui_push_heighttext(-1);
+					sprintf(#demo, "clicked: %i", demo_counter);
+					control_readout(#demo);
+				ui_pop();
+			ui_split_next();
+				ui_push_heighttext(-1);
+					sprintf(#demo, "%i", demo_counter);
+					demo_counter = control_selector(demo_counter, #demo, demo_counter + 1, max(0, demo_counter - 1));
+				ui_pop();
+			ui_pop();
+		ui_pop();
+	ui_pop();
+
+	ui_split_bottomratio(0.3);
+		ui_pad();
+		control_background_technical();
+		ui_graph(buffer, buffer_length, -1, 1);
+		control_finish_technical();
+	ui_pop();
+	
+	control_group("text");
+	ui_split_topratio(1/5);
+		ui_wraptext("This text wraps to fit the available horizontal space");
+	ui_split_next();
+		ui_text("This text scales down to fit");
+	ui_split_next();
+		ui_align(0, 0.5);
+		ui_text("Left-aligned text");
+	ui_split_next();
+		ui_align(1, 0.5);
+		ui_text("Right-aligned text");
+	ui_split_next();
+		ui_push_heighttext(-1);
+			demo_input1 = control_textinput(#demo_input, demo_input1);
+		ui_pop();
+	ui_pop();
+) : ui_screen() == "theme-switcher" ? (
+	control_dialog("Popup dialog", 150, 150, "OK", -1);
+	ui_split_topratio(1/3);
+		control_button("default") ? theme = "default";
+	ui_split_next();
+		control_button("black") ? theme = "black";
+	ui_split_next();
+		control_button("tron") ? theme = "tron";
+	ui_pop();
+) : control_system();
