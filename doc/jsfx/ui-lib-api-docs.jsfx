@@ -54,57 +54,17 @@ ui_screen() == "options" ? (
 		ui_pop();
 	ui_split_toptext(-1);
 			ui_push_widthratio(0.5);
-				control_button("Setup, screens and errors") ? (
-					ui_screen_open("section-setup-screens-and-errors");
-					section-setup-screens-and-errors_setup = 0;
+				control_button("The basics") ? (
+					ui_screen_open("section-the-basics");
+					section-the-basics_setup = 0;
 				);
 			ui_pop();
 		ui_pop();
 	ui_split_toptext(-1);
 			ui_push_widthratio(0.5);
-				control_button("The viewport stack") ? (
-					ui_screen_open("section-the-viewport-stack");
-					section-the-viewport-stack_setup = 0;
-				);
-			ui_pop();
-		ui_pop();
-	ui_split_toptext(-1);
-			ui_push_widthratio(0.5);
-				control_button("Drawing state") ? (
-					ui_screen_open("section-drawing-state");
-					section-drawing-state_setup = 0;
-				);
-			ui_pop();
-		ui_pop();
-	ui_split_toptext(-1);
-			ui_push_widthratio(0.5);
-				control_button("Drawing") ? (
-					ui_screen_open("section-drawing");
-					section-drawing_setup = 0;
-				);
-			ui_pop();
-		ui_pop();
-	ui_split_toptext(-1);
-			ui_push_widthratio(0.5);
-				control_button("Text") ? (
-					ui_screen_open("section-text");
-					section-text_setup = 0;
-				);
-			ui_pop();
-		ui_pop();
-	ui_split_toptext(-1);
-			ui_push_widthratio(0.5);
-				control_button("User input") ? (
-					ui_screen_open("section-user-input");
-					section-user-input_setup = 0;
-				);
-			ui_pop();
-		ui_pop();
-	ui_split_toptext(-1);
-			ui_push_widthratio(0.5);
-				control_button("Themed controls") ? (
-					ui_screen_open("section-themed-controls");
-					section-themed-controls_setup = 0;
+				control_button("Rich controls") ? (
+					ui_screen_open("section-rich-controls");
+					section-rich-controls_setup = 0;
 				);
 			ui_pop();
 		ui_pop();
@@ -191,6 +151,61 @@ ui_screen() == "options" ? (
 				ui_text("ui_border();\nui_pad();\n\nui_push_height(100);\n\t// new viewport has smaller height\n\tui_color(192, 128, 0);\n\tui_border();\n\tui_pad();\n\n\tui_split_left(80);\n\t\tui_color(0, 215, 215);\n\t\tui_fill();\n\tui_pop();\n\n\t// remaining viewport is now smaller\n\t// because we used ui_split_left() above\n\tui_color(215, 0, 215);\n\tui_border();\n\tui_text(\"some text\");\nui_pop();");
 			ui_pop();
 			control_finish_technical();
+		ui_pop();
+) : ui_screen() == "section-the-basics" ? (
+	control_navbar("The basics", "options", "options");
+	ui_pad();
+	ui_align(0, 0);
+	ui_padtop(ui_wraptext("Any function named ui_*() attempts to be less opinionated about display.  These functions handle layout, colours, basic text and mouse/keyboard interaction."));
+	ui_padtop(ui_texth());
+	ui_align(0.5, 0.5);
+	ui_split_toptext(-1);
+			ui_push_widthratio(0.5);
+				control_button("Setup, screens and errors") ? (
+					ui_screen_open("section-setup-screens-and-errors");
+					section-setup-screens-and-errors_setup = 0;
+				);
+			ui_pop();
+		ui_pop();
+	ui_split_toptext(-1);
+			ui_push_widthratio(0.5);
+				control_button("The viewport stack") ? (
+					ui_screen_open("section-the-viewport-stack");
+					section-the-viewport-stack_setup = 0;
+				);
+			ui_pop();
+		ui_pop();
+	ui_split_toptext(-1);
+			ui_push_widthratio(0.5);
+				control_button("Drawing state") ? (
+					ui_screen_open("section-drawing-state");
+					section-drawing-state_setup = 0;
+				);
+			ui_pop();
+		ui_pop();
+	ui_split_toptext(-1);
+			ui_push_widthratio(0.5);
+				control_button("Drawing") ? (
+					ui_screen_open("section-drawing");
+					section-drawing_setup = 0;
+				);
+			ui_pop();
+		ui_pop();
+	ui_split_toptext(-1);
+			ui_push_widthratio(0.5);
+				control_button("Text") ? (
+					ui_screen_open("section-text");
+					section-text_setup = 0;
+				);
+			ui_pop();
+		ui_pop();
+	ui_split_toptext(-1);
+			ui_push_widthratio(0.5);
+				control_button("User input") ? (
+					ui_screen_open("section-user-input");
+					section-user-input_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
 ) : ui_screen() == "section-setup-screens-and-errors" ? (
 	control_navbar("Setup, screens and errors", "options", "options");
@@ -497,6 +512,10 @@ ui_screen() == "options" ? (
 ) : ui_screen() == "section-the-viewport-stack" ? (
 	control_navbar("The viewport stack", "options", "options");
 	ui_pad();
+	ui_align(0, 0);
+	ui_padtop(ui_wraptext("The library keeps an internal stack of viewport/drawing states.  These include viewport position (area of the screen that is currently being drawn to), colours, fonts, and so on.\n\nSome functions modify the current drawing state (such as changing colour), but layout is generally done by pushing a new viewport/state onto the stack with the desired modifications.\n\nWhen a state is popped off the stack, the active drawing state (e.g. viewport position, colours) return to their previous values.\n\nIn the code examples, we use indentation to help clarify the current depth of the stack."));
+	ui_padtop(ui_texth());
+	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
 			ui_push_widthratio(0.5);
 				control_button("Pushing, popping and splitting") ? (
@@ -608,13 +627,18 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		ui_push();
-			// Indenting can help keep track of the stack
-			ui_color(255, 0, 255);
-		ui_pop();
+		// stack starts with just 1 state
 		
-		// Draws in default colour, because
-		// we popped the altered one off
+		ui_push();
+			// stack is now 2 levels deep
+			ui_color(255, 0, 255);
+			ui_border(); // draws in purple
+		ui_pop();
+		// stack is now 1 deep again
+		
+		// The colour change above applied
+		// to the state we popped off,
+		// so this draws in default colour
 		ui_text("some text");
 	ui_pop();
 	ui_push();
@@ -623,7 +647,7 @@ ui_screen() == "options" ? (
 				ui_pad();
 				ui_font("Courier New", 14, 1, 0);
 				ui_align(0, 0.5);
-				ui_text("ui_push();\n\t// Indenting can help keep track of the stack\n\tui_color(255, 0, 255);\nui_pop();\n\n// Draws in default colour, because\n// we popped the altered one off\nui_text(\"some text\");");
+				ui_text("// stack starts with just 1 state\n\nui_push();\n\t// stack is now 2 levels deep\n\tui_color(255, 0, 255);\n\tui_border(); // draws in purple\nui_pop();\n// stack is now 1 deep again\n\n// The colour change above applied\n// to the state we popped off,\n// so this draws in default colour\nui_text(\"some text\");");
 			ui_pop();
 			control_finish_technical();
 		ui_pop();
@@ -3112,9 +3136,13 @@ ui_screen() == "options" ? (
 			ui_pop();
 			control_finish_technical();
 		ui_pop();
-) : ui_screen() == "section-themed-controls" ? (
-	control_navbar("Themed controls", "options", "options");
+) : ui_screen() == "section-rich-controls" ? (
+	control_navbar("Rich controls", "options", "options");
 	ui_pad();
+	ui_align(0, 0);
+	ui_padtop(ui_wraptext("The functions in this section provide a common set of rich interactive controls.\n\nThey have a distinct visual look (see ui_start()/control_start() for how to choose a theme), and attempt to present consistent interactions (e.g. double-click to reset to default value, drag up/down to adjust dials)."));
+	ui_padtop(ui_texth());
+	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
 			ui_push_widthratio(0.5);
 				control_button("Drawing your own controls") ? (
@@ -3172,17 +3200,17 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
 			ui_push_widthratio(0.5);
-				control_button("control_state") ? (
-					ui_screen_open("section-control_state");
-					section-control_state_setup = 0;
+				control_button("Styling for custom controls") ? (
+					ui_screen_open("section-styling-for-custom-controls");
+					section-styling-for-custom-controls_setup = 0;
 				);
 			ui_pop();
 		ui_pop();
 	ui_split_toptext(-1);
 			ui_push_widthratio(0.5);
-				control_button("Styling for custom controls") ? (
-					ui_screen_open("section-styling-for-custom-controls");
-					section-styling-for-custom-controls_setup = 0;
+				control_button("control_state") ? (
+					ui_screen_open("section-control_state");
+					section-control_state_setup = 0;
 				);
 			ui_pop();
 		ui_pop();
@@ -3193,49 +3221,6 @@ ui_screen() == "options" ? (
 					section-control_arrow_setup = 0;
 				);
 			ui_pop();
-		ui_pop();
-) : ui_screen() == "section-control_state" ? (
-	control_navbar("control_state", "options", "options");
-	ui_pad();
-	api_print_function_signature("state = control_state();");
-	ui_padtop();
-	ui_align(0, 0);
-	ui_padtop(ui_wraptext("This returns the current mouse-interaction state of the current viewport.\n\nThese values match what can be passed into control_background_*() and control_finish_*().  This lets you assemble a composite control that shares a single press/hover/drag state.\n\nReported states are \"press\", \"hover\", \"drag\" and \"none\", in that order of precedence - so if the user has clicked and dragged, but is still within the control (so it counts as a press), then it will report \"press\"."));
-	ui_padtop(ui_texth());
-	ui_align(0.5, 0.5);
-	ui_split_rightratio(0.5);
-		ui_padleft();
-		!section-control_state_setup ? (
-			section-control_state_setup = 1;
-		);
-		ui_border();
-		state = control_state();strcpy(#state, state);
-	ui_pop();
-	ui_split_bottom(44);
-		ui_pad(-1, 0);
-			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#state: ");
-			ui_pop();
-		
-			ui_pad(0, -0.5);
-			control_background_inset();
-			ui_push();
-				ui_padleft();
-				ui_align(0, 0.5);
-			ui_text(#state);
-		ui_pop();
-		control_finish_inset();
-	ui_pop();
-	ui_push();
-			control_background_technical();
-			ui_push_clip();
-				ui_pad();
-				ui_font("Courier New", 14, 1, 0);
-				ui_align(0, 0.5);
-				ui_text("state = control_state();");
-			ui_pop();
-			control_finish_technical();
 		ui_pop();
 ) : ui_screen() == "section-styling-for-custom-controls" ? (
 	control_navbar("Styling for custom controls", "options", "options");
@@ -3339,6 +3324,49 @@ ui_screen() == "options" ? (
 				ui_font("Courier New", 14, 1, 0);
 				ui_align(0, 0.5);
 				ui_text("ui_split_topratio(1/6);\n\tui_pad();\n\tcontrol_background_enabled(state);\n\tui_text(\"enabled\");\n\tcontrol_finish_enabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_enabled_circle(state);\n\tui_text(\"circle\");\n\tcontrol_finish_enabled_circle(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_disabled(state);\n\tui_text(\"disabled\");\n\tcontrol_finish_disabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_passive(state);\n\tui_text(\"passive\");\n\tcontrol_finish_passive(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_inset(state);\n\tui_text(\"inset\");\n\tcontrol_finish_inset(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_technical(state);\n\tui_text(\"technical\");\n\tcontrol_finish_technical(state);\nui_pop();");
+			ui_pop();
+			control_finish_technical();
+		ui_pop();
+) : ui_screen() == "section-control_state" ? (
+	control_navbar("control_state", "options", "options");
+	ui_pad();
+	api_print_function_signature("state = control_state();");
+	ui_padtop();
+	ui_align(0, 0);
+	ui_padtop(ui_wraptext("This returns the current mouse-interaction state of the current viewport.\n\nThese values match what can be passed into control_background_*() and control_finish_*().  This lets you assemble a composite control that shares a single press/hover/drag state.\n\nReported states are \"press\", \"hover\", \"drag\" and \"none\", in that order of precedence - so if the user has clicked and dragged, but is still within the control (so it counts as a press), then it will report \"press\"."));
+	ui_padtop(ui_texth());
+	ui_align(0.5, 0.5);
+	ui_split_rightratio(0.5);
+		ui_padleft();
+		!section-control_state_setup ? (
+			section-control_state_setup = 1;
+		);
+		ui_border();
+		state = control_state();strcpy(#state, state);
+	ui_pop();
+	ui_split_bottom(44);
+		ui_pad(-1, 0);
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("#state: ");
+			ui_pop();
+		
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
+			ui_text(#state);
+		ui_pop();
+		control_finish_inset();
+	ui_pop();
+	ui_push();
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("state = control_state();");
 			ui_pop();
 			control_finish_technical();
 		ui_pop();

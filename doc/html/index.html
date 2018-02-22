@@ -129,13 +129,8 @@
 	</div>
 	<ul class="child-links">
 		<li><a href="#section-introduction">Introduction</a></li>
-		<li><a href="#section-setup-screens-and-errors">Setup, screens and errors</a></li>
-		<li><a href="#section-the-viewport-stack">The viewport stack</a></li>
-		<li><a href="#section-drawing-state">Drawing state</a></li>
-		<li><a href="#section-drawing">Drawing</a></li>
-		<li><a href="#section-text">Text</a></li>
-		<li><a href="#section-user-input">User input</a></li>
-		<li><a href="#section-themed-controls">Themed controls</a></li>
+		<li><a href="#section-the-basics">The basics</a></li>
+		<li><a href="#section-rich-controls">Rich controls</a></li>
 	</ul>
 	<div class="children">
 <section id="section-introduction">
@@ -208,8 +203,23 @@ ui_pop();</code></pre>
 </section>
 	</div><!-- children for section-introduction-->
 </section>
-<section id="section-setup-screens-and-errors">
+<section id="section-the-basics">
 	<a class="back-link" href="#section-index">⇧</a>
+	<h2><a class="self-link" href="#section-the-basics">The basics</a></h2>
+	<div class="about">
+		<p>Any function named ui_*() attempts to be less opinionated about display.  These functions handle layout, colours, basic text and mouse/keyboard interaction.</p>
+	</div>
+	<ul class="child-links">
+		<li><a href="#section-setup-screens-and-errors">Setup, screens and errors</a></li>
+		<li><a href="#section-the-viewport-stack">The viewport stack</a></li>
+		<li><a href="#section-drawing-state">Drawing state</a></li>
+		<li><a href="#section-drawing">Drawing</a></li>
+		<li><a href="#section-text">Text</a></li>
+		<li><a href="#section-user-input">User input</a></li>
+	</ul>
+	<div class="children">
+<section id="section-setup-screens-and-errors">
+	<a class="back-link" href="#section-the-basics">⇧</a>
 	<h2><a class="self-link" href="#section-setup-screens-and-errors">Setup, screens and errors</a></h2>
 	<div class="about">
 		<p>These functions provide a framework for everything else in the library.</p>
@@ -455,8 +465,14 @@ ui_screen() == "main" ? (
 	</div><!-- children for section-setup-screens-and-errors-->
 </section>
 <section id="section-the-viewport-stack">
-	<a class="back-link" href="#section-index">⇧</a>
+	<a class="back-link" href="#section-the-basics">⇧</a>
 	<h2><a class="self-link" href="#section-the-viewport-stack">The viewport stack</a></h2>
+	<div class="about">
+		<p>The library keeps an internal stack of viewport/drawing states.  These include viewport position (area of the screen that is currently being drawn to), colours, fonts, and so on.</p>
+		<p>Some functions modify the current drawing state (such as changing colour), but layout is generally done by pushing a new viewport/state onto the stack with the desired modifications.</p>
+		<p>When a state is popped off the stack, the active drawing state (e.g. viewport position, colours) return to their previous values.</p>
+		<p>In the code examples, we use indentation to help clarify the current depth of the stack.</p>
+	</div>
 	<ul class="child-links">
 		<li><a href="#section-pushing-popping-and-splitting">Pushing, popping and splitting</a></li>
 		<li><a href="#section-get-viewport-position">Get viewport position</a></li>
@@ -490,13 +506,18 @@ ui_screen() == "main" ? (
 		<p>ui_pop() removes the top later of the viewport/state stack.</p>
 	</div>
 	<div class="subsection"><h3>Example:</h3>
-<pre class="code-example"><code>ui_push();
-	// Indenting can help keep track of the stack
-	ui_color(255, 0, 255);
-ui_pop();
+<pre class="code-example"><code>// stack starts with just 1 state
 
-// Draws in default colour, because
-// we popped the altered one off
+ui_push();
+	// stack is now 2 levels deep
+	ui_color(255, 0, 255);
+	ui_border(); // draws in purple
+ui_pop();
+// stack is now 1 deep again
+
+// The colour change above applied
+// to the state we popped off,
+// so this draws in default colour
 ui_text("some text");</code></pre>
 		<div class="screenshots screenshots-1">
 			<a href="../images/ui_push.png" target="_blank"><img class="screenshot" src="../images/ui_push.png"></a>
@@ -934,7 +955,7 @@ ui_border();</code></pre>
 	</div><!-- children for section-the-viewport-stack-->
 </section>
 <section id="section-drawing-state">
-	<a class="back-link" href="#section-index">⇧</a>
+	<a class="back-link" href="#section-the-basics">⇧</a>
 	<h2><a class="self-link" href="#section-drawing-state">Drawing state</a></h2>
 	<ul class="child-links">
 		<li><a href="#section-colour">Colour</a></li>
@@ -1036,7 +1057,7 @@ ui_text("Hello, world!");</code></pre>
 	</div><!-- children for section-drawing-state-->
 </section>
 <section id="section-drawing">
-	<a class="back-link" href="#section-index">⇧</a>
+	<a class="back-link" href="#section-the-basics">⇧</a>
 	<h2><a class="self-link" href="#section-drawing">Drawing</a></h2>
 	<div class="about">
 		<p>Although the default colours vary, these drawing functions are theme-independent.</p>
@@ -1149,7 +1170,7 @@ ui_start("main");
 	</div><!-- children for section-drawing-->
 </section>
 <section id="section-text">
-	<a class="back-link" href="#section-index">⇧</a>
+	<a class="back-link" href="#section-the-basics">⇧</a>
 	<h2><a class="self-link" href="#section-text">Text</a></h2>
 	<div class="about">
 		<p>Although the default fonts/etc. vary, these functions are theme-independent.</p>
@@ -1297,7 +1318,7 @@ text_height = ui_text_height(#text);</code></pre>
 	</div><!-- children for section-text-->
 </section>
 <section id="section-user-input">
-	<a class="back-link" href="#section-index">⇧</a>
+	<a class="back-link" href="#section-the-basics">⇧</a>
 	<h2><a class="self-link" href="#section-user-input">User input</a></h2>
 	<ul class="child-links">
 		<li><a href="#section-mouse">Mouse</a></li>
@@ -1598,9 +1619,15 @@ lastchar = char ? char : lastchar;</code></pre>
 </section>
 	</div><!-- children for section-user-input-->
 </section>
-<section id="section-themed-controls">
+	</div><!-- children for section-the-basics-->
+</section>
+<section id="section-rich-controls">
 	<a class="back-link" href="#section-index">⇧</a>
-	<h2><a class="self-link" href="#section-themed-controls">Themed controls</a></h2>
+	<h2><a class="self-link" href="#section-rich-controls">Rich controls</a></h2>
+	<div class="about">
+		<p>The functions in this section provide a common set of rich interactive controls.</p>
+		<p>They have a distinct visual look (see ui_start()/control_start() for how to choose a theme), and attempt to present consistent interactions (e.g. double-click to reset to default value, drag up/down to adjust dials).</p>
+	</div>
 	<ul class="child-links">
 		<li><a href="#section-drawing-your-own-controls">Drawing your own controls</a></li>
 		<li><a href="#section-screen-decoration-and-layout">Screen decoration and layout</a></li>
@@ -1611,37 +1638,17 @@ lastchar = char ? char : lastchar;</code></pre>
 	</ul>
 	<div class="children">
 <section id="section-drawing-your-own-controls">
-	<a class="back-link" href="#section-themed-controls">⇧</a>
+	<a class="back-link" href="#section-rich-controls">⇧</a>
 	<h2><a class="self-link" href="#section-drawing-your-own-controls">Drawing your own controls</a></h2>
 	<div class="about">
 		<p>No UI library can provide everything, so it provides some ways to draw custom controls that fit into the theme.</p>
 	</div>
 	<ul class="child-links">
-		<li><a href="#section-control_state"><code>control_state()</code></a></li>
 		<li><a href="#section-styling-for-custom-controls">Styling for custom controls</a></li>
+		<li><a href="#section-control_state"><code>control_state()</code></a></li>
 		<li><a href="#section-control_arrow"><code>control_arrow()</code></a></li>
 	</ul>
 	<div class="children">
-<section id="section-control_state">
-	<a class="back-link" href="#section-drawing-your-own-controls">⇧</a>
-	<h2><a class="self-link" href="#section-control_state"><code>control_state()</code></a></h2>
-	<div class="definitions">
-<a class="definition-permalink" href="#api-control_state-0">#</a>		<pre class="definition" id="api-control_state-0"><code><span class="function-return function-type-enum">state</span> = <span class="function-name">control_state</span>()</code></pre>
-		<div class="subsection">
-			<ul class="function-arg-list">
-				<li><code class="function-arg function-type-enum">state</code> - &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot; or &quot;none&quot;</li>
-			</ul>
-			</div>
-	</div>
-	<div class="about">
-		<p>This returns the current mouse-interaction state of the current viewport.</p>
-		<p>These values match what can be passed into control_background_*() and control_finish_*().  This lets you assemble a composite control that shares a single press/hover/drag state.</p>
-		<p>Reported states are &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot; and &quot;none&quot;, in that order of precedence - so if the user has clicked and dragged, but is still within the control (so it counts as a press), then it will report &quot;press&quot;.</p>
-	</div>
-	<div class="subsection"><h3>Example:</h3>
-<pre class="code-example"><code>state = control_state();</code></pre>
-	</div>
-</section>
 <section id="section-styling-for-custom-controls">
 	<a class="back-link" href="#section-drawing-your-own-controls">⇧</a>
 	<h2><a class="self-link" href="#section-styling-for-custom-controls">Styling for custom controls</a></h2>
@@ -1707,6 +1714,26 @@ ui_pop();</code></pre>
 		</div>
 	</div>
 </section>
+<section id="section-control_state">
+	<a class="back-link" href="#section-drawing-your-own-controls">⇧</a>
+	<h2><a class="self-link" href="#section-control_state"><code>control_state()</code></a></h2>
+	<div class="definitions">
+<a class="definition-permalink" href="#api-control_state-0">#</a>		<pre class="definition" id="api-control_state-0"><code><span class="function-return function-type-enum">state</span> = <span class="function-name">control_state</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-enum">state</code> - &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot; or &quot;none&quot;</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>This returns the current mouse-interaction state of the current viewport.</p>
+		<p>These values match what can be passed into control_background_*() and control_finish_*().  This lets you assemble a composite control that shares a single press/hover/drag state.</p>
+		<p>Reported states are &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot; and &quot;none&quot;, in that order of precedence - so if the user has clicked and dragged, but is still within the control (so it counts as a press), then it will report &quot;press&quot;.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>state = control_state();</code></pre>
+	</div>
+</section>
 <section id="section-control_arrow">
 	<a class="back-link" href="#section-drawing-your-own-controls">⇧</a>
 	<h2><a class="self-link" href="#section-control_arrow"><code>control_arrow()</code></a></h2>
@@ -1731,7 +1758,7 @@ ui_pop();</code></pre>
 	</div><!-- children for section-drawing-your-own-controls-->
 </section>
 <section id="section-screen-decoration-and-layout">
-	<a class="back-link" href="#section-themed-controls">⇧</a>
+	<a class="back-link" href="#section-rich-controls">⇧</a>
 	<h2><a class="self-link" href="#section-screen-decoration-and-layout">Screen decoration and layout</a></h2>
 	<ul class="child-links">
 		<li><a href="#section-control_navbar"><code>control_navbar()</code></a></li>
@@ -1829,7 +1856,7 @@ ui_text("dialog contents go here");</code></pre>
 	</div><!-- children for section-screen-decoration-and-layout-->
 </section>
 <section id="section-buttons-readouts-and-switches">
-	<a class="back-link" href="#section-themed-controls">⇧</a>
+	<a class="back-link" href="#section-rich-controls">⇧</a>
 	<h2><a class="self-link" href="#section-buttons-readouts-and-switches">Buttons, readouts and switches</a></h2>
 	<ul class="child-links">
 		<li><a href="#section-control_readout"><code>control_readout()</code> / <code>control_readoutnumber()</code></a></li>
@@ -1942,7 +1969,7 @@ value = control_selector(value, #selector_text,
 	</div><!-- children for section-buttons-readouts-and-switches-->
 </section>
 <section id="section-sliders">
-	<a class="back-link" href="#section-themed-controls">⇧</a>
+	<a class="back-link" href="#section-rich-controls">⇧</a>
 	<h2><a class="self-link" href="#section-sliders">Sliders</a></h2>
 	<div class="definitions">
 <a class="definition-permalink" href="#api-control_slider_left-5">#</a>		<pre class="definition" id="api-control_slider_left-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_slider_left</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
@@ -1994,7 +2021,7 @@ ui_pop();</code></pre>
 	</div>
 </section>
 <section id="section-dials">
-	<a class="back-link" href="#section-themed-controls">⇧</a>
+	<a class="back-link" href="#section-rich-controls">⇧</a>
 	<h2><a class="self-link" href="#section-dials">Dials</a></h2>
 	<div class="definitions">
 <a class="definition-permalink" href="#api-control_dial_left-5">#</a>		<pre class="definition" id="api-control_dial_left-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_dial_left</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
@@ -2030,7 +2057,7 @@ ui_pop();</code></pre>
 	</div>
 </section>
 <section id="section-text-inputs">
-	<a class="back-link" href="#section-themed-controls">⇧</a>
+	<a class="back-link" href="#section-rich-controls">⇧</a>
 	<h2><a class="self-link" href="#section-text-inputs">Text inputs</a></h2>
 	<div class="about">
 		<p>JSFX has no built-in text inputs, so this isn't quite as smooth as a native control, but it's functional.  It supports selecting with the mouse (including double-clicking on words) or keyboard.</p>
@@ -2155,7 +2182,7 @@ ui_pop();</code></pre>
 </section>
 	</div><!-- children for section-text-inputs-->
 </section>
-	</div><!-- children for section-themed-controls-->
+	</div><!-- children for section-rich-controls-->
 </section>
 	</div><!-- children for section-index-->
 </section>
