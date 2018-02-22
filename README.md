@@ -30,6 +30,26 @@ The best way to get started is the [**quick-start tour**](tour/), which explains
 
 The full API is available as [HTML](https://geraintluff.github.io/jsfx-ui-lib/doc/html/) or as an [interactive JSFX plugin](https://stash.reaper.fm/v/32955/ui-lib.zip).
 
+# Development
+
+Development happens in "ui-lib.txt", and the actual library is generated using a [JSFX preprocessor](https://www.npmjs.com/package/jsfx-preprocessor).
+
+This means that to assemble the final code, you'll need Node.js installed.
+
+```
+node build.js
+# or
+npm run build
+```
+
+To monitor with `nodemon`, use `npm run nodemon` - you can also specify any additional locations to write the result to (e.g. the [JSFX collection](https://github.com/geraintluff/jsfx)):
+
+```
+npm run nodemon -- ../my-jsfx-set/ui-lib.jsfx-inc
+```
+
+# Tips and tricks
+
 ## Automation, saving state, and "hidden sliders"
 
 You can hide REAPER's default slider by preceding the name with "-":
@@ -53,7 +73,7 @@ Remember to save the state for
 file_var(0, my_control_value); // Works for both read/write
 ```
 
-### Versioning and complex effects
+## Versioning and complex effects
 
 This is not specific to this UI library, but it's a useful trick when developing complex effects.
 
@@ -83,21 +103,3 @@ preset_version < 1.0 ? (
 ```
 
 If you do this right at the start of developing your effect, you can keep your effect backwards-compatible.
-
-## Development
-
-Development happens in "ui-lib.txt", and the actual library is generated using a [JSFX preprocessor](https://www.npmjs.com/package/jsfx-preprocessor).
-
-This means that to assemble the final code, you'll need Node.js installed.
-
-```
-node build.js
-# or
-npm run build
-```
-
-To monitor with `nodemon`, use `npm run nodemon` - you can also specify any additional locations to write the result to (e.g. the [JSFX collection](https://github.com/geraintluff/jsfx)):
-
-```
-npm run nodemon -- ../my-jsfx-set/ui-lib.jsfx-inc
-```
