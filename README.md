@@ -2,9 +2,7 @@
 
 This is a library/framework for creating UIs in REAPER's JSFX language in a straightforward way.
 
-It requires REAPER v4.60 or above.
-
-The best way to get started is [**this guide**](tour/), which explains how the library works, using code examples and screenshots.  Once you've gone through that, hopefully the API docs below will make sense.
+It requires REAPER v4.60 or above.  See the [Cockos forum topic](https://forums.cockos.com/showthread.php?t=181055) for any questions/bugs/requests.
 
 ## Features
 
@@ -26,11 +24,11 @@ The file `ui-lib-compat.jsfx-inc` bridges the gap between the current API and pr
 
 If you update your version of the UI library and it complains about missing functions, include this file as well.
 
-# API Reference
+# API
+
+The best way to get started is the [**quick-start tour**](tour/), which explains some principles of how the library works.  After that, hopefully the API docs will make sense.
 
 The full API is available as [HTML](https://geraintluff.github.io/jsfx-ui-lib/doc/html/) or as an [interactive JSFX plugin](https://stash.reaper.fm/v/32955/ui-lib.zip).
-
-You may want to read through the [**quick-start tour**](tour/) first.
 
 ## Automation, saving state, and "hidden sliders"
 
