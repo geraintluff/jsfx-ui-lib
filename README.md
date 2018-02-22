@@ -18,17 +18,17 @@ It requires REAPER v4.60 or above.  See the [Cockos forum topic](https://forums.
 
 ![screenshot](demo/theme-default.png)
 
-### Compatibilty
-
-The file `ui-lib-compat.jsfx-inc` bridges the gap between the current API and previous versions.
-
-If you update your version of the UI library and it complains about missing functions, include this file as well.
-
 # API
 
 The best way to get started is the [**quick-start tour**](tour/), which explains some principles of how the library works.  After that, hopefully the API docs will make sense.
 
 The full API is available as [HTML](https://geraintluff.github.io/jsfx-ui-lib/doc/html/) or as an [interactive JSFX plugin](https://stash.reaper.fm/v/32955/ui-lib.zip).
+
+## Compatibilty
+
+The file `ui-lib-compat.jsfx-inc` bridges the gap between the current API and previous versions.
+
+If you update your version of the UI library and it complains about missing functions, include this file as well.
 
 # Development
 
