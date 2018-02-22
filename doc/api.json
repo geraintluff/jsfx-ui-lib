@@ -1,7 +1,7 @@
 {
 	"title": "ui-lib.jsfx-inc",
 	"text": "This is the API documentation for JSFX UI library.\n\nFor more information, see: https://github.com/geraintluff/jsfx-ui-lib",
-	"html": "This is the API documentation for JSFX UI library.  It is also available as an <a href=\"https://stash.reaper.fm/v/32955/ui-lib.zip\">interactive JSFX plugin</a>.",
+	"html": "<p>This is the API documentation for JSFX UI library.  It is also available as an <a href=\"https://stash.reaper.fm/v/32955/ui-lib.zip\">interactive JSFX plugin</a>.</p><p>For more information, see <a href=\"https://github.com/geraintluff/jsfx-ui-lib\">GitHub</a> or the <a href=\"https://forums.cockos.com/showthread.php?t=181055\">Cockos forum topic</a>.",
 	"children": [
 		{
 			"title": "Introduction",

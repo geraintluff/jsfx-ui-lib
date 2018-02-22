@@ -1,13 +1,13 @@
-# `ui-lib.jsfx-inc`: easy UIs for REAPER's JS effects
+# `ui-lib.jsfx-inc`: UIs for REAPER's JS effects
 
-This is a library/framework for creating UIs in REAPER's JSFX language in a straightforward way.
+This is a library/framework for creating UIs in REAPER's JSFX language.
 
 It requires REAPER v4.60 or above.  See the [Cockos forum topic](https://forums.cockos.com/showthread.php?t=181055) for any questions/bugs/requests.
 
 ## Features
 
-*	Flexible layouts
-*	Built-in controls
+*	Flexible layouts (adapts to available space)
+*	Rich built-in controls
 	*	buttons
 	*	sliders
 	*	dials
