@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ui-lib.jsfx-inc API Documentation</title>
+		<style>
+			body {
+				font-family: Tahoma, Verdana, Segoe, sans-serif;
+				margin: 1em;
+			}
+
+			h2 {
+				font-size: 1.5em;
+				font-weight: normal;
+				border-bottom: 1px solid #DDD;
+			}
+
+			h3 {
+				font-size: 1.2em;
+				font-weight: normal;
+			}
+
+			pre, code {
+				/* https://cssfontstack.com/Lucida-Console */
+				font-family: "Lucida Console", "Lucida Sans Typewriter", monaco, "Bitstream Vera Sans Mono", monospace;
+				font-size: 13px;
+				font-style: normal;
+				font-variant: normal;
+				font-weight: 400;
+				line-height: 18.5714px;
+
+				margin: 0;
+				padding: 0;
+			}
+
+			section {
+				max-width: 900px;
+				margin: auto;
+				margin-top: 3em;
+			}
+
+			.subsection {
+				clear: both;
+			}
+
+			.children section {
+				padding-left: 6%;
+			}
+
+			.code-example {
+				padding: 1em 2em;
+				background: #222;
+				color: rgb(255, 192, 128);
+				border-radius: 1em;
+				box-shadow: 0px 0.5em 1em rgba(0, 0, 0, 0.5) inset;
+			}
+
+			.screenshots {
+				text-align: center;
+			}
+
+			.screenshot {
+				max-height: 50vh;
+				margin: 0.5em;
+				border-radius: 10px;
+			}
+
+			.screenshots-2 .screenshot {
+				max-width: 45%;
+			}
+			.screenshots-3 .screenshot {
+				max-width: 30%;
+			}
+
+			a .screenshot:hover {
+				box-shadow: 0px 0px 1em rgba(0, 0, 0, 0.5);
+			}
+
+			.definitions {
+			}
+
+			.definition {
+				margin: 0.5em 0;
+			}
+
+			.function-type-int, .function-type-pointer {
+				color: #0A0;
+			}
+			.function-type-number {
+				color: #04B;
+			}
+			.function-type-bool {
+				color: #A60;
+			}
+			.function-type-text {
+				color: #B00;
+			}
+		</style>
+	</head>
+	<body><section id="section-index">
+	<h2>ui-lib.jsfx-inc</h2>
+	<div class="about">
+		<p>This is the API documentation for JSFX UI library. It is available as Markdown, HTML, or as an interactive JSFX effect.</p>
+	</div>
+	<ul class="child-links">
+		<li><a href="#section-introduction">Introduction</a></li>
+		<li><a href="#section-setup-screens-and-errors">Setup, screens and errors</a></li>
+		<li><a href="#section-the-viewport-stack">The viewport stack</a></li>
+		<li><a href="#section-drawing-state">Drawing state</a></li>
+		<li><a href="#section-drawing">Drawing</a></li>
+		<li><a href="#section-text">Text</a></li>
+		<li><a href="#section-user-input">User input</a></li>
+		<li><a href="#section-themed-controls">Themed controls</a></li>
+	</ul>
+	<div class="children">
+<section id="section-introduction">
+	<h2>Introduction</h2>
+	<div class="about">
+		<p>You should read the getting-started tour first (see GitHub), which explains some important concepts such as the viewport stack.</p>
+		<p>However, here are a few short examples so you know what you're dealing with:</p>
+	</div>
+	<ul class="child-links">
+		<li><a href="#section-hello-world">Hello World</a></li>
+		<li><a href="#section-viewport-stack-example">Viewport stack example</a></li>
+	</ul>
+	<div class="children">
+<section id="section-hello-world">
+	<h2>Hello World</h2>
+	<div class="about">
+		<p>Here's a simple Hello World example.</p>
+		<p>We import the library in the header, and in @init we allocate it some of the memory buffer. It returns the first unused memory slot. In @gfx, we always call ui_start() first, to reset the UI state.</p>
+		<p>Then, we call ui_text() to draw some text to the screen.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>desc:JSFX UI: Hello World
+import ui-lib.jsfx-inc
+
+@init
+freemem = ui_setup(0);
+
+@gfx
+ui_start();
+ui_text("Hello, world!");</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/hello-world.png" target="_blank"><img class="screenshot" src="../images/hello-world.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-viewport-stack-example">
+	<h2>Viewport stack example</h2>
+	<div class="about">
+		<p>The current &quot;viewport&quot; has position and size.  It also stores other bits of drawing state, such as colour and font properties.</p>
+		<p>We have a stack of viewports - to draw a certain section of the screen (or in a particular colour, or many things) we push a new viewport/drawing-state to this stack, and pop it off to return to our previous state when we are done.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_border();
+ui_pad();
+
+ui_push_height(100);
+	// new viewport has smaller height
+	ui_color(192, 128, 0);
+	ui_border();
+	ui_pad();
+
+	ui_split_left(80);
+		ui_color(0, 215, 215);
+		ui_fill();
+	ui_pop();
+
+	// remaining viewport is now smaller
+	// because we used ui_split_left() above
+	ui_color(215, 0, 215);
+	ui_border();
+	ui_text("some text");
+ui_pop();</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/viewport-stack-example.png" target="_blank"><img class="screenshot" src="../images/viewport-stack-example.png"></a>
+		</div>
+	</div>
+</section>
+	</div><!-- children for section-introduction-->
+</section>
+<section id="section-setup-screens-and-errors">
+	<h2>Setup, screens and errors</h2>
+	<div class="about">
+		<p>These functions provide a framework for everything else in the library.</p>
+	</div>
+	<ul class="child-links">
+		<li><a href="#section-ui_setup">ui_setup</a></li>
+		<li><a href="#section-ui_start">ui_start / control_start</a></li>
+		<li><a href="#section-ui_screen">ui_screen</a></li>
+		<li><a href="#section-ui_screen_open">ui_screen_open</a></li>
+		<li><a href="#section-ui_screen_close">ui_screen_close</a></li>
+		<li><a href="#section-ui_screen_level">ui_screen_level</a></li>
+		<li><a href="#section-ui_screen_arg">ui_screen_arg</a></li>
+		<li><a href="#section-ui_system">ui_system / control_system</a></li>
+		<li><a href="#section-the-control-prompt-screen">The &quot;control.prompt&quot; screen</a></li>
+	</ul>
+	<div class="children">
+<section id="section-ui_setup">
+	<h2>ui_setup</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_setup-1"><code><span class="function-return function-type-pointer">new_freemem</span> = <span class="function-name">ui_setup</span>(<span class="function-arg function-type-pointer">freemem</span>=0)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-pointer">freemem</code> - index in the memory array</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>This method sets up a section of the memory buffer for use by the UI library.</p>
+		<p>You must call this in @init, before any other UI code.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>@init
+
+//Unused section of memory buffer
+freemem = 0;
+
+// Returns end of allocated block (first unused index)
+freemem = ui_setup(freemem);</code></pre>
+	</div>
+</section>
+<section id="section-ui_start">
+	<h2>ui_start / control_start</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_start-1"><code><span class="function-name">ui_start</span>(<span class="function-arg function-type-number">default_screen</span>)</code></pre>
+		<pre class="definition" id="api-control_start-2"><code><span class="function-name">control_start</span>(<span class="function-arg function-type-number">default_screen</span>, <span class="function-arg function-type-number">theme</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">default_screen</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>These methods resets the UI state for the start of each frame.  You must call one of these in @gfx, before any other UI code.</p>
+		<p>The default_screen variable is a screen identifier - see ui_screen().</p>
+		<p>control_start() has an additional &quot;theme&quot; parameter, which must be a string constant, one of: &quot;default&quot;, &quot;tron&quot; or &quot;black&quot;.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>@gfx
+
+ui_start("main");
+
+//Or:
+@gfx
+
+control_start("main", "tron")</code></pre>
+		<div class="screenshots screenshots-3">
+			<a href="../images/themes/default.png" target="_blank"><img class="screenshot" src="../images/themes/default.png"></a>
+			<a href="../images/themes/tron.png" target="_blank"><img class="screenshot" src="../images/themes/tron.png"></a>
+			<a href="../images/themes/black.png" target="_blank"><img class="screenshot" src="../images/themes/black.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-ui_screen">
+	<h2>ui_screen</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_screen-0"><code><span class="function-return function-type-number">screen_id</span> = <span class="function-name">ui_screen</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>This method returns the current screen ID, a unique identifier for that screen.  Use this to determine which screen you should draw.</p>
+		<p>Even if you only have one screen, you should use this so that you can get error messages or other info using ui_system().</p>
+		<p>The screen ID is treated as a number, but the best screen IDs are string constants - all identical string constants are represented by the same number, and it makes your code more readable.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>@gfx
+
+ui_start("main");
+
+ui_screen() == "main" ? (
+	/* draw your main screen */
+) : ui_system();</code></pre>
+	</div>
+</section>
+<section id="section-ui_screen_open">
+	<h2>ui_screen_open</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_screen_open-1"><code><span class="function-name">ui_screen_open</span>(<span class="function-arg function-type-number">screen_id</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">screen_id</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>This method opens a new screen on top of the stack of screens.</p>
+		<p>The screen stack is limited to 10 layers deep.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>@gfx
+
+ui_start("main");
+
+ui_screen() == "main" ? (
+	control_button("open screen") ? (
+		ui_screen_open("secondary");
+	);
+) : ui_screen() == "secondary" ? (
+	/* draw second screen */
+) : ui_system();</code></pre>
+	</div>
+</section>
+<section id="section-ui_screen_close">
+	<h2>ui_screen_close</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_screen_close-0"><code><span class="function-name">ui_screen_close</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>This function closes the current screen.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>@gfx
+
+ui_start("main");
+
+ui_screen() == "main" ? (
+	control_button("open screen") ? (
+		ui_screen_open("secondary");
+	);
+) : ui_screen() == "secondary" ? (
+	control_button("close screen") ? (
+		ui_screen_close();
+	);
+) : ui_system();</code></pre>
+	</div>
+</section>
+<section id="section-ui_screen_level">
+	<h2>ui_screen_level</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_screen_level-0"><code><span class="function-return function-type-int">depth</span> = <span class="function-name">ui_screen_level</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>This function tells you how many screens deep you are in your current stack.  The top level is 0.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>depth = ui_screen_level();</code></pre>
+	</div>
+</section>
+<section id="section-ui_screen_arg">
+	<h2>ui_screen_arg</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_screen_arg-2"><code><span class="function-name">ui_screen_arg</span>(<span class="function-arg function-type-int">index</span>, <span class="function-arg function-type-number">value</span>)</code></pre>
+		<pre class="definition" id="api-ui_screen_arg-1"><code><span class="function-return function-type-number">value</span> = <span class="function-name">ui_screen_arg</span>(<span class="function-arg function-type-int">index</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">index</code> - integer between 0 and 9</li>
+				<li><code class="function-arg function-type-number">value</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Sets or gets the screen argument at a given index.  If you pass in two arguments, it sets the value.  If you only pass in one, it returns the value.</p>
+		<p>When setting values for a new screen, this must be called *after* ui_screen_open(), otherwise it will set the arguments for the current screen instead.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>// Read argument for current screen
+foobar = ui_screen_arg(0);
+
+// Open new screen with argument
+should_open_screen ? (
+	ui_screen_open("screen2");
+	ui_screen_arg(0, foobar);
+);</code></pre>
+	</div>
+</section>
+<section id="section-ui_system">
+	<h2>ui_system / control_system</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_system-0"><code><span class="function-name">ui_system</span>()</code></pre>
+		<pre class="definition" id="api-control_system-0"><code><span class="function-name">control_system</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>These methods provide system screens.</p>
+		<p>ui_system() provides a basic error display (for unrecognised screen IDs, or errors due to incorrect use of the UI library), which is useful for developing and bugfixing.</p>
+		<p>control_system() provides an additional screen: &quot;control.prompt&quot;, as well as a slightly prettier error screen.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>@gfx
+
+ui_start("main");
+
+ui_screen() == "main" ? (
+	/* draw your main screen */
+) : ui_system();</code></pre>
+	</div>
+</section>
+<section id="section-the-control-prompt-screen">
+	<h2>The &quot;control.prompt&quot; screen</h2>
+	<div class="about">
+		<p>This is a screen ID provided by control_system().  It provides a convenient way to prompt the user for text entry.</p>
+		<p>The screen takes two arguments: a mutable string, and a title for the popup.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>control_button("Open text prompt") ? (
+	ui_screen_open("control.prompt");
+	ui_screen_arg(0, #entered_text);
+	ui_screen_arg(1, "Prompt title");
+);</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/control-prompt-screen.png" target="_blank"><img class="screenshot" src="../images/control-prompt-screen.png"></a>
+		</div>
+	</div>
+</section>
+	</div><!-- children for section-setup-screens-and-errors-->
+</section>
+<section id="section-the-viewport-stack">
+	<h2>The viewport stack</h2>
+	<ul class="child-links">
+		<li><a href="#section-pushing-popping-and-splitting">Pushing, popping and splitting</a></li>
+		<li><a href="#section-get-viewport-position">Get viewport position</a></li>
+		<li><a href="#section-set-viewport-position">Set viewport position</a></li>
+		<li><a href="#section-padding">Padding</a></li>
+	</ul>
+	<div class="children">
+<section id="section-pushing-popping-and-splitting">
+	<h2>Pushing, popping and splitting</h2>
+	<ul class="child-links">
+		<li><a href="#section-ui_push">ui_push / ui_pop</a></li>
+		<li><a href="#section-ui_push_clip">ui_push_clip</a></li>
+		<li><a href="#section-push-with-height-width">Push with height/width</a></li>
+		<li><a href="#section-push-above-below-left-right">Push above/below/left/right</a></li>
+		<li><a href="#section-splitting-the-viewport">Splitting the viewport</a></li>
+		<li><a href="#section-splitting-with-ratios">Splitting with ratios</a></li>
+		<li><a href="#section-splitting-with-text-sizes">Splitting with text sizes</a></li>
+		<li><a href="#section-ui_split_next">ui_split_next</a></li>
+	</ul>
+	<div class="children">
+<section id="section-ui_push">
+	<h2>ui_push / ui_pop</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_push-0"><code><span class="function-name">ui_push</span>()</code></pre>
+		<pre class="definition" id="api-ui_pop-0"><code><span class="function-name">ui_pop</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>ui_push() pushes a new viewport/state onto the stack.  The new state is a copy of the previous state, but changes to this new state do not affect the previous state.</p>
+		<p>ui_pop() removes the top later of the viewport/state stack.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_push();
+	// Indenting can help keep track of the stack
+	ui_color(255, 0, 255);
+ui_pop();
+
+// Draws in default colour, because
+// we popped the altered one off
+ui_text("some text");</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_push.png" target="_blank"><img class="screenshot" src="../images/ui_push.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-ui_push_clip">
+	<h2>ui_push_clip</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_push_clip-1"><code><span class="function-name">ui_push_clip</span>(<span class="function-arg function-type-number">opacity</span>=1)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">opacity</code> between 0 and 1</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>ui_push_clip() behaves a lot like ui_push(), except all changes are clipped to the current viewport, and have a global opacity applied.  If opacity is zero (or omitted), it is taken to be 1.</p>
+		<p>Internally, this is implemented by copying the current screen state to a new buffer, drawing as normal (to that buffer, using gfx_dest), and then copying back with the appropriate opacity on the matching ui_pop() call.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_pad(50, 50);
+
+ui_push_clip(opacity);
+	// Draw circles across the whole screen
+	ui_color(0, 255, 0);
+	gfx_y = 0;
+	while (gfx_y < gfx_h + 30) (
+		gfx_x = (gfx_y*0.5)%35;
+		while (gfx_x < gfx_w + 30) (
+			gfx_circle(gfx_x, gfx_y, 15, 1);
+			gfx_x += 35;
+		);
+		gfx_y += 30;
+	);
+ui_pop();</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_push_clip.png" target="_blank"><img class="screenshot" src="../images/ui_push_clip.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-push-with-height-width">
+	<h2>Push with height/width</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_push_height-1"><code><span class="function-name">ui_push_height</span>(<span class="function-arg function-type-int">height</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_heightratio-1"><code><span class="function-name">ui_push_heightratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_heighttext-1"><code><span class="function-name">ui_push_heighttext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_width-1"><code><span class="function-name">ui_push_width</span>(<span class="function-arg function-type-int">width</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_widthratio-1"><code><span class="function-name">ui_push_widthratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_widthtext-1"><code><span class="function-name">ui_push_widthtext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">height</code> - integer >= 0</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>These methods let you push a new viewport to the stack, with a specified height/width.  Their position is determined by the current alignment.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_align(0.5, vertical_align);
+
+ui_push_height(height);
+	ui_border();
+	ui_align(0.5, 0.5);
+	ui_text("viewport has fixed height");
+ui_pop();</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_push_height.png" target="_blank"><img class="screenshot" src="../images/ui_push_height.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-push-above-below-left-right">
+	<h2>Push above/below/left/right</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_push_above-1"><code><span class="function-name">ui_push_above</span>(<span class="function-arg function-type-int">height</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_aboveratio-1"><code><span class="function-name">ui_push_aboveratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_abovetext-1"><code><span class="function-name">ui_push_abovetext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_below-1"><code><span class="function-name">ui_push_below</span>(<span class="function-arg function-type-int">height</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_belowratio-1"><code><span class="function-name">ui_push_belowratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_belowtext-1"><code><span class="function-name">ui_push_belowtext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_leftof-1"><code><span class="function-name">ui_push_leftof</span>(<span class="function-arg function-type-int">width</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_leftofratio-1"><code><span class="function-name">ui_push_leftofratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_leftoftext-1"><code><span class="function-name">ui_push_leftoftext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_rightof-1"><code><span class="function-name">ui_push_rightof</span>(<span class="function-arg function-type-int">width</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_rightofratio-1"><code><span class="function-name">ui_push_rightofratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+		<pre class="definition" id="api-ui_push_rightoftext-1"><code><span class="function-name">ui_push_rightoftext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">height</code> - integer >= 0</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>These methods let you push a new viewport to the stack, fitting around the viewport that would be produced by ui_push_height() or ui_push_width().</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_align(0.5, vertical_align);
+
+ui_push_height(height);
+	ui_border();
+	ui_align(0.5, 0.5);
+	ui_text("viewport has fixed height");
+ui_pop();
+
+ui_push_above(height);
+	ui_color(0, 128, 255);
+ui_border();
+ui_align(0.5, 0.5);
+	ui_text("centered above");
+ui_pop();</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_push_above.png" target="_blank"><img class="screenshot" src="../images/ui_push_above.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-splitting-the-viewport">
+	<h2>Splitting the viewport</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_split_top-1"><code><span class="function-name">ui_split_top</span>(<span class="function-arg function-type-int">height</span>)</code></pre>
+		<pre class="definition" id="api-ui_split_bottom-1"><code><span class="function-name">ui_split_bottom</span>(<span class="function-arg function-type-int">height</span>)</code></pre>
+		<pre class="definition" id="api-ui_split_left-1"><code><span class="function-name">ui_split_left</span>(<span class="function-arg function-type-int">width</span>)</code></pre>
+		<pre class="definition" id="api-ui_split_right-1"><code><span class="function-name">ui_split_right</span>(<span class="function-arg function-type-int">width</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">height</code> - integer >= 0</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>The ui_split_*() functions push a new viewport/state onto the stack, anchored to one edge. Simultaneously, they shrink the previous viewport by the same amount, so that the two do not overlap.</p>
+		<p>This gives an easy way to carve out sections of the screen to place elements, and then guarantee that other elements will not overlap with them later.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_split_top(height);
+	ui_color(0, 192, 255);
+	ui_border();
+	ui_text("split viewport");
+ui_pop();
+
+// Now reduced so they don't overlap
+ui_color(215, 0, 215);
+ui_border();
+ui_text("remaining viewport");</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_split_top.png" target="_blank"><img class="screenshot" src="../images/ui_split_top.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-splitting-with-ratios">
+	<h2>Splitting with ratios</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_split_topratio-1"><code><span class="function-name">ui_split_topratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+		<pre class="definition" id="api-ui_split_bottomratio-1"><code><span class="function-name">ui_split_bottomratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+		<pre class="definition" id="api-ui_split_leftratio-1"><code><span class="function-name">ui_split_leftratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+		<pre class="definition" id="api-ui_split_rightratio-1"><code><span class="function-name">ui_split_rightratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">ratio</code> between 0 and 1</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>The ui_split_*ratio() functions work exactly like the ui_split_*() functions, but with the split point specified as a ratio of the height/width.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_split_topratio(ratio);
+	ui_color(0, 192, 255);
+	ui_border();
+	ui_text("split viewport");
+ui_pop();
+
+// Now reduced so they don't overlap
+ui_color(215, 0, 215);
+ui_border();
+ui_text("remaining viewport");</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_split_topratio.png" target="_blank"><img class="screenshot" src="../images/ui_split_topratio.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-splitting-with-text-sizes">
+	<h2>Splitting with text sizes</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_split_toptext-1"><code><span class="function-name">ui_split_toptext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<pre class="definition" id="api-ui_split_bottomtext-1"><code><span class="function-name">ui_split_bottomtext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<pre class="definition" id="api-ui_split_left-1"><code><span class="function-name">ui_split_left</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<pre class="definition" id="api-ui_split_right-1"><code><span class="function-name">ui_split_right</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-text">#text</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>The ui_split_*ratio() functions work like the ui_split_*() functions, but the split point is determined by the height/width of a text string, plus some appropriate padding (from ui_padding() and related functions).</p>
+		<p>If you supply a negative number, it is equivalent to the empty string (which still has non-zero height).</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_split_lefttext(#text);
+	ui_color(0, 192, 255);
+	ui_border();
+	// Viewport fits the text neatly
+	ui_text(#text);
+ui_pop();
+
+ui_color(215, 0, 215);
+ui_border();
+ui_text("remaining viewport");</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_split_lefttext.png" target="_blank"><img class="screenshot" src="../images/ui_split_lefttext.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-ui_split_next">
+	<h2>ui_split_next</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_split_next-0"><code><span class="function-name">ui_split_next</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>When you have performed a split using any of the ui_split_*() methods, you can use ui_split_next() to pop the viewport/state from the stack, and then re-split using the same height/width.</p>
+		<p>This lets you very easily subdivide into equal-sized pieces, or stack items up from one edge.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_split_topratio(1/4);
+	ui_color(255, 0, 0);
+	ui_border();
+	ui_text("first section");
+ui_split_next();
+	ui_color(128, 128, 0);
+	ui_border();
+	ui_text("second section");
+ui_split_next();
+	ui_color(0, 255, 0);
+	ui_border();
+	ui_text("third section");
+ui_split_next();
+	ui_color(0, 128, 255);
+	ui_border();
+	ui_text("fourth section");
+ui_pop();</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_split_next.png" target="_blank"><img class="screenshot" src="../images/ui_split_next.png"></a>
+		</div>
+	</div>
+</section>
+	</div><!-- children for section-pushing-popping-and-splitting-->
+</section>
+<section id="section-get-viewport-position">
+	<h2>Get viewport position</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_left-0"><code><span class="function-return function-type-int">left_x</span> = <span class="function-name">ui_left</span>()</code></pre>
+		<pre class="definition" id="api-ui_right-0"><code><span class="function-return function-type-int">right_x</span> = <span class="function-name">ui_right</span>()</code></pre>
+		<pre class="definition" id="api-ui_top-0"><code><span class="function-return function-type-int">top_y</span> = <span class="function-name">ui_top</span>()</code></pre>
+		<pre class="definition" id="api-ui_bottom-0"><code><span class="function-return function-type-int">bottom_y</span> = <span class="function-name">ui_bottom</span>()</code></pre>
+		<pre class="definition" id="api-ui_width-0"><code><span class="function-return function-type-int">width_x</span> = <span class="function-name">ui_width</span>()</code></pre>
+		<pre class="definition" id="api-ui_height-0"><code><span class="function-return function-type-int">height_y</span> = <span class="function-name">ui_height</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>These return the boundaries and dimensions of the current viewport.</p>
+		<p>Much like gfx_w and gfx_h, the right/bottom edges are the first pixels that are *not* included in the viewport.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_align(0, 0.5);
+ui_textnumber(ui_left(), "%i");
+
+ui_align(1, 0.5);
+ui_textnumber(ui_right(), "%i");
+
+ui_align(0.5, 0);
+ui_textnumber(ui_top(), "%i");
+
+ui_align(0.5, 1);
+ui_textnumber(ui_bottom(), "%i");
+
+sprintf(#size, "%i x %i", ui_width(), ui_height());
+ui_align(0.5, 0.5);
+ui_text(#size);
+
+ui_border();</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/get-viewport.png" target="_blank"><img class="screenshot" src="../images/get-viewport.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-set-viewport-position">
+	<h2>Set viewport position</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_set_rect-4"><code><span class="function-name">ui_set_rect</span>(<span class="function-arg function-type-int">left</span>, <span class="function-arg function-type-int">top</span>, <span class="function-arg function-type-int">width</span>, <span class="function-arg function-type-int">height</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">left</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">top</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">width</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">height</code> - integer >= 0</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>This explicitly sets the position and dimensions of the current viewport.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_set_rect(left, top, width, height);
+
+ui_color(255, 0, 255, 0.5);
+ui_fill();</code></pre>
+	</div>
+</section>
+<section id="section-padding">
+	<h2>Padding</h2>
+	<div class="about">
+		<p>A few of the UI operations involve a default amount of padding.  For example, the ui_split_*text() add padding to the text measurements to determine the split size.</p>
+		<p>This padding size is part of the viewport/drawing state, and is dealt with by these functions.</p>
+	</div>
+	<ul class="child-links">
+		<li><a href="#section-ui_pad">ui_pad</a></li>
+		<li><a href="#section-single-edge-padding">Single-edge padding</a></li>
+		<li><a href="#section-setting-getting-the-padding">Setting/getting the padding</a></li>
+	</ul>
+	<div class="children">
+<section id="section-ui_pad">
+	<h2>ui_pad</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_pad-4"><code><span class="function-name">ui_pad</span>(<span class="function-arg function-type-int">left</span>, <span class="function-arg function-type-int">top</span>, <span class="function-arg function-type-int">right</span>, <span class="function-arg function-type-int">bottom</span>)</code></pre>
+		<pre class="definition" id="api-ui_pad-2"><code><span class="function-name">ui_pad</span>(<span class="function-arg function-type-int">leftAndRight</span>, <span class="function-arg function-type-int">topAndBottom</span>)</code></pre>
+		<pre class="definition" id="api-ui_pad-0"><code><span class="function-name">ui_pad</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">left</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">top</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">right</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">bottom</code> - integer >= 0</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>This function shrinks the current viewport by the specified amount.</p>
+		<p>When the padding size is omitted (in ui_pad() or in the side-specific variations), it uses a default padding size.  This is also the padding size added when using ui_split_*text().</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_border();
+
+ui_pad(left, top, right, bottom);
+
+ui_border();</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_pad.png" target="_blank"><img class="screenshot" src="../images/ui_pad.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-single-edge-padding">
+	<h2>Single-edge padding</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_padtop-1"><code><span class="function-name">ui_padtop</span>(<span class="function-arg function-type-number">pixels</span>)</code></pre>
+		<pre class="definition" id="api-ui_padbottom-1"><code><span class="function-name">ui_padbottom</span>(<span class="function-arg function-type-number">pixels</span>)</code></pre>
+		<pre class="definition" id="api-ui_padleft-1"><code><span class="function-name">ui_padleft</span>(<span class="function-arg function-type-number">pixels</span>)</code></pre>
+		<pre class="definition" id="api-ui_padright-1"><code><span class="function-name">ui_padright</span>(<span class="function-arg function-type-number">pixels</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">pixels</code> >= 0</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>These functions add padding on one edge only.  If the length is 0, the default padding is used.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_border();
+
+ui_padleft(left);
+ui_padtop(top);
+ui_padright(right);
+ui_padbottom(bottom);
+
+ui_border();</code></pre>
+	</div>
+</section>
+<section id="section-setting-getting-the-padding">
+	<h2>Setting/getting the padding</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_padding-2"><code><span class="function-name">ui_padding</span>(<span class="function-arg function-type-int">padding_horizontal</span>, <span class="function-arg function-type-int">padding_vertical</span>)</code></pre>
+		<pre class="definition" id="api-ui_padding_x-0"><code><span class="function-return function-type-int">padding_horizontal</span> = <span class="function-name">ui_padding_x</span>()</code></pre>
+		<pre class="definition" id="api-ui_padding_y-0"><code><span class="function-return function-type-int">padding_vertical</span> = <span class="function-name">ui_padding_y</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">padding_horizontal</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">padding_vertical</code> - integer >= 0</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>These functions allow you to read or set the default padding.  Different themes have different default padding sizes.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_border();
+
+ui_padding(pad_x, pad_y);
+ui_pad();
+
+ui_border();</code></pre>
+	</div>
+</section>
+	</div><!-- children for section-padding-->
+</section>
+	</div><!-- children for section-the-viewport-stack-->
+</section>
+<section id="section-drawing-state">
+	<h2>Drawing state</h2>
+	<ul class="child-links">
+		<li><a href="#section-ui_color">ui_color</a></li>
+		<li><a href="#section-alignment">Alignment</a></li>
+		<li><a href="#section-fonts">Fonts</a></li>
+	</ul>
+	<div class="children">
+<section id="section-ui_color">
+	<h2>ui_color</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_color-4"><code><span class="function-name">ui_color</span>(<span class="function-arg function-type-int">red</span>, <span class="function-arg function-type-int">green</span>, <span class="function-arg function-type-int">blue</span>, <span class="function-arg function-type-number">alpha</span>)</code></pre>
+		<pre class="definition" id="api-ui_color-0"><code><span class="function-name">ui_color</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">red</code> - integer between 0 and 255</li>
+				<li><code class="function-arg function-type-int">green</code> - integer between 0 and 255</li>
+				<li><code class="function-arg function-type-int">blue</code> - integer between 0 and 255</li>
+				<li><code class="function-arg function-type-number">alpha</code> between 0 and 1</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>This function sets the current drawing colour.  It uses RGB values in the 0-255 range, and an optional alpha in the 0-1 range.</p>
+		<p>These values are translated into the gfx_r/gfx_g/gfx_b/gfx_a variables.  If ui_color() is called with no arguments, these variables are recalculated.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_split_topratio(0.5);
+	ui_color(red, green, blue, alpha);
+	ui_fill();
+ui_pop();
+
+// This is not affected
+ui_text("some text");</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_color.png" target="_blank"><img class="screenshot" src="../images/ui_color.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-alignment">
+	<h2>Alignment</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_align-2"><code><span class="function-name">ui_align</span>(<span class="function-arg function-type-number">horizontal</span>, <span class="function-arg function-type-number">vertical</span>)</code></pre>
+		<pre class="definition" id="api-ui_align_x-0"><code><span class="function-return function-type-number">horizontal</span> = <span class="function-name">ui_align_x</span>()</code></pre>
+		<pre class="definition" id="api-ui_align_y-0"><code><span class="function-return function-type-number">vertical</span> = <span class="function-name">ui_align_y</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">horizontal</code> between 0 and 1</li>
+				<li><code class="function-arg function-type-number">vertical</code> between 0 and 1</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>These function set and read the current alignment.  They are ratios, so 0 means left/top, and 1 means right/bottom.</p>
+		<p>If an out-of-range value is passed to ui_align(), it is ignored.  This means you can set the alignments independently - e.g. ui_align(0, -1) will change the horizontal alignment to hard-left, but leave the vertical alignment unchanged.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_align(horizontal, vertical);
+ui_text("aligned text");</code></pre>
+		<div class="screenshots screenshots-2">
+			<a href="../images/ui_align-1.png" target="_blank"><img class="screenshot" src="../images/ui_align-1.png"></a>
+			<a href="../images/ui_align-2.png" target="_blank"><img class="screenshot" src="../images/ui_align-2.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-fonts">
+	<h2>Fonts</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_font-4"><code><span class="function-name">ui_font</span>(<span class="function-arg function-type-text">#face</span>, <span class="function-arg function-type-int">size</span>, <span class="function-arg function-type-bool">bold</span>, <span class="function-arg function-type-bool">italics</span>)</code></pre>
+		<pre class="definition" id="api-ui_fontface-1"><code><span class="function-name">ui_fontface</span>(<span class="function-arg function-type-text">#face</span>)</code></pre>
+		<pre class="definition" id="api-ui_fontsize-1"><code><span class="function-name">ui_fontsize</span>(<span class="function-arg function-type-int">size</span>)</code></pre>
+		<pre class="definition" id="api-ui_fontbold-1"><code><span class="function-name">ui_fontbold</span>(<span class="function-arg function-type-bool">bold</span>)</code></pre>
+		<pre class="definition" id="api-ui_fontitalic-1"><code><span class="function-name">ui_fontitalic</span>(<span class="function-arg function-type-bool">italics</span>)</code></pre>
+		<pre class="definition" id="api-ui_font-0"><code><span class="function-name">ui_font</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-text">#face</code></li>
+				<li><code class="function-arg function-type-int">size</code> - integer between 8 and 100</li>
+				<li><code class="function-arg function-type-bool">bold</code> - boolean</li>
+				<li><code class="function-arg function-type-bool">italics</code> - boolean</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Specify the font parameters, individually or all at once.</p>
+		<p>The UI library uses font index 16, and configures this accordingly.  ui_font() called with no arguments re-configures this font, in case it has been changed.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_font(#face, size, bold, italics);
+
+ui_text("Hello, world!");</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_font.png" target="_blank"><img class="screenshot" src="../images/ui_font.png"></a>
+		</div>
+	</div>
+</section>
+	</div><!-- children for section-drawing-state-->
+</section>
+<section id="section-drawing">
+	<h2>Drawing</h2>
+	<div class="about">
+		<p>Although the default colours vary, these drawing functions are theme-independent.</p>
+	</div>
+	<ul class="child-links">
+		<li><a href="#section-ui_fill">ui_fill</a></li>
+		<li><a href="#section-ui_border-and-others">ui_border() and others</a></li>
+		<li><a href="#section-plotting-graphs">Plotting graphs</a></li>
+		<li><a href="#section-ui_reserve_image">ui_reserve_image</a></li>
+	</ul>
+	<div class="children">
+<section id="section-ui_fill">
+	<h2>ui_fill</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_fill-0"><code><span class="function-name">ui_fill</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>Fills the viewport with the current colour.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_fill();</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_fill.png" target="_blank"><img class="screenshot" src="../images/ui_fill.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-ui_border-and-others">
+	<h2>ui_border() and others</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_border-0"><code><span class="function-name">ui_border</span>()</code></pre>
+		<pre class="definition" id="api-ui_border_top-0"><code><span class="function-name">ui_border_top</span>()</code></pre>
+		<pre class="definition" id="api-ui_border_bottom-0"><code><span class="function-name">ui_border_bottom</span>()</code></pre>
+		<pre class="definition" id="api-ui_border_left-0"><code><span class="function-name">ui_border_left</span>()</code></pre>
+		<pre class="definition" id="api-ui_border_right-0"><code><span class="function-name">ui_border_right</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>Draws a border in the current colour.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_border();</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_border.png" target="_blank"><img class="screenshot" src="../images/ui_border.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-plotting-graphs">
+	<h2>Plotting graphs</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_graph-4"><code><span class="function-name">ui_graph</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">length</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
+		<pre class="definition" id="api-ui_graph_step-5"><code><span class="function-name">ui_graph_step</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">count</span>, <span class="function-arg function-type-int">step</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
+		<pre class="definition" id="api-ui_graph_circular-6"><code><span class="function-name">ui_graph_circular</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">count</span>, <span class="function-arg function-type-int">step</span>, <span class="function-arg function-type-int">offset</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-pointer">buffer</code> - index in the memory array</li>
+				<li><code class="function-arg function-type-int">length</code> - integer >= 1</li>
+				<li><code class="function-arg function-type-number">min_y</code></li>
+				<li><code class="function-arg function-type-number">max_y</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Plots a graph from a buffer.  If min_y and max_y are the same, the graph is centered around that value, and auto-scaled to fit the data.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_graph(buffer, 1024, min_y, max_y);
+
+ui_color(0, 192, 255);
+ui_graph_step_circular(buffer, 16, 64, offset, min_y, max_y);
+
+</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_graph.png" target="_blank"><img class="screenshot" src="../images/ui_graph.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-ui_reserve_image">
+	<h2>ui_reserve_image</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_reserve_image-1"><code><span class="function-name">ui_reserve_image</span>(<span class="function-arg function-type-int">arg1</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">arg1</code> - integer between 0 and 127</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>The UI library uses some of the offscreen buffers (0-127) for its own use.  If there are any buffers (or loaded images) that you are also using, you can notify the UI library so that it avoids them.</p>
+		<p>The UI library uses buffers from the end (127 downards), so they are unlikely to clash unless you are loading a large number of images or are using offscreen buffers yourself.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>@gfx
+
+// Draw something to buffer #95
+gfx_dest = 95;
+gfx_drawstr("foo");
+
+// Avoid conflict
+ui_reserve_image(95);
+
+// This resets gfx_dest, so we're fine
+ui_start("main");
+/* etc. */</code></pre>
+	</div>
+</section>
+	</div><!-- children for section-drawing-->
+</section>
+<section id="section-text">
+	<h2>Text</h2>
+	<div class="about">
+		<p>Although the default fonts/etc. vary, these functions are theme-independent.</p>
+	</div>
+	<ul class="child-links">
+		<li><a href="#section-ui_text">ui_text</a></li>
+		<li><a href="#section-ui_wraptext">ui_wraptext / ui_wraptext_height</a></li>
+		<li><a href="#section-ui_texth">ui_texth</a></li>
+		<li><a href="#section-ui_text_width">ui_text_width / ui_text_height</a></li>
+		<li><a href="#section-ui_textnumber">ui_textnumber</a></li>
+		<li><a href="#section-ui_parsenumber">ui_parsenumber</a></li>
+	</ul>
+	<div class="children">
+<section id="section-ui_text">
+	<h2>ui_text</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_text-1"><code><span class="function-name">ui_text</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-text">#text</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Draws text into the viewport, using the current alignment.</p>
+		<p>Text not wrapped, but is shrunk to fit the space if necessary.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_text(#text);</code></pre>
+		<div class="screenshots screenshots-2">
+			<a href="../images/ui_text.png" target="_blank"><img class="screenshot" src="../images/ui_text.png"></a>
+			<a href="../images/ui_text-scaling.png" target="_blank"><img class="screenshot" src="../images/ui_text-scaling.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-ui_wraptext">
+	<h2>ui_wraptext / ui_wraptext_height</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_wraptext-1"><code><span class="function-return function-type-int">height</span> = <span class="function-name">ui_wraptext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<pre class="definition" id="api-ui_wraptext_height-1"><code><span class="function-return function-type-int">height</span> = <span class="function-name">ui_wraptext_height</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-text">#text</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>ui_wraptext() draws text into the viewport, using the current alignment.  Text wraps, but is not shrunk to fit, so may overflow.</p>
+		<p>ui_wraptext_height() measures the text without actually drawing it (which is useful for positioning things around wrapped text).</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>height = ui_wraptext(#longtext);</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_wraptext.png" target="_blank"><img class="screenshot" src="../images/ui_wraptext.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-ui_texth">
+	<h2>ui_texth</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_texth-0"><code><span class="function-return function-type-int">line_height</span> = <span class="function-name">ui_texth</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>Gets the current height of a single line, resetting the gfx_* font parameters if necessary.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>line_height = ui_texth();</code></pre>
+	</div>
+</section>
+<section id="section-ui_text_width">
+	<h2>ui_text_width / ui_text_height</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_text_width-1"><code><span class="function-return function-type-int">text_width</span> = <span class="function-name">ui_text_width</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<pre class="definition" id="api-ui_text_height-1"><code><span class="function-return function-type-int">text_height</span> = <span class="function-name">ui_text_height</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-text">#text</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Measures the width/height of text, resetting the gfx_* font parameters if necessary.</p>
+		<p>This will return a non-zero height even for empty strings.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>text_width = ui_text_width(#text);
+text_height = ui_text_height(#text);</code></pre>
+	</div>
+</section>
+<section id="section-ui_textnumber">
+	<h2>ui_textnumber</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_textnumber-2"><code><span class="function-name">ui_textnumber</span>(<span class="function-arg function-type-number">number</span>, <span class="function-arg function-type-text">#format</span>="%f")</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">number</code></li>
+				<li><code class="function-arg function-type-text">#format</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Formats a number using sprintf() formats, and draws it using ui_text().</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_textnumber(number, #format);</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_textnumber.png" target="_blank"><img class="screenshot" src="../images/ui_textnumber.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-ui_parsenumber">
+	<h2>ui_parsenumber</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_parsenumber-2"><code><span class="function-return function-type-number">number</span> = <span class="function-name">ui_parsenumber</span>(<span class="function-arg function-type-text">#number_string</span>, <span class="function-arg function-type-number">default</span>=0)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-text">#number_string</code></li>
+				<li><code class="function-arg function-type-number">default</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>This function parses string into a number.</p>
+		<p>It stops at the first invalid character, returning the default value if it did not find a valid number first.  Whitespace is ignored.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>number = ui_parsenumber(#number_string, default);</code></pre>
+	</div>
+</section>
+	</div><!-- children for section-text-->
+</section>
+<section id="section-user-input">
+	<h2>User input</h2>
+	<ul class="child-links">
+		<li><a href="#section-mouse">Mouse</a></li>
+		<li><a href="#section-keyboard">Keyboard</a></li>
+		<li><a href="#section-ui_interacted">ui_interacted</a></li>
+	</ul>
+	<div class="children">
+<section id="section-mouse">
+	<h2>Mouse</h2>
+	<div class="about">
+		<p>For raw mouse state, you can still use mouse_x, mouse_y and mouse_cap.  These functions deal with more complex interactions, like dragging and hovering.</p>
+		<p>For any function that takes a &quot;button index&quot; argument, it uses the standard JSFX numbers of 1=left, 2=right, 64=middle.  Omitting this argument defaults to 1 (left click).</p>
+	</div>
+	<ul class="child-links">
+		<li><a href="#section-mouse-position">Mouse position</a></li>
+		<li><a href="#section-ui_click">ui_click / ui_clickcount</a></li>
+		<li><a href="#section-mouse-movement">Mouse movement</a></li>
+		<li><a href="#section-mouse-down-event">Mouse-down event</a></li>
+		<li><a href="#section-mouse-up-event">Mouse-up event</a></li>
+		<li><a href="#section-mouse-dragging">Mouse dragging</a></li>
+		<li><a href="#section-scroll-wheel">Scroll wheel</a></li>
+		<li><a href="#section-ui_hover">ui_hover</a></li>
+		<li><a href="#section-ui_press">ui_press</a></li>
+		<li><a href="#section-clear-the-mouse-status">Clear the mouse status</a></li>
+	</ul>
+	<div class="children">
+<section id="section-mouse-position">
+	<h2>Mouse position</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_mouse_x-0"><code><span class="function-return function-type-number">relative_x</span> = <span class="function-name">ui_mouse_x</span>()</code></pre>
+		<pre class="definition" id="api-ui_mouse_xratio-0"><code><span class="function-return function-type-number">relative_x</span> = <span class="function-name">ui_mouse_xratio</span>()</code></pre>
+		<pre class="definition" id="api-ui_mouse_y-0"><code><span class="function-return function-type-number">relative_x</span> = <span class="function-name">ui_mouse_y</span>()</code></pre>
+		<pre class="definition" id="api-ui_mouse_yratio-0"><code><span class="function-return function-type-number">relative_y</span> = <span class="function-name">ui_mouse_yratio</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>These functions return the mouse position relative to the current viewport, either in absolute pixels or as a ratio.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>x = ui_mouse_x();
+y = ui_mouse_y();
+x_ratio = ui_mouse_xratio();
+y_ratio = ui_mouse_yratio();</code></pre>
+	</div>
+</section>
+<section id="section-ui_click">
+	<h2>ui_click / ui_clickcount</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_click-1"><code><span class="function-return function-type-bool">pressed</span> = <span class="function-name">ui_click</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+		<pre class="definition" id="api-ui_clickcount-1"><code><span class="function-return function-type-int">count</span> = <span class="function-name">ui_clickcount</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-enum">button</code> - 1, 2 or 64</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>ui_click() returns whether the user clicked within this viewport, and released within this viewport.  If the mouse moved outside the viewport within this time and then back in again, it still counts as a &quot;click&quot;.  It returns 0, or the duration of the click.</p>
+		<p>ui_clickcount() can be used to detect double-clicks/triple-clicks/etc.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_click() ? (
+	ui_fill();
+
+	last_clickcount = ui_clickcount();
+);</code></pre>
+	</div>
+</section>
+<section id="section-mouse-movement">
+	<h2>Mouse movement</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_mouse_dx-0"><code><span class="function-return function-type-number">dx</span> = <span class="function-name">ui_mouse_dx</span>()</code></pre>
+		<pre class="definition" id="api-ui_mouse_dy-0"><code><span class="function-return function-type-number">dy</span> = <span class="function-name">ui_mouse_dy</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>Returns the mouse movement since the last frame.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>dx = ui_mouse_dx();
+dy = ui_mouse_dy();
+
+// Draw mouse movement
+mx = mouse_x;
+my = mouse_y;
+gfx_line(mx, my, mx - dx, my - dy);</code></pre>
+	</div>
+</section>
+<section id="section-mouse-down-event">
+	<h2>Mouse-down event</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_mouse_down-1"><code><span class="function-return function-type-bool">event</span> = <span class="function-name">ui_mouse_down</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+		<pre class="definition" id="api-ui_mouse_down_outside-1"><code><span class="function-return function-type-bool">event</span> = <span class="function-name">ui_mouse_down_outside</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-enum">button</code> - 1, 2 or 64</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Returns whether the mouse button has just been pressed, either inside the current viewport (ui_mouse_down) or outside (ui_mouse_down_outside).</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>event_counter1 += ui_mouse_down(1);
+event_counter2 += ui_mouse_down(2);
+event_counter64 += ui_mouse_down(64);</code></pre>
+	</div>
+</section>
+<section id="section-mouse-up-event">
+	<h2>Mouse-up event</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_mouse_up-1"><code><span class="function-return function-type-bool">event</span> = <span class="function-name">ui_mouse_up</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-enum">button</code> - 1, 2 or 64</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Returns whether the mouse button has just been released, while the mouse is inside the current viewport.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>event_counter1 += ui_mouse_up(1);
+event_counter2 += ui_mouse_up(2);
+event_counter64 += ui_mouse_up(64);</code></pre>
+	</div>
+</section>
+<section id="section-mouse-dragging">
+	<h2>Mouse dragging</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_drag-1"><code><span class="function-return function-type-bool">drag_time</span> = <span class="function-name">ui_drag</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+		<pre class="definition" id="api-ui_drag_x-1"><code><span class="function-return function-type-number">drag_x</span> = <span class="function-name">ui_drag_x</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+		<pre class="definition" id="api-ui_drag_y-1"><code><span class="function-return function-type-number">drag_y</span> = <span class="function-name">ui_drag_y</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-enum">button</code> - 1, 2 or 64</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Returns whether the current viewport is currently being dragged or held-down (mouse-down within the viewport, then moved or held for a period of time).</p>
+		<p>ui_drag() returns either 0, or the time since mouse-down.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>drag_time = ui_drag();
+drag_x = ui_drag_x();
+drag_y = ui_drag_y();</code></pre>
+	</div>
+</section>
+<section id="section-scroll-wheel">
+	<h2>Scroll wheel</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_scroll_x-0"><code><span class="function-return function-type-number">dx</span> = <span class="function-name">ui_scroll_x</span>()</code></pre>
+		<pre class="definition" id="api-ui_scroll_y-0"><code><span class="function-return function-type-number">dy</span> = <span class="function-name">ui_scroll_y</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>Returns the scroll-wheel movement since the last frame.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>dx = ui_scroll_x();
+dy = ui_scroll_y();</code></pre>
+	</div>
+</section>
+<section id="section-ui_hover">
+	<h2>ui_hover</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_hover-0"><code><span class="function-return function-type-bool">hover</span> = <span class="function-name">ui_hover</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>Returns whether the mouse position is inside the current viewport.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>hover = ui_hover();
+
+hover ? ui_fill();</code></pre>
+	</div>
+</section>
+<section id="section-ui_press">
+	<h2>ui_press</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_press-1"><code><span class="function-return function-type-bool">pressed</span> = <span class="function-name">ui_press</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-enum">button</code> - 1, 2 or 64</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Whether the user originally clicked within the viewport, and is currently hovering over it with the mouse-button pressed down.</p>
+		<p>Returns either 0, or the time since the original press.</p>
+		<p>If the user clicks and drags away from the viewport, then back into it, that still counts as &quot;pressing&quot;.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>pressed = ui_press();
+
+pressed ? ui_fill();</code></pre>
+	</div>
+</section>
+<section id="section-clear-the-mouse-status">
+	<h2>Clear the mouse status</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_click_clear-0"><code><span class="function-name">ui_click_clear</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>Prevents any later code from registering clicks, drags, and so on.  In essence, it release all currently-held mouse buttons, but without triggering any events.</p>
+		<p>This is most useful when what's on the screen is about to change - it is done automatically when opening/closing screens, so that the new page does not register any events it shouldn't.</p>
+		<p>This does not affect mouse_cap, only the functions available in this UI library.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_click_clear();</code></pre>
+	</div>
+</section>
+	</div><!-- children for section-mouse-->
+</section>
+<section id="section-keyboard">
+	<h2>Keyboard</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_key-0"><code><span class="function-return function-type-int">char</span> = <span class="function-name">ui_key</span>()</code></pre>
+		<pre class="definition" id="api-ui_key_printable-0"><code><span class="function-return function-type-int">char</span> = <span class="function-name">ui_key_printable</span>()</code></pre>
+		<pre class="definition" id="api-ui_key_next-0"><code><span class="function-return function-type-int">char</span> = <span class="function-name">ui_key_next</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>ui_key() returns the char code of the latest unhandled key-press, or 0 if there is none.</p>
+		<p>ui_key() will return the same char code until ui_key_next() is called, or until the next frame (more precisely, the next call to ui_start()).  This lets multiple sections of code &quot;peek&quot; at the latest key, and choose whether to ignore it or claim it.</p>
+		<p>ui_key_printable() is similar, but it also returns 0 for non-printable characters.</p>
+		<p>If you want to receive the full range of keypresses (including things like space/escape, which normally go to the host), put &quot;options:want_all_kb&quot; in the header of your effect.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>char = ui_key();
+
+lastchar = char ? char : lastchar;</code></pre>
+	</div>
+</section>
+<section id="section-ui_interacted">
+	<h2>ui_interacted</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-ui_interacted-0"><code><span class="function-return function-type-bool">interacted</span> = <span class="function-name">ui_interacted</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>This function returns whether the user has interacted with this effect since last frame.</p>
+		<p>Interaction is defined as: pressing/releasing any mouse button or control key, scrolling the mouse wheel, moving the mouse while a button is held down, or pressing a key.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>interacted = ui_interacted();</code></pre>
+	</div>
+</section>
+	</div><!-- children for section-user-input-->
+</section>
+<section id="section-themed-controls">
+	<h2>Themed controls</h2>
+	<ul class="child-links">
+		<li><a href="#section-drawing-your-own-controls">Drawing your own controls</a></li>
+		<li><a href="#section-screen-decoration-and-layout">Screen decoration and layout</a></li>
+		<li><a href="#section-buttons-readouts-and-switches">Buttons, readouts and switches</a></li>
+		<li><a href="#section-sliders">Sliders</a></li>
+		<li><a href="#section-dials">Dials</a></li>
+		<li><a href="#section-text-inputs">Text inputs</a></li>
+	</ul>
+	<div class="children">
+<section id="section-drawing-your-own-controls">
+	<h2>Drawing your own controls</h2>
+	<div class="about">
+		<p>No UI library can provide everything, so it provides some ways to draw custom controls that fit into the theme.</p>
+	</div>
+	<ul class="child-links">
+		<li><a href="#section-control_state">control_state</a></li>
+		<li><a href="#section-styling-for-custom-controls">Styling for custom controls</a></li>
+		<li><a href="#section-control_arrow">control_arrow</a></li>
+	</ul>
+	<div class="children">
+<section id="section-control_state">
+	<h2>control_state</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_state-0"><code><span class="function-return function-type-enum">state</span> = <span class="function-name">control_state</span>()</code></pre>
+	</div>
+	<div class="about">
+		<p>This returns the current mouse-interaction state of the current viewport.</p>
+		<p>These values match what can be passed into control_background_*() and control_finish_*().  This lets you assemble a composite control that shares a single press/hover/drag state.</p>
+		<p>Reported states are &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot; and &quot;none&quot;, in that order of precedence - so if the user has clicked and dragged, but is still within the control (so it counts as a press), then it will report &quot;press&quot;.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>state = control_state();</code></pre>
+	</div>
+</section>
+<section id="section-styling-for-custom-controls">
+	<h2>Styling for custom controls</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_background_enabled-1"><code><span class="function-name">control_background_enabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+		<pre class="definition" id="api-control_background_enabled_circle-1"><code><span class="function-name">control_background_enabled_circle</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+		<pre class="definition" id="api-control_background_disabled-1"><code><span class="function-name">control_background_disabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+		<pre class="definition" id="api-control_background_passive-1"><code><span class="function-name">control_background_passive</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+		<pre class="definition" id="api-control_background_inset-1"><code><span class="function-name">control_background_inset</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+		<pre class="definition" id="api-control_background_technical-1"><code><span class="function-name">control_background_technical</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+		<pre class="definition" id="api-control_finish_enabled-1"><code><span class="function-name">control_finish_enabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+		<pre class="definition" id="api-control_finish_enabled_circle-1"><code><span class="function-name">control_finish_enabled_circle</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+		<pre class="definition" id="api-control_finish_disabled-1"><code><span class="function-name">control_finish_disabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+		<pre class="definition" id="api-control_finish_passive-1"><code><span class="function-name">control_finish_passive</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+		<pre class="definition" id="api-control_finish_inset-1"><code><span class="function-name">control_finish_inset</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+		<pre class="definition" id="api-control_finish_technical-1"><code><span class="function-name">control_finish_technical</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-enum">state</code> - &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot;, &quot;none&quot; or &quot;auto&quot;</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>These help you create custom controls that fit into the theme, by drawing a background and an overlay in the appropriate style, including setting an appropriate ui_color().</p>
+		<p>If state is omitted (&quot;auto&quot;), it is calculated using the current mouse interaction.  However when creating a composite control it's useful to have a shared state (e.g. when any part of the control is pressed, the whole control displays as pressed).</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_split_topratio(1/6);
+	ui_pad();
+	control_background_enabled(state);
+	ui_text("enabled");
+	control_finish_enabled(state);
+ui_split_next();
+	ui_pad();
+	control_background_enabled_circle(state);
+	ui_text("circle");
+	control_finish_enabled_circle(state);
+ui_split_next();
+	ui_pad();
+	control_background_disabled(state);
+	ui_text("disabled");
+	control_finish_disabled(state);
+ui_split_next();
+	ui_pad();
+	control_background_passive(state);
+	ui_text("passive");
+	control_finish_passive(state);
+ui_split_next();
+	ui_pad();
+	control_background_inset(state);
+	ui_text("inset");
+	control_finish_inset(state);
+ui_split_next();
+	ui_pad();
+	control_background_technical(state);
+	ui_text("technical");
+	control_finish_technical(state);
+ui_pop();</code></pre>
+		<div class="screenshots screenshots-3">
+			<a href="../images/custom-themed-controls-default.png" target="_blank"><img class="screenshot" src="../images/custom-themed-controls-default.png"></a>
+			<a href="../images/custom-themed-controls-tron.png" target="_blank"><img class="screenshot" src="../images/custom-themed-controls-tron.png"></a>
+			<a href="../images/custom-themed-controls-black.png" target="_blank"><img class="screenshot" src="../images/custom-themed-controls-black.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-control_arrow">
+	<h2>control_arrow</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_arrow-1"><code><span class="function-name">control_arrow</span>(<span class="function-arg function-type-enum">direction</span>="down")</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-enum">direction</code> - &quot;left&quot;, &quot;up&quot;, &quot;right&quot; or &quot;down&quot;</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Draws a triangle in the current viewport, using the current colour.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>control_arrow(direction);</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/control_arrow.png" target="_blank"><img class="screenshot" src="../images/control_arrow.png"></a>
+		</div>
+	</div>
+</section>
+	</div><!-- children for section-drawing-your-own-controls-->
+</section>
+<section id="section-screen-decoration-and-layout">
+	<h2>Screen decoration and layout</h2>
+	<ul class="child-links">
+		<li><a href="#section-control_navbar">control_navbar</a></li>
+		<li><a href="#section-control_dialog">control_dialog</a></li>
+		<li><a href="#section-control_group">control_group</a></li>
+	</ul>
+	<div class="children">
+<section id="section-control_navbar">
+	<h2>control_navbar</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_navbar-1"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_navbar</span>(<span class="function-arg function-type-text">#title</span>)</code></pre>
+		<pre class="definition" id="api-control_navbar-3"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_navbar</span>(<span class="function-arg function-type-text">#title</span>, <span class="function-arg function-type-text">#next_title</span>, <span class="function-arg function-type-number">next_screen_id</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-text">#title</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Draws a navigation bar at the top of the viewport.  This is probably the first thing you want to draw.</p>
+		<p>If this is not the first screen on the screen stack, it automatically adds a &quot;back&quot; button which returns to the screen below.  If parameters for the next screen are supplied, a button drawn on the opposite side to the &quot;back&quot; button. When pressed, it opens the screen with the given ID.</p>
+		<p>The returned action is 0 if nothing was clicked and it expects to stay on this screen, -1 if &quot;back&quot; was clicked, and 1 if the next screen was clicked.  These screens will be closed/opened automatically, so you only need to check if you want to perform an additional action (such as saving results or writing screen arguments).  This also means that any screen arguments should be read *before* the call to control_navbar(), or they might be read from the incorrect screen.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>control_navbar(#title, #next_title, "options");
+
+ui_text("screen contents go here");</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/control_navbar.png" target="_blank"><img class="screenshot" src="../images/control_navbar.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-control_dialog">
+	<h2>control_dialog</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_dialog-1"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_dialog</span>(<span class="function-arg function-type-text">#title</span>)</code></pre>
+		<pre class="definition" id="api-control_dialog-2"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_dialog</span>(<span class="function-arg function-type-text">#title</span>, <span class="function-arg function-type-text">#ok</span>)</code></pre>
+		<pre class="definition" id="api-control_dialog-3"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_dialog</span>(<span class="function-arg function-type-text">#title</span>, <span class="function-arg function-type-text">#ok</span>, <span class="function-arg function-type-text">#cancel</span>)</code></pre>
+		<pre class="definition" id="api-control_dialog-5"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_dialog</span>(<span class="function-arg function-type-text">#title</span>, <span class="function-arg function-type-int">width</span>, <span class="function-arg function-type-int">height</span>, <span class="function-arg function-type-text">#ok</span>, <span class="function-arg function-type-text">#cancel</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-text">#title</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Decorates the viewport to be a dialog.  Afterwards, the viewport is inside the area of the dialog.  This is probably the first thing you want to draw inside your screen.</p>
+		<p>The returned action is 0 if nothing was clicked and it expects to stay on this screen, -1 if &quot;cancel&quot; was clicked, and 1 if &quot;OK&quot; was clicked - if either of these is clicked, the screen will close itself, so you only need to check if you want to perform an additional action (such as saving results or writing screen arguments).  This also means that any screen arguments should be read *before* the call to control_navbar(), or they might be read from the incorrect screen.</p>
+		<p>If &quot;cancel&quot; is omitted, then no cancel button will be displayed.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>has_cancel ? (
+	control_dialog(#title, #ok, #cancel);
+) : (
+	control_dialog(#title, #ok);
+);
+
+ui_text("dialog contents go here");</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/control_dialog.png" target="_blank"><img class="screenshot" src="../images/control_dialog.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-control_group">
+	<h2>control_group</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_group-1"><code><span class="function-name">control_group</span>(<span class="function-arg function-type-text">#label</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-text">#label</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>This draws a labelled group indicator in the current viewport, and adds padding so that elements are placed inside this group.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>control_group(#label);ui_text("Control group contents");</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/control_group.png" target="_blank"><img class="screenshot" src="../images/control_group.png"></a>
+		</div>
+	</div>
+</section>
+	</div><!-- children for section-screen-decoration-and-layout-->
+</section>
+<section id="section-buttons-readouts-and-switches">
+	<h2>Buttons, readouts and switches</h2>
+	<ul class="child-links">
+		<li><a href="#section-control_readout">control_readout / control_readoutnumber</a></li>
+		<li><a href="#section-control_button">control_button</a></li>
+		<li><a href="#section-control_selector">control_selector</a></li>
+		<li><a href="#section-control_switch">control_switch</a></li>
+	</ul>
+	<div class="children">
+<section id="section-control_readout">
+	<h2>control_readout / control_readoutnumber</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_readout-1"><code><span class="function-name">control_readout</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<pre class="definition" id="api-control_readoutnumber-2"><code><span class="function-name">control_readoutnumber</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-text">#format</span>="%f")</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-text">#text</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Displays a non-interactive value display (&quot;inset&quot; style).</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>control_readout(#text);</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/control_readout.png" target="_blank"><img class="screenshot" src="../images/control_readout.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-control_button">
+	<h2>control_button</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_button-2"><code><span class="function-return function-type-number">click</span> = <span class="function-name">control_button</span>(<span class="function-arg function-type-text">#text</span>, <span class="function-arg function-type-bool">enabled</span>=1)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-text">#text</code></li>
+				<li><code class="function-arg function-type-bool">enabled</code> - boolean</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Displays a button (&quot;enabled&quot; style).  Triggers on mouse-up, and returns the time since mouse-down, or 0 if there was no click.</p>
+		<p>If &quot;enabled&quot; is 0, it is drawn using &quot;disabled&quot; style, and always returns 0 (ignoring clicks).</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>click = control_button(#text, enabled);
+click_total += click;</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/control_button.png" target="_blank"><img class="screenshot" src="../images/control_button.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-control_selector">
+	<h2>control_selector</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_selector-4"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_selector</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-text">#text</span>, <span class="function-arg function-type-number">next_value</span>, <span class="function-arg function-type-number">prev_value</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">value</code></li>
+				<li><code class="function-arg function-type-text">#text</code></li>
+				<li><code class="function-arg function-type-number">next_value</code></li>
+				<li><code class="function-arg function-type-number">prev_value</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Displays a selector for switching between a fixed number of values.  If next_value or prev_value are equal to the current value, their corresponding controls are greyed-out.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>sprintf(#selector_text, "option #%i", value);
+// increment, maximum 10
+next_value = min(10, value + 1);
+// decrement, minimum 0
+prev_value = max(0, value - 1);
+
+value = control_selector(value, #selector_text,
+		next_value, prev_value);</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/control_selector.png" target="_blank"><img class="screenshot" src="../images/control_selector.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-control_switch">
+	<h2>control_switch</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_switch-1"><code><span class="function-return function-type-bool">bool_value</span> = <span class="function-name">control_switch</span>(<span class="function-arg function-type-bool">bool_value</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-bool">bool_value</code> - boolean</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Displays an on/off switch for a boolean value.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>bool_value = control_switch(bool_value);</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/control_switch.gif" target="_blank"><img class="screenshot" src="../images/control_switch.gif"></a>
+		</div>
+	</div>
+</section>
+	</div><!-- children for section-buttons-readouts-and-switches-->
+</section>
+<section id="section-sliders">
+	<h2>Sliders</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_slider_left-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_slider_left</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
+		<pre class="definition" id="api-control_slider_x-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_slider_x</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
+		<pre class="definition" id="api-control_slider_bottom-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_slider_bottom</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">bottom_value</span>, <span class="function-arg function-type-number">top_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
+		<pre class="definition" id="api-control_slider_y-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_slider_y</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">bottom_value</span>, <span class="function-arg function-type-number">top_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">value</code></li>
+				<li><code class="function-arg function-type-number">left_value</code></li>
+				<li><code class="function-arg function-type-number">right_value</code></li>
+				<li><code class="function-arg function-type-number">curve</code></li>
+				<li><code class="function-arg function-type-number">default</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Draws a horizontal or vertical slider.</p>
+		<p>The &quot;curve&quot; parameter determines how the visual position of the slider corresponds to the actual values.  Positive values give more accuracy on the left/top side, negative on the right/bottom.  For a logarithmic scale, use curve=log(left_value/right_value).</p>
+		<p>Sliders with a particular side (e.g. &quot;left&quot;) will show a link between the current value and that side.  control_slider_x() and control_slider_y() will not show that link, but *may* show a link between the current value and the default value, if one is provided.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_split_topratio(1/4);
+	ui_split_left(70);
+		ui_text("curve=0");
+	ui_pop();
+	value = control_slider_left(value, 0, 1, 0, 0.5);
+ui_split_next();
+	ui_split_left(70);
+		ui_text("curve=2");
+	ui_pop();
+	value = control_slider_left(value, 0, 1, 2, 0.5);
+ui_split_next();
+	ui_split_left(70);
+		ui_text("curve=-2");
+	ui_pop();
+	value = control_slider_left(value, 0, 1, -2, 0.5);
+ui_split_next();
+	ui_split_left(70);
+		ui_text("slider_x");
+	ui_pop();
+	value = control_slider_x(value, 0, 1, 0, 0.5);
+ui_pop();</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/sliders.gif" target="_blank"><img class="screenshot" src="../images/sliders.gif"></a>
+		</div>
+	</div>
+</section>
+<section id="section-dials">
+	<h2>Dials</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_dial_left-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_dial_left</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
+		<pre class="definition" id="api-control_dial-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_dial</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
+		<pre class="definition" id="api-control_dial_angle-2"><code><span class="function-return function-type-number">angle</span> = <span class="function-name">control_dial_angle</span>(<span class="function-arg function-type-number">angle</span>, <span class="function-arg function-type-number">default</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">value</code></li>
+				<li><code class="function-arg function-type-number">left_value</code></li>
+				<li><code class="function-arg function-type-number">right_value</code></li>
+				<li><code class="function-arg function-type-number">curve</code></li>
+				<li><code class="function-arg function-type-number">default</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Draws a rotating dial.  The &quot;curve&quot; parameter works the same was as for sliders.</p>
+		<p>Like sliders, control_dial_left() will show a link between the current value and the left value, and control_slider() will not show that link (but may show a link to the default value).</p>
+		<p>control_dial_angle() provides a dial that can rotate freely, returning a value between 0 and 2*PI, where 0 is vertical.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_split_topratio(1/3);
+	value = control_dial_left(value, 0, 1);
+ui_split_next();
+	value = control_dial(value, 0, 1);
+ui_split_next();
+	angle = control_dial_angle(angle, 0);
+ui_pop();</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/dials.png" target="_blank"><img class="screenshot" src="../images/dials.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-text-inputs">
+	<h2>Text inputs</h2>
+	<div class="about">
+		<p>JSFX has no built-in text inputs, so this isn't quite as smooth as a native control, but it's functional.  It supports selecting with the mouse (including double-clicking on words) or keyboard.</p>
+		<p>Text inputs pack their internal state into an opaque state value, which you need to store and pass back to it next time, otherwise they won't work.  You should not store this state in presets/sliders, or attempt to manipulate it directly - use the appropriate functions.</p>
+		<p>If you want to enter interesting characters (like space) which would otherwise be handled by the host, put &quot;options:want_all_kb&quot; in the header of your effect.</p>
+	</div>
+	<ul class="child-links">
+		<li><a href="#section-control_textinput">control_textinput</a></li>
+		<li><a href="#section-control_textinput_focused">control_textinput_focused</a></li>
+		<li><a href="#section-control_textinput_focus">control_textinput_focus</a></li>
+		<li><a href="#section-control_textinput_unfocus">control_textinput_unfocus</a></li>
+		<li><a href="#section-control_hidden_text">control_hidden_text / control_hidden_textnumber</a></li>
+	</ul>
+	<div class="children">
+<section id="section-control_textinput">
+	<h2>control_textinput</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_textinput-2"><code><span class="function-return function-type-number">opaquestate</span> = <span class="function-name">control_textinput</span>(<span class="function-arg function-type-text">#text</span>, <span class="function-arg function-type-number">opaquestate</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-text">#text</code></li>
+				<li><code class="function-arg function-type-number">opaquestate</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Draws a text input, constantly updating the mutable string #text.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>opaquestate = control_textinput(#text, opaquestate);</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/control_textinput.png" target="_blank"><img class="screenshot" src="../images/control_textinput.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-control_textinput_focused">
+	<h2>control_textinput_focused</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_textinput_focused-1"><code><span class="function-return function-type-bool">hasfocus</span> = <span class="function-name">control_textinput_focused</span>(<span class="function-arg function-type-number">opaquestate</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">opaquestate</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Returns whether the given text input currently has focus (i.e. is processing keyboard events).</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>control_textinput_focused(opaquestate) ? (
+	/* do whatever */
+);</code></pre>
+	</div>
+</section>
+<section id="section-control_textinput_focus">
+	<h2>control_textinput_focus</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_textinput_focus-1"><code><span class="function-return function-type-number">opaquestate</span> = <span class="function-name">control_textinput_focus</span>(<span class="function-arg function-type-number">opaquestate</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">opaquestate</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Demand focus for this input element</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>opaquestate = control_textinput_focus(opaquestate);</code></pre>
+	</div>
+</section>
+<section id="section-control_textinput_unfocus">
+	<h2>control_textinput_unfocus</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_textinput_unfocus-1"><code><span class="function-return function-type-number">opaquestate</span> = <span class="function-name">control_textinput_unfocus</span>(<span class="function-arg function-type-number">opaquestate</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">opaquestate</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Decline focus for this input element</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>opaquestate = control_textinput_unfocus(opaquestate);</code></pre>
+	</div>
+</section>
+<section id="section-control_hidden_text">
+	<h2>control_hidden_text / control_hidden_textnumber</h2>
+	<div class="definitions">
+		<pre class="definition" id="api-control_hidden_text-1"><code><span class="function-return function-type-enum">state</span> = <span class="function-name">control_hidden_text</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+		<pre class="definition" id="api-control_hidden_textnumber-2"><code><span class="function-return function-type-number">number</span> = <span class="function-name">control_hidden_textnumber</span>(<span class="function-arg function-type-number">number</span>, <span class="function-arg function-type-text">#display_format</span>="%f")</code></pre>
+		<pre class="definition" id="api-control_hidden_textnumber-3"><code><span class="function-return function-type-number">number</span> = <span class="function-name">control_hidden_textnumber</span>(<span class="function-arg function-type-number">number</span>, <span class="function-arg function-type-number">display_number</span>, <span class="function-arg function-type-text">#display_format</span>="%f")</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-text">#text</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Draws a control that when inactive displays using ui_text() or ui_textnumber(), but when right-clicked or triple-clicked, displays a text input for editing the value.</p>
+		<p>control_hidden_text() returns whether it is active: 0 if inactive/hidden, 1 if currently focused, and -1 if it just lost focus (so it drew itself, but does not expect to draw itself next frame).</p>
+		<p>For control_hidden_textnumber, if you need to display a different number than the actual value (e.g. due to rounding issues), you can set display_number to a different value from the actual number.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>state = control_hidden_text(#text);</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/control_hidden_text.gif" target="_blank"><img class="screenshot" src="../images/control_hidden_text.gif"></a>
+		</div>
+	</div>
+</section>
+	</div><!-- children for section-text-inputs-->
+</section>
+	</div><!-- children for section-themed-controls-->
+</section>
+	</div><!-- children for section-index-->
+</section>
+	</body>
+</html>

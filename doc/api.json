@@ -1155,7 +1155,8 @@
 									"return": "number"
 								}
 							],
-							"text": "Draws a control that when inactive displays using ui_text() or ui_textnumber(), but when right-clicked or triple-clicked, displays a text input for editing the value.\n\ncontrol_hidden_text() returns whether it is active: 0 if inactive/hidden, 1 if currently focused, and -1 if it just lost focus (so it drew itself, but does not expect to draw itself next frame).\n\nFor control_hidden_textnumber, if you need to display a different number than the actual value (e.g. due to rounding issues), you can set display_number to a different value from the actual number."
+							"text": "Draws a control that when inactive displays using ui_text() or ui_textnumber(), but when right-clicked or triple-clicked, displays a text input for editing the value.\n\ncontrol_hidden_text() returns whether it is active: 0 if inactive/hidden, 1 if currently focused, and -1 if it just lost focus (so it drew itself, but does not expect to draw itself next frame).\n\nFor control_hidden_textnumber, if you need to display a different number than the actual value (e.g. due to rounding issues), you can set display_number to a different value from the actual number.",
+							"screenshot": "images/control_hidden_text.gif"
 						}
 					]
 				}

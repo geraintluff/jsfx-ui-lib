@@ -1,3 +1,114 @@
+function htmlEscape(text) {
+	return text.split('&').join('&amp;').split('<').join('&lt;').split('"').join('&quot;');
+}
+
+function indent(code, N) {
+	var tab = '\t';
+	if (N > 0) {
+		for (var i = 1; i < N; i++) {
+			tab += '\t';
+		}
+	}
+	return tab + code.trim().split('\n').join('\n' + tab) + '\n';
+}
+
+function filloutParams(params, pageId) {
+	return [].concat(params).map((param, index) => {
+		if (typeof param === 'string') {
+			param = {name: param};
+		}
+		param.name = param.name || ('arg' + (index + 1));
+		if (param.type == 'text' && param.name[0] !== '#') {
+			param.name = '#' + param.name;
+		}
+		if (!param.type && param.name[0] == '#') {
+			param.type = 'text';
+		}
+		param.var = param.var || param.name;
+		if (param.type === 'boolean') param.type = 'bool';
+		if (param.type === 'integer') param.type = 'int';
+		if (!param.type) param.type = 'number';
+		return param;
+	});
+}
+
+function filloutApi(api, pageId, options, usedIds) {
+	options = options || {};
+	options.idSuffix = options.idSuffix || '';
+	options.idPrefix = options.idPrefix || '';
+	usedIds = usedIds || {};
+
+	if (api.text && !api.html) {
+		api.html = api.text.split('\n\n').map(para => '<p>' + htmlEscape(para) + '</p>').join('\n');
+	}
+
+	pageId = api.pageId || pageId;
+	var baseId = pageId;
+	for (var i = 2; usedIds[pageId]; i++) {
+		pageId = baseId + '-' + i;
+	}
+	api.pageId = pageId;
+
+	api.setupVar = api.setupVar = api.pageId + '_setup';
+
+	if (api.params) api.params = filloutParams(api.params, pageId);
+	if (api.return) api.return = filloutParams(api.return, pageId);
+	api.api = [].concat(api.api || []);
+	api.api.forEach(def => {
+		def.args = [].concat(def.args || []);
+		def.args = filloutParams(def.args, pageId);
+		if (def.return) def.return = filloutParams(def.return, pageId)[0];
+	});
+
+	if (!api.title && api.api.length) {
+		var map = {};
+		var list = [];
+		api.api.forEach(def => {
+			if (!map[def.function]) {
+				map[def.function] = true;
+				list.push(def.function);
+			}
+		});
+		api.title = list.join(' / ');
+	}
+	api.title = api.title || '(unknown)';
+
+	api.displayCode = api.displayCode || api.code;
+	if (!api.code && !api.displayCode && api.api.length) {
+		api.displayCode = api.code = defToCode(api.api[0]);
+	}
+	api.screenshot = [].concat(api.screenshot || []);
+
+	api.children = [].concat(api.children || []);
+
+	if (options.recursive) {
+		api.children.forEach((child, index) => {
+			var childId = child.pageId;
+			if (!childId) {
+				var suffix = child.title || (child.api && [].concat(child.api)[0].function) || (index + '');
+				suffix = suffix.replace(/[^a-z0-9_]+/ig, '-').replace(/^\-+/, '').replace(/\-+$/, '').toLowerCase();
+				childId = options.idPrefix + suffix + options.idSuffix;
+			}
+			filloutApi(child, childId, options, usedIds);
+		});
+	}
+	return api;
+}
+
+function defToCode(def, includeDefaults) {
+	var code = def.return ? (def.return.name || 'result') + ' = ' : '';
+	code += def.function + '(' + def.args.map((arg, index) => {
+		var code = arg.name || ('arg' + (index + 1));
+		if (includeDefaults && 'default' in arg) {
+			code += '=' + JSON.stringify(arg.default);
+		}
+		return code;
+	}).join(', ') + ');';
+	return code;
+}
+
+/********/
+
 var fs = require('fs'), path = require('path');
 
 var libCode = fs.readFileSync(__dirname + '/../ui-lib.jsfx-inc');
@@ -42,74 +153,6 @@ ui_screen() == "options" ? (
 		ui_pop();
 	ui_pop();
 ) : `;
-
-function indent(code, N) {
-	var tab = '\t';
-	if (N > 0) {
-		for (var i = 1; i < N; i++) {
-			tab += '\t';
-		}
-	}
-	return tab + code.trim().split('\n').join('\n' + tab) + '\n';
-}
-
-function filloutParams(params, pageId) {
-	return [].concat(params).map((param, index) => {
-		if (typeof param === 'string') {
-			param = {name: param};
-		}
-		param.name = param.name || ('arg' + (index + 1));
-		if (param.type == 'text' && param.name[0] !== '#') {
-			param.name = '#' + param.name;
-		}
-		if (!param.type && param.name[0] == '#') {
-			param.type = 'text';
-		}
-		param.var = param.var || param.name;
-		if (param.type === 'boolean') param.type = 'bool';
-		if (param.type === 'integer' || param.type === "pointer") param.type = 'int';
-		return param;
-	});
-}
-
-function filloutApi(api, pageId) {
-	api.pageId = api.pageId || pageId;
-	api.setupVar = api.setupVar = api.pageId + '_setup';
-
-	if (api.params) api.params = filloutParams(api.params, pageId);
-	if (api.return) api.return = filloutParams(api.return, pageId);
-	api.api = [].concat(api.api || []);
-	api.api.forEach(def => {
-		def.args = [].concat(def.args || []);
-		def.args = filloutParams(def.args, pageId);
-		if (def.return) def.return = filloutParams(def.return, pageId)[0];
-	});
-
-	if (!api.title && api.api.length) {
-		var map = {};
-		var list = [];
-		api.api.forEach(def => {
-			if (!map[def.function]) {
-				map[def.function] = true;
-				list.push(def.function);
-			}
-		});
-		api.title = list.join(' / ');
-	}
-	api.title = api.title || '(unknown)';
-}
-
-function defToCode(def, includeDefaults) {
-	var code = def.return ? (def.return.name || 'result') + ' = ' : '';
-	code += def.function + '(' + def.args.map((arg, index) => {
-		var code = arg.name || ('arg' + (index + 1));
-		if (includeDefaults && 'default' in arg) {
-			code += '=' + JSON.stringify(arg.default);
-		}
-		return code;
-	}).join(', ') + ');';
-	return code;
-}
 
 function addScreen(api) {
 	filloutApi(api);
@@ -318,13 +361,236 @@ ui_pop();`);
 	});
 }
 
-var api = require('./api.json');
+/*********/
+
+var htmlTemplate = `<!DOCTYPE html>
+<html>
+	<head>
+		<title>ui-lib.jsfx-inc API Documentation</title>
+		<style>
+			body {
+				font-family: Tahoma, Verdana, Segoe, sans-serif;
+				margin: 1em;
+			}
+
+			h2 {
+				font-size: 1.5em;
+				font-weight: normal;
+				border-bottom: 1px solid #DDD;
+			}
+
+			h3 {
+				font-size: 1.2em;
+				font-weight: normal;
+			}
+
+			pre, code {
+				/* https://cssfontstack.com/Lucida-Console */
+				font-family: "Lucida Console", "Lucida Sans Typewriter", monaco, "Bitstream Vera Sans Mono", monospace;
+				font-size: 13px;
+				font-style: normal;
+				font-variant: normal;
+				font-weight: 400;
+				line-height: 18.5714px;
+
+				margin: 0;
+				padding: 0;
+			}
+
+			section {
+				max-width: 900px;
+				margin: auto;
+				margin-top: 3em;
+			}
+
+			.subsection {
+				clear: both;
+			}
+
+			.children section {
+				padding-left: 6%;
+			}
+
+			.code-example {
+				padding: 1em 2em;
+				background: #222;
+				color: rgb(255, 192, 128);
+				border-radius: 1em;
+				box-shadow: 0px 0.5em 1em rgba(0, 0, 0, 0.5) inset;
+			}
+
+			.screenshots {
+				text-align: center;
+			}
+
+			.screenshot {
+				max-height: 50vh;
+				margin: 0.5em;
+				border-radius: 10px;
+			}
+
+			.screenshots-2 .screenshot {
+				max-width: 45%;
+			}
+			.screenshots-3 .screenshot {
+				max-width: 30%;
+			}
+
+			a .screenshot:hover {
+				box-shadow: 0px 0px 1em rgba(0, 0, 0, 0.5);
+			}
+
+			.definitions {
+			}
+
+			.definition {
+				margin: 0.5em 0;
+			}
+
+			.function-type-int, .function-type-pointer {
+				color: #0A0;
+			}
+			.function-type-number {
+				color: #04B;
+			}
+			.function-type-bool {
+				color: #A60;
+			}
+			.function-type-text {
+				color: #B00;
+			}
+		</style>
+	</head>
+	<body>`;
+
+function bodyHtml(api, options, level) {
+	level = level || 0;
+	var html = '<section id="' + htmlEscape(api.pageId) + '">\n';
+	html += indent('<h2>' + htmlEscape(api.title) + '</h2>');
+
+	if (api.api.length) {
+		html += indent('<div class="definitions">');
+		api.api.forEach(def => {
+			var codeHtml = '';
+			if (def.return) {
+				var argClass = 'function-return';
+				if (def.return.type) argClass += ' function-type-' + def.return.type;
+				codeHtml += '<span class="' + htmlEscape(argClass) + '">' + htmlEscape(def.return.name) + '</span> = ';
+			}
+			codeHtml += '<span class="function-name">' + htmlEscape(def.function) + '</span>(';
+			codeHtml += def.args.map(arg => {
+				var argClass = 'function-arg';
+				if (arg.type) argClass += ' function-type-' + arg.type;
+				var argHtml = '<span class="' + htmlEscape(argClass) + '">' + htmlEscape(arg.name) + '</span>';
+				if (arg.default != null) {
+					argHtml += '=' + JSON.stringify(arg.default);
+				}
+				return argHtml;
+			}).join(', ');
+			codeHtml += ')';
+
+			var functionId = 'api-' + def.function + '-' + def.args.length;
+			html += indent('<pre class="definition" id="' + htmlEscape(functionId) + '"><code>' + codeHtml + '</code></pre>', 2);
+		});
+		if (api.api[0].args.length) {
+			html += indent('<div class="subsection">', 2)
+			html += indent('<ul class="function-arg-list">', 3);
+			api.api[0].args.forEach(arg => {
+				var argClass = 'function-arg';
+				if (arg.type) argClass += ' function-type-' + arg.type;
+				var argHtml = '<code class="' + htmlEscape(argClass) + '">' + htmlEscape(arg.name) + '</code>';
+				if (arg.type === 'id') {
+					argHtml += ' - an identifier';
+				} else if (arg.type === 'bool') {
+					argHtml += ' - boolean';
+				} else if (arg.type === 'text') {
+					argHtml += '';
+				} else if (arg.type === 'pointer') {
+					argHtml += ' - index in the memory array';
+				} else if (arg.type === 'int') {
+					argHtml += ' - integer';
+				} else if (arg.type === 'enum' && arg.enum) {
+					argHtml += ' - ' + [].concat(arg.enum).map((value, index) => {
+						value = htmlEscape(JSON.stringify(value));
+						if (index > 0) {
+							if (index == arg.enum.length - 1) {
+								value = ' or ' + value;
+							} else {
+								value = ', ' + value;
+							}
+						}
+						return value;
+					}).join('');
+				}
+				if (typeof arg.min === 'number') {
+					if (typeof arg.max == 'number') {
+						argHtml += ' between ' + arg.min + ' and ' + arg.max;
+					} else {
+						argHtml += ' >= ' + arg.min;
+					}
+				} else if (typeof arg.max == 'number') {
+					argHtml += ' <= ' + arg.max;
+				}
+				html += indent('<li>' + argHtml + '</li>', 4);
+			});
+			html += indent('</ul>', 3);
+			html += indent('</div>', 3);
+		}
+		html += indent('</div>');
+	}
+
+	if (api.html) {
+		html += indent('<div class="about">');
+		html += indent(api.html, 2);
+		html += indent('</div>');
+	}
+	if (api.displayCode || api.screenshot.length) {
+		html += indent('<div class="subsection"><h3>Example:</h3>')
+		if (api.displayCode) {
+			html += '<pre class="code-example"><code>' + api.displayCode + '</code></pre>\n';
+		}
+		if (api.screenshot.length) {
+			var columns = Math.min(3, api.screenshot.length);
+			var rows = Math.ceil(api.screenshot.length/columns);
+			columns = Math.ceil(api.screenshot.length/rows);
+			html += indent('<div class="screenshots screenshots-' + columns + '">', 2)
+			api.screenshot.forEach(url => {
+				url = options.imagePrefix + url;
+				html += indent('<a href="' + htmlEscape(url) + '" target="_blank"><img class="screenshot" src="' + htmlEscape(url) + '"></a>', 3);
+			});
+			html += indent('</div>', 2);
+		}
+		html += indent('</div>');
+	}
+
+	if (api.children.length) {
+		html += indent('<ul class="child-links">');
+		api.children.forEach(child => {
+			html += indent('<li><a href="#' + htmlEscape(child.pageId) + '">' + htmlEscape(child.title) + '</a></li>', 2);
+		});
+		html += indent('</ul>');
+		html += indent('<div class="children">');
+		api.children.forEach(child => {
+			// We unfortunately cannot indent this, unless we do something smarter with <pre>
+			html += bodyHtml(child, options, level + 1);
+		});
+		html += indent('</div><!-- children for ' + api.pageId + '-->');
+	}
+	html += '</section>\n';
+	return html;
+}
+
+/*********/
+
+// Write JSFX
+
+var api = JSON.parse(fs.readFileSync(__dirname + '/api.json', 'utf8'));
 filloutApi(api, "page");
 addScreen(api);
 demoCode += 'control_system();';
 demoCode += '\n\n@serialize\nfile_var(0, api_theme);\n';
 
-var directories = [__dirname + '/demo'];
+var directories = [__dirname + '/jsfx'];
 if (process.argv[2]) {
 	directories.push(process.argv[2]);
 }
@@ -333,3 +599,13 @@ directories.forEach(directory => {
 	fs.writeFileSync(path.join(directory, 'ui-lib-api-docs.jsfx'), demoCode);
 	console.log('wrote to: ' + directory);
 });
+
+// Write HTML
+
+var api = JSON.parse(fs.readFileSync(__dirname + '/api.json', 'utf8'));
+api = filloutApi(api, 'section-index', {idPrefix: 'section-', recursive: true});
+
+var pageHtml = htmlTemplate + bodyHtml(api, {imagePrefix: '../'}) + '\t</body>\n</html>';
+var htmlFile = __dirname + '/html/index.html';
+fs.writeFileSync(htmlFile, pageHtml);
+console.log('wrote to: ' + htmlFile);
