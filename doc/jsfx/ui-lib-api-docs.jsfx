@@ -11,7 +11,7 @@ api_buffer_length = 1024;
 freemem = (api_buffer = freemem) + buffer_length;
 
 @gfx 730 590
-control_start("page", api_theme);
+control_start("section-index", api_theme);
 
 function api_print_function_signature(code) (
 	ui_split_top(18);
@@ -37,7 +37,7 @@ ui_screen() == "options" ? (
 			ui_pop();
 		ui_pop();
 	ui_pop();
-) : ui_screen() == "page" ? (
+) : ui_screen() == "section-index" ? (
 	control_navbar("ui-lib.jsfx-inc", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
@@ -45,70 +45,70 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Introduction") ? (
-				ui_screen_open("page_0");
-				page_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Introduction") ? (
+					ui_screen_open("section-introduction");
+					section-introduction_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Setup, screens and errors") ? (
-				ui_screen_open("page_1");
-				page_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Setup, screens and errors") ? (
+					ui_screen_open("section-setup-screens-and-errors");
+					section-setup-screens-and-errors_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("The viewport stack") ? (
-				ui_screen_open("page_2");
-				page_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("The viewport stack") ? (
+					ui_screen_open("section-the-viewport-stack");
+					section-the-viewport-stack_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Drawing state") ? (
-				ui_screen_open("page_3");
-				page_3_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Drawing state") ? (
+					ui_screen_open("section-drawing-state");
+					section-drawing-state_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Drawing") ? (
-				ui_screen_open("page_4");
-				page_4_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Drawing") ? (
+					ui_screen_open("section-drawing");
+					section-drawing_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Text") ? (
-				ui_screen_open("page_5");
-				page_5_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Text") ? (
+					ui_screen_open("section-text");
+					section-text_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("User input") ? (
-				ui_screen_open("page_6");
-				page_6_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("User input") ? (
+					ui_screen_open("section-user-input");
+					section-user-input_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Themed controls") ? (
-				ui_screen_open("page_7");
-				page_7_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Themed controls") ? (
+					ui_screen_open("section-themed-controls");
+					section-themed-controls_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_0" ? (
+) : ui_screen() == "section-introduction" ? (
 	control_navbar("Introduction", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
@@ -116,22 +116,22 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Hello World") ? (
-				ui_screen_open("page_0_0");
-				page_0_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Hello World") ? (
+					ui_screen_open("section-hello-world");
+					section-hello-world_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Viewport stack example") ? (
-				ui_screen_open("page_0_1");
-				page_0_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Viewport stack example") ? (
+					ui_screen_open("section-viewport-stack-example");
+					section-viewport-stack-example_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_0_0" ? (
+) : ui_screen() == "section-hello-world" ? (
 	control_navbar("Hello World", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
@@ -143,16 +143,16 @@ ui_screen() == "options" ? (
 		ui_text("Hello World");
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("desc:JSFX UI: Hello World\nimport ui-lib.jsfx-inc\n\n@init\nfreemem = ui_setup(0);\n\n@gfx\nui_start();\nui_text(\"Hello, world!\");");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("desc:JSFX UI: Hello World\nimport ui-lib.jsfx-inc\n\n@init\nfreemem = ui_setup(0);\n\n@gfx\nui_start();\nui_text(\"Hello, world!\");");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_0_1" ? (
+) : ui_screen() == "section-viewport-stack-example" ? (
 	control_navbar("Viewport stack example", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
@@ -183,16 +183,16 @@ ui_screen() == "options" ? (
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_border();\nui_pad();\n\nui_push_height(100);\n\t// new viewport has smaller height\n\tui_color(192, 128, 0);\n\tui_border();\n\tui_pad();\n\n\tui_split_left(80);\n\t\tui_color(0, 215, 215);\n\t\tui_fill();\n\tui_pop();\n\n\t// remaining viewport is now smaller\n\t// because we used ui_split_left() above\n\tui_color(215, 0, 215);\n\tui_border();\n\tui_text(\"some text\");\nui_pop();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_border();\nui_pad();\n\nui_push_height(100);\n\t// new viewport has smaller height\n\tui_color(192, 128, 0);\n\tui_border();\n\tui_pad();\n\n\tui_split_left(80);\n\t\tui_color(0, 215, 215);\n\t\tui_fill();\n\tui_pop();\n\n\t// remaining viewport is now smaller\n\t// because we used ui_split_left() above\n\tui_color(215, 0, 215);\n\tui_border();\n\tui_text(\"some text\");\nui_pop();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_1" ? (
+) : ui_screen() == "section-setup-screens-and-errors" ? (
 	control_navbar("Setup, screens and errors", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
@@ -200,78 +200,78 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_setup") ? (
-				ui_screen_open("page_1_0");
-				page_1_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_setup") ? (
+					ui_screen_open("section-ui_setup");
+					section-ui_setup_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_start / control_start") ? (
-				ui_screen_open("page_1_1");
-				page_1_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_start / control_start") ? (
+					ui_screen_open("section-ui_start");
+					section-ui_start_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_screen") ? (
-				ui_screen_open("page_1_2");
-				page_1_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_screen") ? (
+					ui_screen_open("section-ui_screen");
+					section-ui_screen_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_screen_open") ? (
-				ui_screen_open("page_1_3");
-				page_1_3_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_screen_open") ? (
+					ui_screen_open("section-ui_screen_open");
+					section-ui_screen_open_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_screen_close") ? (
-				ui_screen_open("page_1_4");
-				page_1_4_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_screen_close") ? (
+					ui_screen_open("section-ui_screen_close");
+					section-ui_screen_close_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_screen_level") ? (
-				ui_screen_open("page_1_5");
-				page_1_5_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_screen_level") ? (
+					ui_screen_open("section-ui_screen_level");
+					section-ui_screen_level_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_screen_arg") ? (
-				ui_screen_open("page_1_6");
-				page_1_6_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_screen_arg") ? (
+					ui_screen_open("section-ui_screen_arg");
+					section-ui_screen_arg_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_system / control_system") ? (
-				ui_screen_open("page_1_7");
-				page_1_7_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_system / control_system") ? (
+					ui_screen_open("section-ui_system");
+					section-ui_system_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("The \"control.prompt\" screen") ? (
-				ui_screen_open("page_1_8");
-				page_1_8_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("The \"control.prompt\" screen") ? (
+					ui_screen_open("section-the-control-prompt-screen");
+					section-the-control-prompt-screen_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_1_0" ? (
+) : ui_screen() == "section-ui_setup" ? (
 	control_navbar("ui_setup", "options", "options");
 	ui_pad();
 	api_print_function_signature("new_freemem = ui_setup(freemem=0);");
@@ -281,16 +281,16 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("@init\n\n//Unused section of memory buffer\nfreemem = 0;\n\n// Returns end of allocated block (first unused index)\nfreemem = ui_setup(freemem);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("@init\n\n//Unused section of memory buffer\nfreemem = 0;\n\n// Returns end of allocated block (first unused index)\nfreemem = ui_setup(freemem);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_1_1" ? (
+) : ui_screen() == "section-ui_start" ? (
 	control_navbar("ui_start / control_start", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_start(default_screen);");
@@ -301,16 +301,16 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("@gfx\n\nui_start(\"main\");\n\n//Or:\n@gfx\n\ncontrol_start(\"main\", \"tron\")");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("@gfx\n\nui_start(\"main\");\n\n//Or:\n@gfx\n\ncontrol_start(\"main\", \"tron\")");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_1_2" ? (
+) : ui_screen() == "section-ui_screen" ? (
 	control_navbar("ui_screen", "options", "options");
 	ui_pad();
 	api_print_function_signature("screen_id = ui_screen();");
@@ -320,16 +320,16 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("@gfx\n\nui_start(\"main\");\n\nui_screen() == \"main\" ? (\n\t/* draw your main screen */\n) : ui_system();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("@gfx\n\nui_start(\"main\");\n\nui_screen() == \"main\" ? (\n\t/* draw your main screen */\n) : ui_system();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_1_3" ? (
+) : ui_screen() == "section-ui_screen_open" ? (
 	control_navbar("ui_screen_open", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_screen_open(screen_id);");
@@ -339,16 +339,16 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("@gfx\n\nui_start(\"main\");\n\nui_screen() == \"main\" ? (\n\tcontrol_button(\"open screen\") ? (\n\t\tui_screen_open(\"secondary\");\n\t);\n) : ui_screen() == \"secondary\" ? (\n\t/* draw second screen */\n) : ui_system();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("@gfx\n\nui_start(\"main\");\n\nui_screen() == \"main\" ? (\n\tcontrol_button(\"open screen\") ? (\n\t\tui_screen_open(\"secondary\");\n\t);\n) : ui_screen() == \"secondary\" ? (\n\t/* draw second screen */\n) : ui_system();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_1_4" ? (
+) : ui_screen() == "section-ui_screen_close" ? (
 	control_navbar("ui_screen_close", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_screen_close();");
@@ -358,16 +358,16 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("@gfx\n\nui_start(\"main\");\n\nui_screen() == \"main\" ? (\n\tcontrol_button(\"open screen\") ? (\n\t\tui_screen_open(\"secondary\");\n\t);\n) : ui_screen() == \"secondary\" ? (\n\tcontrol_button(\"close screen\") ? (\n\t\tui_screen_close();\n\t);\n) : ui_system();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("@gfx\n\nui_start(\"main\");\n\nui_screen() == \"main\" ? (\n\tcontrol_button(\"open screen\") ? (\n\t\tui_screen_open(\"secondary\");\n\t);\n) : ui_screen() == \"secondary\" ? (\n\tcontrol_button(\"close screen\") ? (\n\t\tui_screen_close();\n\t);\n) : ui_system();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_1_5" ? (
+) : ui_screen() == "section-ui_screen_level" ? (
 	control_navbar("ui_screen_level", "options", "options");
 	ui_pad();
 	api_print_function_signature("depth = ui_screen_level();");
@@ -378,38 +378,38 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_1_5_setup ? (
-			page_1_5_setup = 1;
+		!section-ui_screen_level_setup ? (
+			section-ui_screen_level_setup = 1;
 		);
 		depth = ui_screen_level();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("depth: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("depth: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(depth, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("depth = ui_screen_level();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("depth = ui_screen_level();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_1_6" ? (
+) : ui_screen() == "section-ui_screen_arg" ? (
 	control_navbar("ui_screen_arg", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_screen_arg(index, value);");
@@ -420,16 +420,16 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("// Read argument for current screen\nfoobar = ui_screen_arg(0);\n\n// Open new screen with argument\nshould_open_screen ? (\n\tui_screen_open(\"screen2\");\n\tui_screen_arg(0, foobar);\n);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("// Read argument for current screen\nfoobar = ui_screen_arg(0);\n\n// Open new screen with argument\nshould_open_screen ? (\n\tui_screen_open(\"screen2\");\n\tui_screen_arg(0, foobar);\n);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_1_7" ? (
+) : ui_screen() == "section-ui_system" ? (
 	control_navbar("ui_system / control_system", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_system();");
@@ -440,16 +440,16 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("@gfx\n\nui_start(\"main\");\n\nui_screen() == \"main\" ? (\n\t/* draw your main screen */\n) : ui_system();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("@gfx\n\nui_start(\"main\");\n\nui_screen() == \"main\" ? (\n\t/* draw your main screen */\n) : ui_system();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_1_8" ? (
+) : ui_screen() == "section-the-control-prompt-screen" ? (
 	control_navbar("The \"control.prompt\" screen", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
@@ -458,9 +458,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_1_8_setup ? (
+		!section-the-control-prompt-screen_setup ? (
 			strcpy(#entered_text, "text prompt result");
-			page_1_8_setup = 1;
+			section-the-control-prompt-screen_setup = 1;
 		);
 		control_button("Open text prompt") ? (
 			ui_screen_open("control.prompt");
@@ -470,133 +470,133 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("#entered_text: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("#entered_text: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_text(#entered_text);
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("control_button(\"Open text prompt\") ? (\n\tui_screen_open(\"control.prompt\");\n\tui_screen_arg(0, #entered_text);\n\tui_screen_arg(1, \"Prompt title\");\n);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("control_button(\"Open text prompt\") ? (\n\tui_screen_open(\"control.prompt\");\n\tui_screen_arg(0, #entered_text);\n\tui_screen_arg(1, \"Prompt title\");\n);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_2" ? (
+) : ui_screen() == "section-the-viewport-stack" ? (
 	control_navbar("The viewport stack", "options", "options");
 	ui_pad();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Pushing, popping and splitting") ? (
-				ui_screen_open("page_2_0");
-				page_2_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Pushing, popping and splitting") ? (
+					ui_screen_open("section-pushing-popping-and-splitting");
+					section-pushing-popping-and-splitting_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Get viewport position") ? (
-				ui_screen_open("page_2_1");
-				page_2_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Get viewport position") ? (
+					ui_screen_open("section-get-viewport-position");
+					section-get-viewport-position_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Set viewport position") ? (
-				ui_screen_open("page_2_2");
-				page_2_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Set viewport position") ? (
+					ui_screen_open("section-set-viewport-position");
+					section-set-viewport-position_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Padding") ? (
-				ui_screen_open("page_2_3");
-				page_2_3_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Padding") ? (
+					ui_screen_open("section-padding");
+					section-padding_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_2_0" ? (
+) : ui_screen() == "section-pushing-popping-and-splitting" ? (
 	control_navbar("Pushing, popping and splitting", "options", "options");
 	ui_pad();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_push / ui_pop") ? (
-				ui_screen_open("page_2_0_0");
-				page_2_0_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_push / ui_pop") ? (
+					ui_screen_open("section-ui_push");
+					section-ui_push_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_push_clip") ? (
-				ui_screen_open("page_2_0_1");
-				page_2_0_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_push_clip") ? (
+					ui_screen_open("section-ui_push_clip");
+					section-ui_push_clip_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Push with height/width") ? (
-				ui_screen_open("page_2_0_2");
-				page_2_0_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Push with height/width") ? (
+					ui_screen_open("section-push-with-height-width");
+					section-push-with-height-width_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Push above/below/left/right") ? (
-				ui_screen_open("page_2_0_3");
-				page_2_0_3_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Push above/below/left/right") ? (
+					ui_screen_open("section-push-above-below-left-right");
+					section-push-above-below-left-right_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Splitting the viewport") ? (
-				ui_screen_open("page_2_0_4");
-				page_2_0_4_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Splitting the viewport") ? (
+					ui_screen_open("section-splitting-the-viewport");
+					section-splitting-the-viewport_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Splitting with ratios") ? (
-				ui_screen_open("page_2_0_5");
-				page_2_0_5_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Splitting with ratios") ? (
+					ui_screen_open("section-splitting-with-ratios");
+					section-splitting-with-ratios_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Splitting with text sizes") ? (
-				ui_screen_open("page_2_0_6");
-				page_2_0_6_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Splitting with text sizes") ? (
+					ui_screen_open("section-splitting-with-text-sizes");
+					section-splitting-with-text-sizes_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_split_next") ? (
-				ui_screen_open("page_2_0_7");
-				page_2_0_7_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_split_next") ? (
+					ui_screen_open("section-ui_split_next");
+					section-ui_split_next_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_2_0_0" ? (
+) : ui_screen() == "section-ui_push" ? (
 	control_navbar("ui_push / ui_pop", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_push();");
@@ -618,16 +618,16 @@ ui_screen() == "options" ? (
 		ui_text("some text");
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_push();\n\t// Indenting can help keep track of the stack\n\tui_color(255, 0, 255);\nui_pop();\n\n// Draws in default colour, because\n// we popped the altered one off\nui_text(\"some text\");");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_push();\n\t// Indenting can help keep track of the stack\n\tui_color(255, 0, 255);\nui_pop();\n\n// Draws in default colour, because\n// we popped the altered one off\nui_text(\"some text\");");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_2_0_1" ? (
+) : ui_screen() == "section-ui_push_clip" ? (
 	control_navbar("ui_push_clip", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_push_clip(opacity=1);");
@@ -638,9 +638,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_2_0_1_setup ? (
+		!section-ui_push_clip_setup ? (
 			opacity = 1;
-			page_2_0_1_setup = 1;
+			section-ui_push_clip_setup = 1;
 		);
 		ui_pad(50, 50);
 		
@@ -663,37 +663,37 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/1);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("opacity: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("opacity: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(opacity, "%f");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(opacity, "%f");
+				ui_pop();
+				ui_padright();
 			opacity = control_slider_left(opacity, 0, 1, 0, 1);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_pad(50, 50);\n\nui_push_clip(opacity);\n\t// Draw circles across the whole screen\n\tui_color(0, 255, 0);\n\tgfx_y = 0;\n\twhile (gfx_y < gfx_h + 30) (\n\t\tgfx_x = (gfx_y*0.5)%35;\n\t\twhile (gfx_x < gfx_w + 30) (\n\t\t\tgfx_circle(gfx_x, gfx_y, 15, 1);\n\t\t\tgfx_x += 35;\n\t\t);\n\t\tgfx_y += 30;\n\t);\nui_pop();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_pad(50, 50);\n\nui_push_clip(opacity);\n\t// Draw circles across the whole screen\n\tui_color(0, 255, 0);\n\tgfx_y = 0;\n\twhile (gfx_y < gfx_h + 30) (\n\t\tgfx_x = (gfx_y*0.5)%35;\n\t\twhile (gfx_x < gfx_w + 30) (\n\t\t\tgfx_circle(gfx_x, gfx_y, 15, 1);\n\t\t\tgfx_x += 35;\n\t\t);\n\t\tgfx_y += 30;\n\t);\nui_pop();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_2_0_2" ? (
+) : ui_screen() == "section-push-with-height-width" ? (
 	control_navbar("Push with height/width", "options", "options");
 	ui_pad();
 	ui_split_top(54);
 		ui_split_leftratio(0.5);
-			api_print_function_signature("ui_push_height(height);");
+			api_print_function_signature("ui_push_height(pixels);");
 			api_print_function_signature("ui_push_heightratio(ratio);");
 			api_print_function_signature("ui_push_heighttext(#text);");
 		ui_split_next();
-			api_print_function_signature("ui_push_width(width);");
+			api_print_function_signature("ui_push_width(pixels);");
 			api_print_function_signature("ui_push_widthratio(ratio);");
 			api_print_function_signature("ui_push_widthtext(#text);");
 		ui_pop();
@@ -705,9 +705,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_2_0_2_setup ? (
+		!section-push-with-height-width_setup ? (
 			vertical_align = 0.5;
-			page_2_0_2_setup = 1;
+			section-push-with-height-width_setup = 1;
 		);
 		ui_align(0.5, vertical_align);
 		
@@ -722,56 +722,56 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/2);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("height: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("height: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(height, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(height, "%i");
+				ui_pop();
+				ui_padright();
 			height = control_slider_left(height, 0, 150, 0);
 			height = floor(height + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("vertical_align: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("vertical_align: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(vertical_align, "%f");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(vertical_align, "%f");
+				ui_pop();
+				ui_padright();
 			vertical_align = control_slider_left(vertical_align, 0, 1, 0, 0.5);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_align(0.5, vertical_align);\n\nui_push_height(height);\n\tui_border();\n\tui_align(0.5, 0.5);\n\tui_text(\"viewport has fixed height\");\nui_pop();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_align(0.5, vertical_align);\n\nui_push_height(height);\n\tui_border();\n\tui_align(0.5, 0.5);\n\tui_text(\"viewport has fixed height\");\nui_pop();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_2_0_3" ? (
+) : ui_screen() == "section-push-above-below-left-right" ? (
 	control_navbar("Push above/below/left/right", "options", "options");
 	ui_pad();
 	ui_split_top(108);
 		ui_split_leftratio(0.5);
-			api_print_function_signature("ui_push_above(height);");
+			api_print_function_signature("ui_push_above(pixels);");
 			api_print_function_signature("ui_push_aboveratio(ratio);");
 			api_print_function_signature("ui_push_abovetext(#text);");
-			api_print_function_signature("ui_push_below(height);");
+			api_print_function_signature("ui_push_below(pixels);");
 			api_print_function_signature("ui_push_belowratio(ratio);");
 			api_print_function_signature("ui_push_belowtext(#text);");
 		ui_split_next();
-			api_print_function_signature("ui_push_leftof(width);");
+			api_print_function_signature("ui_push_leftof(pixels);");
 			api_print_function_signature("ui_push_leftofratio(ratio);");
 			api_print_function_signature("ui_push_leftoftext(#text);");
-			api_print_function_signature("ui_push_rightof(width);");
+			api_print_function_signature("ui_push_rightof(pixels);");
 			api_print_function_signature("ui_push_rightofratio(ratio);");
 			api_print_function_signature("ui_push_rightoftext(#text);");
 		ui_pop();
@@ -783,8 +783,8 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_2_0_3_setup ? (
-			page_2_0_3_setup = 1;
+		!section-push-above-below-left-right_setup ? (
+			section-push-above-below-left-right_setup = 1;
 		);
 		ui_align(0.5, vertical_align);
 		
@@ -806,41 +806,41 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/2);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("height: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("height: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(height, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(height, "%i");
+				ui_pop();
+				ui_padright();
 			height = control_slider_left(height, 0, 150, 0);
 			height = floor(height + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("vertical_align: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("vertical_align: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(vertical_align, "%f");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(vertical_align, "%f");
+				ui_pop();
+				ui_padright();
 			vertical_align = control_slider_left(vertical_align, 0, 1, 0);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_align(0.5, vertical_align);\n\nui_push_height(height);\n\tui_border();\n\tui_align(0.5, 0.5);\n\tui_text(\"viewport has fixed height\");\nui_pop();\n\nui_push_above(height);\n\tui_color(0, 128, 255);\n\tui_border();\n\tui_align(0.5, 0.5);\n\tui_text(\"centered above\");\nui_pop();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_align(0.5, vertical_align);\n\nui_push_height(height);\n\tui_border();\n\tui_align(0.5, 0.5);\n\tui_text(\"viewport has fixed height\");\nui_pop();\n\nui_push_above(height);\n\tui_color(0, 128, 255);\n\tui_border();\n\tui_align(0.5, 0.5);\n\tui_text(\"centered above\");\nui_pop();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_2_0_4" ? (
+) : ui_screen() == "section-splitting-the-viewport" ? (
 	control_navbar("Splitting the viewport", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_split_top(height);");
@@ -854,9 +854,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_2_0_4_setup ? (
+		!section-splitting-the-viewport_setup ? (
 			height = 80;
-			page_2_0_4_setup = 1;
+			section-splitting-the-viewport_setup = 1;
 		);
 		ui_split_top(height);
 			ui_color(0, 192, 255);
@@ -874,29 +874,29 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/1);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("height: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("height: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(height, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(height, "%i");
+				ui_pop();
+				ui_padright();
 			height = control_slider_left(height, 0, 200, 0, 80);
 			height = floor(height + 0.5);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_split_top(height);\n\tui_color(0, 192, 255);\n\tui_border();\n\tui_text(\"split viewport\");\nui_pop();\n\n// Now reduced so they don't overlap\nui_color(215, 0, 215);\nui_border();\nui_text(\"remaining viewport\");");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_split_top(height);\n\tui_color(0, 192, 255);\n\tui_border();\n\tui_text(\"split viewport\");\nui_pop();\n\n// Now reduced so they don't overlap\nui_color(215, 0, 215);\nui_border();\nui_text(\"remaining viewport\");");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_2_0_5" ? (
+) : ui_screen() == "section-splitting-with-ratios" ? (
 	control_navbar("Splitting with ratios", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_split_topratio(ratio);");
@@ -910,9 +910,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_2_0_5_setup ? (
+		!section-splitting-with-ratios_setup ? (
 			ratio = 0.3;
-			page_2_0_5_setup = 1;
+			section-splitting-with-ratios_setup = 1;
 		);
 		ui_split_topratio(ratio);
 			ui_color(0, 192, 255);
@@ -930,28 +930,28 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/1);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("ratio: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("ratio: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(ratio, "%f");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(ratio, "%f");
+				ui_pop();
+				ui_padright();
 			ratio = control_slider_left(ratio, 0, 1, 0, 0.3);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_split_topratio(ratio);\n\tui_color(0, 192, 255);\n\tui_border();\n\tui_text(\"split viewport\");\nui_pop();\n\n// Now reduced so they don't overlap\nui_color(215, 0, 215);\nui_border();\nui_text(\"remaining viewport\");");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_split_topratio(ratio);\n\tui_color(0, 192, 255);\n\tui_border();\n\tui_text(\"split viewport\");\nui_pop();\n\n// Now reduced so they don't overlap\nui_color(215, 0, 215);\nui_border();\nui_text(\"remaining viewport\");");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_2_0_6" ? (
+) : ui_screen() == "section-splitting-with-text-sizes" ? (
 	control_navbar("Splitting with text sizes", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_split_toptext(#text);");
@@ -965,9 +965,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_2_0_6_setup ? (
+		!section-splitting-with-text-sizes_setup ? (
 			strcpy(#text, "splitting text");
-			page_2_0_6_setup = 1;
+			section-splitting-with-text-sizes_setup = 1;
 		);
 		ui_split_lefttext(#text);
 			ui_color(0, 192, 255);
@@ -985,23 +985,23 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/1);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#text: ");
-			ui_pop();
-			page_2_0_6_param0_state = control_textinput(#text, page_2_0_6_param0_state);
+					ui_align(1, 0.5);
+					ui_text("#text: ");
+				ui_pop();
+			section-splitting-with-text-sizes_param0_state = control_textinput(#text, section-splitting-with-text-sizes_param0_state);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_split_lefttext(#text);\n\tui_color(0, 192, 255);\n\tui_border();\n\t// Viewport fits the text neatly\n\tui_text(#text);\nui_pop();\n\nui_color(215, 0, 215);\nui_border();\nui_text(\"remaining viewport\");");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_split_lefttext(#text);\n\tui_color(0, 192, 255);\n\tui_border();\n\t// Viewport fits the text neatly\n\tui_text(#text);\nui_pop();\n\nui_color(215, 0, 215);\nui_border();\nui_text(\"remaining viewport\");");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_2_0_7" ? (
+) : ui_screen() == "section-ui_split_next" ? (
 	control_navbar("ui_split_next", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_split_next();");
@@ -1031,16 +1031,16 @@ ui_screen() == "options" ? (
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_split_topratio(1/4);\n\tui_color(255, 0, 0);\n\tui_border();\n\tui_text(\"first section\");\nui_split_next();\n\tui_color(128, 128, 0);\n\tui_border();\n\tui_text(\"second section\");\nui_split_next();\n\tui_color(0, 255, 0);\n\tui_border();\n\tui_text(\"third section\");\nui_split_next();\n\tui_color(0, 128, 255);\n\tui_border();\n\tui_text(\"fourth section\");\nui_pop();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_split_topratio(1/4);\n\tui_color(255, 0, 0);\n\tui_border();\n\tui_text(\"first section\");\nui_split_next();\n\tui_color(128, 128, 0);\n\tui_border();\n\tui_text(\"second section\");\nui_split_next();\n\tui_color(0, 255, 0);\n\tui_border();\n\tui_text(\"third section\");\nui_split_next();\n\tui_color(0, 128, 255);\n\tui_border();\n\tui_text(\"fourth section\");\nui_pop();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_2_1" ? (
+) : ui_screen() == "section-get-viewport-position" ? (
 	control_navbar("Get viewport position", "options", "options");
 	ui_pad();
 	ui_split_top(54);
@@ -1080,16 +1080,16 @@ ui_screen() == "options" ? (
 		ui_border();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_align(0, 0.5);\nui_textnumber(ui_left(), \"%i\");\n\nui_align(1, 0.5);\nui_textnumber(ui_right(), \"%i\");\n\nui_align(0.5, 0);\nui_textnumber(ui_top(), \"%i\");\n\nui_align(0.5, 1);\nui_textnumber(ui_bottom(), \"%i\");\n\nsprintf(#size, \"%i x %i\", ui_width(), ui_height());\nui_align(0.5, 0.5);\nui_text(#size);\n\nui_border();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_align(0, 0.5);\nui_textnumber(ui_left(), \"%i\");\n\nui_align(1, 0.5);\nui_textnumber(ui_right(), \"%i\");\n\nui_align(0.5, 0);\nui_textnumber(ui_top(), \"%i\");\n\nui_align(0.5, 1);\nui_textnumber(ui_bottom(), \"%i\");\n\nsprintf(#size, \"%i x %i\", ui_width(), ui_height());\nui_align(0.5, 0.5);\nui_text(#size);\n\nui_border();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_2_2" ? (
+) : ui_screen() == "section-set-viewport-position" ? (
 	control_navbar("Set viewport position", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_set_rect(left, top, width, height);");
@@ -1100,12 +1100,12 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_2_2_setup ? (
+		!section-set-viewport-position_setup ? (
 			left = ui_left() + ui_width()*0.25;
 			top = ui_top() + ui_height()*0.25;
 			width = ui_width()*0.5;
 			height = ui_height()*0.5;
-			page_2_2_setup = 1;
+			section-set-viewport-position_setup = 1;
 		);
 		ui_set_rect(left, top, width, height);
 		
@@ -1117,68 +1117,68 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/4);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("left: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("left: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(left, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(left, "%i");
+				ui_pop();
+				ui_padright();
 			left = control_slider_left(left, 0, gfx_w, 0);
 			left = floor(left + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("top: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("top: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(top, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(top, "%i");
+				ui_pop();
+				ui_padright();
 			top = control_slider_left(top, 0, gfx_h, 0);
 			top = floor(top + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("width: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("width: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(width, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(width, "%i");
+				ui_pop();
+				ui_padright();
 			width = control_slider_left(width, 0, gfx_w, 0);
 			width = floor(width + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("height: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("height: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(height, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(height, "%i");
+				ui_pop();
+				ui_padright();
 			height = control_slider_left(height, 0, gfx_h, 0);
 			height = floor(height + 0.5);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_set_rect(left, top, width, height);\n\nui_color(255, 0, 255, 0.5);\nui_fill();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_set_rect(left, top, width, height);\n\nui_color(255, 0, 255, 0.5);\nui_fill();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_2_3" ? (
+) : ui_screen() == "section-padding" ? (
 	control_navbar("Padding", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
@@ -1186,30 +1186,30 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_pad") ? (
-				ui_screen_open("page_2_3_0");
-				page_2_3_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_pad") ? (
+					ui_screen_open("section-ui_pad");
+					section-ui_pad_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Single-edge padding") ? (
-				ui_screen_open("page_2_3_1");
-				page_2_3_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Single-edge padding") ? (
+					ui_screen_open("section-single-edge-padding");
+					section-single-edge-padding_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Setting/getting the padding") ? (
-				ui_screen_open("page_2_3_2");
-				page_2_3_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Setting/getting the padding") ? (
+					ui_screen_open("section-setting-getting-the-padding");
+					section-setting-getting-the-padding_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_2_3_0" ? (
+) : ui_screen() == "section-ui_pad" ? (
 	control_navbar("ui_pad", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_pad(left, top, right, bottom);");
@@ -1222,12 +1222,12 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_2_3_0_setup ? (
+		!section-ui_pad_setup ? (
 			left = 10;
 			top = 10;
 			right = 10;
 			bottom = 10;
-			page_2_3_0_setup = 1;
+			section-ui_pad_setup = 1;
 		);
 		ui_border();
 		
@@ -1240,68 +1240,68 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/4);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("left: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("left: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(left, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(left, "%i");
+				ui_pop();
+				ui_padright();
 			left = control_slider_left(left, 0, 50, 0, 10);
 			left = floor(left + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("top: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("top: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(top, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(top, "%i");
+				ui_pop();
+				ui_padright();
 			top = control_slider_left(top, 0, 50, 0, 10);
 			top = floor(top + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("right: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("right: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(right, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(right, "%i");
+				ui_pop();
+				ui_padright();
 			right = control_slider_left(right, 0, 50, 0, 10);
 			right = floor(right + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("bottom: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("bottom: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(bottom, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(bottom, "%i");
+				ui_pop();
+				ui_padright();
 			bottom = control_slider_left(bottom, 0, 50, 0, 10);
 			bottom = floor(bottom + 0.5);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_border();\n\nui_pad(left, top, right, bottom);\n\nui_border();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_border();\n\nui_pad(left, top, right, bottom);\n\nui_border();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_2_3_1" ? (
+) : ui_screen() == "section-single-edge-padding" ? (
 	control_navbar("Single-edge padding", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_padtop(pixels);");
@@ -1315,12 +1315,12 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_2_3_1_setup ? (
+		!section-single-edge-padding_setup ? (
 			left = 10;
 			top = 10;
 			right = 10;
 			bottom = 10;
-			page_2_3_1_setup = 1;
+			section-single-edge-padding_setup = 1;
 		);
 		ui_border();
 		
@@ -1336,68 +1336,68 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/4);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("left: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("left: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(left, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(left, "%i");
+				ui_pop();
+				ui_padright();
 			left = control_slider_left(left, 0, 50, 0, 10);
 			left = floor(left + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("top: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("top: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(top, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(top, "%i");
+				ui_pop();
+				ui_padright();
 			top = control_slider_left(top, 0, 50, 0, 10);
 			top = floor(top + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("right: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("right: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(right, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(right, "%i");
+				ui_pop();
+				ui_padright();
 			right = control_slider_left(right, 0, 50, 0, 10);
 			right = floor(right + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("bottom: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("bottom: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(bottom, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(bottom, "%i");
+				ui_pop();
+				ui_padright();
 			bottom = control_slider_left(bottom, 0, 50, 0, 10);
 			bottom = floor(bottom + 0.5);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_border();\n\nui_padleft(left);\nui_padtop(top);\nui_padright(right);\nui_padbottom(bottom);\n\nui_border();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_border();\n\nui_padleft(left);\nui_padtop(top);\nui_padright(right);\nui_padbottom(bottom);\n\nui_border();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_2_3_2" ? (
+) : ui_screen() == "section-setting-getting-the-padding" ? (
 	control_navbar("Setting/getting the padding", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_padding(padding_horizontal, padding_vertical);");
@@ -1410,10 +1410,10 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_2_3_2_setup ? (
+		!section-setting-getting-the-padding_setup ? (
 			pad_x = ui_padding_x();
 			pad_y = ui_padding_y();
-			page_2_3_2_setup = 1;
+			section-setting-getting-the-padding_setup = 1;
 		);
 		ui_border();
 		
@@ -1427,69 +1427,69 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/2);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("pad_x: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("pad_x: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(pad_x, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(pad_x, "%i");
+				ui_pop();
+				ui_padright();
 			pad_x = control_slider_left(pad_x, 0, 50, 0);
 			pad_x = floor(pad_x + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("pad_y: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("pad_y: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(pad_y, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(pad_y, "%i");
+				ui_pop();
+				ui_padright();
 			pad_y = control_slider_left(pad_y, 0, 50, 0);
 			pad_y = floor(pad_y + 0.5);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_border();\n\nui_padding(pad_x, pad_y);\nui_pad();\n\nui_border();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_border();\n\nui_padding(pad_x, pad_y);\nui_pad();\n\nui_border();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_3" ? (
+) : ui_screen() == "section-drawing-state" ? (
 	control_navbar("Drawing state", "options", "options");
 	ui_pad();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_color") ? (
-				ui_screen_open("page_3_0");
-				page_3_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_color") ? (
+					ui_screen_open("section-ui_color");
+					section-ui_color_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Alignment") ? (
-				ui_screen_open("page_3_1");
-				page_3_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Alignment") ? (
+					ui_screen_open("section-alignment");
+					section-alignment_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Fonts") ? (
-				ui_screen_open("page_3_2");
-				page_3_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Fonts") ? (
+					ui_screen_open("section-fonts");
+					section-fonts_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_3_0" ? (
+) : ui_screen() == "section-ui_color" ? (
 	control_navbar("ui_color", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_color(red, green, blue, alpha);");
@@ -1501,12 +1501,12 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_3_0_setup ? (
+		!section-ui_color_setup ? (
 			red = 192;
 			green = 128;
 			blue = 64;
 			alpha = 1;
-			page_3_0_setup = 1;
+			section-ui_color_setup = 1;
 		);
 		ui_split_topratio(0.5);
 			ui_color(red, green, blue, alpha);
@@ -1521,67 +1521,67 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/4);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("red: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("red: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(red, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(red, "%i");
+				ui_pop();
+				ui_padright();
 			red = control_slider_left(red, 0, 255, 0, 192);
 			red = floor(red + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("green: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("green: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(green, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(green, "%i");
+				ui_pop();
+				ui_padright();
 			green = control_slider_left(green, 0, 255, 0, 128);
 			green = floor(green + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("blue: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("blue: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(blue, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(blue, "%i");
+				ui_pop();
+				ui_padright();
 			blue = control_slider_left(blue, 0, 255, 0, 64);
 			blue = floor(blue + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("alpha: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("alpha: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(alpha, "%f");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(alpha, "%f");
+				ui_pop();
+				ui_padright();
 			alpha = control_slider_left(alpha, 0, 1, 0, 1);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_split_topratio(0.5);\n\tui_color(red, green, blue, alpha);\n\tui_fill();\nui_pop();\n\n// This is not affected\nui_text(\"some text\");");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_split_topratio(0.5);\n\tui_color(red, green, blue, alpha);\n\tui_fill();\nui_pop();\n\n// This is not affected\nui_text(\"some text\");");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_3_1" ? (
+) : ui_screen() == "section-alignment" ? (
 	control_navbar("Alignment", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_align(horizontal, vertical);");
@@ -1594,10 +1594,10 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_3_1_setup ? (
+		!section-alignment_setup ? (
 			horizontal = 0.5;
 			vertical = 0.5;
-			page_3_1_setup = 1;
+			section-alignment_setup = 1;
 		);
 		ui_align(horizontal, vertical);
 		ui_text("aligned text");
@@ -1607,40 +1607,40 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/2);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("horizontal: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("horizontal: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(horizontal, "%f");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(horizontal, "%f");
+				ui_pop();
+				ui_padright();
 			horizontal = control_slider_left(horizontal, 0, 1, 0, 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("vertical: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("vertical: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(vertical, "%f");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(vertical, "%f");
+				ui_pop();
+				ui_padright();
 			vertical = control_slider_left(vertical, 0, 1, 0, 0.5);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_align(horizontal, vertical);\nui_text(\"aligned text\");");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_align(horizontal, vertical);\nui_text(\"aligned text\");");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_3_2" ? (
+) : ui_screen() == "section-fonts" ? (
 	control_navbar("Fonts", "options", "options");
 	ui_pad();
 	ui_split_top(54);
@@ -1661,10 +1661,10 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_3_2_setup ? (
+		!section-fonts_setup ? (
 			strcpy(#face, "Comic Sans MS");
 			size = 24;
-			page_3_2_setup = 1;
+			section-fonts_setup = 1;
 		);
 		ui_font(#face, size, bold, italics);
 		
@@ -1675,60 +1675,60 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/4);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#face: ");
-			ui_pop();
-			page_3_2_param0_state = control_textinput(#face, page_3_2_param0_state);
+					ui_align(1, 0.5);
+					ui_text("#face: ");
+				ui_pop();
+			section-fonts_param0_state = control_textinput(#face, section-fonts_param0_state);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("size: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("size: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(size, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(size, "%i");
+				ui_pop();
+				ui_padright();
 			size = control_slider_left(size, 8, 100, 0, 24);
 			size = floor(size + 0.5);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("bold: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("bold: ");
+				ui_pop();
 			ui_split_left(60);
-				bold = control_switch(bold);
-			ui_pop();
-			ui_padright();
-			ui_align(1, 0.5);
-			ui_text(bold ? "on" : "off");
+					bold = control_switch(bold);
+				ui_pop();
+				ui_padright();
+				ui_align(1, 0.5);
+				ui_text(bold ? "on" : "off");
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("italics: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("italics: ");
+				ui_pop();
 			ui_split_left(60);
-				italics = control_switch(italics);
-			ui_pop();
-			ui_padright();
-			ui_align(1, 0.5);
-			ui_text(italics ? "on" : "off");
+					italics = control_switch(italics);
+				ui_pop();
+				ui_padright();
+				ui_align(1, 0.5);
+				ui_text(italics ? "on" : "off");
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_font(#face, size, bold, italics);\n\nui_text(\"Hello, world!\");");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_font(#face, size, bold, italics);\n\nui_text(\"Hello, world!\");");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_4" ? (
+) : ui_screen() == "section-drawing" ? (
 	control_navbar("Drawing", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
@@ -1736,38 +1736,38 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_fill") ? (
-				ui_screen_open("page_4_0");
-				page_4_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_fill") ? (
+					ui_screen_open("section-ui_fill");
+					section-ui_fill_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_border() and others") ? (
-				ui_screen_open("page_4_1");
-				page_4_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_border() and others") ? (
+					ui_screen_open("section-ui_border-and-others");
+					section-ui_border-and-others_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Plotting graphs") ? (
-				ui_screen_open("page_4_2");
-				page_4_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Plotting graphs") ? (
+					ui_screen_open("section-plotting-graphs");
+					section-plotting-graphs_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_reserve_image") ? (
-				ui_screen_open("page_4_3");
-				page_4_3_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_reserve_image") ? (
+					ui_screen_open("section-ui_reserve_image");
+					section-ui_reserve_image_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_4_0" ? (
+) : ui_screen() == "section-ui_fill" ? (
 	control_navbar("ui_fill", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_fill();");
@@ -1781,16 +1781,16 @@ ui_screen() == "options" ? (
 		ui_fill();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_fill();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_fill();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_4_1" ? (
+) : ui_screen() == "section-ui_border-and-others" ? (
 	control_navbar("ui_border() and others", "options", "options");
 	ui_pad();
 	ui_split_top(54);
@@ -1813,16 +1813,16 @@ ui_screen() == "options" ? (
 		ui_border();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_border();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_border();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_4_2" ? (
+) : ui_screen() == "section-plotting-graphs" ? (
 	control_navbar("Plotting graphs", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_graph(buffer, length, min_y, max_y);");
@@ -1835,10 +1835,10 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_4_2_setup ? (
+		!section-plotting-graphs_setup ? (
 			min_y = -1;
 			max_y = 1;
-			page_4_2_setup = 1;
+			section-plotting-graphs_setup = 1;
 		);
 		i = 0;
 		while (i < api_buffer_length) (
@@ -1856,53 +1856,53 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/3);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("min_y: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("min_y: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(min_y, "%f");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(min_y, "%f");
+				ui_pop();
+				ui_padright();
 			min_y = control_slider_left(min_y, -2, 0, 0, -1);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("max_y: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("max_y: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(max_y, "%f");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(max_y, "%f");
+				ui_pop();
+				ui_padright();
 			max_y = control_slider_left(max_y, 0, 2, 0, 1);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("offset: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("offset: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(offset, "%i");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(offset, "%i");
+				ui_pop();
+				ui_padright();
 			offset = control_slider_left(offset, 0, 15, 0);
 			offset = floor(offset + 0.5);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(buffer, 16, 64, offset, min_y, max_y);\n\n");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(buffer, 16, 64, offset, min_y, max_y);\n\n");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_4_3" ? (
+) : ui_screen() == "section-ui_reserve_image" ? (
 	control_navbar("ui_reserve_image", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_reserve_image(arg1);");
@@ -1912,16 +1912,16 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("@gfx\n\n// Draw something to buffer #95\ngfx_dest = 95;\ngfx_drawstr(\"foo\");\n\n// Avoid conflict\nui_reserve_image(95);\n\n// This resets gfx_dest, so we're fine\nui_start(\"main\");\n/* etc. */");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("@gfx\n\n// Draw something to buffer #95\ngfx_dest = 95;\ngfx_drawstr(\"foo\");\n\n// Avoid conflict\nui_reserve_image(95);\n\n// This resets gfx_dest, so we're fine\nui_start(\"main\");\n/* etc. */");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_5" ? (
+) : ui_screen() == "section-text" ? (
 	control_navbar("Text", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
@@ -1929,54 +1929,54 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_text") ? (
-				ui_screen_open("page_5_0");
-				page_5_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_text") ? (
+					ui_screen_open("section-ui_text");
+					section-ui_text_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_wraptext / ui_wraptext_height") ? (
-				ui_screen_open("page_5_1");
-				page_5_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_wraptext / ui_wraptext_height") ? (
+					ui_screen_open("section-ui_wraptext");
+					section-ui_wraptext_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_texth") ? (
-				ui_screen_open("page_5_2");
-				page_5_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_texth") ? (
+					ui_screen_open("section-ui_texth");
+					section-ui_texth_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_text_width / ui_text_height") ? (
-				ui_screen_open("page_5_3");
-				page_5_3_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_text_width / ui_text_height") ? (
+					ui_screen_open("section-ui_text_width");
+					section-ui_text_width_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_textnumber") ? (
-				ui_screen_open("page_5_4");
-				page_5_4_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_textnumber") ? (
+					ui_screen_open("section-ui_textnumber");
+					section-ui_textnumber_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_parsenumber") ? (
-				ui_screen_open("page_5_5");
-				page_5_5_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_parsenumber") ? (
+					ui_screen_open("section-ui_parsenumber");
+					section-ui_parsenumber_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_5_0" ? (
+) : ui_screen() == "section-ui_text" ? (
 	control_navbar("ui_text", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_text(#text);");
@@ -1987,9 +1987,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_5_0_setup ? (
+		!section-ui_text_setup ? (
 			strcpy(#text, "here is some text");
-			page_5_0_setup = 1;
+			section-ui_text_setup = 1;
 		);
 		ui_text(#text);
 	ui_pop();
@@ -1998,23 +1998,23 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/1);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#text: ");
-			ui_pop();
-			page_5_0_param0_state = control_textinput(#text, page_5_0_param0_state);
+					ui_align(1, 0.5);
+					ui_text("#text: ");
+				ui_pop();
+			section-ui_text_param0_state = control_textinput(#text, section-ui_text_param0_state);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_text(#text);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_text(#text);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_5_1" ? (
+) : ui_screen() == "section-ui_wraptext" ? (
 	control_navbar("ui_wraptext / ui_wraptext_height", "options", "options");
 	ui_pad();
 	api_print_function_signature("height = ui_wraptext(#text);");
@@ -2026,38 +2026,38 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_5_1_setup ? (
-			page_5_1_setup = 1;
+		!section-ui_wraptext_setup ? (
+			section-ui_wraptext_setup = 1;
 		);
 		height = ui_wraptext("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum molestie facilisis enim at imperdiet. Cras molestie tristique purus ut cursus. Duis sagittis nisl id urna luctus posuere. Duis vel lorem aliquam, condimentum tellus quis, placerat risus. Duis auctor libero ante, nec bibendum ante volutpat ac.");
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("height: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("height: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(height, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("height = ui_wraptext(#longtext);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("height = ui_wraptext(#longtext);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_5_2" ? (
+) : ui_screen() == "section-ui_texth" ? (
 	control_navbar("ui_texth", "options", "options");
 	ui_pad();
 	api_print_function_signature("line_height = ui_texth();");
@@ -2068,38 +2068,38 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_5_2_setup ? (
-			page_5_2_setup = 1;
+		!section-ui_texth_setup ? (
+			section-ui_texth_setup = 1;
 		);
 		line_height = ui_texth();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("line_height: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("line_height: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(line_height, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("line_height = ui_texth();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("line_height = ui_texth();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_5_3" ? (
+) : ui_screen() == "section-ui_text_width" ? (
 	control_navbar("ui_text_width / ui_text_height", "options", "options");
 	ui_pad();
 	api_print_function_signature("text_width = ui_text_width(#text);");
@@ -2111,41 +2111,41 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_5_3_setup ? (
+		!section-ui_text_width_setup ? (
 			strcpy(#text, "input text");
-			page_5_3_setup = 1;
+			section-ui_text_width_setup = 1;
 		);
 		text_width = ui_text_width(#text);
 		text_height = ui_text_height(#text);
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("text_height: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("text_height: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(text_height, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("text_width: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("text_width: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(text_width, "%i");
 		ui_pop();
 		control_finish_inset();
@@ -2155,23 +2155,23 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/1);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#text: ");
-			ui_pop();
-			page_5_3_param0_state = control_textinput(#text, page_5_3_param0_state);
+					ui_align(1, 0.5);
+					ui_text("#text: ");
+				ui_pop();
+			section-ui_text_width_param0_state = control_textinput(#text, section-ui_text_width_param0_state);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("text_width = ui_text_width(#text);\ntext_height = ui_text_height(#text);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("text_width = ui_text_width(#text);\ntext_height = ui_text_height(#text);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_5_4" ? (
+) : ui_screen() == "section-ui_textnumber" ? (
 	control_navbar("ui_textnumber", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_textnumber(number, #format=\"%f\");");
@@ -2182,9 +2182,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_5_4_setup ? (
+		!section-ui_textnumber_setup ? (
 			number = 3.14159265359;
-			page_5_4_setup = 1;
+			section-ui_textnumber_setup = 1;
 		);
 		ui_textnumber(number, #format);
 	ui_pop();
@@ -2193,28 +2193,28 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/1);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("number: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("number: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(number, "%f");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(number, "%f");
+				ui_pop();
+				ui_padright();
 			number = control_slider_left(number, -100, 100, 0, 3.14159265359);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_textnumber(number, #format);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_textnumber(number, #format);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_5_5" ? (
+) : ui_screen() == "section-ui_parsenumber" ? (
 	control_navbar("ui_parsenumber", "options", "options");
 	ui_pad();
 	api_print_function_signature("number = ui_parsenumber(#number_string, default=0);");
@@ -2225,25 +2225,25 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_5_5_setup ? (
+		!section-ui_parsenumber_setup ? (
 			strcpy(#number_string, "65.2");
 			default = 0;
-			page_5_5_setup = 1;
+			section-ui_parsenumber_setup = 1;
 		);
 		number = ui_parsenumber(#number_string, default);
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("number: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("number: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(number, "%f");
 		ui_pop();
 		control_finish_inset();
@@ -2253,62 +2253,62 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/2);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#number_string: ");
-			ui_pop();
-			page_5_5_param0_state = control_textinput(#number_string, page_5_5_param0_state);
+					ui_align(1, 0.5);
+					ui_text("#number_string: ");
+				ui_pop();
+			section-ui_parsenumber_param0_state = control_textinput(#number_string, section-ui_parsenumber_param0_state);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("default: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("default: ");
+				ui_pop();
 			ui_split_right(60);
-				ui_align(0, 0.5);
-				ui_textnumber(default, "%f");
-			ui_pop();
-			ui_padright();
+					ui_align(0, 0.5);
+					ui_textnumber(default, "%f");
+				ui_pop();
+				ui_padright();
 			default = control_slider_left(default, 0, 1, 0, 0);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("number = ui_parsenumber(#number_string, default);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("number = ui_parsenumber(#number_string, default);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_6" ? (
+) : ui_screen() == "section-user-input" ? (
 	control_navbar("User input", "options", "options");
 	ui_pad();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Mouse") ? (
-				ui_screen_open("page_6_0");
-				page_6_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Mouse") ? (
+					ui_screen_open("section-mouse");
+					section-mouse_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Keyboard") ? (
-				ui_screen_open("page_6_1");
-				page_6_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Keyboard") ? (
+					ui_screen_open("section-keyboard");
+					section-keyboard_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_interacted") ? (
-				ui_screen_open("page_6_2");
-				page_6_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_interacted") ? (
+					ui_screen_open("section-ui_interacted");
+					section-ui_interacted_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_6_0" ? (
+) : ui_screen() == "section-mouse" ? (
 	control_navbar("Mouse", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
@@ -2316,86 +2316,86 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Mouse position") ? (
-				ui_screen_open("page_6_0_0");
-				page_6_0_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Mouse position") ? (
+					ui_screen_open("section-mouse-position");
+					section-mouse-position_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_click / ui_clickcount") ? (
-				ui_screen_open("page_6_0_1");
-				page_6_0_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_click / ui_clickcount") ? (
+					ui_screen_open("section-ui_click");
+					section-ui_click_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Mouse movement") ? (
-				ui_screen_open("page_6_0_2");
-				page_6_0_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Mouse movement") ? (
+					ui_screen_open("section-mouse-movement");
+					section-mouse-movement_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Mouse-down event") ? (
-				ui_screen_open("page_6_0_3");
-				page_6_0_3_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Mouse-down event") ? (
+					ui_screen_open("section-mouse-down-event");
+					section-mouse-down-event_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Mouse-up event") ? (
-				ui_screen_open("page_6_0_4");
-				page_6_0_4_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Mouse-up event") ? (
+					ui_screen_open("section-mouse-up-event");
+					section-mouse-up-event_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Mouse dragging") ? (
-				ui_screen_open("page_6_0_5");
-				page_6_0_5_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Mouse dragging") ? (
+					ui_screen_open("section-mouse-dragging");
+					section-mouse-dragging_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Scroll wheel") ? (
-				ui_screen_open("page_6_0_6");
-				page_6_0_6_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Scroll wheel") ? (
+					ui_screen_open("section-scroll-wheel");
+					section-scroll-wheel_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_hover") ? (
-				ui_screen_open("page_6_0_7");
-				page_6_0_7_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_hover") ? (
+					ui_screen_open("section-ui_hover");
+					section-ui_hover_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("ui_press") ? (
-				ui_screen_open("page_6_0_8");
-				page_6_0_8_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("ui_press") ? (
+					ui_screen_open("section-ui_press");
+					section-ui_press_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Clear the mouse status") ? (
-				ui_screen_open("page_6_0_9");
-				page_6_0_9_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Clear the mouse status") ? (
+					ui_screen_open("section-clear-the-mouse-status");
+					section-clear-the-mouse-status_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_6_0_0" ? (
+) : ui_screen() == "section-mouse-position" ? (
 	control_navbar("Mouse position", "options", "options");
 	ui_pad();
 	api_print_function_signature("relative_x = ui_mouse_x();");
@@ -2409,8 +2409,8 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_6_0_0_setup ? (
-			page_6_0_0_setup = 1;
+		!section-mouse-position_setup ? (
+			section-mouse-position_setup = 1;
 		);
 		ui_border();
 		
@@ -2421,79 +2421,79 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("y_ratio: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("y_ratio: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(y_ratio, "%f");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("y: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("y: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(y, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("x_ratio: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("x_ratio: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(x_ratio, "%f");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("x: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("x: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(x, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("x = ui_mouse_x();\ny = ui_mouse_y();\nx_ratio = ui_mouse_xratio();\ny_ratio = ui_mouse_yratio();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("x = ui_mouse_x();\ny = ui_mouse_y();\nx_ratio = ui_mouse_xratio();\ny_ratio = ui_mouse_yratio();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_6_0_1" ? (
+) : ui_screen() == "section-ui_click" ? (
 	control_navbar("ui_click / ui_clickcount", "options", "options");
 	ui_pad();
 	api_print_function_signature("pressed = ui_click(button=1);");
@@ -2505,8 +2505,8 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_6_0_1_setup ? (
-			page_6_0_1_setup = 1;
+		!section-ui_click_setup ? (
+			section-ui_click_setup = 1;
 		);
 		ui_click() ? (
 			ui_fill();
@@ -2516,31 +2516,31 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("last_clickcount: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("last_clickcount: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(last_clickcount, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_click() ? (\n\tui_fill();\n\n\tlast_clickcount = ui_clickcount();\n);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_click() ? (\n\tui_fill();\n\n\tlast_clickcount = ui_clickcount();\n);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_6_0_2" ? (
+) : ui_screen() == "section-mouse-movement" ? (
 	control_navbar("Mouse movement", "options", "options");
 	ui_pad();
 	api_print_function_signature("dx = ui_mouse_dx();");
@@ -2552,8 +2552,8 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_6_0_2_setup ? (
-			page_6_0_2_setup = 1;
+		!section-mouse-movement_setup ? (
+			section-mouse-movement_setup = 1;
 		);
 		dx = ui_mouse_dx();
 		dy = ui_mouse_dy();
@@ -2565,47 +2565,47 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("dy: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("dy: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(dy, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("dx: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("dx: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(dx, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("dx = ui_mouse_dx();\ndy = ui_mouse_dy();\n\n// Draw mouse movement\nmx = mouse_x;\nmy = mouse_y;\ngfx_line(mx, my, mx - dx, my - dy);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("dx = ui_mouse_dx();\ndy = ui_mouse_dy();\n\n// Draw mouse movement\nmx = mouse_x;\nmy = mouse_y;\ngfx_line(mx, my, mx - dx, my - dy);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_6_0_3" ? (
+) : ui_screen() == "section-mouse-down-event" ? (
 	control_navbar("Mouse-down event", "options", "options");
 	ui_pad();
 	api_print_function_signature("event = ui_mouse_down(button=1);");
@@ -2617,8 +2617,8 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_6_0_3_setup ? (
-			page_6_0_3_setup = 1;
+		!section-mouse-down-event_setup ? (
+			section-mouse-down-event_setup = 1;
 		);
 		event_counter1 += ui_mouse_down(1);
 		event_counter2 += ui_mouse_down(2);
@@ -2626,63 +2626,63 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("event_counter64: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("event_counter64: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(event_counter64, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("event_counter2: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("event_counter2: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(event_counter2, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("event_counter1: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("event_counter1: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(event_counter1, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("event_counter1 += ui_mouse_down(1);\nevent_counter2 += ui_mouse_down(2);\nevent_counter64 += ui_mouse_down(64);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("event_counter1 += ui_mouse_down(1);\nevent_counter2 += ui_mouse_down(2);\nevent_counter64 += ui_mouse_down(64);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_6_0_4" ? (
+) : ui_screen() == "section-mouse-up-event" ? (
 	control_navbar("Mouse-up event", "options", "options");
 	ui_pad();
 	api_print_function_signature("event = ui_mouse_up(button=1);");
@@ -2693,8 +2693,8 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_6_0_4_setup ? (
-			page_6_0_4_setup = 1;
+		!section-mouse-up-event_setup ? (
+			section-mouse-up-event_setup = 1;
 		);
 		event_counter1 += ui_mouse_up(1);
 		event_counter2 += ui_mouse_up(2);
@@ -2702,63 +2702,63 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("event_counter64: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("event_counter64: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(event_counter64, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("event_counter2: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("event_counter2: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(event_counter2, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("event_counter1: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("event_counter1: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(event_counter1, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("event_counter1 += ui_mouse_up(1);\nevent_counter2 += ui_mouse_up(2);\nevent_counter64 += ui_mouse_up(64);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("event_counter1 += ui_mouse_up(1);\nevent_counter2 += ui_mouse_up(2);\nevent_counter64 += ui_mouse_up(64);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_6_0_5" ? (
+) : ui_screen() == "section-mouse-dragging" ? (
 	control_navbar("Mouse dragging", "options", "options");
 	ui_pad();
 	api_print_function_signature("drag_time = ui_drag(button=1);");
@@ -2771,8 +2771,8 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_6_0_5_setup ? (
-			page_6_0_5_setup = 1;
+		!section-mouse-dragging_setup ? (
+			section-mouse-dragging_setup = 1;
 		);
 		ui_border();
 		drag_time = ui_drag();
@@ -2781,63 +2781,63 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("drag_y: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("drag_y: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(drag_y, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("drag_x: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("drag_x: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(drag_x, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("drag_time: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("drag_time: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(drag_time, "%f");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("drag_time = ui_drag();\ndrag_x = ui_drag_x();\ndrag_y = ui_drag_y();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("drag_time = ui_drag();\ndrag_x = ui_drag_x();\ndrag_y = ui_drag_y();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_6_0_6" ? (
+) : ui_screen() == "section-scroll-wheel" ? (
 	control_navbar("Scroll wheel", "options", "options");
 	ui_pad();
 	api_print_function_signature("dx = ui_scroll_x();");
@@ -2849,55 +2849,55 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_6_0_6_setup ? (
-			page_6_0_6_setup = 1;
+		!section-scroll-wheel_setup ? (
+			section-scroll-wheel_setup = 1;
 		);
 		dx = ui_scroll_x();
 		dy = ui_scroll_y();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("dy: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("dy: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(dy, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("dx: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("dx: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(dx, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("dx = ui_scroll_x();\ndy = ui_scroll_y();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("dx = ui_scroll_x();\ndy = ui_scroll_y();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_6_0_7" ? (
+) : ui_screen() == "section-ui_hover" ? (
 	control_navbar("ui_hover", "options", "options");
 	ui_pad();
 	api_print_function_signature("hover = ui_hover();");
@@ -2908,8 +2908,8 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_6_0_7_setup ? (
-			page_6_0_7_setup = 1;
+		!section-ui_hover_setup ? (
+			section-ui_hover_setup = 1;
 		);
 		hover = ui_hover();
 		
@@ -2917,31 +2917,31 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("hover: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("hover: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(hover, "%f");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("hover = ui_hover();\n\nhover ? ui_fill();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("hover = ui_hover();\n\nhover ? ui_fill();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_6_0_8" ? (
+) : ui_screen() == "section-ui_press" ? (
 	control_navbar("ui_press", "options", "options");
 	ui_pad();
 	api_print_function_signature("pressed = ui_press(button=1);");
@@ -2952,8 +2952,8 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_6_0_8_setup ? (
-			page_6_0_8_setup = 1;
+		!section-ui_press_setup ? (
+			section-ui_press_setup = 1;
 		);
 		pressed = ui_press();
 		
@@ -2961,31 +2961,31 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("pressed: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("pressed: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(pressed, "%f");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("pressed = ui_press();\n\npressed ? ui_fill();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("pressed = ui_press();\n\npressed ? ui_fill();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_6_0_9" ? (
+) : ui_screen() == "section-clear-the-mouse-status" ? (
 	control_navbar("Clear the mouse status", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_click_clear();");
@@ -2999,16 +2999,16 @@ ui_screen() == "options" ? (
 		ui_click_clear();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_click_clear();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_click_clear();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_6_1" ? (
+) : ui_screen() == "section-keyboard" ? (
 	control_navbar("Keyboard", "options", "options");
 	ui_pad();
 	api_print_function_signature("char = ui_key();");
@@ -3021,8 +3021,8 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_6_1_setup ? (
-			page_6_1_setup = 1;
+		!section-keyboard_setup ? (
+			section-keyboard_setup = 1;
 		);
 		char = ui_key();
 		
@@ -3030,47 +3030,47 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("lastchar: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("lastchar: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(lastchar, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("char: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("char: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(char, "%i");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("char = ui_key();\n\nlastchar = char ? char : lastchar;");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("char = ui_key();\n\nlastchar = char ? char : lastchar;");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_6_2" ? (
+) : ui_screen() == "section-ui_interacted" ? (
 	control_navbar("ui_interacted", "options", "options");
 	ui_pad();
 	api_print_function_signature("interacted = ui_interacted();");
@@ -3081,89 +3081,89 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_6_2_setup ? (
-			page_6_2_setup = 1;
+		!section-ui_interacted_setup ? (
+			section-ui_interacted_setup = 1;
 		);
 		interacted = ui_interacted();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("interacted: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("interacted: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(interacted, "%f");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("interacted = ui_interacted();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("interacted = ui_interacted();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7" ? (
+) : ui_screen() == "section-themed-controls" ? (
 	control_navbar("Themed controls", "options", "options");
 	ui_pad();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Drawing your own controls") ? (
-				ui_screen_open("page_7_0");
-				page_7_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Drawing your own controls") ? (
+					ui_screen_open("section-drawing-your-own-controls");
+					section-drawing-your-own-controls_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Screen decoration and layout") ? (
-				ui_screen_open("page_7_1");
-				page_7_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Screen decoration and layout") ? (
+					ui_screen_open("section-screen-decoration-and-layout");
+					section-screen-decoration-and-layout_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Buttons, readouts and switches") ? (
-				ui_screen_open("page_7_2");
-				page_7_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Buttons, readouts and switches") ? (
+					ui_screen_open("section-buttons-readouts-and-switches");
+					section-buttons-readouts-and-switches_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Sliders") ? (
-				ui_screen_open("page_7_3");
-				page_7_3_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Sliders") ? (
+					ui_screen_open("section-sliders");
+					section-sliders_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Dials") ? (
-				ui_screen_open("page_7_4");
-				page_7_4_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Dials") ? (
+					ui_screen_open("section-dials");
+					section-dials_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Text inputs") ? (
-				ui_screen_open("page_7_5");
-				page_7_5_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Text inputs") ? (
+					ui_screen_open("section-text-inputs");
+					section-text-inputs_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_7_0" ? (
+) : ui_screen() == "section-drawing-your-own-controls" ? (
 	control_navbar("Drawing your own controls", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
@@ -3171,30 +3171,30 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_state") ? (
-				ui_screen_open("page_7_0_0");
-				page_7_0_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_state") ? (
+					ui_screen_open("section-control_state");
+					section-control_state_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("Styling for custom controls") ? (
-				ui_screen_open("page_7_0_1");
-				page_7_0_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("Styling for custom controls") ? (
+					ui_screen_open("section-styling-for-custom-controls");
+					section-styling-for-custom-controls_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_arrow") ? (
-				ui_screen_open("page_7_0_2");
-				page_7_0_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_arrow") ? (
+					ui_screen_open("section-control_arrow");
+					section-control_arrow_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_7_0_0" ? (
+) : ui_screen() == "section-control_state" ? (
 	control_navbar("control_state", "options", "options");
 	ui_pad();
 	api_print_function_signature("state = control_state();");
@@ -3205,39 +3205,39 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_0_0_setup ? (
-			page_7_0_0_setup = 1;
+		!section-control_state_setup ? (
+			section-control_state_setup = 1;
 		);
 		ui_border();
 		state = control_state();strcpy(#state, state);
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("#state: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("#state: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_text(#state);
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("state = control_state();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("state = control_state();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_0_1" ? (
+) : ui_screen() == "section-styling-for-custom-controls" ? (
 	control_navbar("Styling for custom controls", "options", "options");
 	ui_pad();
 	ui_split_top(108);
@@ -3264,9 +3264,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_0_1_setup ? (
+		!section-styling-for-custom-controls_setup ? (
 			state = "auto";
-			page_7_0_1_setup = 1;
+			section-styling-for-custom-controls_setup = 1;
 		);
 		ui_split_topratio(1/6);
 			ui_pad();
@@ -3305,44 +3305,44 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/1);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("state: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("state: ");
+				ui_pop();
 			state == "press" ? (
-				page_7_0_1_param0_next = "hover";
-				page_7_0_1_param0_prev = "auto";
-				page_7_0_1_param0_text = "press";
+				section-styling-for-custom-controls_param0_next = "hover";
+				section-styling-for-custom-controls_param0_prev = "auto";
+				section-styling-for-custom-controls_param0_text = "press";
 			) : state == "hover" ? (
-				page_7_0_1_param0_next = "drag";
-				page_7_0_1_param0_prev = "press";
-				page_7_0_1_param0_text = "hover";
+				section-styling-for-custom-controls_param0_next = "drag";
+				section-styling-for-custom-controls_param0_prev = "press";
+				section-styling-for-custom-controls_param0_text = "hover";
 			) : state == "drag" ? (
-				page_7_0_1_param0_next = "none";
-				page_7_0_1_param0_prev = "hover";
-				page_7_0_1_param0_text = "drag";
+				section-styling-for-custom-controls_param0_next = "none";
+				section-styling-for-custom-controls_param0_prev = "hover";
+				section-styling-for-custom-controls_param0_text = "drag";
 			) : state == "none" ? (
-				page_7_0_1_param0_next = "auto";
-				page_7_0_1_param0_prev = "drag";
-				page_7_0_1_param0_text = "none";
+				section-styling-for-custom-controls_param0_next = "auto";
+				section-styling-for-custom-controls_param0_prev = "drag";
+				section-styling-for-custom-controls_param0_text = "none";
 			) : state == "auto" ? (
-				page_7_0_1_param0_next = "press";
-				page_7_0_1_param0_prev = "none";
-				page_7_0_1_param0_text = "auto";
+				section-styling-for-custom-controls_param0_next = "press";
+				section-styling-for-custom-controls_param0_prev = "none";
+				section-styling-for-custom-controls_param0_text = "auto";
 			);
-			state = control_selector(state, page_7_0_1_param0_text, page_7_0_1_param0_next, page_7_0_1_param0_prev);
+			state = control_selector(state, section-styling-for-custom-controls_param0_text, section-styling-for-custom-controls_param0_next, section-styling-for-custom-controls_param0_prev);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_split_topratio(1/6);\n\tui_pad();\n\tcontrol_background_enabled(state);\n\tui_text(\"enabled\");\n\tcontrol_finish_enabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_enabled_circle(state);\n\tui_text(\"circle\");\n\tcontrol_finish_enabled_circle(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_disabled(state);\n\tui_text(\"disabled\");\n\tcontrol_finish_disabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_passive(state);\n\tui_text(\"passive\");\n\tcontrol_finish_passive(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_inset(state);\n\tui_text(\"inset\");\n\tcontrol_finish_inset(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_technical(state);\n\tui_text(\"technical\");\n\tcontrol_finish_technical(state);\nui_pop();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_split_topratio(1/6);\n\tui_pad();\n\tcontrol_background_enabled(state);\n\tui_text(\"enabled\");\n\tcontrol_finish_enabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_enabled_circle(state);\n\tui_text(\"circle\");\n\tcontrol_finish_enabled_circle(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_disabled(state);\n\tui_text(\"disabled\");\n\tcontrol_finish_disabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_passive(state);\n\tui_text(\"passive\");\n\tcontrol_finish_passive(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_inset(state);\n\tui_text(\"inset\");\n\tcontrol_finish_inset(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_technical(state);\n\tui_text(\"technical\");\n\tcontrol_finish_technical(state);\nui_pop();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_0_2" ? (
+) : ui_screen() == "section-control_arrow" ? (
 	control_navbar("control_arrow", "options", "options");
 	ui_pad();
 	api_print_function_signature("control_arrow(direction=\"down\");");
@@ -3353,9 +3353,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_0_2_setup ? (
+		!section-control_arrow_setup ? (
 			direction = "down";
-			page_7_0_2_setup = 1;
+			section-control_arrow_setup = 1;
 		);
 		control_arrow(direction);
 	ui_pop();
@@ -3364,67 +3364,67 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/1);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("direction: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("direction: ");
+				ui_pop();
 			direction == "left" ? (
-				page_7_0_2_param0_next = "up";
-				page_7_0_2_param0_prev = "down";
-				page_7_0_2_param0_text = "left";
+				section-control_arrow_param0_next = "up";
+				section-control_arrow_param0_prev = "down";
+				section-control_arrow_param0_text = "left";
 			) : direction == "up" ? (
-				page_7_0_2_param0_next = "right";
-				page_7_0_2_param0_prev = "left";
-				page_7_0_2_param0_text = "up";
+				section-control_arrow_param0_next = "right";
+				section-control_arrow_param0_prev = "left";
+				section-control_arrow_param0_text = "up";
 			) : direction == "right" ? (
-				page_7_0_2_param0_next = "down";
-				page_7_0_2_param0_prev = "up";
-				page_7_0_2_param0_text = "right";
+				section-control_arrow_param0_next = "down";
+				section-control_arrow_param0_prev = "up";
+				section-control_arrow_param0_text = "right";
 			) : direction == "down" ? (
-				page_7_0_2_param0_next = "left";
-				page_7_0_2_param0_prev = "right";
-				page_7_0_2_param0_text = "down";
+				section-control_arrow_param0_next = "left";
+				section-control_arrow_param0_prev = "right";
+				section-control_arrow_param0_text = "down";
 			);
-			direction = control_selector(direction, page_7_0_2_param0_text, page_7_0_2_param0_next, page_7_0_2_param0_prev);
+			direction = control_selector(direction, section-control_arrow_param0_text, section-control_arrow_param0_next, section-control_arrow_param0_prev);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("control_arrow(direction);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("control_arrow(direction);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_1" ? (
+) : ui_screen() == "section-screen-decoration-and-layout" ? (
 	control_navbar("Screen decoration and layout", "options", "options");
 	ui_pad();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_navbar") ? (
-				ui_screen_open("page_7_1_0");
-				page_7_1_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_navbar") ? (
+					ui_screen_open("section-control_navbar");
+					section-control_navbar_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_dialog") ? (
-				ui_screen_open("page_7_1_1");
-				page_7_1_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_dialog") ? (
+					ui_screen_open("section-control_dialog");
+					section-control_dialog_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_group") ? (
-				ui_screen_open("page_7_1_2");
-				page_7_1_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_group") ? (
+					ui_screen_open("section-control_group");
+					section-control_group_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_7_1_0" ? (
+) : ui_screen() == "section-control_navbar" ? (
 	control_navbar("control_navbar", "options", "options");
 	ui_pad();
 	api_print_function_signature("action = control_navbar(#title);");
@@ -3436,10 +3436,10 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_1_0_setup ? (
+		!section-control_navbar_setup ? (
 			strcpy(#title, "screen title");
 			strcpy(#next_title, "screen title");
-			page_7_1_0_setup = 1;
+			section-control_navbar_setup = 1;
 		);
 		control_navbar(#title, #next_title, "options");
 		
@@ -3447,16 +3447,16 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("action: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("action: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(action, "%f");
 		ui_pop();
 		control_finish_inset();
@@ -3466,30 +3466,30 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/2);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#title: ");
-			ui_pop();
-			page_7_1_0_param0_state = control_textinput(#title, page_7_1_0_param0_state);
+					ui_align(1, 0.5);
+					ui_text("#title: ");
+				ui_pop();
+			section-control_navbar_param0_state = control_textinput(#title, section-control_navbar_param0_state);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#next_title: ");
-			ui_pop();
-			page_7_1_0_param1_state = control_textinput(#next_title, page_7_1_0_param1_state);
+					ui_align(1, 0.5);
+					ui_text("#next_title: ");
+				ui_pop();
+			section-control_navbar_param1_state = control_textinput(#next_title, section-control_navbar_param1_state);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("control_navbar(#title, #next_title, \"options\");\n\nui_text(\"screen contents go here\");");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("control_navbar(#title, #next_title, \"options\");\n\nui_text(\"screen contents go here\");");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_1_1" ? (
+) : ui_screen() == "section-control_dialog" ? (
 	control_navbar("control_dialog", "options", "options");
 	ui_pad();
 	api_print_function_signature("action = control_dialog(#title);");
@@ -3503,12 +3503,12 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_1_1_setup ? (
+		!section-control_dialog_setup ? (
 			strcpy(#title, "screen title");
 			strcpy(#ok, "OK");
 			has_cancel = 1;
 			strcpy(#cancel, "cancel");
-			page_7_1_1_setup = 1;
+			section-control_dialog_setup = 1;
 		);
 		has_cancel ? (
 			control_dialog(#title, #ok, #cancel);
@@ -3520,16 +3520,16 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("action: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("action: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(action, "%f");
 		ui_pop();
 		control_finish_inset();
@@ -3539,49 +3539,49 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/4);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#title: ");
-			ui_pop();
-			page_7_1_1_param0_state = control_textinput(#title, page_7_1_1_param0_state);
+					ui_align(1, 0.5);
+					ui_text("#title: ");
+				ui_pop();
+			section-control_dialog_param0_state = control_textinput(#title, section-control_dialog_param0_state);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#ok: ");
-			ui_pop();
-			page_7_1_1_param1_state = control_textinput(#ok, page_7_1_1_param1_state);
+					ui_align(1, 0.5);
+					ui_text("#ok: ");
+				ui_pop();
+			section-control_dialog_param1_state = control_textinput(#ok, section-control_dialog_param1_state);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("has_cancel: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("has_cancel: ");
+				ui_pop();
 			ui_split_left(60);
-				has_cancel = control_switch(has_cancel);
-			ui_pop();
-			ui_padright();
-			ui_align(1, 0.5);
-			ui_text(has_cancel ? "on" : "off");
+					has_cancel = control_switch(has_cancel);
+				ui_pop();
+				ui_padright();
+				ui_align(1, 0.5);
+				ui_text(has_cancel ? "on" : "off");
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#cancel: ");
-			ui_pop();
-			page_7_1_1_param3_state = control_textinput(#cancel, page_7_1_1_param3_state);
+					ui_align(1, 0.5);
+					ui_text("#cancel: ");
+				ui_pop();
+			section-control_dialog_param3_state = control_textinput(#cancel, section-control_dialog_param3_state);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("has_cancel ? (\n\tcontrol_dialog(#title, #ok, #cancel);\n) : (\n\tcontrol_dialog(#title, #ok);\n);\n\nui_text(\"dialog contents go here\");");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("has_cancel ? (\n\tcontrol_dialog(#title, #ok, #cancel);\n) : (\n\tcontrol_dialog(#title, #ok);\n);\n\nui_text(\"dialog contents go here\");");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_1_2" ? (
+) : ui_screen() == "section-control_group" ? (
 	control_navbar("control_group", "options", "options");
 	ui_pad();
 	api_print_function_signature("control_group(#label);");
@@ -3592,9 +3592,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_1_2_setup ? (
+		!section-control_group_setup ? (
 			strcpy(#label, "group label");
-			page_7_1_2_setup = 1;
+			section-control_group_setup = 1;
 		);
 		control_group(#label);ui_text("Control group contents");
 	ui_pop();
@@ -3603,58 +3603,58 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/1);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#label: ");
-			ui_pop();
-			page_7_1_2_param0_state = control_textinput(#label, page_7_1_2_param0_state);
+					ui_align(1, 0.5);
+					ui_text("#label: ");
+				ui_pop();
+			section-control_group_param0_state = control_textinput(#label, section-control_group_param0_state);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("control_group(#label);ui_text(\"Control group contents\");");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("control_group(#label);ui_text(\"Control group contents\");");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_2" ? (
+) : ui_screen() == "section-buttons-readouts-and-switches" ? (
 	control_navbar("Buttons, readouts and switches", "options", "options");
 	ui_pad();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_readout / control_readoutnumber") ? (
-				ui_screen_open("page_7_2_0");
-				page_7_2_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_readout / control_readoutnumber") ? (
+					ui_screen_open("section-control_readout");
+					section-control_readout_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_button") ? (
-				ui_screen_open("page_7_2_1");
-				page_7_2_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_button") ? (
+					ui_screen_open("section-control_button");
+					section-control_button_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_selector") ? (
-				ui_screen_open("page_7_2_2");
-				page_7_2_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_selector") ? (
+					ui_screen_open("section-control_selector");
+					section-control_selector_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_switch") ? (
-				ui_screen_open("page_7_2_3");
-				page_7_2_3_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_switch") ? (
+					ui_screen_open("section-control_switch");
+					section-control_switch_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_7_2_0" ? (
+) : ui_screen() == "section-control_readout" ? (
 	control_navbar("control_readout / control_readoutnumber", "options", "options");
 	ui_pad();
 	api_print_function_signature("control_readout(#text);");
@@ -3666,9 +3666,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_2_0_setup ? (
+		!section-control_readout_setup ? (
 			strcpy(#text, "text value");
-			page_7_2_0_setup = 1;
+			section-control_readout_setup = 1;
 		);
 		control_readout(#text);
 	ui_pop();
@@ -3677,23 +3677,23 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/1);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#text: ");
-			ui_pop();
-			page_7_2_0_param0_state = control_textinput(#text, page_7_2_0_param0_state);
+					ui_align(1, 0.5);
+					ui_text("#text: ");
+				ui_pop();
+			section-control_readout_param0_state = control_textinput(#text, section-control_readout_param0_state);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("control_readout(#text);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("control_readout(#text);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_2_1" ? (
+) : ui_screen() == "section-control_button" ? (
 	control_navbar("control_button", "options", "options");
 	ui_pad();
 	api_print_function_signature("click = control_button(#text, enabled=1);");
@@ -3704,42 +3704,42 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_2_1_setup ? (
+		!section-control_button_setup ? (
 			strcpy(#text, "text value");
 			enabled = 1;
-			page_7_2_1_setup = 1;
+			section-control_button_setup = 1;
 		);
 		click = control_button(#text, enabled);
 		click_total += click;
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("click_total: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("click_total: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(click_total, "%f");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("click: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("click: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(click, "%f");
 		ui_pop();
 		control_finish_inset();
@@ -3749,35 +3749,35 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/2);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#text: ");
-			ui_pop();
-			page_7_2_1_param0_state = control_textinput(#text, page_7_2_1_param0_state);
+					ui_align(1, 0.5);
+					ui_text("#text: ");
+				ui_pop();
+			section-control_button_param0_state = control_textinput(#text, section-control_button_param0_state);
 		ui_split_next();
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("enabled: ");
-			ui_pop();
+					ui_align(1, 0.5);
+					ui_text("enabled: ");
+				ui_pop();
 			ui_split_left(60);
-				enabled = control_switch(enabled);
-			ui_pop();
-			ui_padright();
-			ui_align(1, 0.5);
-			ui_text(enabled ? "on" : "off");
+					enabled = control_switch(enabled);
+				ui_pop();
+				ui_padright();
+				ui_align(1, 0.5);
+				ui_text(enabled ? "on" : "off");
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("click = control_button(#text, enabled);\nclick_total += click;");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("click = control_button(#text, enabled);\nclick_total += click;");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_2_2" ? (
+) : ui_screen() == "section-control_selector" ? (
 	control_navbar("control_selector", "options", "options");
 	ui_pad();
 	api_print_function_signature("value = control_selector(value, #text, next_value, prev_value);");
@@ -3788,8 +3788,8 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_2_2_setup ? (
-			page_7_2_2_setup = 1;
+		!section-control_selector_setup ? (
+			section-control_selector_setup = 1;
 		);
 		sprintf(#selector_text, "option #%i", value);
 		// increment, maximum 10
@@ -3802,31 +3802,31 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("value: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("value: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(value, "%f");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("sprintf(#selector_text, \"option #%i\", value);\n// increment, maximum 10\nnext_value = min(10, value + 1);\n// decrement, minimum 0\nprev_value = max(0, value - 1);\n\nvalue = control_selector(value, #selector_text,\n\t\tnext_value, prev_value);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("sprintf(#selector_text, \"option #%i\", value);\n// increment, maximum 10\nnext_value = min(10, value + 1);\n// decrement, minimum 0\nprev_value = max(0, value - 1);\n\nvalue = control_selector(value, #selector_text,\n\t\tnext_value, prev_value);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_2_3" ? (
+) : ui_screen() == "section-control_switch" ? (
 	control_navbar("control_switch", "options", "options");
 	ui_pad();
 	api_print_function_signature("bool_value = control_switch(bool_value);");
@@ -3837,39 +3837,39 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_2_3_setup ? (
+		!section-control_switch_setup ? (
 			bool_value = 1;
-			page_7_2_3_setup = 1;
+			section-control_switch_setup = 1;
 		);
 		bool_value = control_switch(bool_value);
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("bool_value: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("bool_value: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(bool_value, "%f");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("bool_value = control_switch(bool_value);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("bool_value = control_switch(bool_value);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_3" ? (
+) : ui_screen() == "section-sliders" ? (
 	control_navbar("Sliders", "options", "options");
 	ui_pad();
 	api_print_function_signature("value = control_slider_left(value, left_value, right_value, curve=0, default=null);");
@@ -3883,9 +3883,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_3_setup ? (
+		!section-sliders_setup ? (
 			value = 0.5;
-			page_7_3_setup = 1;
+			section-sliders_setup = 1;
 		);
 		ui_split_topratio(1/4);
 			ui_split_left(70);
@@ -3911,31 +3911,31 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("value: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("value: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(value, "%f");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_split_topratio(1/4);\n\tui_split_left(70);\n\t\tui_text(\"curve=0\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 0, 0.5);\nui_split_next();\n\tui_split_left(70);\n\t\tui_text(\"curve=2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 2, 0.5);\nui_split_next();\n\tui_split_left(70);\n\t\tui_text(\"curve=-2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, -2, 0.5);\nui_split_next();\n\tui_split_left(70);\n\t\tui_text(\"slider_x\");\n\tui_pop();\n\tvalue = control_slider_x(value, 0, 1, 0, 0.5);\nui_pop();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_split_topratio(1/4);\n\tui_split_left(70);\n\t\tui_text(\"curve=0\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 0, 0.5);\nui_split_next();\n\tui_split_left(70);\n\t\tui_text(\"curve=2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, 2, 0.5);\nui_split_next();\n\tui_split_left(70);\n\t\tui_text(\"curve=-2\");\n\tui_pop();\n\tvalue = control_slider_left(value, 0, 1, -2, 0.5);\nui_split_next();\n\tui_split_left(70);\n\t\tui_text(\"slider_x\");\n\tui_pop();\n\tvalue = control_slider_x(value, 0, 1, 0, 0.5);\nui_pop();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_4" ? (
+) : ui_screen() == "section-dials" ? (
 	control_navbar("Dials", "options", "options");
 	ui_pad();
 	api_print_function_signature("value = control_dial_left(value, left_value, right_value, curve=0, default=null);");
@@ -3948,9 +3948,9 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_4_setup ? (
+		!section-dials_setup ? (
 			value = 0.5;
-			page_7_4_setup = 1;
+			section-dials_setup = 1;
 		);
 		ui_split_topratio(1/3);
 			value = control_dial_left(value, 0, 1);
@@ -3962,47 +3962,47 @@ ui_screen() == "options" ? (
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("angle: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("angle: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(angle, "%f");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("value: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("value: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(value, "%f");
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("ui_split_topratio(1/3);\n\tvalue = control_dial_left(value, 0, 1);\nui_split_next();\n\tvalue = control_dial(value, 0, 1);\nui_split_next();\n\tangle = control_dial_angle(angle, 0);\nui_pop();");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("ui_split_topratio(1/3);\n\tvalue = control_dial_left(value, 0, 1);\nui_split_next();\n\tvalue = control_dial(value, 0, 1);\nui_split_next();\n\tangle = control_dial_angle(angle, 0);\nui_pop();");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_5" ? (
+) : ui_screen() == "section-text-inputs" ? (
 	control_navbar("Text inputs", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
@@ -4010,46 +4010,46 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_textinput") ? (
-				ui_screen_open("page_7_5_0");
-				page_7_5_0_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_textinput") ? (
+					ui_screen_open("section-control_textinput");
+					section-control_textinput_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_textinput_focused") ? (
-				ui_screen_open("page_7_5_1");
-				page_7_5_1_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_textinput_focused") ? (
+					ui_screen_open("section-control_textinput_focused");
+					section-control_textinput_focused_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_textinput_focus") ? (
-				ui_screen_open("page_7_5_2");
-				page_7_5_2_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_textinput_focus") ? (
+					ui_screen_open("section-control_textinput_focus");
+					section-control_textinput_focus_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_textinput_unfocus") ? (
-				ui_screen_open("page_7_5_3");
-				page_7_5_3_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_textinput_unfocus") ? (
+					ui_screen_open("section-control_textinput_unfocus");
+					section-control_textinput_unfocus_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
 	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button("control_hidden_text / control_hidden_textnumber") ? (
-				ui_screen_open("page_7_5_4");
-				page_7_5_4_setup = 0;
-			);
+			ui_push_widthratio(0.5);
+				control_button("control_hidden_text / control_hidden_textnumber") ? (
+					ui_screen_open("section-control_hidden_text");
+					section-control_hidden_text_setup = 0;
+				);
+			ui_pop();
 		ui_pop();
-	ui_pop();
-) : ui_screen() == "page_7_5_0" ? (
+) : ui_screen() == "section-control_textinput" ? (
 	control_navbar("control_textinput", "options", "options");
 	ui_pad();
 	api_print_function_signature("opaquestate = control_textinput(#text, opaquestate);");
@@ -4060,39 +4060,39 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_5_0_setup ? (
+		!section-control_textinput_setup ? (
 			strcpy(#text, "text input value");
-			page_7_5_0_setup = 1;
+			section-control_textinput_setup = 1;
 		);
 		opaquestate = control_textinput(#text, opaquestate);
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("#text: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("#text: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_text(#text);
 		ui_pop();
 		control_finish_inset();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("opaquestate = control_textinput(#text, opaquestate);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("opaquestate = control_textinput(#text, opaquestate);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_5_1" ? (
+) : ui_screen() == "section-control_textinput_focused" ? (
 	control_navbar("control_textinput_focused", "options", "options");
 	ui_pad();
 	api_print_function_signature("hasfocus = control_textinput_focused(opaquestate);");
@@ -4102,16 +4102,16 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("control_textinput_focused(opaquestate) ? (\n\t/* do whatever */\n);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("control_textinput_focused(opaquestate) ? (\n\t/* do whatever */\n);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_5_2" ? (
+) : ui_screen() == "section-control_textinput_focus" ? (
 	control_navbar("control_textinput_focus", "options", "options");
 	ui_pad();
 	api_print_function_signature("opaquestate = control_textinput_focus(opaquestate);");
@@ -4121,16 +4121,16 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("opaquestate = control_textinput_focus(opaquestate);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("opaquestate = control_textinput_focus(opaquestate);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_5_3" ? (
+) : ui_screen() == "section-control_textinput_unfocus" ? (
 	control_navbar("control_textinput_unfocus", "options", "options");
 	ui_pad();
 	api_print_function_signature("opaquestate = control_textinput_unfocus(opaquestate);");
@@ -4140,16 +4140,16 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("opaquestate = control_textinput_unfocus(opaquestate);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("opaquestate = control_textinput_unfocus(opaquestate);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
-) : ui_screen() == "page_7_5_4" ? (
+) : ui_screen() == "section-control_hidden_text" ? (
 	control_navbar("control_hidden_text / control_hidden_textnumber", "options", "options");
 	ui_pad();
 	api_print_function_signature("state = control_hidden_text(#text);");
@@ -4162,23 +4162,23 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!page_7_5_4_setup ? (
-			page_7_5_4_setup = 1;
+		!section-control_hidden_text_setup ? (
+			section-control_hidden_text_setup = 1;
 		);
 		state = control_hidden_text(#text);
 	ui_pop();
 	ui_split_bottom(44);
 		ui_pad(-1, 0);
-		ui_split_leftratio(0.4);
-			ui_align(1, 0.5);
-			ui_text("state: ");
-		ui_pop();
+			ui_split_leftratio(0.4);
+				ui_align(1, 0.5);
+				ui_text("state: ");
+			ui_pop();
 		
-		ui_pad(0, -0.5);
-		control_background_inset();
-		ui_push();
-			ui_padleft();
-			ui_align(0, 0.5);
+			ui_pad(0, -0.5);
+			control_background_inset();
+			ui_push();
+				ui_padleft();
+				ui_align(0, 0.5);
 			ui_textnumber(state, "%f");
 		ui_pop();
 		control_finish_inset();
@@ -4188,22 +4188,22 @@ ui_screen() == "options" ? (
 		ui_split_topratio(1/1);
 			ui_pad(0, -0.5);
 			ui_split_leftratio(0.4);
-				ui_align(1, 0.5);
-				ui_text("#text: ");
-			ui_pop();
-			page_7_5_4_param0_state = control_textinput(#text, page_7_5_4_param0_state);
+					ui_align(1, 0.5);
+					ui_text("#text: ");
+				ui_pop();
+			section-control_hidden_text_param0_state = control_textinput(#text, section-control_hidden_text_param0_state);
 		ui_pop();
 	ui_pop();
 	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text("state = control_hidden_text(#text);");
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("state = control_hidden_text(#text);");
+			ui_pop();
+			control_finish_technical();
 		ui_pop();
-		control_finish_technical();
-	ui_pop();
 ) : control_system();
 
 @serialize

@@ -10,7 +10,8 @@
     "nodemon": "^1.11.0"
   },
   "scripts": {
-    "build": "node build.js",
+ "build": "node build.js && npm run build-docs",
+ "build-docs": "mkdir doc/zip && mkdir doc/zip/doc && touch doc/ui-lib.zip && rm doc/ui-lib.zip && node doc/generate.js doc/zip/doc && cp *.jsfx-inc doc/zip && pushd doc/zip && zip ../ui-lib.zip -r . -x .* && popd && rm -r doc/zip",
     "nodemon": "nodemon build.js -e txt --"
   },
   "author": "Geraint Luff <luffgd@gmail.com>",

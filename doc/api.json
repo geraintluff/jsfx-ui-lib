@@ -38,12 +38,12 @@
 					"api": [
 						{
 							"function": "ui_start",
-							"args": [{"name": "default_screen"}],
+							"args": [{"name": "default_screen", "type": "id", "text": "default screen ID"}],
 							"return": null
 						},
 						{
 							"function": "control_start",
-							"args": [{"name": "default_screen"}, {"name": "theme"}],
+							"args": [{"name": "default_screen", "type": "id", "text": "default screen ID"}, {"name": "theme"}],
 							"return": null
 						}
 					],
@@ -55,7 +55,7 @@
 					"api": {
 						"function": "ui_screen",
 						"args": [],
-						"return": {"name": "screen_id"}
+						"return": {"name": "screen_id", "type": "id", "text": "current screen ID"}
 					},
 					"text": "This method returns the current screen ID, a unique identifier for that screen.  Use this to determine which screen you should draw.\n\nEven if you only have one screen, you should use this so that you can get error messages or other info using ui_system().\n\nThe screen ID is treated as a number, but the best screen IDs are string constants - all identical string constants are represented by the same number, and it makes your code more readable.",
 					"displayCode": "@gfx\n\nui_start(\"main\");\n\nui_screen() == \"main\" ? (\n\t/* draw your main screen */\n) : ui_system();"
@@ -63,7 +63,7 @@
 				{
 					"api": {
 						"function": "ui_screen_open",
-						"args": [{"name": "screen_id"}],
+						"args": [{"name": "screen_id", "type": "id"}],
 						"return": null
 					},
 					"text": "This method opens a new screen on top of the stack of screens.\n\nThe screen stack is limited to 10 layers deep.",
@@ -82,7 +82,7 @@
 					"api": {
 						"function": "ui_screen_level",
 						"args": [],
-						"return": {"type": "int", "name": "depth"}
+						"return": {"type": "int", "name": "depth", "min": 0}
 					},
 					"text": "This function tells you how many screens deep you are in your current stack.  The top level is 0."
 				},
@@ -162,7 +162,7 @@
 							"api": [
 								{
 									"function": "ui_push_height",
-									"args": {"type": "int", "name": "height", "min": 0}
+									"args": {"type": "int", "name": "pixels", "min": 0}
 								},
 								{
 									"function": "ui_push_heightratio",
@@ -174,7 +174,7 @@
 								},
 								{
 									"function": "ui_push_width",
-									"args": {"type": "int", "name": "width", "min": 0}
+									"args": {"type": "int", "name": "pixels", "min": 0}
 								},
 								{
 									"function": "ui_push_widthratio",
@@ -195,7 +195,7 @@
 							"api": [
 								{
 									"function": "ui_push_above",
-									"args": {"type": "int", "name": "height", "min": 0}
+									"args": {"type": "int", "name": "pixels", "min": 0}
 								},
 								{
 									"function": "ui_push_aboveratio",
@@ -207,7 +207,7 @@
 								},
 								{
 									"function": "ui_push_below",
-									"args": {"type": "int", "name": "height", "min": 0}
+									"args": {"type": "int", "name": "pixels", "min": 0}
 								},
 								{
 									"function": "ui_push_belowratio",
@@ -219,7 +219,7 @@
 								},
 								{
 									"function": "ui_push_leftof",
-									"args": {"type": "int", "name": "width", "min": 0}
+									"args": {"type": "int", "name": "pixels", "min": 0}
 								},
 								{
 									"function": "ui_push_leftofratio",
@@ -231,7 +231,7 @@
 								},
 								{
 									"function": "ui_push_rightof",
-									"args": {"type": "int", "name": "width", "min": 0}
+									"args": {"type": "int", "name": "pixels", "min": 0}
 								},
 								{
 									"function": "ui_push_rightofratio",
@@ -1102,7 +1102,7 @@
 						{
 							"api": {
 								"function": "control_textinput",
-								"args": ["#text", "opaquestate"],
+								"args": [{"name": "#text", "text": "mutable string"}, {"name": "opaquestate", "text": "opaque value used by the control, initialised to 0"}],
 								"return": "opaquestate"
 							},
 							"params": [],
@@ -1142,7 +1142,7 @@
 								{
 									"function": "control_hidden_text",
 									"args": ["#text"],
-									"return": {"name": "state", "type": "enum", "enum": [0, 1, -1]}
+									"return": {"name": "state", "type": "enum", "enum": [0, 1, -1], "text": "whether the control is hidden, displaying, or just closed"}
 								},
 								{
 									"function": "control_hidden_textnumber",

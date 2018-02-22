@@ -19,6 +19,11 @@
 				font-weight: normal;
 			}
 
+			.back-link {
+				float: right;
+				text-decoration: none;
+			}
+
 			pre, code {
 				/* https://cssfontstack.com/Lucida-Console */
 				font-family: "Lucida Console", "Lucida Sans Typewriter", monaco, "Bitstream Vera Sans Mono", monospace;
@@ -82,14 +87,22 @@
 				margin: 0.5em 0;
 			}
 
+			.definition-permalink {
+				float: right;
+				text-decoration: none;
+			}
+
 			.function-type-int, .function-type-pointer {
 				color: #0A0;
 			}
 			.function-type-number {
 				color: #04B;
 			}
+			.function-type-enum, .function-type-id {
+				color: #B0B;
+			}
 			.function-type-bool {
-				color: #A60;
+				color: #B70;
 			}
 			.function-type-text {
 				color: #B00;
@@ -113,6 +126,7 @@
 	</ul>
 	<div class="children">
 <section id="section-introduction">
+	<a class="back-link" href="#section-index">⇧</a>
 	<h2>Introduction</h2>
 	<div class="about">
 		<p>You should read the getting-started tour first (see GitHub), which explains some important concepts such as the viewport stack.</p>
@@ -124,6 +138,7 @@
 	</ul>
 	<div class="children">
 <section id="section-hello-world">
+	<a class="back-link" href="#section-introduction">⇧</a>
 	<h2>Hello World</h2>
 	<div class="about">
 		<p>Here's a simple Hello World example.</p>
@@ -146,6 +161,7 @@ ui_text("Hello, world!");</code></pre>
 	</div>
 </section>
 <section id="section-viewport-stack-example">
+	<a class="back-link" href="#section-introduction">⇧</a>
 	<h2>Viewport stack example</h2>
 	<div class="about">
 		<p>The current &quot;viewport&quot; has position and size.  It also stores other bits of drawing state, such as colour and font properties.</p>
@@ -180,6 +196,7 @@ ui_pop();</code></pre>
 	</div><!-- children for section-introduction-->
 </section>
 <section id="section-setup-screens-and-errors">
+	<a class="back-link" href="#section-index">⇧</a>
 	<h2>Setup, screens and errors</h2>
 	<div class="about">
 		<p>These functions provide a framework for everything else in the library.</p>
@@ -197,12 +214,14 @@ ui_pop();</code></pre>
 	</ul>
 	<div class="children">
 <section id="section-ui_setup">
+	<a class="back-link" href="#section-setup-screens-and-errors">⇧</a>
 	<h2>ui_setup</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_setup-1"><code><span class="function-return function-type-pointer">new_freemem</span> = <span class="function-name">ui_setup</span>(<span class="function-arg function-type-pointer">freemem</span>=0)</code></pre>
+<a class="definition-permalink" href="#api-ui_setup-1">#</a>		<pre class="definition" id="api-ui_setup-1"><code><span class="function-return function-type-pointer">new_freemem</span> = <span class="function-name">ui_setup</span>(<span class="function-arg function-type-pointer">freemem</span>=0)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-pointer">freemem</code> - index in the memory array</li>
+				<li><code class="function-arg function-type-pointer">new_freemem</code> - index in the memory array</li>
 			</ul>
 			</div>
 	</div>
@@ -221,13 +240,15 @@ freemem = ui_setup(freemem);</code></pre>
 	</div>
 </section>
 <section id="section-ui_start">
+	<a class="back-link" href="#section-setup-screens-and-errors">⇧</a>
 	<h2>ui_start / control_start</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_start-1"><code><span class="function-name">ui_start</span>(<span class="function-arg function-type-number">default_screen</span>)</code></pre>
-		<pre class="definition" id="api-control_start-2"><code><span class="function-name">control_start</span>(<span class="function-arg function-type-number">default_screen</span>, <span class="function-arg function-type-number">theme</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_start-1">#</a>		<pre class="definition" id="api-ui_start-1"><code><span class="function-name">ui_start</span>(<span class="function-arg function-type-id">default_screen</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_start-2">#</a>		<pre class="definition" id="api-control_start-2"><code><span class="function-name">control_start</span>(<span class="function-arg function-type-id">default_screen</span>, <span class="function-arg function-type-number">theme</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
-				<li><code class="function-arg function-type-number">default_screen</code></li>
+				<li><code class="function-arg function-type-id">default_screen</code> - default screen ID, an identifier</li>
+				<li><code class="function-arg function-type-number">theme</code></li>
 			</ul>
 			</div>
 	</div>
@@ -253,9 +274,15 @@ control_start("main", "tron")</code></pre>
 	</div>
 </section>
 <section id="section-ui_screen">
+	<a class="back-link" href="#section-setup-screens-and-errors">⇧</a>
 	<h2>ui_screen</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_screen-0"><code><span class="function-return function-type-number">screen_id</span> = <span class="function-name">ui_screen</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_screen-0">#</a>		<pre class="definition" id="api-ui_screen-0"><code><span class="function-return function-type-id">screen_id</span> = <span class="function-name">ui_screen</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-id">screen_id</code> - current screen ID, an identifier</li>
+			</ul>
+			</div>
 	</div>
 	<div class="about">
 		<p>This method returns the current screen ID, a unique identifier for that screen.  Use this to determine which screen you should draw.</p>
@@ -273,12 +300,13 @@ ui_screen() == "main" ? (
 	</div>
 </section>
 <section id="section-ui_screen_open">
+	<a class="back-link" href="#section-setup-screens-and-errors">⇧</a>
 	<h2>ui_screen_open</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_screen_open-1"><code><span class="function-name">ui_screen_open</span>(<span class="function-arg function-type-number">screen_id</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_screen_open-1">#</a>		<pre class="definition" id="api-ui_screen_open-1"><code><span class="function-name">ui_screen_open</span>(<span class="function-arg function-type-id">screen_id</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
-				<li><code class="function-arg function-type-number">screen_id</code></li>
+				<li><code class="function-arg function-type-id">screen_id</code> - an identifier</li>
 			</ul>
 			</div>
 	</div>
@@ -301,9 +329,10 @@ ui_screen() == "main" ? (
 	</div>
 </section>
 <section id="section-ui_screen_close">
+	<a class="back-link" href="#section-setup-screens-and-errors">⇧</a>
 	<h2>ui_screen_close</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_screen_close-0"><code><span class="function-name">ui_screen_close</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_screen_close-0">#</a>		<pre class="definition" id="api-ui_screen_close-0"><code><span class="function-name">ui_screen_close</span>()</code></pre>
 	</div>
 	<div class="about">
 		<p>This function closes the current screen.</p>
@@ -325,9 +354,15 @@ ui_screen() == "main" ? (
 	</div>
 </section>
 <section id="section-ui_screen_level">
+	<a class="back-link" href="#section-setup-screens-and-errors">⇧</a>
 	<h2>ui_screen_level</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_screen_level-0"><code><span class="function-return function-type-int">depth</span> = <span class="function-name">ui_screen_level</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_screen_level-0">#</a>		<pre class="definition" id="api-ui_screen_level-0"><code><span class="function-return function-type-int">depth</span> = <span class="function-name">ui_screen_level</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">depth</code> - integer >= 0</li>
+			</ul>
+			</div>
 	</div>
 	<div class="about">
 		<p>This function tells you how many screens deep you are in your current stack.  The top level is 0.</p>
@@ -337,10 +372,11 @@ ui_screen() == "main" ? (
 	</div>
 </section>
 <section id="section-ui_screen_arg">
+	<a class="back-link" href="#section-setup-screens-and-errors">⇧</a>
 	<h2>ui_screen_arg</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_screen_arg-2"><code><span class="function-name">ui_screen_arg</span>(<span class="function-arg function-type-int">index</span>, <span class="function-arg function-type-number">value</span>)</code></pre>
-		<pre class="definition" id="api-ui_screen_arg-1"><code><span class="function-return function-type-number">value</span> = <span class="function-name">ui_screen_arg</span>(<span class="function-arg function-type-int">index</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_screen_arg-2">#</a>		<pre class="definition" id="api-ui_screen_arg-2"><code><span class="function-name">ui_screen_arg</span>(<span class="function-arg function-type-int">index</span>, <span class="function-arg function-type-number">value</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_screen_arg-1">#</a>		<pre class="definition" id="api-ui_screen_arg-1"><code><span class="function-return function-type-number">value</span> = <span class="function-name">ui_screen_arg</span>(<span class="function-arg function-type-int">index</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-int">index</code> - integer between 0 and 9</li>
@@ -364,10 +400,11 @@ should_open_screen ? (
 	</div>
 </section>
 <section id="section-ui_system">
+	<a class="back-link" href="#section-setup-screens-and-errors">⇧</a>
 	<h2>ui_system / control_system</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_system-0"><code><span class="function-name">ui_system</span>()</code></pre>
-		<pre class="definition" id="api-control_system-0"><code><span class="function-name">control_system</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_system-0">#</a>		<pre class="definition" id="api-ui_system-0"><code><span class="function-name">ui_system</span>()</code></pre>
+<a class="definition-permalink" href="#api-control_system-0">#</a>		<pre class="definition" id="api-control_system-0"><code><span class="function-name">control_system</span>()</code></pre>
 	</div>
 	<div class="about">
 		<p>These methods provide system screens.</p>
@@ -385,6 +422,7 @@ ui_screen() == "main" ? (
 	</div>
 </section>
 <section id="section-the-control-prompt-screen">
+	<a class="back-link" href="#section-setup-screens-and-errors">⇧</a>
 	<h2>The &quot;control.prompt&quot; screen</h2>
 	<div class="about">
 		<p>This is a screen ID provided by control_system().  It provides a convenient way to prompt the user for text entry.</p>
@@ -404,6 +442,7 @@ ui_screen() == "main" ? (
 	</div><!-- children for section-setup-screens-and-errors-->
 </section>
 <section id="section-the-viewport-stack">
+	<a class="back-link" href="#section-index">⇧</a>
 	<h2>The viewport stack</h2>
 	<ul class="child-links">
 		<li><a href="#section-pushing-popping-and-splitting">Pushing, popping and splitting</a></li>
@@ -413,6 +452,7 @@ ui_screen() == "main" ? (
 	</ul>
 	<div class="children">
 <section id="section-pushing-popping-and-splitting">
+	<a class="back-link" href="#section-the-viewport-stack">⇧</a>
 	<h2>Pushing, popping and splitting</h2>
 	<ul class="child-links">
 		<li><a href="#section-ui_push">ui_push / ui_pop</a></li>
@@ -426,10 +466,11 @@ ui_screen() == "main" ? (
 	</ul>
 	<div class="children">
 <section id="section-ui_push">
+	<a class="back-link" href="#section-pushing-popping-and-splitting">⇧</a>
 	<h2>ui_push / ui_pop</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_push-0"><code><span class="function-name">ui_push</span>()</code></pre>
-		<pre class="definition" id="api-ui_pop-0"><code><span class="function-name">ui_pop</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_push-0">#</a>		<pre class="definition" id="api-ui_push-0"><code><span class="function-name">ui_push</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_pop-0">#</a>		<pre class="definition" id="api-ui_pop-0"><code><span class="function-name">ui_pop</span>()</code></pre>
 	</div>
 	<div class="about">
 		<p>ui_push() pushes a new viewport/state onto the stack.  The new state is a copy of the previous state, but changes to this new state do not affect the previous state.</p>
@@ -450,12 +491,13 @@ ui_text("some text");</code></pre>
 	</div>
 </section>
 <section id="section-ui_push_clip">
+	<a class="back-link" href="#section-pushing-popping-and-splitting">⇧</a>
 	<h2>ui_push_clip</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_push_clip-1"><code><span class="function-name">ui_push_clip</span>(<span class="function-arg function-type-number">opacity</span>=1)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_clip-1">#</a>		<pre class="definition" id="api-ui_push_clip-1"><code><span class="function-name">ui_push_clip</span>(<span class="function-arg function-type-number">opacity</span>=1)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
-				<li><code class="function-arg function-type-number">opacity</code> between 0 and 1</li>
+				<li><code class="function-arg function-type-number">opacity</code> -  between 0 and 1</li>
 			</ul>
 			</div>
 	</div>
@@ -485,17 +527,20 @@ ui_pop();</code></pre>
 	</div>
 </section>
 <section id="section-push-with-height-width">
+	<a class="back-link" href="#section-pushing-popping-and-splitting">⇧</a>
 	<h2>Push with height/width</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_push_height-1"><code><span class="function-name">ui_push_height</span>(<span class="function-arg function-type-int">height</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_heightratio-1"><code><span class="function-name">ui_push_heightratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_heighttext-1"><code><span class="function-name">ui_push_heighttext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_width-1"><code><span class="function-name">ui_push_width</span>(<span class="function-arg function-type-int">width</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_widthratio-1"><code><span class="function-name">ui_push_widthratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_widthtext-1"><code><span class="function-name">ui_push_widthtext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_height-1">#</a>		<pre class="definition" id="api-ui_push_height-1"><code><span class="function-name">ui_push_height</span>(<span class="function-arg function-type-int">pixels</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_heightratio-1">#</a>		<pre class="definition" id="api-ui_push_heightratio-1"><code><span class="function-name">ui_push_heightratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_heighttext-1">#</a>		<pre class="definition" id="api-ui_push_heighttext-1"><code><span class="function-name">ui_push_heighttext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_width-1">#</a>		<pre class="definition" id="api-ui_push_width-1"><code><span class="function-name">ui_push_width</span>(<span class="function-arg function-type-int">pixels</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_widthratio-1">#</a>		<pre class="definition" id="api-ui_push_widthratio-1"><code><span class="function-name">ui_push_widthratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_widthtext-1">#</a>		<pre class="definition" id="api-ui_push_widthtext-1"><code><span class="function-name">ui_push_widthtext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
-				<li><code class="function-arg function-type-int">height</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">pixels</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-number">ratio</code> -  between 0 and 1</li>
+				<li><code class="function-arg function-type-text">#text</code></li>
 			</ul>
 			</div>
 	</div>
@@ -516,23 +561,26 @@ ui_pop();</code></pre>
 	</div>
 </section>
 <section id="section-push-above-below-left-right">
+	<a class="back-link" href="#section-pushing-popping-and-splitting">⇧</a>
 	<h2>Push above/below/left/right</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_push_above-1"><code><span class="function-name">ui_push_above</span>(<span class="function-arg function-type-int">height</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_aboveratio-1"><code><span class="function-name">ui_push_aboveratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_abovetext-1"><code><span class="function-name">ui_push_abovetext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_below-1"><code><span class="function-name">ui_push_below</span>(<span class="function-arg function-type-int">height</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_belowratio-1"><code><span class="function-name">ui_push_belowratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_belowtext-1"><code><span class="function-name">ui_push_belowtext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_leftof-1"><code><span class="function-name">ui_push_leftof</span>(<span class="function-arg function-type-int">width</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_leftofratio-1"><code><span class="function-name">ui_push_leftofratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_leftoftext-1"><code><span class="function-name">ui_push_leftoftext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_rightof-1"><code><span class="function-name">ui_push_rightof</span>(<span class="function-arg function-type-int">width</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_rightofratio-1"><code><span class="function-name">ui_push_rightofratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
-		<pre class="definition" id="api-ui_push_rightoftext-1"><code><span class="function-name">ui_push_rightoftext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_above-1">#</a>		<pre class="definition" id="api-ui_push_above-1"><code><span class="function-name">ui_push_above</span>(<span class="function-arg function-type-int">pixels</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_aboveratio-1">#</a>		<pre class="definition" id="api-ui_push_aboveratio-1"><code><span class="function-name">ui_push_aboveratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_abovetext-1">#</a>		<pre class="definition" id="api-ui_push_abovetext-1"><code><span class="function-name">ui_push_abovetext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_below-1">#</a>		<pre class="definition" id="api-ui_push_below-1"><code><span class="function-name">ui_push_below</span>(<span class="function-arg function-type-int">pixels</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_belowratio-1">#</a>		<pre class="definition" id="api-ui_push_belowratio-1"><code><span class="function-name">ui_push_belowratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_belowtext-1">#</a>		<pre class="definition" id="api-ui_push_belowtext-1"><code><span class="function-name">ui_push_belowtext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_leftof-1">#</a>		<pre class="definition" id="api-ui_push_leftof-1"><code><span class="function-name">ui_push_leftof</span>(<span class="function-arg function-type-int">pixels</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_leftofratio-1">#</a>		<pre class="definition" id="api-ui_push_leftofratio-1"><code><span class="function-name">ui_push_leftofratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_leftoftext-1">#</a>		<pre class="definition" id="api-ui_push_leftoftext-1"><code><span class="function-name">ui_push_leftoftext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_rightof-1">#</a>		<pre class="definition" id="api-ui_push_rightof-1"><code><span class="function-name">ui_push_rightof</span>(<span class="function-arg function-type-int">pixels</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_rightofratio-1">#</a>		<pre class="definition" id="api-ui_push_rightofratio-1"><code><span class="function-name">ui_push_rightofratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_push_rightoftext-1">#</a>		<pre class="definition" id="api-ui_push_rightoftext-1"><code><span class="function-name">ui_push_rightoftext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
-				<li><code class="function-arg function-type-int">height</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">pixels</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-number">ratio</code> -  between 0 and 1</li>
+				<li><code class="function-arg function-type-text">#text</code></li>
 			</ul>
 			</div>
 	</div>
@@ -560,15 +608,17 @@ ui_pop();</code></pre>
 	</div>
 </section>
 <section id="section-splitting-the-viewport">
+	<a class="back-link" href="#section-pushing-popping-and-splitting">⇧</a>
 	<h2>Splitting the viewport</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_split_top-1"><code><span class="function-name">ui_split_top</span>(<span class="function-arg function-type-int">height</span>)</code></pre>
-		<pre class="definition" id="api-ui_split_bottom-1"><code><span class="function-name">ui_split_bottom</span>(<span class="function-arg function-type-int">height</span>)</code></pre>
-		<pre class="definition" id="api-ui_split_left-1"><code><span class="function-name">ui_split_left</span>(<span class="function-arg function-type-int">width</span>)</code></pre>
-		<pre class="definition" id="api-ui_split_right-1"><code><span class="function-name">ui_split_right</span>(<span class="function-arg function-type-int">width</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_split_top-1">#</a>		<pre class="definition" id="api-ui_split_top-1"><code><span class="function-name">ui_split_top</span>(<span class="function-arg function-type-int">height</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_split_bottom-1">#</a>		<pre class="definition" id="api-ui_split_bottom-1"><code><span class="function-name">ui_split_bottom</span>(<span class="function-arg function-type-int">height</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_split_left-1">#</a>		<pre class="definition" id="api-ui_split_left-1"><code><span class="function-name">ui_split_left</span>(<span class="function-arg function-type-int">width</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_split_right-1">#</a>		<pre class="definition" id="api-ui_split_right-1"><code><span class="function-name">ui_split_right</span>(<span class="function-arg function-type-int">width</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-int">height</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">width</code> - integer >= 0</li>
 			</ul>
 			</div>
 	</div>
@@ -593,15 +643,16 @@ ui_text("remaining viewport");</code></pre>
 	</div>
 </section>
 <section id="section-splitting-with-ratios">
+	<a class="back-link" href="#section-pushing-popping-and-splitting">⇧</a>
 	<h2>Splitting with ratios</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_split_topratio-1"><code><span class="function-name">ui_split_topratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
-		<pre class="definition" id="api-ui_split_bottomratio-1"><code><span class="function-name">ui_split_bottomratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
-		<pre class="definition" id="api-ui_split_leftratio-1"><code><span class="function-name">ui_split_leftratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
-		<pre class="definition" id="api-ui_split_rightratio-1"><code><span class="function-name">ui_split_rightratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_split_topratio-1">#</a>		<pre class="definition" id="api-ui_split_topratio-1"><code><span class="function-name">ui_split_topratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_split_bottomratio-1">#</a>		<pre class="definition" id="api-ui_split_bottomratio-1"><code><span class="function-name">ui_split_bottomratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_split_leftratio-1">#</a>		<pre class="definition" id="api-ui_split_leftratio-1"><code><span class="function-name">ui_split_leftratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_split_rightratio-1">#</a>		<pre class="definition" id="api-ui_split_rightratio-1"><code><span class="function-name">ui_split_rightratio</span>(<span class="function-arg function-type-number">ratio</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
-				<li><code class="function-arg function-type-number">ratio</code> between 0 and 1</li>
+				<li><code class="function-arg function-type-number">ratio</code> -  between 0 and 1</li>
 			</ul>
 			</div>
 	</div>
@@ -625,12 +676,13 @@ ui_text("remaining viewport");</code></pre>
 	</div>
 </section>
 <section id="section-splitting-with-text-sizes">
+	<a class="back-link" href="#section-pushing-popping-and-splitting">⇧</a>
 	<h2>Splitting with text sizes</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_split_toptext-1"><code><span class="function-name">ui_split_toptext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
-		<pre class="definition" id="api-ui_split_bottomtext-1"><code><span class="function-name">ui_split_bottomtext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
-		<pre class="definition" id="api-ui_split_left-1"><code><span class="function-name">ui_split_left</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
-		<pre class="definition" id="api-ui_split_right-1"><code><span class="function-name">ui_split_right</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_split_toptext-1">#</a>		<pre class="definition" id="api-ui_split_toptext-1"><code><span class="function-name">ui_split_toptext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_split_bottomtext-1">#</a>		<pre class="definition" id="api-ui_split_bottomtext-1"><code><span class="function-name">ui_split_bottomtext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_split_left-1">#</a>		<pre class="definition" id="api-ui_split_left-1"><code><span class="function-name">ui_split_left</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_split_right-1">#</a>		<pre class="definition" id="api-ui_split_right-1"><code><span class="function-name">ui_split_right</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-text">#text</code></li>
@@ -658,9 +710,10 @@ ui_text("remaining viewport");</code></pre>
 	</div>
 </section>
 <section id="section-ui_split_next">
+	<a class="back-link" href="#section-pushing-popping-and-splitting">⇧</a>
 	<h2>ui_split_next</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_split_next-0"><code><span class="function-name">ui_split_next</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_split_next-0">#</a>		<pre class="definition" id="api-ui_split_next-0"><code><span class="function-name">ui_split_next</span>()</code></pre>
 	</div>
 	<div class="about">
 		<p>When you have performed a split using any of the ui_split_*() methods, you can use ui_split_next() to pop the viewport/state from the stack, and then re-split using the same height/width.</p>
@@ -692,14 +745,25 @@ ui_pop();</code></pre>
 	</div><!-- children for section-pushing-popping-and-splitting-->
 </section>
 <section id="section-get-viewport-position">
+	<a class="back-link" href="#section-the-viewport-stack">⇧</a>
 	<h2>Get viewport position</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_left-0"><code><span class="function-return function-type-int">left_x</span> = <span class="function-name">ui_left</span>()</code></pre>
-		<pre class="definition" id="api-ui_right-0"><code><span class="function-return function-type-int">right_x</span> = <span class="function-name">ui_right</span>()</code></pre>
-		<pre class="definition" id="api-ui_top-0"><code><span class="function-return function-type-int">top_y</span> = <span class="function-name">ui_top</span>()</code></pre>
-		<pre class="definition" id="api-ui_bottom-0"><code><span class="function-return function-type-int">bottom_y</span> = <span class="function-name">ui_bottom</span>()</code></pre>
-		<pre class="definition" id="api-ui_width-0"><code><span class="function-return function-type-int">width_x</span> = <span class="function-name">ui_width</span>()</code></pre>
-		<pre class="definition" id="api-ui_height-0"><code><span class="function-return function-type-int">height_y</span> = <span class="function-name">ui_height</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_left-0">#</a>		<pre class="definition" id="api-ui_left-0"><code><span class="function-return function-type-int">left_x</span> = <span class="function-name">ui_left</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_right-0">#</a>		<pre class="definition" id="api-ui_right-0"><code><span class="function-return function-type-int">right_x</span> = <span class="function-name">ui_right</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_top-0">#</a>		<pre class="definition" id="api-ui_top-0"><code><span class="function-return function-type-int">top_y</span> = <span class="function-name">ui_top</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_bottom-0">#</a>		<pre class="definition" id="api-ui_bottom-0"><code><span class="function-return function-type-int">bottom_y</span> = <span class="function-name">ui_bottom</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_width-0">#</a>		<pre class="definition" id="api-ui_width-0"><code><span class="function-return function-type-int">width_x</span> = <span class="function-name">ui_width</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_height-0">#</a>		<pre class="definition" id="api-ui_height-0"><code><span class="function-return function-type-int">height_y</span> = <span class="function-name">ui_height</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">left_x</code> - integer</li>
+				<li><code class="function-arg function-type-int">right_x</code> - integer</li>
+				<li><code class="function-arg function-type-int">top_y</code> - integer</li>
+				<li><code class="function-arg function-type-int">bottom_y</code> - integer</li>
+				<li><code class="function-arg function-type-int">width_x</code> - integer</li>
+				<li><code class="function-arg function-type-int">height_y</code> - integer</li>
+			</ul>
+			</div>
 	</div>
 	<div class="about">
 		<p>These return the boundaries and dimensions of the current viewport.</p>
@@ -729,9 +793,10 @@ ui_border();</code></pre>
 	</div>
 </section>
 <section id="section-set-viewport-position">
+	<a class="back-link" href="#section-the-viewport-stack">⇧</a>
 	<h2>Set viewport position</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_set_rect-4"><code><span class="function-name">ui_set_rect</span>(<span class="function-arg function-type-int">left</span>, <span class="function-arg function-type-int">top</span>, <span class="function-arg function-type-int">width</span>, <span class="function-arg function-type-int">height</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_set_rect-4">#</a>		<pre class="definition" id="api-ui_set_rect-4"><code><span class="function-name">ui_set_rect</span>(<span class="function-arg function-type-int">left</span>, <span class="function-arg function-type-int">top</span>, <span class="function-arg function-type-int">width</span>, <span class="function-arg function-type-int">height</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-int">left</code> - integer >= 0</li>
@@ -752,6 +817,7 @@ ui_fill();</code></pre>
 	</div>
 </section>
 <section id="section-padding">
+	<a class="back-link" href="#section-the-viewport-stack">⇧</a>
 	<h2>Padding</h2>
 	<div class="about">
 		<p>A few of the UI operations involve a default amount of padding.  For example, the ui_split_*text() add padding to the text measurements to determine the split size.</p>
@@ -764,17 +830,20 @@ ui_fill();</code></pre>
 	</ul>
 	<div class="children">
 <section id="section-ui_pad">
+	<a class="back-link" href="#section-padding">⇧</a>
 	<h2>ui_pad</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_pad-4"><code><span class="function-name">ui_pad</span>(<span class="function-arg function-type-int">left</span>, <span class="function-arg function-type-int">top</span>, <span class="function-arg function-type-int">right</span>, <span class="function-arg function-type-int">bottom</span>)</code></pre>
-		<pre class="definition" id="api-ui_pad-2"><code><span class="function-name">ui_pad</span>(<span class="function-arg function-type-int">leftAndRight</span>, <span class="function-arg function-type-int">topAndBottom</span>)</code></pre>
-		<pre class="definition" id="api-ui_pad-0"><code><span class="function-name">ui_pad</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_pad-4">#</a>		<pre class="definition" id="api-ui_pad-4"><code><span class="function-name">ui_pad</span>(<span class="function-arg function-type-int">left</span>, <span class="function-arg function-type-int">top</span>, <span class="function-arg function-type-int">right</span>, <span class="function-arg function-type-int">bottom</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_pad-2">#</a>		<pre class="definition" id="api-ui_pad-2"><code><span class="function-name">ui_pad</span>(<span class="function-arg function-type-int">leftAndRight</span>, <span class="function-arg function-type-int">topAndBottom</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_pad-0">#</a>		<pre class="definition" id="api-ui_pad-0"><code><span class="function-name">ui_pad</span>()</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-int">left</code> - integer >= 0</li>
 				<li><code class="function-arg function-type-int">top</code> - integer >= 0</li>
 				<li><code class="function-arg function-type-int">right</code> - integer >= 0</li>
 				<li><code class="function-arg function-type-int">bottom</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">leftAndRight</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">topAndBottom</code> - integer >= 0</li>
 			</ul>
 			</div>
 	</div>
@@ -794,15 +863,16 @@ ui_border();</code></pre>
 	</div>
 </section>
 <section id="section-single-edge-padding">
+	<a class="back-link" href="#section-padding">⇧</a>
 	<h2>Single-edge padding</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_padtop-1"><code><span class="function-name">ui_padtop</span>(<span class="function-arg function-type-number">pixels</span>)</code></pre>
-		<pre class="definition" id="api-ui_padbottom-1"><code><span class="function-name">ui_padbottom</span>(<span class="function-arg function-type-number">pixels</span>)</code></pre>
-		<pre class="definition" id="api-ui_padleft-1"><code><span class="function-name">ui_padleft</span>(<span class="function-arg function-type-number">pixels</span>)</code></pre>
-		<pre class="definition" id="api-ui_padright-1"><code><span class="function-name">ui_padright</span>(<span class="function-arg function-type-number">pixels</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_padtop-1">#</a>		<pre class="definition" id="api-ui_padtop-1"><code><span class="function-name">ui_padtop</span>(<span class="function-arg function-type-number">pixels</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_padbottom-1">#</a>		<pre class="definition" id="api-ui_padbottom-1"><code><span class="function-name">ui_padbottom</span>(<span class="function-arg function-type-number">pixels</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_padleft-1">#</a>		<pre class="definition" id="api-ui_padleft-1"><code><span class="function-name">ui_padleft</span>(<span class="function-arg function-type-number">pixels</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_padright-1">#</a>		<pre class="definition" id="api-ui_padright-1"><code><span class="function-name">ui_padright</span>(<span class="function-arg function-type-number">pixels</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
-				<li><code class="function-arg function-type-number">pixels</code> >= 0</li>
+				<li><code class="function-arg function-type-number">pixels</code> -  >= 0</li>
 			</ul>
 			</div>
 	</div>
@@ -821,11 +891,12 @@ ui_border();</code></pre>
 	</div>
 </section>
 <section id="section-setting-getting-the-padding">
+	<a class="back-link" href="#section-padding">⇧</a>
 	<h2>Setting/getting the padding</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_padding-2"><code><span class="function-name">ui_padding</span>(<span class="function-arg function-type-int">padding_horizontal</span>, <span class="function-arg function-type-int">padding_vertical</span>)</code></pre>
-		<pre class="definition" id="api-ui_padding_x-0"><code><span class="function-return function-type-int">padding_horizontal</span> = <span class="function-name">ui_padding_x</span>()</code></pre>
-		<pre class="definition" id="api-ui_padding_y-0"><code><span class="function-return function-type-int">padding_vertical</span> = <span class="function-name">ui_padding_y</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_padding-2">#</a>		<pre class="definition" id="api-ui_padding-2"><code><span class="function-name">ui_padding</span>(<span class="function-arg function-type-int">padding_horizontal</span>, <span class="function-arg function-type-int">padding_vertical</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_padding_x-0">#</a>		<pre class="definition" id="api-ui_padding_x-0"><code><span class="function-return function-type-int">padding_horizontal</span> = <span class="function-name">ui_padding_x</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_padding_y-0">#</a>		<pre class="definition" id="api-ui_padding_y-0"><code><span class="function-return function-type-int">padding_vertical</span> = <span class="function-name">ui_padding_y</span>()</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-int">padding_horizontal</code> - integer >= 0</li>
@@ -850,6 +921,7 @@ ui_border();</code></pre>
 	</div><!-- children for section-the-viewport-stack-->
 </section>
 <section id="section-drawing-state">
+	<a class="back-link" href="#section-index">⇧</a>
 	<h2>Drawing state</h2>
 	<ul class="child-links">
 		<li><a href="#section-ui_color">ui_color</a></li>
@@ -858,16 +930,17 @@ ui_border();</code></pre>
 	</ul>
 	<div class="children">
 <section id="section-ui_color">
+	<a class="back-link" href="#section-drawing-state">⇧</a>
 	<h2>ui_color</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_color-4"><code><span class="function-name">ui_color</span>(<span class="function-arg function-type-int">red</span>, <span class="function-arg function-type-int">green</span>, <span class="function-arg function-type-int">blue</span>, <span class="function-arg function-type-number">alpha</span>)</code></pre>
-		<pre class="definition" id="api-ui_color-0"><code><span class="function-name">ui_color</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_color-4">#</a>		<pre class="definition" id="api-ui_color-4"><code><span class="function-name">ui_color</span>(<span class="function-arg function-type-int">red</span>, <span class="function-arg function-type-int">green</span>, <span class="function-arg function-type-int">blue</span>, <span class="function-arg function-type-number">alpha</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_color-0">#</a>		<pre class="definition" id="api-ui_color-0"><code><span class="function-name">ui_color</span>()</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-int">red</code> - integer between 0 and 255</li>
 				<li><code class="function-arg function-type-int">green</code> - integer between 0 and 255</li>
 				<li><code class="function-arg function-type-int">blue</code> - integer between 0 and 255</li>
-				<li><code class="function-arg function-type-number">alpha</code> between 0 and 1</li>
+				<li><code class="function-arg function-type-number">alpha</code> -  between 0 and 1</li>
 			</ul>
 			</div>
 	</div>
@@ -889,15 +962,16 @@ ui_text("some text");</code></pre>
 	</div>
 </section>
 <section id="section-alignment">
+	<a class="back-link" href="#section-drawing-state">⇧</a>
 	<h2>Alignment</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_align-2"><code><span class="function-name">ui_align</span>(<span class="function-arg function-type-number">horizontal</span>, <span class="function-arg function-type-number">vertical</span>)</code></pre>
-		<pre class="definition" id="api-ui_align_x-0"><code><span class="function-return function-type-number">horizontal</span> = <span class="function-name">ui_align_x</span>()</code></pre>
-		<pre class="definition" id="api-ui_align_y-0"><code><span class="function-return function-type-number">vertical</span> = <span class="function-name">ui_align_y</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_align-2">#</a>		<pre class="definition" id="api-ui_align-2"><code><span class="function-name">ui_align</span>(<span class="function-arg function-type-number">horizontal</span>, <span class="function-arg function-type-number">vertical</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_align_x-0">#</a>		<pre class="definition" id="api-ui_align_x-0"><code><span class="function-return function-type-number">horizontal</span> = <span class="function-name">ui_align_x</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_align_y-0">#</a>		<pre class="definition" id="api-ui_align_y-0"><code><span class="function-return function-type-number">vertical</span> = <span class="function-name">ui_align_y</span>()</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
-				<li><code class="function-arg function-type-number">horizontal</code> between 0 and 1</li>
-				<li><code class="function-arg function-type-number">vertical</code> between 0 and 1</li>
+				<li><code class="function-arg function-type-number">horizontal</code> -  between 0 and 1</li>
+				<li><code class="function-arg function-type-number">vertical</code> -  between 0 and 1</li>
 			</ul>
 			</div>
 	</div>
@@ -915,14 +989,15 @@ ui_text("aligned text");</code></pre>
 	</div>
 </section>
 <section id="section-fonts">
+	<a class="back-link" href="#section-drawing-state">⇧</a>
 	<h2>Fonts</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_font-4"><code><span class="function-name">ui_font</span>(<span class="function-arg function-type-text">#face</span>, <span class="function-arg function-type-int">size</span>, <span class="function-arg function-type-bool">bold</span>, <span class="function-arg function-type-bool">italics</span>)</code></pre>
-		<pre class="definition" id="api-ui_fontface-1"><code><span class="function-name">ui_fontface</span>(<span class="function-arg function-type-text">#face</span>)</code></pre>
-		<pre class="definition" id="api-ui_fontsize-1"><code><span class="function-name">ui_fontsize</span>(<span class="function-arg function-type-int">size</span>)</code></pre>
-		<pre class="definition" id="api-ui_fontbold-1"><code><span class="function-name">ui_fontbold</span>(<span class="function-arg function-type-bool">bold</span>)</code></pre>
-		<pre class="definition" id="api-ui_fontitalic-1"><code><span class="function-name">ui_fontitalic</span>(<span class="function-arg function-type-bool">italics</span>)</code></pre>
-		<pre class="definition" id="api-ui_font-0"><code><span class="function-name">ui_font</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_font-4">#</a>		<pre class="definition" id="api-ui_font-4"><code><span class="function-name">ui_font</span>(<span class="function-arg function-type-text">#face</span>, <span class="function-arg function-type-int">size</span>, <span class="function-arg function-type-bool">bold</span>, <span class="function-arg function-type-bool">italics</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_fontface-1">#</a>		<pre class="definition" id="api-ui_fontface-1"><code><span class="function-name">ui_fontface</span>(<span class="function-arg function-type-text">#face</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_fontsize-1">#</a>		<pre class="definition" id="api-ui_fontsize-1"><code><span class="function-name">ui_fontsize</span>(<span class="function-arg function-type-int">size</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_fontbold-1">#</a>		<pre class="definition" id="api-ui_fontbold-1"><code><span class="function-name">ui_fontbold</span>(<span class="function-arg function-type-bool">bold</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_fontitalic-1">#</a>		<pre class="definition" id="api-ui_fontitalic-1"><code><span class="function-name">ui_fontitalic</span>(<span class="function-arg function-type-bool">italics</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_font-0">#</a>		<pre class="definition" id="api-ui_font-0"><code><span class="function-name">ui_font</span>()</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-text">#face</code></li>
@@ -948,6 +1023,7 @@ ui_text("Hello, world!");</code></pre>
 	</div><!-- children for section-drawing-state-->
 </section>
 <section id="section-drawing">
+	<a class="back-link" href="#section-index">⇧</a>
 	<h2>Drawing</h2>
 	<div class="about">
 		<p>Although the default colours vary, these drawing functions are theme-independent.</p>
@@ -960,9 +1036,10 @@ ui_text("Hello, world!");</code></pre>
 	</ul>
 	<div class="children">
 <section id="section-ui_fill">
+	<a class="back-link" href="#section-drawing">⇧</a>
 	<h2>ui_fill</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_fill-0"><code><span class="function-name">ui_fill</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_fill-0">#</a>		<pre class="definition" id="api-ui_fill-0"><code><span class="function-name">ui_fill</span>()</code></pre>
 	</div>
 	<div class="about">
 		<p>Fills the viewport with the current colour.</p>
@@ -975,13 +1052,14 @@ ui_text("Hello, world!");</code></pre>
 	</div>
 </section>
 <section id="section-ui_border-and-others">
+	<a class="back-link" href="#section-drawing">⇧</a>
 	<h2>ui_border() and others</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_border-0"><code><span class="function-name">ui_border</span>()</code></pre>
-		<pre class="definition" id="api-ui_border_top-0"><code><span class="function-name">ui_border_top</span>()</code></pre>
-		<pre class="definition" id="api-ui_border_bottom-0"><code><span class="function-name">ui_border_bottom</span>()</code></pre>
-		<pre class="definition" id="api-ui_border_left-0"><code><span class="function-name">ui_border_left</span>()</code></pre>
-		<pre class="definition" id="api-ui_border_right-0"><code><span class="function-name">ui_border_right</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_border-0">#</a>		<pre class="definition" id="api-ui_border-0"><code><span class="function-name">ui_border</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_border_top-0">#</a>		<pre class="definition" id="api-ui_border_top-0"><code><span class="function-name">ui_border_top</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_border_bottom-0">#</a>		<pre class="definition" id="api-ui_border_bottom-0"><code><span class="function-name">ui_border_bottom</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_border_left-0">#</a>		<pre class="definition" id="api-ui_border_left-0"><code><span class="function-name">ui_border_left</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_border_right-0">#</a>		<pre class="definition" id="api-ui_border_right-0"><code><span class="function-name">ui_border_right</span>()</code></pre>
 	</div>
 	<div class="about">
 		<p>Draws a border in the current colour.</p>
@@ -994,17 +1072,21 @@ ui_text("Hello, world!");</code></pre>
 	</div>
 </section>
 <section id="section-plotting-graphs">
+	<a class="back-link" href="#section-drawing">⇧</a>
 	<h2>Plotting graphs</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_graph-4"><code><span class="function-name">ui_graph</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">length</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
-		<pre class="definition" id="api-ui_graph_step-5"><code><span class="function-name">ui_graph_step</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">count</span>, <span class="function-arg function-type-int">step</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
-		<pre class="definition" id="api-ui_graph_circular-6"><code><span class="function-name">ui_graph_circular</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">count</span>, <span class="function-arg function-type-int">step</span>, <span class="function-arg function-type-int">offset</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_graph-4">#</a>		<pre class="definition" id="api-ui_graph-4"><code><span class="function-name">ui_graph</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">length</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_graph_step-5">#</a>		<pre class="definition" id="api-ui_graph_step-5"><code><span class="function-name">ui_graph_step</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">count</span>, <span class="function-arg function-type-int">step</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_graph_circular-6">#</a>		<pre class="definition" id="api-ui_graph_circular-6"><code><span class="function-name">ui_graph_circular</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">count</span>, <span class="function-arg function-type-int">step</span>, <span class="function-arg function-type-int">offset</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-pointer">buffer</code> - index in the memory array</li>
 				<li><code class="function-arg function-type-int">length</code> - integer >= 1</li>
 				<li><code class="function-arg function-type-number">min_y</code></li>
 				<li><code class="function-arg function-type-number">max_y</code></li>
+				<li><code class="function-arg function-type-int">count</code> - integer >= 1</li>
+				<li><code class="function-arg function-type-int">step</code> - integer >= 1</li>
+				<li><code class="function-arg function-type-int">offset</code> - integer >= 0</li>
 			</ul>
 			</div>
 	</div>
@@ -1024,9 +1106,10 @@ ui_graph_step_circular(buffer, 16, 64, offset, min_y, max_y);
 	</div>
 </section>
 <section id="section-ui_reserve_image">
+	<a class="back-link" href="#section-drawing">⇧</a>
 	<h2>ui_reserve_image</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_reserve_image-1"><code><span class="function-name">ui_reserve_image</span>(<span class="function-arg function-type-int">arg1</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_reserve_image-1">#</a>		<pre class="definition" id="api-ui_reserve_image-1"><code><span class="function-name">ui_reserve_image</span>(<span class="function-arg function-type-int">arg1</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-int">arg1</code> - integer between 0 and 127</li>
@@ -1055,6 +1138,7 @@ ui_start("main");
 	</div><!-- children for section-drawing-->
 </section>
 <section id="section-text">
+	<a class="back-link" href="#section-index">⇧</a>
 	<h2>Text</h2>
 	<div class="about">
 		<p>Although the default fonts/etc. vary, these functions are theme-independent.</p>
@@ -1069,9 +1153,10 @@ ui_start("main");
 	</ul>
 	<div class="children">
 <section id="section-ui_text">
+	<a class="back-link" href="#section-text">⇧</a>
 	<h2>ui_text</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_text-1"><code><span class="function-name">ui_text</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_text-1">#</a>		<pre class="definition" id="api-ui_text-1"><code><span class="function-name">ui_text</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-text">#text</code></li>
@@ -1091,13 +1176,15 @@ ui_start("main");
 	</div>
 </section>
 <section id="section-ui_wraptext">
+	<a class="back-link" href="#section-text">⇧</a>
 	<h2>ui_wraptext / ui_wraptext_height</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_wraptext-1"><code><span class="function-return function-type-int">height</span> = <span class="function-name">ui_wraptext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
-		<pre class="definition" id="api-ui_wraptext_height-1"><code><span class="function-return function-type-int">height</span> = <span class="function-name">ui_wraptext_height</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_wraptext-1">#</a>		<pre class="definition" id="api-ui_wraptext-1"><code><span class="function-return function-type-int">height</span> = <span class="function-name">ui_wraptext</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_wraptext_height-1">#</a>		<pre class="definition" id="api-ui_wraptext_height-1"><code><span class="function-return function-type-int">height</span> = <span class="function-name">ui_wraptext_height</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-text">#text</code></li>
+				<li><code class="function-arg function-type-int">height</code> - integer >= 0</li>
 			</ul>
 			</div>
 	</div>
@@ -1113,9 +1200,15 @@ ui_start("main");
 	</div>
 </section>
 <section id="section-ui_texth">
+	<a class="back-link" href="#section-text">⇧</a>
 	<h2>ui_texth</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_texth-0"><code><span class="function-return function-type-int">line_height</span> = <span class="function-name">ui_texth</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_texth-0">#</a>		<pre class="definition" id="api-ui_texth-0"><code><span class="function-return function-type-int">line_height</span> = <span class="function-name">ui_texth</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">line_height</code> - integer</li>
+			</ul>
+			</div>
 	</div>
 	<div class="about">
 		<p>Gets the current height of a single line, resetting the gfx_* font parameters if necessary.</p>
@@ -1125,13 +1218,16 @@ ui_start("main");
 	</div>
 </section>
 <section id="section-ui_text_width">
+	<a class="back-link" href="#section-text">⇧</a>
 	<h2>ui_text_width / ui_text_height</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_text_width-1"><code><span class="function-return function-type-int">text_width</span> = <span class="function-name">ui_text_width</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
-		<pre class="definition" id="api-ui_text_height-1"><code><span class="function-return function-type-int">text_height</span> = <span class="function-name">ui_text_height</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_text_width-1">#</a>		<pre class="definition" id="api-ui_text_width-1"><code><span class="function-return function-type-int">text_width</span> = <span class="function-name">ui_text_width</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_text_height-1">#</a>		<pre class="definition" id="api-ui_text_height-1"><code><span class="function-return function-type-int">text_height</span> = <span class="function-name">ui_text_height</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-text">#text</code></li>
+				<li><code class="function-arg function-type-int">text_width</code> - integer</li>
+				<li><code class="function-arg function-type-int">text_height</code> - integer</li>
 			</ul>
 			</div>
 	</div>
@@ -1145,9 +1241,10 @@ text_height = ui_text_height(#text);</code></pre>
 	</div>
 </section>
 <section id="section-ui_textnumber">
+	<a class="back-link" href="#section-text">⇧</a>
 	<h2>ui_textnumber</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_textnumber-2"><code><span class="function-name">ui_textnumber</span>(<span class="function-arg function-type-number">number</span>, <span class="function-arg function-type-text">#format</span>="%f")</code></pre>
+<a class="definition-permalink" href="#api-ui_textnumber-2">#</a>		<pre class="definition" id="api-ui_textnumber-2"><code><span class="function-name">ui_textnumber</span>(<span class="function-arg function-type-number">number</span>, <span class="function-arg function-type-text">#format</span>="%f")</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-number">number</code></li>
@@ -1166,13 +1263,15 @@ text_height = ui_text_height(#text);</code></pre>
 	</div>
 </section>
 <section id="section-ui_parsenumber">
+	<a class="back-link" href="#section-text">⇧</a>
 	<h2>ui_parsenumber</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_parsenumber-2"><code><span class="function-return function-type-number">number</span> = <span class="function-name">ui_parsenumber</span>(<span class="function-arg function-type-text">#number_string</span>, <span class="function-arg function-type-number">default</span>=0)</code></pre>
+<a class="definition-permalink" href="#api-ui_parsenumber-2">#</a>		<pre class="definition" id="api-ui_parsenumber-2"><code><span class="function-return function-type-number">number</span> = <span class="function-name">ui_parsenumber</span>(<span class="function-arg function-type-text">#number_string</span>, <span class="function-arg function-type-number">default</span>=0)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-text">#number_string</code></li>
 				<li><code class="function-arg function-type-number">default</code></li>
+				<li><code class="function-arg function-type-number">number</code></li>
 			</ul>
 			</div>
 	</div>
@@ -1187,6 +1286,7 @@ text_height = ui_text_height(#text);</code></pre>
 	</div><!-- children for section-text-->
 </section>
 <section id="section-user-input">
+	<a class="back-link" href="#section-index">⇧</a>
 	<h2>User input</h2>
 	<ul class="child-links">
 		<li><a href="#section-mouse">Mouse</a></li>
@@ -1195,6 +1295,7 @@ text_height = ui_text_height(#text);</code></pre>
 	</ul>
 	<div class="children">
 <section id="section-mouse">
+	<a class="back-link" href="#section-user-input">⇧</a>
 	<h2>Mouse</h2>
 	<div class="about">
 		<p>For raw mouse state, you can still use mouse_x, mouse_y and mouse_cap.  These functions deal with more complex interactions, like dragging and hovering.</p>
@@ -1214,12 +1315,19 @@ text_height = ui_text_height(#text);</code></pre>
 	</ul>
 	<div class="children">
 <section id="section-mouse-position">
+	<a class="back-link" href="#section-mouse">⇧</a>
 	<h2>Mouse position</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_mouse_x-0"><code><span class="function-return function-type-number">relative_x</span> = <span class="function-name">ui_mouse_x</span>()</code></pre>
-		<pre class="definition" id="api-ui_mouse_xratio-0"><code><span class="function-return function-type-number">relative_x</span> = <span class="function-name">ui_mouse_xratio</span>()</code></pre>
-		<pre class="definition" id="api-ui_mouse_y-0"><code><span class="function-return function-type-number">relative_x</span> = <span class="function-name">ui_mouse_y</span>()</code></pre>
-		<pre class="definition" id="api-ui_mouse_yratio-0"><code><span class="function-return function-type-number">relative_y</span> = <span class="function-name">ui_mouse_yratio</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_mouse_x-0">#</a>		<pre class="definition" id="api-ui_mouse_x-0"><code><span class="function-return function-type-number">relative_x</span> = <span class="function-name">ui_mouse_x</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_mouse_xratio-0">#</a>		<pre class="definition" id="api-ui_mouse_xratio-0"><code><span class="function-return function-type-number">relative_x</span> = <span class="function-name">ui_mouse_xratio</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_mouse_y-0">#</a>		<pre class="definition" id="api-ui_mouse_y-0"><code><span class="function-return function-type-number">relative_x</span> = <span class="function-name">ui_mouse_y</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_mouse_yratio-0">#</a>		<pre class="definition" id="api-ui_mouse_yratio-0"><code><span class="function-return function-type-number">relative_y</span> = <span class="function-name">ui_mouse_yratio</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">relative_x</code></li>
+				<li><code class="function-arg function-type-number">relative_y</code></li>
+			</ul>
+			</div>
 	</div>
 	<div class="about">
 		<p>These functions return the mouse position relative to the current viewport, either in absolute pixels or as a ratio.</p>
@@ -1232,13 +1340,16 @@ y_ratio = ui_mouse_yratio();</code></pre>
 	</div>
 </section>
 <section id="section-ui_click">
+	<a class="back-link" href="#section-mouse">⇧</a>
 	<h2>ui_click / ui_clickcount</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_click-1"><code><span class="function-return function-type-bool">pressed</span> = <span class="function-name">ui_click</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
-		<pre class="definition" id="api-ui_clickcount-1"><code><span class="function-return function-type-int">count</span> = <span class="function-name">ui_clickcount</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+<a class="definition-permalink" href="#api-ui_click-1">#</a>		<pre class="definition" id="api-ui_click-1"><code><span class="function-return function-type-bool">pressed</span> = <span class="function-name">ui_click</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+<a class="definition-permalink" href="#api-ui_clickcount-1">#</a>		<pre class="definition" id="api-ui_clickcount-1"><code><span class="function-return function-type-int">count</span> = <span class="function-name">ui_clickcount</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-enum">button</code> - 1, 2 or 64</li>
+				<li><code class="function-arg function-type-bool">pressed</code> - boolean</li>
+				<li><code class="function-arg function-type-int">count</code> - integer >= 0</li>
 			</ul>
 			</div>
 	</div>
@@ -1255,10 +1366,17 @@ y_ratio = ui_mouse_yratio();</code></pre>
 	</div>
 </section>
 <section id="section-mouse-movement">
+	<a class="back-link" href="#section-mouse">⇧</a>
 	<h2>Mouse movement</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_mouse_dx-0"><code><span class="function-return function-type-number">dx</span> = <span class="function-name">ui_mouse_dx</span>()</code></pre>
-		<pre class="definition" id="api-ui_mouse_dy-0"><code><span class="function-return function-type-number">dy</span> = <span class="function-name">ui_mouse_dy</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_mouse_dx-0">#</a>		<pre class="definition" id="api-ui_mouse_dx-0"><code><span class="function-return function-type-number">dx</span> = <span class="function-name">ui_mouse_dx</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_mouse_dy-0">#</a>		<pre class="definition" id="api-ui_mouse_dy-0"><code><span class="function-return function-type-number">dy</span> = <span class="function-name">ui_mouse_dy</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">dx</code></li>
+				<li><code class="function-arg function-type-number">dy</code></li>
+			</ul>
+			</div>
 	</div>
 	<div class="about">
 		<p>Returns the mouse movement since the last frame.</p>
@@ -1274,13 +1392,15 @@ gfx_line(mx, my, mx - dx, my - dy);</code></pre>
 	</div>
 </section>
 <section id="section-mouse-down-event">
+	<a class="back-link" href="#section-mouse">⇧</a>
 	<h2>Mouse-down event</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_mouse_down-1"><code><span class="function-return function-type-bool">event</span> = <span class="function-name">ui_mouse_down</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
-		<pre class="definition" id="api-ui_mouse_down_outside-1"><code><span class="function-return function-type-bool">event</span> = <span class="function-name">ui_mouse_down_outside</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+<a class="definition-permalink" href="#api-ui_mouse_down-1">#</a>		<pre class="definition" id="api-ui_mouse_down-1"><code><span class="function-return function-type-bool">event</span> = <span class="function-name">ui_mouse_down</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+<a class="definition-permalink" href="#api-ui_mouse_down_outside-1">#</a>		<pre class="definition" id="api-ui_mouse_down_outside-1"><code><span class="function-return function-type-bool">event</span> = <span class="function-name">ui_mouse_down_outside</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-enum">button</code> - 1, 2 or 64</li>
+				<li><code class="function-arg function-type-bool">event</code> - boolean</li>
 			</ul>
 			</div>
 	</div>
@@ -1294,12 +1414,14 @@ event_counter64 += ui_mouse_down(64);</code></pre>
 	</div>
 </section>
 <section id="section-mouse-up-event">
+	<a class="back-link" href="#section-mouse">⇧</a>
 	<h2>Mouse-up event</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_mouse_up-1"><code><span class="function-return function-type-bool">event</span> = <span class="function-name">ui_mouse_up</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+<a class="definition-permalink" href="#api-ui_mouse_up-1">#</a>		<pre class="definition" id="api-ui_mouse_up-1"><code><span class="function-return function-type-bool">event</span> = <span class="function-name">ui_mouse_up</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-enum">button</code> - 1, 2 or 64</li>
+				<li><code class="function-arg function-type-bool">event</code> - boolean</li>
 			</ul>
 			</div>
 	</div>
@@ -1313,14 +1435,18 @@ event_counter64 += ui_mouse_up(64);</code></pre>
 	</div>
 </section>
 <section id="section-mouse-dragging">
+	<a class="back-link" href="#section-mouse">⇧</a>
 	<h2>Mouse dragging</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_drag-1"><code><span class="function-return function-type-bool">drag_time</span> = <span class="function-name">ui_drag</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
-		<pre class="definition" id="api-ui_drag_x-1"><code><span class="function-return function-type-number">drag_x</span> = <span class="function-name">ui_drag_x</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
-		<pre class="definition" id="api-ui_drag_y-1"><code><span class="function-return function-type-number">drag_y</span> = <span class="function-name">ui_drag_y</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+<a class="definition-permalink" href="#api-ui_drag-1">#</a>		<pre class="definition" id="api-ui_drag-1"><code><span class="function-return function-type-bool">drag_time</span> = <span class="function-name">ui_drag</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+<a class="definition-permalink" href="#api-ui_drag_x-1">#</a>		<pre class="definition" id="api-ui_drag_x-1"><code><span class="function-return function-type-number">drag_x</span> = <span class="function-name">ui_drag_x</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+<a class="definition-permalink" href="#api-ui_drag_y-1">#</a>		<pre class="definition" id="api-ui_drag_y-1"><code><span class="function-return function-type-number">drag_y</span> = <span class="function-name">ui_drag_y</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-enum">button</code> - 1, 2 or 64</li>
+				<li><code class="function-arg function-type-bool">drag_time</code> - boolean</li>
+				<li><code class="function-arg function-type-number">drag_x</code></li>
+				<li><code class="function-arg function-type-number">drag_y</code></li>
 			</ul>
 			</div>
 	</div>
@@ -1335,10 +1461,17 @@ drag_y = ui_drag_y();</code></pre>
 	</div>
 </section>
 <section id="section-scroll-wheel">
+	<a class="back-link" href="#section-mouse">⇧</a>
 	<h2>Scroll wheel</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_scroll_x-0"><code><span class="function-return function-type-number">dx</span> = <span class="function-name">ui_scroll_x</span>()</code></pre>
-		<pre class="definition" id="api-ui_scroll_y-0"><code><span class="function-return function-type-number">dy</span> = <span class="function-name">ui_scroll_y</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_scroll_x-0">#</a>		<pre class="definition" id="api-ui_scroll_x-0"><code><span class="function-return function-type-number">dx</span> = <span class="function-name">ui_scroll_x</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_scroll_y-0">#</a>		<pre class="definition" id="api-ui_scroll_y-0"><code><span class="function-return function-type-number">dy</span> = <span class="function-name">ui_scroll_y</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">dx</code></li>
+				<li><code class="function-arg function-type-number">dy</code></li>
+			</ul>
+			</div>
 	</div>
 	<div class="about">
 		<p>Returns the scroll-wheel movement since the last frame.</p>
@@ -1349,9 +1482,15 @@ dy = ui_scroll_y();</code></pre>
 	</div>
 </section>
 <section id="section-ui_hover">
+	<a class="back-link" href="#section-mouse">⇧</a>
 	<h2>ui_hover</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_hover-0"><code><span class="function-return function-type-bool">hover</span> = <span class="function-name">ui_hover</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_hover-0">#</a>		<pre class="definition" id="api-ui_hover-0"><code><span class="function-return function-type-bool">hover</span> = <span class="function-name">ui_hover</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-bool">hover</code> - boolean</li>
+			</ul>
+			</div>
 	</div>
 	<div class="about">
 		<p>Returns whether the mouse position is inside the current viewport.</p>
@@ -1363,12 +1502,14 @@ hover ? ui_fill();</code></pre>
 	</div>
 </section>
 <section id="section-ui_press">
+	<a class="back-link" href="#section-mouse">⇧</a>
 	<h2>ui_press</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_press-1"><code><span class="function-return function-type-bool">pressed</span> = <span class="function-name">ui_press</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
+<a class="definition-permalink" href="#api-ui_press-1">#</a>		<pre class="definition" id="api-ui_press-1"><code><span class="function-return function-type-bool">pressed</span> = <span class="function-name">ui_press</span>(<span class="function-arg function-type-enum">button</span>=1)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-enum">button</code> - 1, 2 or 64</li>
+				<li><code class="function-arg function-type-bool">pressed</code> - boolean</li>
 			</ul>
 			</div>
 	</div>
@@ -1384,9 +1525,10 @@ pressed ? ui_fill();</code></pre>
 	</div>
 </section>
 <section id="section-clear-the-mouse-status">
+	<a class="back-link" href="#section-mouse">⇧</a>
 	<h2>Clear the mouse status</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_click_clear-0"><code><span class="function-name">ui_click_clear</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_click_clear-0">#</a>		<pre class="definition" id="api-ui_click_clear-0"><code><span class="function-name">ui_click_clear</span>()</code></pre>
 	</div>
 	<div class="about">
 		<p>Prevents any later code from registering clicks, drags, and so on.  In essence, it release all currently-held mouse buttons, but without triggering any events.</p>
@@ -1400,11 +1542,17 @@ pressed ? ui_fill();</code></pre>
 	</div><!-- children for section-mouse-->
 </section>
 <section id="section-keyboard">
+	<a class="back-link" href="#section-user-input">⇧</a>
 	<h2>Keyboard</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_key-0"><code><span class="function-return function-type-int">char</span> = <span class="function-name">ui_key</span>()</code></pre>
-		<pre class="definition" id="api-ui_key_printable-0"><code><span class="function-return function-type-int">char</span> = <span class="function-name">ui_key_printable</span>()</code></pre>
-		<pre class="definition" id="api-ui_key_next-0"><code><span class="function-return function-type-int">char</span> = <span class="function-name">ui_key_next</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_key-0">#</a>		<pre class="definition" id="api-ui_key-0"><code><span class="function-return function-type-int">char</span> = <span class="function-name">ui_key</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_key_printable-0">#</a>		<pre class="definition" id="api-ui_key_printable-0"><code><span class="function-return function-type-int">char</span> = <span class="function-name">ui_key_printable</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_key_next-0">#</a>		<pre class="definition" id="api-ui_key_next-0"><code><span class="function-return function-type-int">char</span> = <span class="function-name">ui_key_next</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">char</code> - integer >= 0</li>
+			</ul>
+			</div>
 	</div>
 	<div class="about">
 		<p>ui_key() returns the char code of the latest unhandled key-press, or 0 if there is none.</p>
@@ -1419,9 +1567,15 @@ lastchar = char ? char : lastchar;</code></pre>
 	</div>
 </section>
 <section id="section-ui_interacted">
+	<a class="back-link" href="#section-user-input">⇧</a>
 	<h2>ui_interacted</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-ui_interacted-0"><code><span class="function-return function-type-bool">interacted</span> = <span class="function-name">ui_interacted</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_interacted-0">#</a>		<pre class="definition" id="api-ui_interacted-0"><code><span class="function-return function-type-bool">interacted</span> = <span class="function-name">ui_interacted</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-bool">interacted</code> - boolean</li>
+			</ul>
+			</div>
 	</div>
 	<div class="about">
 		<p>This function returns whether the user has interacted with this effect since last frame.</p>
@@ -1434,6 +1588,7 @@ lastchar = char ? char : lastchar;</code></pre>
 	</div><!-- children for section-user-input-->
 </section>
 <section id="section-themed-controls">
+	<a class="back-link" href="#section-index">⇧</a>
 	<h2>Themed controls</h2>
 	<ul class="child-links">
 		<li><a href="#section-drawing-your-own-controls">Drawing your own controls</a></li>
@@ -1445,6 +1600,7 @@ lastchar = char ? char : lastchar;</code></pre>
 	</ul>
 	<div class="children">
 <section id="section-drawing-your-own-controls">
+	<a class="back-link" href="#section-themed-controls">⇧</a>
 	<h2>Drawing your own controls</h2>
 	<div class="about">
 		<p>No UI library can provide everything, so it provides some ways to draw custom controls that fit into the theme.</p>
@@ -1456,9 +1612,15 @@ lastchar = char ? char : lastchar;</code></pre>
 	</ul>
 	<div class="children">
 <section id="section-control_state">
+	<a class="back-link" href="#section-drawing-your-own-controls">⇧</a>
 	<h2>control_state</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_state-0"><code><span class="function-return function-type-enum">state</span> = <span class="function-name">control_state</span>()</code></pre>
+<a class="definition-permalink" href="#api-control_state-0">#</a>		<pre class="definition" id="api-control_state-0"><code><span class="function-return function-type-enum">state</span> = <span class="function-name">control_state</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-enum">state</code> - &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot; or &quot;none&quot;</li>
+			</ul>
+			</div>
 	</div>
 	<div class="about">
 		<p>This returns the current mouse-interaction state of the current viewport.</p>
@@ -1470,20 +1632,21 @@ lastchar = char ? char : lastchar;</code></pre>
 	</div>
 </section>
 <section id="section-styling-for-custom-controls">
+	<a class="back-link" href="#section-drawing-your-own-controls">⇧</a>
 	<h2>Styling for custom controls</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_background_enabled-1"><code><span class="function-name">control_background_enabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-		<pre class="definition" id="api-control_background_enabled_circle-1"><code><span class="function-name">control_background_enabled_circle</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-		<pre class="definition" id="api-control_background_disabled-1"><code><span class="function-name">control_background_disabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-		<pre class="definition" id="api-control_background_passive-1"><code><span class="function-name">control_background_passive</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-		<pre class="definition" id="api-control_background_inset-1"><code><span class="function-name">control_background_inset</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-		<pre class="definition" id="api-control_background_technical-1"><code><span class="function-name">control_background_technical</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-		<pre class="definition" id="api-control_finish_enabled-1"><code><span class="function-name">control_finish_enabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-		<pre class="definition" id="api-control_finish_enabled_circle-1"><code><span class="function-name">control_finish_enabled_circle</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-		<pre class="definition" id="api-control_finish_disabled-1"><code><span class="function-name">control_finish_disabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-		<pre class="definition" id="api-control_finish_passive-1"><code><span class="function-name">control_finish_passive</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-		<pre class="definition" id="api-control_finish_inset-1"><code><span class="function-name">control_finish_inset</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-		<pre class="definition" id="api-control_finish_technical-1"><code><span class="function-name">control_finish_technical</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_background_enabled-1">#</a>		<pre class="definition" id="api-control_background_enabled-1"><code><span class="function-name">control_background_enabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_background_enabled_circle-1">#</a>		<pre class="definition" id="api-control_background_enabled_circle-1"><code><span class="function-name">control_background_enabled_circle</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_background_disabled-1">#</a>		<pre class="definition" id="api-control_background_disabled-1"><code><span class="function-name">control_background_disabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_background_passive-1">#</a>		<pre class="definition" id="api-control_background_passive-1"><code><span class="function-name">control_background_passive</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_background_inset-1">#</a>		<pre class="definition" id="api-control_background_inset-1"><code><span class="function-name">control_background_inset</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_background_technical-1">#</a>		<pre class="definition" id="api-control_background_technical-1"><code><span class="function-name">control_background_technical</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_finish_enabled-1">#</a>		<pre class="definition" id="api-control_finish_enabled-1"><code><span class="function-name">control_finish_enabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_finish_enabled_circle-1">#</a>		<pre class="definition" id="api-control_finish_enabled_circle-1"><code><span class="function-name">control_finish_enabled_circle</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_finish_disabled-1">#</a>		<pre class="definition" id="api-control_finish_disabled-1"><code><span class="function-name">control_finish_disabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_finish_passive-1">#</a>		<pre class="definition" id="api-control_finish_passive-1"><code><span class="function-name">control_finish_passive</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_finish_inset-1">#</a>		<pre class="definition" id="api-control_finish_inset-1"><code><span class="function-name">control_finish_inset</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_finish_technical-1">#</a>		<pre class="definition" id="api-control_finish_technical-1"><code><span class="function-name">control_finish_technical</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-enum">state</code> - &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot;, &quot;none&quot; or &quot;auto&quot;</li>
@@ -1534,9 +1697,10 @@ ui_pop();</code></pre>
 	</div>
 </section>
 <section id="section-control_arrow">
+	<a class="back-link" href="#section-drawing-your-own-controls">⇧</a>
 	<h2>control_arrow</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_arrow-1"><code><span class="function-name">control_arrow</span>(<span class="function-arg function-type-enum">direction</span>="down")</code></pre>
+<a class="definition-permalink" href="#api-control_arrow-1">#</a>		<pre class="definition" id="api-control_arrow-1"><code><span class="function-name">control_arrow</span>(<span class="function-arg function-type-enum">direction</span>="down")</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-enum">direction</code> - &quot;left&quot;, &quot;up&quot;, &quot;right&quot; or &quot;down&quot;</li>
@@ -1556,6 +1720,7 @@ ui_pop();</code></pre>
 	</div><!-- children for section-drawing-your-own-controls-->
 </section>
 <section id="section-screen-decoration-and-layout">
+	<a class="back-link" href="#section-themed-controls">⇧</a>
 	<h2>Screen decoration and layout</h2>
 	<ul class="child-links">
 		<li><a href="#section-control_navbar">control_navbar</a></li>
@@ -1564,13 +1729,17 @@ ui_pop();</code></pre>
 	</ul>
 	<div class="children">
 <section id="section-control_navbar">
+	<a class="back-link" href="#section-screen-decoration-and-layout">⇧</a>
 	<h2>control_navbar</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_navbar-1"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_navbar</span>(<span class="function-arg function-type-text">#title</span>)</code></pre>
-		<pre class="definition" id="api-control_navbar-3"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_navbar</span>(<span class="function-arg function-type-text">#title</span>, <span class="function-arg function-type-text">#next_title</span>, <span class="function-arg function-type-number">next_screen_id</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_navbar-1">#</a>		<pre class="definition" id="api-control_navbar-1"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_navbar</span>(<span class="function-arg function-type-text">#title</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_navbar-3">#</a>		<pre class="definition" id="api-control_navbar-3"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_navbar</span>(<span class="function-arg function-type-text">#title</span>, <span class="function-arg function-type-text">#next_title</span>, <span class="function-arg function-type-number">next_screen_id</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-text">#title</code></li>
+				<li><code class="function-arg function-type-text">#next_title</code></li>
+				<li><code class="function-arg function-type-number">next_screen_id</code></li>
+				<li><code class="function-arg function-type-enum">action</code> - 0 or -1</li>
 			</ul>
 			</div>
 	</div>
@@ -1589,15 +1758,21 @@ ui_text("screen contents go here");</code></pre>
 	</div>
 </section>
 <section id="section-control_dialog">
+	<a class="back-link" href="#section-screen-decoration-and-layout">⇧</a>
 	<h2>control_dialog</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_dialog-1"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_dialog</span>(<span class="function-arg function-type-text">#title</span>)</code></pre>
-		<pre class="definition" id="api-control_dialog-2"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_dialog</span>(<span class="function-arg function-type-text">#title</span>, <span class="function-arg function-type-text">#ok</span>)</code></pre>
-		<pre class="definition" id="api-control_dialog-3"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_dialog</span>(<span class="function-arg function-type-text">#title</span>, <span class="function-arg function-type-text">#ok</span>, <span class="function-arg function-type-text">#cancel</span>)</code></pre>
-		<pre class="definition" id="api-control_dialog-5"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_dialog</span>(<span class="function-arg function-type-text">#title</span>, <span class="function-arg function-type-int">width</span>, <span class="function-arg function-type-int">height</span>, <span class="function-arg function-type-text">#ok</span>, <span class="function-arg function-type-text">#cancel</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_dialog-1">#</a>		<pre class="definition" id="api-control_dialog-1"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_dialog</span>(<span class="function-arg function-type-text">#title</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_dialog-2">#</a>		<pre class="definition" id="api-control_dialog-2"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_dialog</span>(<span class="function-arg function-type-text">#title</span>, <span class="function-arg function-type-text">#ok</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_dialog-3">#</a>		<pre class="definition" id="api-control_dialog-3"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_dialog</span>(<span class="function-arg function-type-text">#title</span>, <span class="function-arg function-type-text">#ok</span>, <span class="function-arg function-type-text">#cancel</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_dialog-5">#</a>		<pre class="definition" id="api-control_dialog-5"><code><span class="function-return function-type-enum">action</span> = <span class="function-name">control_dialog</span>(<span class="function-arg function-type-text">#title</span>, <span class="function-arg function-type-int">width</span>, <span class="function-arg function-type-int">height</span>, <span class="function-arg function-type-text">#ok</span>, <span class="function-arg function-type-text">#cancel</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-text">#title</code></li>
+				<li><code class="function-arg function-type-text">#ok</code></li>
+				<li><code class="function-arg function-type-text">#cancel</code></li>
+				<li><code class="function-arg function-type-int">width</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">height</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-enum">action</code> - 0 or 1</li>
 			</ul>
 			</div>
 	</div>
@@ -1620,9 +1795,10 @@ ui_text("dialog contents go here");</code></pre>
 	</div>
 </section>
 <section id="section-control_group">
+	<a class="back-link" href="#section-screen-decoration-and-layout">⇧</a>
 	<h2>control_group</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_group-1"><code><span class="function-name">control_group</span>(<span class="function-arg function-type-text">#label</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_group-1">#</a>		<pre class="definition" id="api-control_group-1"><code><span class="function-name">control_group</span>(<span class="function-arg function-type-text">#label</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-text">#label</code></li>
@@ -1642,6 +1818,7 @@ ui_text("dialog contents go here");</code></pre>
 	</div><!-- children for section-screen-decoration-and-layout-->
 </section>
 <section id="section-buttons-readouts-and-switches">
+	<a class="back-link" href="#section-themed-controls">⇧</a>
 	<h2>Buttons, readouts and switches</h2>
 	<ul class="child-links">
 		<li><a href="#section-control_readout">control_readout / control_readoutnumber</a></li>
@@ -1651,13 +1828,16 @@ ui_text("dialog contents go here");</code></pre>
 	</ul>
 	<div class="children">
 <section id="section-control_readout">
+	<a class="back-link" href="#section-buttons-readouts-and-switches">⇧</a>
 	<h2>control_readout / control_readoutnumber</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_readout-1"><code><span class="function-name">control_readout</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
-		<pre class="definition" id="api-control_readoutnumber-2"><code><span class="function-name">control_readoutnumber</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-text">#format</span>="%f")</code></pre>
+<a class="definition-permalink" href="#api-control_readout-1">#</a>		<pre class="definition" id="api-control_readout-1"><code><span class="function-name">control_readout</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_readoutnumber-2">#</a>		<pre class="definition" id="api-control_readoutnumber-2"><code><span class="function-name">control_readoutnumber</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-text">#format</span>="%f")</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-text">#text</code></li>
+				<li><code class="function-arg function-type-number">value</code></li>
+				<li><code class="function-arg function-type-text">#format</code></li>
 			</ul>
 			</div>
 	</div>
@@ -1672,13 +1852,15 @@ ui_text("dialog contents go here");</code></pre>
 	</div>
 </section>
 <section id="section-control_button">
+	<a class="back-link" href="#section-buttons-readouts-and-switches">⇧</a>
 	<h2>control_button</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_button-2"><code><span class="function-return function-type-number">click</span> = <span class="function-name">control_button</span>(<span class="function-arg function-type-text">#text</span>, <span class="function-arg function-type-bool">enabled</span>=1)</code></pre>
+<a class="definition-permalink" href="#api-control_button-2">#</a>		<pre class="definition" id="api-control_button-2"><code><span class="function-return function-type-number">click</span> = <span class="function-name">control_button</span>(<span class="function-arg function-type-text">#text</span>, <span class="function-arg function-type-bool">enabled</span>=1)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-text">#text</code></li>
 				<li><code class="function-arg function-type-bool">enabled</code> - boolean</li>
+				<li><code class="function-arg function-type-number">click</code></li>
 			</ul>
 			</div>
 	</div>
@@ -1695,9 +1877,10 @@ click_total += click;</code></pre>
 	</div>
 </section>
 <section id="section-control_selector">
+	<a class="back-link" href="#section-buttons-readouts-and-switches">⇧</a>
 	<h2>control_selector</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_selector-4"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_selector</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-text">#text</span>, <span class="function-arg function-type-number">next_value</span>, <span class="function-arg function-type-number">prev_value</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_selector-4">#</a>		<pre class="definition" id="api-control_selector-4"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_selector</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-text">#text</span>, <span class="function-arg function-type-number">next_value</span>, <span class="function-arg function-type-number">prev_value</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-number">value</code></li>
@@ -1725,9 +1908,10 @@ value = control_selector(value, #selector_text,
 	</div>
 </section>
 <section id="section-control_switch">
+	<a class="back-link" href="#section-buttons-readouts-and-switches">⇧</a>
 	<h2>control_switch</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_switch-1"><code><span class="function-return function-type-bool">bool_value</span> = <span class="function-name">control_switch</span>(<span class="function-arg function-type-bool">bool_value</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_switch-1">#</a>		<pre class="definition" id="api-control_switch-1"><code><span class="function-return function-type-bool">bool_value</span> = <span class="function-name">control_switch</span>(<span class="function-arg function-type-bool">bool_value</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-bool">bool_value</code> - boolean</li>
@@ -1747,12 +1931,13 @@ value = control_selector(value, #selector_text,
 	</div><!-- children for section-buttons-readouts-and-switches-->
 </section>
 <section id="section-sliders">
+	<a class="back-link" href="#section-themed-controls">⇧</a>
 	<h2>Sliders</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_slider_left-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_slider_left</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
-		<pre class="definition" id="api-control_slider_x-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_slider_x</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
-		<pre class="definition" id="api-control_slider_bottom-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_slider_bottom</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">bottom_value</span>, <span class="function-arg function-type-number">top_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
-		<pre class="definition" id="api-control_slider_y-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_slider_y</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">bottom_value</span>, <span class="function-arg function-type-number">top_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_slider_left-5">#</a>		<pre class="definition" id="api-control_slider_left-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_slider_left</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_slider_x-5">#</a>		<pre class="definition" id="api-control_slider_x-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_slider_x</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_slider_bottom-5">#</a>		<pre class="definition" id="api-control_slider_bottom-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_slider_bottom</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">bottom_value</span>, <span class="function-arg function-type-number">top_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_slider_y-5">#</a>		<pre class="definition" id="api-control_slider_y-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_slider_y</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">bottom_value</span>, <span class="function-arg function-type-number">top_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-number">value</code></li>
@@ -1760,6 +1945,8 @@ value = control_selector(value, #selector_text,
 				<li><code class="function-arg function-type-number">right_value</code></li>
 				<li><code class="function-arg function-type-number">curve</code></li>
 				<li><code class="function-arg function-type-number">default</code></li>
+				<li><code class="function-arg function-type-number">bottom_value</code></li>
+				<li><code class="function-arg function-type-number">top_value</code></li>
 			</ul>
 			</div>
 	</div>
@@ -1796,11 +1983,12 @@ ui_pop();</code></pre>
 	</div>
 </section>
 <section id="section-dials">
+	<a class="back-link" href="#section-themed-controls">⇧</a>
 	<h2>Dials</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_dial_left-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_dial_left</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
-		<pre class="definition" id="api-control_dial-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_dial</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
-		<pre class="definition" id="api-control_dial_angle-2"><code><span class="function-return function-type-number">angle</span> = <span class="function-name">control_dial_angle</span>(<span class="function-arg function-type-number">angle</span>, <span class="function-arg function-type-number">default</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_dial_left-5">#</a>		<pre class="definition" id="api-control_dial_left-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_dial_left</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_dial-5">#</a>		<pre class="definition" id="api-control_dial-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_dial</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_dial_angle-2">#</a>		<pre class="definition" id="api-control_dial_angle-2"><code><span class="function-return function-type-number">angle</span> = <span class="function-name">control_dial_angle</span>(<span class="function-arg function-type-number">angle</span>, <span class="function-arg function-type-number">default</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-number">value</code></li>
@@ -1808,6 +1996,7 @@ ui_pop();</code></pre>
 				<li><code class="function-arg function-type-number">right_value</code></li>
 				<li><code class="function-arg function-type-number">curve</code></li>
 				<li><code class="function-arg function-type-number">default</code></li>
+				<li><code class="function-arg function-type-number">angle</code></li>
 			</ul>
 			</div>
 	</div>
@@ -1830,6 +2019,7 @@ ui_pop();</code></pre>
 	</div>
 </section>
 <section id="section-text-inputs">
+	<a class="back-link" href="#section-themed-controls">⇧</a>
 	<h2>Text inputs</h2>
 	<div class="about">
 		<p>JSFX has no built-in text inputs, so this isn't quite as smooth as a native control, but it's functional.  It supports selecting with the mouse (including double-clicking on words) or keyboard.</p>
@@ -1845,13 +2035,14 @@ ui_pop();</code></pre>
 	</ul>
 	<div class="children">
 <section id="section-control_textinput">
+	<a class="back-link" href="#section-text-inputs">⇧</a>
 	<h2>control_textinput</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_textinput-2"><code><span class="function-return function-type-number">opaquestate</span> = <span class="function-name">control_textinput</span>(<span class="function-arg function-type-text">#text</span>, <span class="function-arg function-type-number">opaquestate</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_textinput-2">#</a>		<pre class="definition" id="api-control_textinput-2"><code><span class="function-return function-type-number">opaquestate</span> = <span class="function-name">control_textinput</span>(<span class="function-arg function-type-text">#text</span>, <span class="function-arg function-type-number">opaquestate</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
-				<li><code class="function-arg function-type-text">#text</code></li>
-				<li><code class="function-arg function-type-number">opaquestate</code></li>
+				<li><code class="function-arg function-type-text">#text</code> - mutable string</li>
+				<li><code class="function-arg function-type-number">opaquestate</code> - opaque value used by the control, initialised to 0</li>
 			</ul>
 			</div>
 	</div>
@@ -1866,12 +2057,14 @@ ui_pop();</code></pre>
 	</div>
 </section>
 <section id="section-control_textinput_focused">
+	<a class="back-link" href="#section-text-inputs">⇧</a>
 	<h2>control_textinput_focused</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_textinput_focused-1"><code><span class="function-return function-type-bool">hasfocus</span> = <span class="function-name">control_textinput_focused</span>(<span class="function-arg function-type-number">opaquestate</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_textinput_focused-1">#</a>		<pre class="definition" id="api-control_textinput_focused-1"><code><span class="function-return function-type-bool">hasfocus</span> = <span class="function-name">control_textinput_focused</span>(<span class="function-arg function-type-number">opaquestate</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-number">opaquestate</code></li>
+				<li><code class="function-arg function-type-bool">hasfocus</code> - boolean</li>
 			</ul>
 			</div>
 	</div>
@@ -1885,9 +2078,10 @@ ui_pop();</code></pre>
 	</div>
 </section>
 <section id="section-control_textinput_focus">
+	<a class="back-link" href="#section-text-inputs">⇧</a>
 	<h2>control_textinput_focus</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_textinput_focus-1"><code><span class="function-return function-type-number">opaquestate</span> = <span class="function-name">control_textinput_focus</span>(<span class="function-arg function-type-number">opaquestate</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_textinput_focus-1">#</a>		<pre class="definition" id="api-control_textinput_focus-1"><code><span class="function-return function-type-number">opaquestate</span> = <span class="function-name">control_textinput_focus</span>(<span class="function-arg function-type-number">opaquestate</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-number">opaquestate</code></li>
@@ -1902,9 +2096,10 @@ ui_pop();</code></pre>
 	</div>
 </section>
 <section id="section-control_textinput_unfocus">
+	<a class="back-link" href="#section-text-inputs">⇧</a>
 	<h2>control_textinput_unfocus</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_textinput_unfocus-1"><code><span class="function-return function-type-number">opaquestate</span> = <span class="function-name">control_textinput_unfocus</span>(<span class="function-arg function-type-number">opaquestate</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_textinput_unfocus-1">#</a>		<pre class="definition" id="api-control_textinput_unfocus-1"><code><span class="function-return function-type-number">opaquestate</span> = <span class="function-name">control_textinput_unfocus</span>(<span class="function-arg function-type-number">opaquestate</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-number">opaquestate</code></li>
@@ -1919,14 +2114,19 @@ ui_pop();</code></pre>
 	</div>
 </section>
 <section id="section-control_hidden_text">
+	<a class="back-link" href="#section-text-inputs">⇧</a>
 	<h2>control_hidden_text / control_hidden_textnumber</h2>
 	<div class="definitions">
-		<pre class="definition" id="api-control_hidden_text-1"><code><span class="function-return function-type-enum">state</span> = <span class="function-name">control_hidden_text</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
-		<pre class="definition" id="api-control_hidden_textnumber-2"><code><span class="function-return function-type-number">number</span> = <span class="function-name">control_hidden_textnumber</span>(<span class="function-arg function-type-number">number</span>, <span class="function-arg function-type-text">#display_format</span>="%f")</code></pre>
-		<pre class="definition" id="api-control_hidden_textnumber-3"><code><span class="function-return function-type-number">number</span> = <span class="function-name">control_hidden_textnumber</span>(<span class="function-arg function-type-number">number</span>, <span class="function-arg function-type-number">display_number</span>, <span class="function-arg function-type-text">#display_format</span>="%f")</code></pre>
+<a class="definition-permalink" href="#api-control_hidden_text-1">#</a>		<pre class="definition" id="api-control_hidden_text-1"><code><span class="function-return function-type-enum">state</span> = <span class="function-name">control_hidden_text</span>(<span class="function-arg function-type-text">#text</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_hidden_textnumber-2">#</a>		<pre class="definition" id="api-control_hidden_textnumber-2"><code><span class="function-return function-type-number">number</span> = <span class="function-name">control_hidden_textnumber</span>(<span class="function-arg function-type-number">number</span>, <span class="function-arg function-type-text">#display_format</span>="%f")</code></pre>
+<a class="definition-permalink" href="#api-control_hidden_textnumber-3">#</a>		<pre class="definition" id="api-control_hidden_textnumber-3"><code><span class="function-return function-type-number">number</span> = <span class="function-name">control_hidden_textnumber</span>(<span class="function-arg function-type-number">number</span>, <span class="function-arg function-type-number">display_number</span>, <span class="function-arg function-type-text">#display_format</span>="%f")</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-text">#text</code></li>
+				<li><code class="function-arg function-type-number">number</code></li>
+				<li><code class="function-arg function-type-text">#display_format</code></li>
+				<li><code class="function-arg function-type-number">display_number</code></li>
+				<li><code class="function-arg function-type-enum">state</code> - whether the control is hidden, displaying, or just closed, 0, 1 or -1</li>
 			</ul>
 			</div>
 	</div>

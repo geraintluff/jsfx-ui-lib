@@ -41,17 +41,20 @@ uix_latestchar = 0;
 uix_char_consumed = 0;
 
 uix_error = 0;
-function uix_clamp1(v) (
-	min(1, max(0, v));
-);
 function uix_clamp255(v) (
 	min(255, max(0, floor(v + 0.5)));
 );
-function uix_setgfxcolorrgba(r, g, b, a) (
-	gfx_r = uix_clamp1(r/255);
-	gfx_g = uix_clamp1(g/255);
-	gfx_b = uix_clamp1(b/255);
-	gfx_a = uix_clamp1(a);
+function uix_setgfxcolorrgba(r, g, b, a) local(m, s) (
+	// Instead of per-channel clamp, we maintain hue at the expense of saturation and brightness
+	m = min(min(0, r), min(g, b));
+	r -= m;
+	g -= m;
+	b -= m;
+	s = max(max(255, r), max(g, b));
+	gfx_r = r/s;
+	gfx_g = r/s;
+	gfx_b = r/s;
+	gfx_a = min(1, max(0, a));
 	0;
 );
 function uix_setgfxcolor() (
