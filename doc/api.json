@@ -242,7 +242,7 @@
 									"args": {"type": "text", "name": "#text"}
 								}
 							],
-							"code": "ui_align(0.5, vertical_align);\n\nui_push_height(height);\n\tui_border();\n\tui_align(0.5, 0.5);\n\tui_text(\"viewport has fixed height\");\nui_pop();\n\nui_push_above(height);\n\tui_color(0, 128, 255);\nui_border();\nui_align(0.5, 0.5);\n\tui_text(\"centered above\");\nui_pop();",
+							"code": "ui_align(0.5, vertical_align);\n\nui_push_height(height);\n\tui_border();\n\tui_align(0.5, 0.5);\n\tui_text(\"viewport has fixed height\");\nui_pop();\n\nui_push_above(height);\n\tui_color(0, 128, 255);\n\tui_border();\n\tui_align(0.5, 0.5);\n\tui_text(\"centered above\");\nui_pop();",
 							"params": [{"type": "int", "name": "height", "min": 0, "max": 150}, {"name": "vertical_align", "min": 0, "max": 1}],
 							"text": "These methods let you push a new viewport to the stack, fitting around the viewport that would be produced by ui_push_height() or ui_push_width().",
 							"screenshot": "images/ui_push_above.png"
