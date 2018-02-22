@@ -52,8 +52,8 @@ function uix_setgfxcolorrgba(r, g, b, a) local(m, s) (
 	b -= m;
 	s = max(max(255, r), max(g, b));
 	gfx_r = r/s;
-	gfx_g = r/s;
-	gfx_b = r/s;
+	gfx_g = g/s;
+	gfx_b = b/s;
 	gfx_a = min(1, max(0, a));
 	0;
 );
