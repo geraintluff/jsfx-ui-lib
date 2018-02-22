@@ -66,16 +66,19 @@ function filloutApi(api, pageId, options, usedIds) {
 
 	if (!api.title && api.api.length) {
 		var map = {};
-		var list = [];
+		var list = [], htmlList = [];
 		api.api.forEach(def => {
 			if (!map[def.function]) {
 				map[def.function] = true;
 				list.push(def.function);
+				htmlList.push('<code>' + htmlEscape(def.function) + '()</code>');
 			}
 		});
 		api.title = list.join(' / ');
+		api.titleHtml = api.titleHtml || htmlList.join(' / ');
 	}
 	api.title = api.title || '(unknown)';
+	api.titleHtml = api.titleHtml || htmlEscape(api.title);
 
 	api.displayCode = api.displayCode || api.code;
 	if (!api.code && !api.displayCode && api.api.length) {
@@ -392,9 +395,20 @@ var htmlTemplate = `<!DOCTYPE html>
 				font-weight: normal;
 			}
 
+			a[href] {
+				text-decoration: none;
+				color: #06D;
+			}
+			a:hover, a:active {
+				text-decoration: underline;
+			}
+			a.self-link {
+				text-decoration: none;
+				color: inherit;
+			}
+
 			.back-link {
 				float: right;
-				text-decoration: none;
 			}
 
 			pre, code {
@@ -408,6 +422,9 @@ var htmlTemplate = `<!DOCTYPE html>
 
 				margin: 0;
 				padding: 0;
+			}
+			h2 code {
+				font-size: 0.9em;
 			}
 
 			section {
@@ -462,7 +479,6 @@ var htmlTemplate = `<!DOCTYPE html>
 
 			.definition-permalink {
 				float: right;
-				text-decoration: none;
 			}
 
 			.function-type-int, .function-type-pointer {
@@ -485,22 +501,18 @@ var htmlTemplate = `<!DOCTYPE html>
 	<body>`;
 
 function bodyHtml(api, options) {
+	var functionIndex = [];
 	function sectionHtml(api, options, level, parentId) {
 		var html = '<section id="' + htmlEscape(api.pageId) + '">\n';
 		if (parentId) {
 			html += indent('<a class="back-link" href="#' + htmlEscape(parentId) + '">⇧</a>');
 		}
-		html += indent('<h2>' + htmlEscape(api.title) + '</h2>');
+		html += indent('<h2><a class="self-link" href="#' + htmlEscape(api.pageId) + '">' + api.titleHtml + '</a></h2>');
 
 		if (api.api.length) {
 			html += indent('<div class="definitions">');
 			api.api.forEach(def => {
 				var codeHtml = '';
-				if (def.return) {
-					var argClass = 'function-return';
-					if (def.return.type) argClass += ' function-type-' + def.return.type;
-					codeHtml += '<span class="' + htmlEscape(argClass) + '">' + htmlEscape(def.return.name) + '</span> = ';
-				}
 				codeHtml += '<span class="function-name">' + htmlEscape(def.function) + '</span>(';
 				codeHtml += def.args.map(arg => {
 					var argClass = 'function-arg';
@@ -512,10 +524,20 @@ function bodyHtml(api, options) {
 					return argHtml;
 				}).join(', ');
 				codeHtml += ')';
+				var definitionHtml = codeHtml;
+
+				if (def.return) {
+					var argClass = 'function-return';
+					if (def.return.type) argClass += ' function-type-' + def.return.type;
+					codeHtml = '<span class="' + htmlEscape(argClass) + '">' + htmlEscape(def.return.name) + '</span> = ' + codeHtml;
+				}
 
 				var functionId = 'api-' + def.function + '-' + def.args.length;
+
 				html += '<a class="definition-permalink" href="#' + htmlEscape(functionId) + '">#</a>';
 				html += indent('<pre class="definition" id="' + htmlEscape(functionId) + '"><code>' + codeHtml + '</code></pre>', 2);
+
+				functionIndex.push({def: def, html: definitionHtml, id: functionId});
 			});
 			var args = [], argsHandled = {};
 			api.api.forEach(def => {
@@ -611,7 +633,7 @@ function bodyHtml(api, options) {
 		if (api.children.length) {
 			html += indent('<ul class="child-links">');
 			api.children.forEach(child => {
-				html += indent('<li><a href="#' + htmlEscape(child.pageId) + '">' + htmlEscape(child.title) + '</a></li>', 2);
+				html += indent('<li><a href="#' + htmlEscape(child.pageId) + '">' + child.titleHtml + '</a></li>', 2);
 			});
 			html += indent('</ul>');
 			html += indent('<div class="children">');
@@ -625,7 +647,23 @@ function bodyHtml(api, options) {
 		return html;
 	}
 
-	var html = htmlTemplate + sectionHtml(api, options, 0, null) + '\t</body>\n</html>';
+	var mainHtml = sectionHtml(api, options, 0, null);
+
+	var tocHtml = '<nav>' + (function toc(api) {
+		if (!api.children.length) return '';
+		return '<ol>' + api.children.map(child => {
+			return '<li><a href="#' + htmlEscape(child.pageId) + '">' + child.titleHtml + '</a>' + toc(child) + '</li>';
+		}).join('') + '</ol>';
+	})(api) + '</nav>\n';
+
+	functionIndex.sort((a, b) => {
+		return a.def.function < b.def.function ? -1 : 1;
+	});
+	var indexHtml = functionIndex.map(fn => {
+		return '<a href="#' + htmlEscape(fn.id) + '"><pre class="definition-index"><code>' + fn.html + '</code></pre></a>';
+	}).join('\n');
+
+	var html = htmlTemplate + mainHtml + '\t</body>\n</html>';
 	return html;
 }
 

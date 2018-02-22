@@ -1,6 +1,7 @@
 {
 	"title": "ui-lib.jsfx-inc",
-	"text": "This is the API documentation for JSFX UI library. It is available as Markdown, HTML, or as an interactive JSFX effect.",
+	"text": "This is the API documentation for JSFX UI library.\n\nFor more information, see: https://github.com/geraintluff/jsfx-ui-lib",
+	"html": "This is the API documentation for JSFX UI library.  It is also available as an <a href=\"https://stash.reaper.fm/v/32955/ui-lib.zip\">interactive JSFX plugin</a>.",
 	"children": [
 		{
 			"title": "Introduction",
@@ -309,11 +310,11 @@
 									"args": {"type": "text", "name": "#text"}
 								},
 								{
-									"function": "ui_split_left",
+									"function": "ui_split_lefttext",
 									"args": {"type": "text", "name": "#text"}
 								},
 								{
-									"function": "ui_split_right",
+									"function": "ui_split_righttext",
 									"args": {"type": "text", "name": "#text"}
 								}
 							],
@@ -475,6 +476,7 @@
 			"title": "Drawing state",
 			"children": [
 				{
+					"title": "Colour",
 					"api": [
 						{
 							"function": "ui_color",
@@ -557,6 +559,7 @@
 				},
 				{
 					"title": "ui_border() and others",
+					"titleHtml": "<code>ui_border()</code> and others",
 					"api": [
 						{"function": "ui_border"},
 						{"function": "ui_border_top"},
@@ -607,14 +610,14 @@
 						{"type": "int", "name": "offset", "min": 0, "max": 15, "start": 0}
 					],
 					"code": "i = 0;\nwhile (i < api_buffer_length) (\n\tapi_buffer[i] = sin((i/api_buffer_length*2)*2*$pi);\n\ti += 1\n);\n\nui_graph(api_buffer, api_buffer_length, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(api_buffer, api_buffer_length>>6, 64, offset, min_y, max_y);\n\n",
-					"displayCode": "ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(buffer, 16, 64, offset, min_y, max_y);\n\n",
+					"displayCode": "ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(buffer, 16, 64, offset, min_y, max_y);",
 					"text": "Plots a graph from a buffer.  If min_y and max_y are the same, the graph is centered around that value, and auto-scaled to fit the data.",
 					"screenshot": "images/ui_graph.png"
 				},
 				{
 					"api": {
 						"function": "ui_reserve_image",
-						"args": {"type": "int", "min": 0, "max": 127}
+						"args": {"type": "int", "name": "buffer_index", "min": 0, "max": 127}
 					},
 					"text": "The UI library uses some of the offscreen buffers (0-127) for its own use.  If there are any buffers (or loaded images) that you are also using, you can notify the UI library so that it avoids them.\n\nThe UI library uses buffers from the end (127 downards), so they are unlikely to clash unless you are loading a large number of images or are using offscreen buffers yourself.",
 					"displayCode": "@gfx\n\n// Draw something to buffer #95\ngfx_dest = 95;\ngfx_drawstr(\"foo\");\n\n// Avoid conflict\nui_reserve_image(95);\n\n// This resets gfx_dest, so we're fine\nui_start(\"main\");\n/* etc. */"

@@ -41,7 +41,7 @@ ui_screen() == "options" ? (
 	control_navbar("ui-lib.jsfx-inc", "options", "options");
 	ui_pad();
 	ui_align(0, 0);
-	ui_padtop(ui_wraptext("This is the API documentation for JSFX UI library. It is available as Markdown, HTML, or as an interactive JSFX effect."));
+	ui_padtop(ui_wraptext("This is the API documentation for JSFX UI library.\n\nFor more information, see: https://github.com/geraintluff/jsfx-ui-lib"));
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_toptext(-1);
@@ -956,8 +956,8 @@ ui_screen() == "options" ? (
 	ui_pad();
 	api_print_function_signature("ui_split_toptext(#text);");
 	api_print_function_signature("ui_split_bottomtext(#text);");
-	api_print_function_signature("ui_split_left(#text);");
-	api_print_function_signature("ui_split_right(#text);");
+	api_print_function_signature("ui_split_lefttext(#text);");
+	api_print_function_signature("ui_split_righttext(#text);");
 	ui_padtop();
 	ui_align(0, 0);
 	ui_padtop(ui_wraptext("The ui_split_*ratio() functions work like the ui_split_*() functions, but the split point is determined by the height/width of a text string, plus some appropriate padding (from ui_padding() and related functions).\n\nIf you supply a negative number, it is equivalent to the empty string (which still has non-zero height)."));
@@ -1467,9 +1467,9 @@ ui_screen() == "options" ? (
 	ui_pad();
 	ui_split_toptext(-1);
 			ui_push_widthratio(0.5);
-				control_button("ui_color") ? (
-					ui_screen_open("section-ui_color");
-					section-ui_color_setup = 0;
+				control_button("Colour") ? (
+					ui_screen_open("section-colour");
+					section-colour_setup = 0;
 				);
 			ui_pop();
 		ui_pop();
@@ -1489,8 +1489,8 @@ ui_screen() == "options" ? (
 				);
 			ui_pop();
 		ui_pop();
-) : ui_screen() == "section-ui_color" ? (
-	control_navbar("ui_color", "options", "options");
+) : ui_screen() == "section-colour" ? (
+	control_navbar("Colour", "options", "options");
 	ui_pad();
 	api_print_function_signature("ui_color(red, green, blue, alpha);");
 	api_print_function_signature("ui_color();");
@@ -1501,12 +1501,12 @@ ui_screen() == "options" ? (
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
 		ui_padleft();
-		!section-ui_color_setup ? (
+		!section-colour_setup ? (
 			red = 192;
 			green = 128;
 			blue = 64;
 			alpha = 1;
-			section-ui_color_setup = 1;
+			section-colour_setup = 1;
 		);
 		ui_split_topratio(0.5);
 			ui_color(red, green, blue, alpha);
@@ -1898,14 +1898,14 @@ ui_screen() == "options" ? (
 				ui_pad();
 				ui_font("Courier New", 14, 1, 0);
 				ui_align(0, 0.5);
-				ui_text("ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(buffer, 16, 64, offset, min_y, max_y);\n\n");
+				ui_text("ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(buffer, 16, 64, offset, min_y, max_y);");
 			ui_pop();
 			control_finish_technical();
 		ui_pop();
 ) : ui_screen() == "section-ui_reserve_image" ? (
 	control_navbar("ui_reserve_image", "options", "options");
 	ui_pad();
-	api_print_function_signature("ui_reserve_image(arg1);");
+	api_print_function_signature("ui_reserve_image(buffer_index);");
 	ui_padtop();
 	ui_align(0, 0);
 	ui_padtop(ui_wraptext("The UI library uses some of the offscreen buffers (0-127) for its own use.  If there are any buffers (or loaded images) that you are also using, you can notify the UI library so that it avoids them.\n\nThe UI library uses buffers from the end (127 downards), so they are unlikely to clash unless you are loading a large number of images or are using offscreen buffers yourself."));
