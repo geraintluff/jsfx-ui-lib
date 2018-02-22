@@ -142,7 +142,6 @@
 	</div>
 	<ul class="child-links">
 		<li><a href="#section-hello-world">Hello World</a></li>
-		<li><a href="#section-viewport-stack-example">Viewport stack example</a></li>
 	</ul>
 	<div class="children">
 <section id="section-hello-world">
@@ -165,39 +164,6 @@ ui_start();
 ui_text("Hello, world!");</code></pre>
 		<div class="screenshots screenshots-1">
 			<a href="../images/hello-world.png" target="_blank"><img class="screenshot" src="../images/hello-world.png"></a>
-		</div>
-	</div>
-</section>
-<section id="section-viewport-stack-example">
-	<a class="back-link" href="#section-introduction">⇧</a>
-	<h2><a class="self-link" href="#section-viewport-stack-example">Viewport stack example</a></h2>
-	<div class="about">
-		<p>The current &quot;viewport&quot; has position and size.  It also stores other bits of drawing state, such as colour and font properties.</p>
-		<p>We have a stack of viewports - to draw a certain section of the screen (or in a particular colour, or many things) we push a new viewport/drawing-state to this stack, and pop it off to return to our previous state when we are done.</p>
-	</div>
-	<div class="subsection"><h3>Example:</h3>
-<pre class="code-example"><code>ui_border();
-ui_pad();
-
-ui_push_height(100);
-	// new viewport has smaller height
-	ui_color(192, 128, 0);
-	ui_border();
-	ui_pad();
-
-	ui_split_left(80);
-		ui_color(0, 215, 215);
-		ui_fill();
-	ui_pop();
-
-	// remaining viewport is now smaller
-	// because we used ui_split_left() above
-	ui_color(215, 0, 215);
-	ui_border();
-	ui_text("some text");
-ui_pop();</code></pre>
-		<div class="screenshots screenshots-1">
-			<a href="../images/viewport-stack-example.png" target="_blank"><img class="screenshot" src="../images/viewport-stack-example.png"></a>
 		</div>
 	</div>
 </section>

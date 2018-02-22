@@ -83,14 +83,6 @@ ui_screen() == "options" ? (
 				);
 			ui_pop();
 		ui_pop();
-	ui_split_toptext(-1);
-			ui_push_widthratio(0.5);
-				control_button("Viewport stack example") ? (
-					ui_screen_open("section-viewport-stack-example");
-					section-viewport-stack-example_setup = 0;
-				);
-			ui_pop();
-		ui_pop();
 ) : ui_screen() == "section-hello-world" ? (
 	control_navbar("Hello World", "options", "options");
 	ui_pad();
@@ -109,46 +101,6 @@ ui_screen() == "options" ? (
 				ui_font("Courier New", 14, 1, 0);
 				ui_align(0, 0.5);
 				ui_text("desc:JSFX UI: Hello World\nimport ui-lib.jsfx-inc\n\n@init\nfreemem = ui_setup(0);\n\n@gfx\nui_start();\nui_text(\"Hello, world!\");");
-			ui_pop();
-			control_finish_technical();
-		ui_pop();
-) : ui_screen() == "section-viewport-stack-example" ? (
-	control_navbar("Viewport stack example", "options", "options");
-	ui_pad();
-	ui_align(0, 0);
-	ui_padtop(ui_wraptext("The current \"viewport\" has position and size.  It also stores other bits of drawing state, such as colour and font properties.\n\nWe have a stack of viewports - to draw a certain section of the screen (or in a particular colour, or many things) we push a new viewport/drawing-state to this stack, and pop it off to return to our previous state when we are done."));
-	ui_padtop(ui_texth());
-	ui_align(0.5, 0.5);
-	ui_split_rightratio(0.5);
-		ui_padleft();
-		ui_border();
-		ui_pad();
-		
-		ui_push_height(100);
-			// new viewport has smaller height
-			ui_color(192, 128, 0);
-			ui_border();
-			ui_pad();
-		
-			ui_split_left(80);
-				ui_color(0, 215, 215);
-				ui_fill();
-			ui_pop();
-		
-			// remaining viewport is now smaller
-			// because we used ui_split_left() above
-			ui_color(215, 0, 215);
-			ui_border();
-			ui_text("some text");
-		ui_pop();
-	ui_pop();
-	ui_push();
-			control_background_technical();
-			ui_push_clip();
-				ui_pad();
-				ui_font("Courier New", 14, 1, 0);
-				ui_align(0, 0.5);
-				ui_text("ui_border();\nui_pad();\n\nui_push_height(100);\n\t// new viewport has smaller height\n\tui_color(192, 128, 0);\n\tui_border();\n\tui_pad();\n\n\tui_split_left(80);\n\t\tui_color(0, 215, 215);\n\t\tui_fill();\n\tui_pop();\n\n\t// remaining viewport is now smaller\n\t// because we used ui_split_left() above\n\tui_color(215, 0, 215);\n\tui_border();\n\tui_text(\"some text\");\nui_pop();");
 			ui_pop();
 			control_finish_technical();
 		ui_pop();

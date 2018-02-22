@@ -13,12 +13,6 @@
 					"displayCode": "desc:JSFX UI: Hello World\nimport ui-lib.jsfx-inc\n\n@init\nfreemem = ui_setup(0);\n\n@gfx\nui_start();\nui_text(\"Hello, world!\");",
 					"code": "ui_text(\"Hello World\");",
 					"screenshot": "images/hello-world.png"
-				},
-				{
-					"title": "Viewport stack example",
-					"text": "The current \"viewport\" has position and size.  It also stores other bits of drawing state, such as colour and font properties.\n\nWe have a stack of viewports - to draw a certain section of the screen (or in a particular colour, or many things) we push a new viewport/drawing-state to this stack, and pop it off to return to our previous state when we are done.",
-					"code": "ui_border();\nui_pad();\n\nui_push_height(100);\n\t// new viewport has smaller height\n\tui_color(192, 128, 0);\n\tui_border();\n\tui_pad();\n\n\tui_split_left(80);\n\t\tui_color(0, 215, 215);\n\t\tui_fill();\n\tui_pop();\n\n\t// remaining viewport is now smaller\n\t// because we used ui_split_left() above\n\tui_color(215, 0, 215);\n\tui_border();\n\tui_text(\"some text\");\nui_pop();",
-					"screenshot": "images/viewport-stack-example.png"
 				}
 			]
 		},
