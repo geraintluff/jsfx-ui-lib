@@ -787,16 +787,16 @@ ui_pop();</code></pre>
 <a class="definition-permalink" href="#api-ui_right-0">#</a>		<pre class="definition" id="api-ui_right-0"><code><span class="function-return function-type-int">right_x</span> = <span class="function-name">ui_right</span>()</code></pre>
 <a class="definition-permalink" href="#api-ui_top-0">#</a>		<pre class="definition" id="api-ui_top-0"><code><span class="function-return function-type-int">top_y</span> = <span class="function-name">ui_top</span>()</code></pre>
 <a class="definition-permalink" href="#api-ui_bottom-0">#</a>		<pre class="definition" id="api-ui_bottom-0"><code><span class="function-return function-type-int">bottom_y</span> = <span class="function-name">ui_bottom</span>()</code></pre>
-<a class="definition-permalink" href="#api-ui_width-0">#</a>		<pre class="definition" id="api-ui_width-0"><code><span class="function-return function-type-int">width_x</span> = <span class="function-name">ui_width</span>()</code></pre>
-<a class="definition-permalink" href="#api-ui_height-0">#</a>		<pre class="definition" id="api-ui_height-0"><code><span class="function-return function-type-int">height_y</span> = <span class="function-name">ui_height</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_width-0">#</a>		<pre class="definition" id="api-ui_width-0"><code><span class="function-return function-type-int">width</span> = <span class="function-name">ui_width</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_height-0">#</a>		<pre class="definition" id="api-ui_height-0"><code><span class="function-return function-type-int">height</span> = <span class="function-name">ui_height</span>()</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-int">left_x</code> - integer</li>
 				<li><code class="function-arg function-type-int">right_x</code> - integer</li>
 				<li><code class="function-arg function-type-int">top_y</code> - integer</li>
 				<li><code class="function-arg function-type-int">bottom_y</code> - integer</li>
-				<li><code class="function-arg function-type-int">width_x</code> - integer</li>
-				<li><code class="function-arg function-type-int">height_y</code> - integer</li>
+				<li><code class="function-arg function-type-int">width</code> - integer</li>
+				<li><code class="function-arg function-type-int">height</code> - integer</li>
 			</ul>
 			</div>
 	</div>
@@ -1629,134 +1629,14 @@ lastchar = char ? char : lastchar;</code></pre>
 		<p>The functions in this section provide a common set of rich interactive controls.</p><p>They have a distinct visual look (see <a href="#api-control_start-2">control_start()</a> for how to choose a theme), and attempt to present consistent interactions (e.g. double-click to reset to default value, drag up/down to adjust dials).</p>
 	</div>
 	<ul class="child-links">
-		<li><a href="#section-drawing-your-own-controls">Drawing your own controls</a></li>
 		<li><a href="#section-screen-decoration-and-layout">Screen decoration and layout</a></li>
 		<li><a href="#section-buttons-readouts-and-switches">Buttons, readouts and switches</a></li>
 		<li><a href="#section-sliders">Sliders</a></li>
 		<li><a href="#section-dials">Dials</a></li>
 		<li><a href="#section-text-inputs">Text inputs</a></li>
+		<li><a href="#section-drawing-your-own-controls">Drawing your own controls</a></li>
 	</ul>
 	<div class="children">
-<section id="section-drawing-your-own-controls">
-	<a class="back-link" href="#section-rich-controls">⇧</a>
-	<h2><a class="self-link" href="#section-drawing-your-own-controls">Drawing your own controls</a></h2>
-	<div class="about">
-		<p>No UI library can provide everything, so it provides some ways to draw custom controls that fit into the theme.</p>
-	</div>
-	<ul class="child-links">
-		<li><a href="#section-styling-for-custom-controls">Styling for custom controls</a></li>
-		<li><a href="#section-control_state"><code>control_state()</code></a></li>
-		<li><a href="#section-control_arrow"><code>control_arrow()</code></a></li>
-	</ul>
-	<div class="children">
-<section id="section-styling-for-custom-controls">
-	<a class="back-link" href="#section-drawing-your-own-controls">⇧</a>
-	<h2><a class="self-link" href="#section-styling-for-custom-controls">Styling for custom controls</a></h2>
-	<div class="definitions">
-<a class="definition-permalink" href="#api-control_background_enabled-1">#</a>		<pre class="definition" id="api-control_background_enabled-1"><code><span class="function-name">control_background_enabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-<a class="definition-permalink" href="#api-control_background_enabled_circle-1">#</a>		<pre class="definition" id="api-control_background_enabled_circle-1"><code><span class="function-name">control_background_enabled_circle</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-<a class="definition-permalink" href="#api-control_background_disabled-1">#</a>		<pre class="definition" id="api-control_background_disabled-1"><code><span class="function-name">control_background_disabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-<a class="definition-permalink" href="#api-control_background_passive-1">#</a>		<pre class="definition" id="api-control_background_passive-1"><code><span class="function-name">control_background_passive</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-<a class="definition-permalink" href="#api-control_background_inset-1">#</a>		<pre class="definition" id="api-control_background_inset-1"><code><span class="function-name">control_background_inset</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-<a class="definition-permalink" href="#api-control_background_technical-1">#</a>		<pre class="definition" id="api-control_background_technical-1"><code><span class="function-name">control_background_technical</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-<a class="definition-permalink" href="#api-control_finish_enabled-1">#</a>		<pre class="definition" id="api-control_finish_enabled-1"><code><span class="function-name">control_finish_enabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-<a class="definition-permalink" href="#api-control_finish_enabled_circle-1">#</a>		<pre class="definition" id="api-control_finish_enabled_circle-1"><code><span class="function-name">control_finish_enabled_circle</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-<a class="definition-permalink" href="#api-control_finish_disabled-1">#</a>		<pre class="definition" id="api-control_finish_disabled-1"><code><span class="function-name">control_finish_disabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-<a class="definition-permalink" href="#api-control_finish_passive-1">#</a>		<pre class="definition" id="api-control_finish_passive-1"><code><span class="function-name">control_finish_passive</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-<a class="definition-permalink" href="#api-control_finish_inset-1">#</a>		<pre class="definition" id="api-control_finish_inset-1"><code><span class="function-name">control_finish_inset</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-<a class="definition-permalink" href="#api-control_finish_technical-1">#</a>		<pre class="definition" id="api-control_finish_technical-1"><code><span class="function-name">control_finish_technical</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-		<div class="subsection">
-			<ul class="function-arg-list">
-				<li><code class="function-arg function-type-enum">state</code> - &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot;, &quot;none&quot; or &quot;auto&quot;</li>
-			</ul>
-			</div>
-	</div>
-	<div class="about">
-		<p>These help you create custom controls that fit into the theme, by drawing a background and an overlay in the appropriate style, including setting an appropriate ui_color().</p>
-		<p>If state is omitted (&quot;auto&quot;), it is calculated using the current mouse interaction.  However when creating a composite control it's useful to have a shared state (e.g. when any part of the control is pressed, the whole control displays as pressed).</p>
-	</div>
-	<div class="subsection"><h3>Example:</h3>
-<pre class="code-example"><code>ui_split_topratio(1/6);
-	ui_pad();
-	control_background_enabled(state);
-	ui_text("enabled");
-	control_finish_enabled(state);
-ui_split_next();
-	ui_pad();
-	control_background_enabled_circle(state);
-	ui_text("circle");
-	control_finish_enabled_circle(state);
-ui_split_next();
-	ui_pad();
-	control_background_disabled(state);
-	ui_text("disabled");
-	control_finish_disabled(state);
-ui_split_next();
-	ui_pad();
-	control_background_passive(state);
-	ui_text("passive");
-	control_finish_passive(state);
-ui_split_next();
-	ui_pad();
-	control_background_inset(state);
-	ui_text("inset");
-	control_finish_inset(state);
-ui_split_next();
-	ui_pad();
-	control_background_technical(state);
-	ui_text("technical");
-	control_finish_technical(state);
-ui_pop();</code></pre>
-		<div class="screenshots screenshots-3">
-			<a href="../images/custom-themed-controls-default.png" target="_blank"><img class="screenshot" src="../images/custom-themed-controls-default.png"></a>
-			<a href="../images/custom-themed-controls-tron.png" target="_blank"><img class="screenshot" src="../images/custom-themed-controls-tron.png"></a>
-			<a href="../images/custom-themed-controls-black.png" target="_blank"><img class="screenshot" src="../images/custom-themed-controls-black.png"></a>
-		</div>
-	</div>
-</section>
-<section id="section-control_state">
-	<a class="back-link" href="#section-drawing-your-own-controls">⇧</a>
-	<h2><a class="self-link" href="#section-control_state"><code>control_state()</code></a></h2>
-	<div class="definitions">
-<a class="definition-permalink" href="#api-control_state-0">#</a>		<pre class="definition" id="api-control_state-0"><code><span class="function-return function-type-enum">state</span> = <span class="function-name">control_state</span>()</code></pre>
-		<div class="subsection">
-			<ul class="function-arg-list">
-				<li><code class="function-arg function-type-enum">state</code> - &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot; or &quot;none&quot;</li>
-			</ul>
-			</div>
-	</div>
-	<div class="about">
-		<p>This returns the current mouse-interaction state of the current viewport.</p>
-		<p>These values match what can be passed into control_background_*() and control_finish_*().  This lets you assemble a composite control that shares a single press/hover/drag state.</p>
-		<p>Reported states are &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot; and &quot;none&quot;, in that order of precedence - so if the user has clicked and dragged, but is still within the control (so it counts as a press), then it will report &quot;press&quot;.</p>
-	</div>
-	<div class="subsection"><h3>Example:</h3>
-<pre class="code-example"><code>state = control_state();</code></pre>
-	</div>
-</section>
-<section id="section-control_arrow">
-	<a class="back-link" href="#section-drawing-your-own-controls">⇧</a>
-	<h2><a class="self-link" href="#section-control_arrow"><code>control_arrow()</code></a></h2>
-	<div class="definitions">
-<a class="definition-permalink" href="#api-control_arrow-1">#</a>		<pre class="definition" id="api-control_arrow-1"><code><span class="function-name">control_arrow</span>(<span class="function-arg function-type-enum">direction</span>="down")</code></pre>
-		<div class="subsection">
-			<ul class="function-arg-list">
-				<li><code class="function-arg function-type-enum">direction</code> - &quot;left&quot;, &quot;up&quot;, &quot;right&quot; or &quot;down&quot;</li>
-			</ul>
-			</div>
-	</div>
-	<div class="about">
-		<p>Draws a triangle in the current viewport, using the current colour.</p>
-	</div>
-	<div class="subsection"><h3>Example:</h3>
-<pre class="code-example"><code>control_arrow(direction);</code></pre>
-		<div class="screenshots screenshots-1">
-			<a href="../images/control_arrow.png" target="_blank"><img class="screenshot" src="../images/control_arrow.png"></a>
-		</div>
-	</div>
-</section>
-	</div><!-- children for section-drawing-your-own-controls-->
-</section>
 <section id="section-screen-decoration-and-layout">
 	<a class="back-link" href="#section-rich-controls">⇧</a>
 	<h2><a class="self-link" href="#section-screen-decoration-and-layout">Screen decoration and layout</a></h2>
@@ -2181,6 +2061,126 @@ ui_pop();</code></pre>
 	</div>
 </section>
 	</div><!-- children for section-text-inputs-->
+</section>
+<section id="section-drawing-your-own-controls">
+	<a class="back-link" href="#section-rich-controls">⇧</a>
+	<h2><a class="self-link" href="#section-drawing-your-own-controls">Drawing your own controls</a></h2>
+	<div class="about">
+		<p>No UI library can provide everything, so it provides some ways to draw custom controls that fit into the theme.</p>
+	</div>
+	<ul class="child-links">
+		<li><a href="#section-styling-for-custom-controls">Styling for custom controls</a></li>
+		<li><a href="#section-control_state"><code>control_state()</code></a></li>
+		<li><a href="#section-control_arrow"><code>control_arrow()</code></a></li>
+	</ul>
+	<div class="children">
+<section id="section-styling-for-custom-controls">
+	<a class="back-link" href="#section-drawing-your-own-controls">⇧</a>
+	<h2><a class="self-link" href="#section-styling-for-custom-controls">Styling for custom controls</a></h2>
+	<div class="definitions">
+<a class="definition-permalink" href="#api-control_background_enabled-1">#</a>		<pre class="definition" id="api-control_background_enabled-1"><code><span class="function-name">control_background_enabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_background_enabled_circle-1">#</a>		<pre class="definition" id="api-control_background_enabled_circle-1"><code><span class="function-name">control_background_enabled_circle</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_background_disabled-1">#</a>		<pre class="definition" id="api-control_background_disabled-1"><code><span class="function-name">control_background_disabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_background_passive-1">#</a>		<pre class="definition" id="api-control_background_passive-1"><code><span class="function-name">control_background_passive</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_background_inset-1">#</a>		<pre class="definition" id="api-control_background_inset-1"><code><span class="function-name">control_background_inset</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_background_technical-1">#</a>		<pre class="definition" id="api-control_background_technical-1"><code><span class="function-name">control_background_technical</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_finish_enabled-1">#</a>		<pre class="definition" id="api-control_finish_enabled-1"><code><span class="function-name">control_finish_enabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_finish_enabled_circle-1">#</a>		<pre class="definition" id="api-control_finish_enabled_circle-1"><code><span class="function-name">control_finish_enabled_circle</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_finish_disabled-1">#</a>		<pre class="definition" id="api-control_finish_disabled-1"><code><span class="function-name">control_finish_disabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_finish_passive-1">#</a>		<pre class="definition" id="api-control_finish_passive-1"><code><span class="function-name">control_finish_passive</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_finish_inset-1">#</a>		<pre class="definition" id="api-control_finish_inset-1"><code><span class="function-name">control_finish_inset</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+<a class="definition-permalink" href="#api-control_finish_technical-1">#</a>		<pre class="definition" id="api-control_finish_technical-1"><code><span class="function-name">control_finish_technical</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-enum">state</code> - &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot;, &quot;none&quot; or &quot;auto&quot;</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>These help you create custom controls that fit into the theme, by drawing a background and an overlay in the appropriate style, including setting an appropriate ui_color().</p>
+		<p>If state is omitted (&quot;auto&quot;), it is calculated using the current mouse interaction.  However when creating a composite control it's useful to have a shared state (e.g. when any part of the control is pressed, the whole control displays as pressed).</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_split_topratio(1/6);
+	ui_pad();
+	control_background_enabled(state);
+	ui_text("enabled");
+	control_finish_enabled(state);
+ui_split_next();
+	ui_pad();
+	control_background_enabled_circle(state);
+	ui_text("circle");
+	control_finish_enabled_circle(state);
+ui_split_next();
+	ui_pad();
+	control_background_disabled(state);
+	ui_text("disabled");
+	control_finish_disabled(state);
+ui_split_next();
+	ui_pad();
+	control_background_passive(state);
+	ui_text("passive");
+	control_finish_passive(state);
+ui_split_next();
+	ui_pad();
+	control_background_inset(state);
+	ui_text("inset");
+	control_finish_inset(state);
+ui_split_next();
+	ui_pad();
+	control_background_technical(state);
+	ui_text("technical");
+	control_finish_technical(state);
+ui_pop();</code></pre>
+		<div class="screenshots screenshots-3">
+			<a href="../images/custom-themed-controls-default.png" target="_blank"><img class="screenshot" src="../images/custom-themed-controls-default.png"></a>
+			<a href="../images/custom-themed-controls-tron.png" target="_blank"><img class="screenshot" src="../images/custom-themed-controls-tron.png"></a>
+			<a href="../images/custom-themed-controls-black.png" target="_blank"><img class="screenshot" src="../images/custom-themed-controls-black.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-control_state">
+	<a class="back-link" href="#section-drawing-your-own-controls">⇧</a>
+	<h2><a class="self-link" href="#section-control_state"><code>control_state()</code></a></h2>
+	<div class="definitions">
+<a class="definition-permalink" href="#api-control_state-0">#</a>		<pre class="definition" id="api-control_state-0"><code><span class="function-return function-type-enum">state</span> = <span class="function-name">control_state</span>()</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-enum">state</code> - &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot; or &quot;none&quot;</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>This returns the current mouse-interaction state of the current viewport.</p>
+		<p>These values match what can be passed into control_background_*() and control_finish_*().  This lets you assemble a composite control that shares a single press/hover/drag state.</p>
+		<p>Reported states are &quot;press&quot;, &quot;hover&quot;, &quot;drag&quot; and &quot;none&quot;, in that order of precedence - so if the user has clicked and dragged, but is still within the control (so it counts as a press), then it will report &quot;press&quot;.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>state = control_state();</code></pre>
+	</div>
+</section>
+<section id="section-control_arrow">
+	<a class="back-link" href="#section-drawing-your-own-controls">⇧</a>
+	<h2><a class="self-link" href="#section-control_arrow"><code>control_arrow()</code></a></h2>
+	<div class="definitions">
+<a class="definition-permalink" href="#api-control_arrow-1">#</a>		<pre class="definition" id="api-control_arrow-1"><code><span class="function-name">control_arrow</span>(<span class="function-arg function-type-enum">direction</span>="down")</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-enum">direction</code> - &quot;left&quot;, &quot;up&quot;, &quot;right&quot; or &quot;down&quot;</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Draws a triangle in the current viewport, using the current colour.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>control_arrow(direction);</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/control_arrow.png" target="_blank"><img class="screenshot" src="../images/control_arrow.png"></a>
+		</div>
+	</div>
+</section>
+	</div><!-- children for section-drawing-your-own-controls-->
 </section>
 	</div><!-- children for section-rich-controls-->
 </section>

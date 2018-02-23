@@ -362,11 +362,11 @@
 								},
 								{
 									"function": "ui_width",
-									"return": {"type": "integer", "name": "width_x"}
+									"return": {"type": "integer", "name": "width"}
 								},
 								{
 									"function": "ui_height",
-									"return": {"type": "integer", "name": "height_y"}
+									"return": {"type": "integer", "name": "height"}
 								}
 							],
 							"return": [],
@@ -912,48 +912,6 @@
 			"html": "<p>The functions in this section provide a common set of rich interactive controls.</p><p>They have a distinct visual look (see <a href=\"#api-control_start-2\">control_start()</a> for how to choose a theme), and attempt to present consistent interactions (e.g. double-click to reset to default value, drag up/down to adjust dials).</p>",
 			"children": [
 				{
-					"title": "Drawing your own controls",
-					"text": "No UI library can provide everything, so it provides some ways to draw custom controls that fit into the theme.",
-					"children": [
-						{
-							"title": "Styling for custom controls",
-							"api": [
-								{"function": "control_background_enabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
-								{"function": "control_background_enabled_circle", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
-								{"function": "control_background_disabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
-								{"function": "control_background_passive", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
-								{"function": "control_background_inset", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
-								{"function": "control_background_technical", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
-								{"function": "control_finish_enabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
-								{"function": "control_finish_enabled_circle", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
-								{"function": "control_finish_disabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
-								{"function": "control_finish_passive", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
-								{"function": "control_finish_inset", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
-								{"function": "control_finish_technical", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}}
-							],
-							"text": "These help you create custom controls that fit into the theme, by drawing a background and an overlay in the appropriate style, including setting an appropriate ui_color().\n\nIf state is omitted (\"auto\"), it is calculated using the current mouse interaction.  However when creating a composite control it's useful to have a shared state (e.g. when any part of the control is pressed, the whole control displays as pressed).",
-							"code": "ui_split_topratio(1/6);\n\tui_pad();\n\tcontrol_background_enabled(state);\n\tui_text(\"enabled\");\n\tcontrol_finish_enabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_enabled_circle(state);\n\tui_text(\"circle\");\n\tcontrol_finish_enabled_circle(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_disabled(state);\n\tui_text(\"disabled\");\n\tcontrol_finish_disabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_passive(state);\n\tui_text(\"passive\");\n\tcontrol_finish_passive(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_inset(state);\n\tui_text(\"inset\");\n\tcontrol_finish_inset(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_technical(state);\n\tui_text(\"technical\");\n\tcontrol_finish_technical(state);\nui_pop();",
-							"params": [{"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}],
-							"screenshot": ["images/custom-themed-controls-default.png", "images/custom-themed-controls-tron.png", "images/custom-themed-controls-black.png"]
-						},
-						{
-							"api": {"function": "control_state", "return": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none"]}},
-							"displayCode": "state = control_state();",
-							"code": "ui_border();\nstate = control_state();strcpy(#state, state);",
-							"return": "#state",
-							"text": "This returns the current mouse-interaction state of the current viewport.\n\nThese values match what can be passed into control_background_*() and control_finish_*().  This lets you assemble a composite control that shares a single press/hover/drag state.\n\nReported states are \"press\", \"hover\", \"drag\" and \"none\", in that order of precedence - so if the user has clicked and dragged, but is still within the control (so it counts as a press), then it will report \"press\"."
-						},
-						{
-							"api": {
-								"function": "control_arrow",
-								"args": {"name": "direction", "type": "enum", "enum": ["left", "up", "right", "down"], "default": "down"}
-							},
-							"text": "Draws a triangle in the current viewport, using the current colour.",
-							"screenshot": "images/control_arrow.png"
-						}
-					]
-				},
-				{
 					"title": "Screen decoration and layout",
 					"children": [
 						{
@@ -1172,6 +1130,48 @@
 							],
 							"text": "Draws a control that when inactive displays using ui_text() or ui_textnumber(), but when right-clicked or triple-clicked, displays a text input for editing the value.\n\ncontrol_hidden_text() returns whether it is active: 0 if inactive/hidden, 1 if currently focused, and -1 if it just lost focus (so it drew itself, but does not expect to draw itself next frame).\n\nFor control_hidden_textnumber, if you need to display a different number than the actual value (e.g. due to rounding issues), you can set display_number to a different value from the actual number.",
 							"screenshot": "images/control_hidden_text.gif"
+						}
+					]
+				},
+				{
+					"title": "Drawing your own controls",
+					"text": "No UI library can provide everything, so it provides some ways to draw custom controls that fit into the theme.",
+					"children": [
+						{
+							"title": "Styling for custom controls",
+							"api": [
+								{"function": "control_background_enabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_background_enabled_circle", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_background_disabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_background_passive", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_background_inset", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_background_technical", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_finish_enabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_finish_enabled_circle", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_finish_disabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_finish_passive", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_finish_inset", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
+								{"function": "control_finish_technical", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}}
+							],
+							"text": "These help you create custom controls that fit into the theme, by drawing a background and an overlay in the appropriate style, including setting an appropriate ui_color().\n\nIf state is omitted (\"auto\"), it is calculated using the current mouse interaction.  However when creating a composite control it's useful to have a shared state (e.g. when any part of the control is pressed, the whole control displays as pressed).",
+							"code": "ui_split_topratio(1/6);\n\tui_pad();\n\tcontrol_background_enabled(state);\n\tui_text(\"enabled\");\n\tcontrol_finish_enabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_enabled_circle(state);\n\tui_text(\"circle\");\n\tcontrol_finish_enabled_circle(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_disabled(state);\n\tui_text(\"disabled\");\n\tcontrol_finish_disabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_passive(state);\n\tui_text(\"passive\");\n\tcontrol_finish_passive(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_inset(state);\n\tui_text(\"inset\");\n\tcontrol_finish_inset(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_technical(state);\n\tui_text(\"technical\");\n\tcontrol_finish_technical(state);\nui_pop();",
+							"params": [{"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}],
+							"screenshot": ["images/custom-themed-controls-default.png", "images/custom-themed-controls-tron.png", "images/custom-themed-controls-black.png"]
+						},
+						{
+							"api": {"function": "control_state", "return": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none"]}},
+							"displayCode": "state = control_state();",
+							"code": "ui_border();\nstate = control_state();strcpy(#state, state);",
+							"return": "#state",
+							"text": "This returns the current mouse-interaction state of the current viewport.\n\nThese values match what can be passed into control_background_*() and control_finish_*().  This lets you assemble a composite control that shares a single press/hover/drag state.\n\nReported states are \"press\", \"hover\", \"drag\" and \"none\", in that order of precedence - so if the user has clicked and dragged, but is still within the control (so it counts as a press), then it will report \"press\"."
+						},
+						{
+							"api": {
+								"function": "control_arrow",
+								"args": {"name": "direction", "type": "enum", "enum": ["left", "up", "right", "down"], "default": "down"}
+							},
+							"text": "Draws a triangle in the current viewport, using the current colour.",
+							"screenshot": "images/control_arrow.png"
 						}
 					]
 				}
