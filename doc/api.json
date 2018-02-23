@@ -13,6 +13,15 @@
 					"displayCode": "desc:JSFX UI: Hello World\nimport ui-lib.jsfx-inc\n\n@init\nfreemem = ui_setup(0);\n\n@gfx\nui_start();\nui_text(\"Hello, world!\");",
 					"code": "ui_text(\"Hello World\");",
 					"screenshot": "images/hello-world.png"
+				},
+				{
+					"title": "Ignoring all layout",
+					"text": "While this library is designed to help you lay out your GUI, it's possible to ignore all the \"viewport\" stuff, and just use the rich controls, separate from everything else.\n\nThe key is to use ui_set_rect() - this explicitly sets the dimensions of the viewport, which all the controls use to draw themselves.\n\n(Do check out the layout stuff, though, in case it's useful.)",
+					"html": "<p>While this library is designed to help you lay out your GUI, it's possible to ignore all the \"viewport\" stuff, and just use the rich controls, separate from everything else.</p><p>The key is to use <a href=\"#api-ui_set_rect-4\">ui_set_rect()</a> - this explicitly sets the dimensions of the viewport, which all the controls use to draw themselves.</p></p>(Do check out the layout stuff, though, in case it's useful.)</p>",
+					"displayCode": "desc:JSFX UI: No Layout\nimport ui-lib.jsfx-inc\n\n@init\nfreemem = ui_setup(0);\nstrcpy(#text, \"button text\");\n\n@gfx\nui_start();\n\n// Set the viewport\nui_set_rect(20, 20, 200, 50);\n// Draw a control\ncontrol_button(#text);\n\n// And again\nui_set_rect(20, 100, 50, 50);\nvalue = control_dial(value, 0, 1);\n\n// And again\nui_set_rect(20, 180, 200, 50);\ninputstate = control_textinput(#text, inputstate);",
+					"code": "left = ui_left();top = ui_top();// Set the viewport\nui_set_rect(left + 20, top + 20, 200, 50);\n// Draw a control\ncontrol_button(#text);\n\n// And again\nui_set_rect(left + 20, top + 100, 50, 50);\nvalue = control_dial(value, 0, 1);\n\n// And again\nui_set_rect(left + 20, top + 180, 200, 50);\ninputstate = control_textinput(#text, inputstate);",
+					"return": [{"name": "#text", "start": "button text"}, {"name": "value", "start": 0}],
+					"screenshot": "images/no-layout.png"
 				}
 			]
 		},
@@ -900,6 +909,7 @@
 		{
 			"title": "Rich controls",
 			"text": "The functions in this section provide a common set of rich interactive controls.\n\nThey have a distinct visual look (see ui_start()/control_start() for how to choose a theme), and attempt to present consistent interactions (e.g. double-click to reset to default value, drag up/down to adjust dials).",
+			"html": "<p>The functions in this section provide a common set of rich interactive controls.</p><p>They have a distinct visual look (see <a href=\"#api-control_start-2\">control_start()</a> for how to choose a theme), and attempt to present consistent interactions (e.g. double-click to reset to default value, drag up/down to adjust dials).</p>",
 			"children": [
 				{
 					"title": "Drawing your own controls",

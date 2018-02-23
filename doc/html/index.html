@@ -142,6 +142,7 @@
 	</div>
 	<ul class="child-links">
 		<li><a href="#section-hello-world">Hello World</a></li>
+		<li><a href="#section-ignoring-all-layout">Ignoring all layout</a></li>
 	</ul>
 	<div class="children">
 <section id="section-hello-world">
@@ -164,6 +165,40 @@ ui_start();
 ui_text("Hello, world!");</code></pre>
 		<div class="screenshots screenshots-1">
 			<a href="../images/hello-world.png" target="_blank"><img class="screenshot" src="../images/hello-world.png"></a>
+		</div>
+	</div>
+</section>
+<section id="section-ignoring-all-layout">
+	<a class="back-link" href="#section-introduction">⇧</a>
+	<h2><a class="self-link" href="#section-ignoring-all-layout">Ignoring all layout</a></h2>
+	<div class="about">
+		<p>While this library is designed to help you lay out your GUI, it's possible to ignore all the "viewport" stuff, and just use the rich controls, separate from everything else.</p><p>The key is to use <a href="#api-ui_set_rect-4">ui_set_rect()</a> - this explicitly sets the dimensions of the viewport, which all the controls use to draw themselves.</p></p>(Do check out the layout stuff, though, in case it's useful.)</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>desc:JSFX UI: No Layout
+import ui-lib.jsfx-inc
+
+@init
+freemem = ui_setup(0);
+strcpy(#text, "button text");
+
+@gfx
+ui_start();
+
+// Set the viewport
+ui_set_rect(20, 20, 200, 50);
+// Draw a control
+control_button(#text);
+
+// And again
+ui_set_rect(20, 100, 50, 50);
+value = control_dial(value, 0, 1);
+
+// And again
+ui_set_rect(20, 180, 200, 50);
+inputstate = control_textinput(#text, inputstate);</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/no-layout.png" target="_blank"><img class="screenshot" src="../images/no-layout.png"></a>
 		</div>
 	</div>
 </section>
@@ -1591,8 +1626,7 @@ lastchar = char ? char : lastchar;</code></pre>
 	<a class="back-link" href="#section-index">⇧</a>
 	<h2><a class="self-link" href="#section-rich-controls">Rich controls</a></h2>
 	<div class="about">
-		<p>The functions in this section provide a common set of rich interactive controls.</p>
-		<p>They have a distinct visual look (see ui_start()/control_start() for how to choose a theme), and attempt to present consistent interactions (e.g. double-click to reset to default value, drag up/down to adjust dials).</p>
+		<p>The functions in this section provide a common set of rich interactive controls.</p><p>They have a distinct visual look (see <a href="#api-control_start-2">control_start()</a> for how to choose a theme), and attempt to present consistent interactions (e.g. double-click to reset to default value, drag up/down to adjust dials).</p>
 	</div>
 	<ul class="child-links">
 		<li><a href="#section-drawing-your-own-controls">Drawing your own controls</a></li>
