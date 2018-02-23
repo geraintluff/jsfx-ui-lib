@@ -1,5 +1,13 @@
 @init
 
+function ui_pad2(v, h) (
+	ui_pad(v, h);
+);
+
+function ui_pad4(l, t, r, b) (
+	ui_pad(l, t, r, b);
+);
+
 function ui_screen_close_id(id) (
 	while (ui_screen_level() && ui_screen() == id) (
 		ui_screen_close();
