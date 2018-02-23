@@ -51,7 +51,7 @@
 								},
 								{
 									"function": "control_start",
-									"args": [{"name": "default_screen", "type": "id", "text": "default screen ID"}, {"name": "theme"}],
+									"args": [{"name": "default_screen", "type": "id", "text": "default screen ID"}, {"name": "theme", "type": "enum", "enum": ["default", "tron", "black"]}],
 									"return": null
 								}
 							],
