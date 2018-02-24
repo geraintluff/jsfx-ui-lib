@@ -1908,7 +1908,7 @@ function control_arrow(direction) local(size, tmp, centerx, centery, point1x, po
 );
 
 function control_selector(value, text, next_value, prev_value) local(buttonwidth) (
-	ui_push();
+	ui_push_height(ui_texth() + 2*ui_padding_y());
 		control_background_inset();
 		buttonwidth = min(ui_height()/2, ui_width()/2);
 
