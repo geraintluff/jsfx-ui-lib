@@ -713,6 +713,10 @@ function ui_set_rect(left, top, width, height) (
 	uix_drawconfig_current[17/*uix_DRAWCONFIG:WIDTH*/] = width;
 	uix_drawconfig_current[18/*uix_DRAWCONFIG:HEIGHT*/] = height;
 );
+function ui_push_rect(left, top, width, height) (
+	ui_push();
+	ui_set_rect(left, top, width, height);
+);
 function ui_pop() local(prev) (
 	prev = uix_drawconfig_current;
 	uix_drawconfig_currentindex > 0 ? (

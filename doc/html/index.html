@@ -172,7 +172,7 @@ ui_text("Hello, world!");</code></pre>
 	<a class="back-link" href="#section-introduction">⇧</a>
 	<h2><a class="self-link" href="#section-ignoring-all-layout">Ignoring all layout</a></h2>
 	<div class="about">
-		<p>While this library is designed to help you lay out your GUI, it's possible to ignore all the "viewport" stuff, and just use the rich controls, separate from everything else.</p><p>The key is to use <a href="#api-ui_set_rect-4">ui_set_rect()</a> - this explicitly sets the dimensions of the viewport, which all the controls use to draw themselves.</p></p>(Do check out the layout stuff, though, in case it's useful.)</p>
+		<p>While this library is designed to help you lay out your GUI, it's possible to ignore all the "viewport" stuff, and just use the rich controls, separate from everything else.</p><p>The key is to use <a href="#api-ui_set_rect-4">ui_set_rect()</a> or <a href="#api-ui_push_rect-4">ui_push_rect()</a> - this explicitly sets the dimensions of the viewport, which all the controls use to draw themselves.</p></p>(Do check out the layout stuff, though, in case it's useful.)</p>
 	</div>
 	<div class="subsection"><h3>Example:</h3>
 <pre class="code-example"><code>desc:JSFX UI: No Layout
@@ -476,8 +476,7 @@ ui_screen() == "main" ? (
 	</div>
 	<ul class="child-links">
 		<li><a href="#section-pushing-popping-and-splitting">Pushing, popping and splitting</a></li>
-		<li><a href="#section-get-viewport-position">Get viewport position</a></li>
-		<li><a href="#section-set-viewport-position">Set viewport position</a></li>
+		<li><a href="#section-get-set-the-viewport">Get/set the viewport</a></li>
 		<li><a href="#section-padding">Padding</a></li>
 	</ul>
 	<div class="children">
@@ -779,8 +778,21 @@ ui_pop();</code></pre>
 </section>
 	</div><!-- children for section-pushing-popping-and-splitting-->
 </section>
-<section id="section-get-viewport-position">
+<section id="section-get-set-the-viewport">
 	<a class="back-link" href="#section-the-viewport-stack">⇧</a>
+	<h2><a class="self-link" href="#section-get-set-the-viewport">Get/set the viewport</a></h2>
+	<div class="about">
+		<p>If you want to draw a custom control/display, you can query the current viewport so that you can fit into the layout the way that other controls do.  For more complicated layouts, it's sometimes useful to directly set the viewport, so there are functions for that too.</p>
+		<p>You can actually use ui_set_rect() to use the built-in rich controls without using the layout/viewport stack at all - see the &quot;Ignoring all layout&quot; example in the Introduction.</p>
+	</div>
+	<ul class="child-links">
+		<li><a href="#section-get-viewport-position">Get viewport position</a></li>
+		<li><a href="#section-set-viewport-position">Set viewport position</a></li>
+		<li><a href="#section-ui_push_rect"><code>ui_push_rect()</code></a></li>
+	</ul>
+	<div class="children">
+<section id="section-get-viewport-position">
+	<a class="back-link" href="#section-get-set-the-viewport">⇧</a>
 	<h2><a class="self-link" href="#section-get-viewport-position">Get viewport position</a></h2>
 	<div class="definitions">
 <a class="definition-permalink" href="#api-ui_left-0">#</a>		<pre class="definition" id="api-ui_left-0"><code><span class="function-return function-type-int">left_x</span> = <span class="function-name">ui_left</span>()</code></pre>
@@ -828,7 +840,7 @@ ui_border();</code></pre>
 	</div>
 </section>
 <section id="section-set-viewport-position">
-	<a class="back-link" href="#section-the-viewport-stack">⇧</a>
+	<a class="back-link" href="#section-get-set-the-viewport">⇧</a>
 	<h2><a class="self-link" href="#section-set-viewport-position">Set viewport position</a></h2>
 	<div class="definitions">
 <a class="definition-permalink" href="#api-ui_set_rect-4">#</a>		<pre class="definition" id="api-ui_set_rect-4"><code><span class="function-name">ui_set_rect</span>(<span class="function-arg function-type-int">left</span>, <span class="function-arg function-type-int">top</span>, <span class="function-arg function-type-int">width</span>, <span class="function-arg function-type-int">height</span>)</code></pre>
@@ -849,7 +861,39 @@ ui_border();</code></pre>
 
 ui_color(255, 0, 255, 0.5);
 ui_fill();</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/ui_set_rect.png" target="_blank"><img class="screenshot" src="../images/ui_set_rect.png"></a>
+		</div>
 	</div>
+</section>
+<section id="section-ui_push_rect">
+	<a class="back-link" href="#section-get-set-the-viewport">⇧</a>
+	<h2><a class="self-link" href="#section-ui_push_rect"><code>ui_push_rect()</code></a></h2>
+	<div class="definitions">
+<a class="definition-permalink" href="#api-ui_push_rect-4">#</a>		<pre class="definition" id="api-ui_push_rect-4"><code><span class="function-name">ui_push_rect</span>(<span class="function-arg function-type-int">left</span>, <span class="function-arg function-type-int">top</span>, <span class="function-arg function-type-int">width</span>, <span class="function-arg function-type-int">height</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-int">left</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">top</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">width</code> - integer >= 0</li>
+				<li><code class="function-arg function-type-int">height</code> - integer >= 0</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>This is equivalent to ui_push() followed by ui_set_rect().  It's useful if what you draw also changes viewport parameters (e.g. colours, fonts), because these are reset on the corresponding ui_pop();.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_push_rect(left, top, width, height);
+	ui_color(255, 0, 255, 0.5);
+	ui_fill();
+ui_pop();
+
+// Colour is not changed
+ui_text("some text")</code></pre>
+	</div>
+</section>
+	</div><!-- children for section-get-set-the-viewport-->
 </section>
 <section id="section-padding">
 	<a class="back-link" href="#section-the-viewport-stack">⇧</a>

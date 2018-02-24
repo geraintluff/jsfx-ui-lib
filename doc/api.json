@@ -16,8 +16,8 @@
 				},
 				{
 					"title": "Ignoring all layout",
-					"text": "While this library is designed to help you lay out your GUI, it's possible to ignore all the \"viewport\" stuff, and just use the rich controls, separate from everything else.\n\nThe key is to use ui_set_rect() - this explicitly sets the dimensions of the viewport, which all the controls use to draw themselves.\n\n(Do check out the layout stuff, though, in case it's useful.)",
-					"html": "<p>While this library is designed to help you lay out your GUI, it's possible to ignore all the \"viewport\" stuff, and just use the rich controls, separate from everything else.</p><p>The key is to use <a href=\"#api-ui_set_rect-4\">ui_set_rect()</a> - this explicitly sets the dimensions of the viewport, which all the controls use to draw themselves.</p></p>(Do check out the layout stuff, though, in case it's useful.)</p>",
+					"text": "While this library is designed to help you lay out your GUI, it's possible to ignore all the \"viewport\" stuff, and just use the rich controls, separate from everything else.\n\nThe key is to use ui_set_rect() or ui_push_rect() - this explicitly sets the dimensions of the viewport, which all the controls use to draw themselves.\n\n(Do check out the layout stuff, though, in case it's useful.)",
+					"html": "<p>While this library is designed to help you lay out your GUI, it's possible to ignore all the \"viewport\" stuff, and just use the rich controls, separate from everything else.</p><p>The key is to use <a href=\"#api-ui_set_rect-4\">ui_set_rect()</a> or <a href=\"#api-ui_push_rect-4\">ui_push_rect()</a> - this explicitly sets the dimensions of the viewport, which all the controls use to draw themselves.</p></p>(Do check out the layout stuff, though, in case it's useful.)</p>",
 					"displayCode": "desc:JSFX UI: No Layout\nimport ui-lib.jsfx-inc\n\n@init\nfreemem = ui_setup(0);\nstrcpy(#text, \"button text\");\n\n@gfx\nui_start();\n\n// Set the viewport\nui_set_rect(20, 20, 200, 50);\n// Draw a control\ncontrol_button(#text);\n\n// And again\nui_set_rect(20, 100, 50, 50);\nvalue = control_dial(value, 0, 1);\n\n// And again\nui_set_rect(20, 180, 200, 50);\ninputstate = control_textinput(#text, inputstate);",
 					"code": "left = ui_left();top = ui_top();// Set the viewport\nui_set_rect(left + 20, top + 20, 200, 50);\n// Draw a control\ncontrol_button(#text);\n\n// And again\nui_set_rect(left + 20, top + 100, 50, 50);\nvalue = control_dial(value, 0, 1);\n\n// And again\nui_set_rect(left + 20, top + 180, 200, 50);\ninputstate = control_textinput(#text, inputstate);",
 					"return": [{"name": "#text", "start": "button text"}, {"name": "value", "start": 0}],
@@ -342,53 +342,75 @@
 							]
 						},
 						{
-							"title": "Get viewport position",
-							"api": [
+							"title": "Get/set the viewport",
+							"text": "If you want to draw a custom control/display, you can query the current viewport so that you can fit into the layout the way that other controls do.  For more complicated layouts, it's sometimes useful to directly set the viewport, so there are functions for that too.\n\nYou can actually use ui_set_rect() to use the built-in rich controls without using the layout/viewport stack at all - see the \"Ignoring all layout\" example in the Introduction.",
+							"children": [
 								{
-									"function": "ui_left",
-									"return": {"type": "integer", "name": "left_x"}
+									"title": "Get viewport position",
+									"api": [
+										{
+											"function": "ui_left",
+											"return": {"type": "integer", "name": "left_x"}
+										},
+										{
+											"function": "ui_right",
+											"return": {"type": "integer", "name": "right_x"}
+										},
+										{
+											"function": "ui_top",
+											"return": {"type": "integer", "name": "top_y"}
+										},
+										{
+											"function": "ui_bottom",
+											"return": {"type": "integer", "name": "bottom_y"}
+										},
+										{
+											"function": "ui_width",
+											"return": {"type": "integer", "name": "width"}
+										},
+										{
+											"function": "ui_height",
+											"return": {"type": "integer", "name": "height"}
+										}
+									],
+									"return": [],
+									"text": "These return the boundaries and dimensions of the current viewport.\n\nMuch like gfx_w and gfx_h, the right/bottom edges are the first pixels that are *not* included in the viewport.",
+									"code": "ui_align(0, 0.5);\nui_textnumber(ui_left(), \"%i\");\n\nui_align(1, 0.5);\nui_textnumber(ui_right(), \"%i\");\n\nui_align(0.5, 0);\nui_textnumber(ui_top(), \"%i\");\n\nui_align(0.5, 1);\nui_textnumber(ui_bottom(), \"%i\");\n\nsprintf(#size, \"%i x %i\", ui_width(), ui_height());\nui_align(0.5, 0.5);\nui_text(#size);\n\nui_border();",
+									"screenshot": "images/get-viewport.png"
 								},
 								{
-									"function": "ui_right",
-									"return": {"type": "integer", "name": "right_x"}
+									"title": "Set viewport position",
+									"api": [
+										{
+											"function": "ui_set_rect",
+											"args": [
+												{"type": "int", "name": "left", "start": {"code": "ui_left() + ui_width()*0.25"}, "min": 0, "max": "gfx_w"},
+												{"type": "int", "name": "top", "start": {"code": "ui_top() + ui_height()*0.25"}, "min": 0, "max": "gfx_h"},
+												{"type": "int", "name": "width", "start": {"code": "ui_width()*0.5"}, "min": 0, "max": "gfx_w"},
+												{"type": "int", "name": "height", "start": {"code": "ui_height()*0.5"}, "min": 0, "max": "gfx_h"}
+											]
+										}
+									],
+									"code": "ui_set_rect(left, top, width, height);\n\nui_color(255, 0, 255, 0.5);\nui_fill();",
+									"text": "This explicitly sets the position and dimensions of the current viewport.",
+									"screenshot": "images/ui_set_rect.png"
 								},
 								{
-									"function": "ui_top",
-									"return": {"type": "integer", "name": "top_y"}
-								},
-								{
-									"function": "ui_bottom",
-									"return": {"type": "integer", "name": "bottom_y"}
-								},
-								{
-									"function": "ui_width",
-									"return": {"type": "integer", "name": "width"}
-								},
-								{
-									"function": "ui_height",
-									"return": {"type": "integer", "name": "height"}
+									"api": [
+										{
+											"function": "ui_push_rect",
+											"args": [
+												{"type": "int", "name": "left", "start": {"code": "ui_left() + ui_width()*0.25"}, "min": 0, "max": "gfx_w"},
+												{"type": "int", "name": "top", "start": {"code": "ui_top() + ui_height()*0.25"}, "min": 0, "max": "gfx_h"},
+												{"type": "int", "name": "width", "start": {"code": "ui_width()*0.5"}, "min": 0, "max": "gfx_w"},
+												{"type": "int", "name": "height", "start": {"code": "ui_height()*0.5"}, "min": 0, "max": "gfx_h"}
+											]
+										}
+									],
+									"code": "ui_push_rect(left, top, width, height);\n\tui_color(255, 0, 255, 0.5);\n\tui_fill();\nui_pop();\n\n// Colour is not changed\nui_text(\"some text\")",
+									"text": "This is equivalent to ui_push() followed by ui_set_rect().  It's useful if what you draw also changes viewport parameters (e.g. colours, fonts), because these are reset on the corresponding ui_pop();."
 								}
-							],
-							"return": [],
-							"text": "These return the boundaries and dimensions of the current viewport.\n\nMuch like gfx_w and gfx_h, the right/bottom edges are the first pixels that are *not* included in the viewport.",
-							"code": "ui_align(0, 0.5);\nui_textnumber(ui_left(), \"%i\");\n\nui_align(1, 0.5);\nui_textnumber(ui_right(), \"%i\");\n\nui_align(0.5, 0);\nui_textnumber(ui_top(), \"%i\");\n\nui_align(0.5, 1);\nui_textnumber(ui_bottom(), \"%i\");\n\nsprintf(#size, \"%i x %i\", ui_width(), ui_height());\nui_align(0.5, 0.5);\nui_text(#size);\n\nui_border();",
-							"screenshot": "images/get-viewport.png"
-						},
-						{
-							"title": "Set viewport position",
-							"api": [
-								{
-									"function": "ui_set_rect",
-									"args": [
-										{"type": "int", "name": "left", "start": {"code": "ui_left() + ui_width()*0.25"}, "min": 0, "max": "gfx_w"},
-										{"type": "int", "name": "top", "start": {"code": "ui_top() + ui_height()*0.25"}, "min": 0, "max": "gfx_h"},
-										{"type": "int", "name": "width", "start": {"code": "ui_width()*0.5"}, "min": 0, "max": "gfx_w"},
-										{"type": "int", "name": "height", "start": {"code": "ui_height()*0.5"}, "min": 0, "max": "gfx_h"}
-									]
-								}
-							],
-							"code": "ui_set_rect(left, top, width, height);\n\nui_color(255, 0, 255, 0.5);\nui_fill();",
-							"text": "This explicitly sets the position and dimensions of the current viewport."
+							]
 						},
 						{
 							"title": "Padding",
@@ -1141,13 +1163,11 @@
 							"title": "Styling for custom controls",
 							"api": [
 								{"function": "control_background_enabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
-								{"function": "control_background_enabled_circle", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
 								{"function": "control_background_disabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
 								{"function": "control_background_passive", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
 								{"function": "control_background_inset", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
 								{"function": "control_background_technical", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
 								{"function": "control_finish_enabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
-								{"function": "control_finish_enabled_circle", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
 								{"function": "control_finish_disabled", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
 								{"function": "control_finish_passive", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
 								{"function": "control_finish_inset", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}},
