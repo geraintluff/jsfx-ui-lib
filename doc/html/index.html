@@ -1787,6 +1787,7 @@ ui_text("dialog contents go here");</code></pre>
 		<li><a href="#section-control_button"><code>control_button()</code></a></li>
 		<li><a href="#section-control_selector"><code>control_selector()</code></a></li>
 		<li><a href="#section-control_switch"><code>control_switch()</code></a></li>
+		<li><a href="#section-control_radio"><code>control_radio()</code></a></li>
 	</ul>
 	<div class="children">
 <section id="section-control_readout">
@@ -1887,6 +1888,43 @@ value = control_selector(value, #selector_text,
 <pre class="code-example"><code>bool_value = control_switch(bool_value);</code></pre>
 		<div class="screenshots screenshots-1">
 			<a href="../images/control_switch.gif" target="_blank"><img class="screenshot" src="../images/control_switch.gif"></a>
+		</div>
+	</div>
+</section>
+<section id="section-control_radio">
+	<a class="back-link" href="#section-buttons-readouts-and-switches">⇧</a>
+	<h2><a class="self-link" href="#section-control_radio"><code>control_radio()</code></a></h2>
+	<div class="definitions">
+<a class="definition-permalink" href="#api-control_radio-2">#</a>		<pre class="definition" id="api-control_radio-2"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_radio</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">option</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">value</code></li>
+				<li><code class="function-arg function-type-number">option</code></li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Displays a radio-button control.  This displays as selected if &quot;option&quot; and value are the same.  Clicking it sets &quot;value&quot; to &quot;option&quot;.</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_split_topratio(1/3);
+	ui_split_right(30);
+		value = control_radio(value, 1);
+	ui_pop();
+	ui_text("one");
+ui_split_next();
+	ui_split_right(30);
+		value = control_radio(value, 2);
+	ui_pop();
+	ui_text("two");
+ui_split_next();
+	ui_split_right(30);
+		value = control_radio(value, 3);
+	ui_pop();
+	ui_text("three");
+ui_pop();</code></pre>
+		<div class="screenshots screenshots-1">
+			<a href="../images/control_radio.gif" target="_blank"><img class="screenshot" src="../images/control_radio.gif"></a>
 		</div>
 	</div>
 </section>

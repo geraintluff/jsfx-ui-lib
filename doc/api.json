@@ -1032,6 +1032,17 @@
 							"params": [],
 							"text": "Displays an on/off switch for a boolean value.",
 							"screenshot": "images/control_switch.gif"
+						},
+						{
+							"api": {
+								"function": "control_radio",
+								"args": [{"name": "value"}, {"name": "option"}],
+								"return": {"name": "value", "start": 1}
+							},
+							"params": [],
+							"text": "Displays a radio-button control.  This displays as selected if \"option\" and value are the same.  Clicking it sets \"value\" to \"option\".",
+							"code": "ui_split_topratio(1/3);\n\tui_split_right(30);\n\t\tvalue = control_radio(value, 1);\n\tui_pop();\n\tui_text(\"one\");\nui_split_next();\n\tui_split_right(30);\n\t\tvalue = control_radio(value, 2);\n\tui_pop();\n\tui_text(\"two\");\nui_split_next();\n\tui_split_right(30);\n\t\tvalue = control_radio(value, 3);\n\tui_pop();\n\tui_text(\"three\");\nui_pop();",
+							"screenshot": "images/control_radio.gif"
 						}
 					]
 				},

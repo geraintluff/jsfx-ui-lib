@@ -2384,6 +2384,25 @@ function control_switch(value) local(state) (
 	value;
 );
 
+function control_radio(value, option_value) local(state) (
+	ui_click() ? value = option_value;
+
+	ui_push_height(ui_texth());
+		ui_push_width(ui_texth());
+
+			control_background_inset();
+			control_finish_inset();
+
+			value == option_value ? (
+				ui_pad(2, 2);
+				control_background_enabled(state);
+				control_finish_enabled(state);
+			);
+		ui_pop();
+	ui_pop();
+	value;
+);
+
 function uix_control_closest_substring_width(text, targetwidth) local(text_length, best_index, best_width, i, candidatewidth) (
 	best_index = 0;
 	best_width = 0;
