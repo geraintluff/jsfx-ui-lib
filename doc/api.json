@@ -407,7 +407,7 @@
 											]
 										}
 									],
-									"code": "ui_push_rect(left, top, width, height);\n\tui_color(255, 0, 255, 0.5);\n\tui_fill();\nui_pop();\n\n// Colour is not changed\nui_text(\"some text\")",
+									"code": "ui_push_rect(left, top, width, height);\n\tui_color(255, 0, 255, 0.5);\n\tui_fill();\nui_pop();\n\n// Colour is not changed\nui_text(\"some text\");",
 									"text": "This is equivalent to ui_push() followed by ui_set_rect().  It's useful if what you draw also changes viewport parameters (e.g. colours, fonts), because these are reset on the corresponding ui_pop();."
 								}
 							]
@@ -1174,7 +1174,7 @@
 								{"function": "control_finish_technical", "args": {"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}}
 							],
 							"text": "These help you create custom controls that fit into the theme, by drawing a background and an overlay in the appropriate style, including setting an appropriate ui_color().\n\nIf state is omitted (\"auto\"), it is calculated using the current mouse interaction.  However when creating a composite control it's useful to have a shared state (e.g. when any part of the control is pressed, the whole control displays as pressed).",
-							"code": "ui_split_topratio(1/6);\n\tui_pad();\n\tcontrol_background_enabled(state);\n\tui_text(\"enabled\");\n\tcontrol_finish_enabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_enabled_circle(state);\n\tui_text(\"circle\");\n\tcontrol_finish_enabled_circle(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_disabled(state);\n\tui_text(\"disabled\");\n\tcontrol_finish_disabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_passive(state);\n\tui_text(\"passive\");\n\tcontrol_finish_passive(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_inset(state);\n\tui_text(\"inset\");\n\tcontrol_finish_inset(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_technical(state);\n\tui_text(\"technical\");\n\tcontrol_finish_technical(state);\nui_pop();",
+							"code": "ui_split_topratio(1/5);\n\tui_pad();\n\tcontrol_background_enabled(state);\n\tui_text(\"enabled\");\n\tcontrol_finish_enabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_disabled(state);\n\tui_text(\"disabled\");\n\tcontrol_finish_disabled(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_passive(state);\n\tui_text(\"passive\");\n\tcontrol_finish_passive(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_inset(state);\n\tui_text(\"inset\");\n\tcontrol_finish_inset(state);\nui_split_next();\n\tui_pad();\n\tcontrol_background_technical(state);\n\tui_text(\"technical\");\n\tcontrol_finish_technical(state);\nui_pop();",
 							"params": [{"type": "enum", "name": "state", "enum": ["press", "hover", "drag", "none", "auto"], "default": "auto"}],
 							"screenshot": ["images/custom-themed-controls-default.png", "images/custom-themed-controls-tron.png", "images/custom-themed-controls-black.png"]
 						},

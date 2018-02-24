@@ -1529,7 +1529,7 @@ function control_finish_enabled(state) (
 			gfx_blit(uix_control_theme_buffer, 1, 0, 340, 20, 120, 60, ui_left(), ui_top(), ui_width(), ui_height());
 			uix_control_color_from_theme(471, 30);
 		);
-	) ? (
+	) : (
 		ui_push();
 			uix_control_theme == 1/*uix_THEME:BLACK_AND_WHITE*/ ? (
 				ui_color(255, 255, 255);

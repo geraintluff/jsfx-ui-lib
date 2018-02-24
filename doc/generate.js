@@ -123,13 +123,15 @@ in_pin:none
 out_pin:none
 options:want_all_kb
 
+filename:0,themes/bitmap-simple/theme-cyan.png
+
 @init
 freemem = ui_setup(0);
 api_buffer_length = 1024;
 freemem = (api_buffer = freemem) + buffer_length;
 
 @gfx 730 590
-control_start("section-index", api_theme);
+control_start("section-index", api_theme, api_theme_buffer);
 
 function api_print_function_signature(code) (
 	ui_split_top(18);
@@ -145,12 +147,17 @@ ui_screen() == "options" ? (
 		ui_push_height(100);
 			control_group("theme");
 			ui_push_heighttext(-1);
-				ui_split_leftratio(1/3);
+				ui_split_leftratio(1/4);
 					control_button("default", api_theme != "default") ? api_theme = "default";
 				ui_split_next();
 					control_button("tron", api_theme != "tron") ? api_theme = "tron";
 				ui_split_next();
 					control_button("black", api_theme != "black") ? api_theme = "black";
+				ui_split_next();
+					control_button("cyan (bitmap)", api_theme != "bitmap-simple" || api_theme_buffer != 0) ? (
+						api_theme = "bitmap-simple";
+						api_theme_buffer = 0;
+					);
 				ui_pop();
 			ui_pop();
 		ui_pop();

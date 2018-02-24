@@ -890,7 +890,7 @@ ui_fill();</code></pre>
 ui_pop();
 
 // Colour is not changed
-ui_text("some text")</code></pre>
+ui_text("some text");</code></pre>
 	</div>
 </section>
 	</div><!-- children for section-get-set-the-viewport-->
@@ -2123,13 +2123,11 @@ ui_pop();</code></pre>
 	<h2><a class="self-link" href="#section-styling-for-custom-controls">Styling for custom controls</a></h2>
 	<div class="definitions">
 <a class="definition-permalink" href="#api-control_background_enabled-1">#</a>		<pre class="definition" id="api-control_background_enabled-1"><code><span class="function-name">control_background_enabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-<a class="definition-permalink" href="#api-control_background_enabled_circle-1">#</a>		<pre class="definition" id="api-control_background_enabled_circle-1"><code><span class="function-name">control_background_enabled_circle</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
 <a class="definition-permalink" href="#api-control_background_disabled-1">#</a>		<pre class="definition" id="api-control_background_disabled-1"><code><span class="function-name">control_background_disabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
 <a class="definition-permalink" href="#api-control_background_passive-1">#</a>		<pre class="definition" id="api-control_background_passive-1"><code><span class="function-name">control_background_passive</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
 <a class="definition-permalink" href="#api-control_background_inset-1">#</a>		<pre class="definition" id="api-control_background_inset-1"><code><span class="function-name">control_background_inset</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
 <a class="definition-permalink" href="#api-control_background_technical-1">#</a>		<pre class="definition" id="api-control_background_technical-1"><code><span class="function-name">control_background_technical</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
 <a class="definition-permalink" href="#api-control_finish_enabled-1">#</a>		<pre class="definition" id="api-control_finish_enabled-1"><code><span class="function-name">control_finish_enabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
-<a class="definition-permalink" href="#api-control_finish_enabled_circle-1">#</a>		<pre class="definition" id="api-control_finish_enabled_circle-1"><code><span class="function-name">control_finish_enabled_circle</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
 <a class="definition-permalink" href="#api-control_finish_disabled-1">#</a>		<pre class="definition" id="api-control_finish_disabled-1"><code><span class="function-name">control_finish_disabled</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
 <a class="definition-permalink" href="#api-control_finish_passive-1">#</a>		<pre class="definition" id="api-control_finish_passive-1"><code><span class="function-name">control_finish_passive</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
 <a class="definition-permalink" href="#api-control_finish_inset-1">#</a>		<pre class="definition" id="api-control_finish_inset-1"><code><span class="function-name">control_finish_inset</span>(<span class="function-arg function-type-enum">state</span>="auto")</code></pre>
@@ -2145,16 +2143,11 @@ ui_pop();</code></pre>
 		<p>If state is omitted (&quot;auto&quot;), it is calculated using the current mouse interaction.  However when creating a composite control it's useful to have a shared state (e.g. when any part of the control is pressed, the whole control displays as pressed).</p>
 	</div>
 	<div class="subsection"><h3>Example:</h3>
-<pre class="code-example"><code>ui_split_topratio(1/6);
+<pre class="code-example"><code>ui_split_topratio(1/5);
 	ui_pad();
 	control_background_enabled(state);
 	ui_text("enabled");
 	control_finish_enabled(state);
-ui_split_next();
-	ui_pad();
-	control_background_enabled_circle(state);
-	ui_text("circle");
-	control_finish_enabled_circle(state);
 ui_split_next();
 	ui_pad();
 	control_background_disabled(state);
