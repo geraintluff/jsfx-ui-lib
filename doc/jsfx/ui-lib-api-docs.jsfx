@@ -1825,11 +1825,12 @@ ui_screen() == "options" ? (
 ) : ui_screen() == "section-fonts" ? (
 	control_navbar("Fonts", "options", "options");
 	ui_pad();
-	ui_split_top(54);
+	ui_split_top(72);
 		ui_split_leftratio(0.5);
 			api_print_function_signature("ui_font(#face, size, bold, italics);");
 			api_print_function_signature("ui_fontface(#face);");
 			api_print_function_signature("ui_fontsize(size);");
+			api_print_function_signature("size = ui_fontsize();");
 		ui_split_next();
 			api_print_function_signature("ui_fontbold(bold);");
 			api_print_function_signature("ui_fontitalic(italics);");
@@ -4456,7 +4457,7 @@ ui_screen() == "options" ? (
 	api_print_function_signature("old_pixel_scale = ui_retina(new_pixel_scale);");
 	ui_padtop();
 	ui_align(0, 0);
-	ui_padtop(ui_wraptext("Support for Retina displays (double-resolution pixels on Macs) is enabled by default.  To disable, set gfx_ext_retina = 1 in @init.  If Retina mode is true, the drawing area will be bigger, and mouse positions will be scaled - however, the UI library scales down its viewport/measurements so that it appears to be the same size.\n\nHowever, if you need to draw your own custom controls, you now have a scaling factor to contend with.\n\nThe best way to handle this is ui_retina().\n\nIf called with no argument (or 0), ui_retina() returns the current pixels-scaling value (2 for retina displays, 1 otherwise).  If called with an argument, it sets the pixel scaling value, and changes the viewport appropriately.\n\nBe warned, however, that mouse positions (both mouse_x/mouse_y and functions like ui_mouse_x()) will remain scaled-down, so you might want to save the previous pixel-scaling value and restore it before the mouse-based calculations.\n\nThis state is stored in the viewport/drawing stack, so it will be restored on ui_pop()."));
+	ui_padtop(ui_wraptext("Support for Retina displays (double-resolution pixels on Macs) can be enabled by setting gfx_ext_retina=1.  If Retina mode is active, the drawing area will be bigger, and mouse positions will be scaled - however, the UI library scales down its viewport/measurements so that it appears to be the same size.\n\nHowever, if you need to draw your own custom controls, you now have a scaling factor to contend with.\n\nThe best way to handle this is ui_retina().\n\nIf called with no argument (or 0), ui_retina() returns the current pixels-scaling value (2 for retina displays, 1 otherwise).  If called with an argument, it sets the pixel scaling value, and changes the viewport appropriately.\n\nBe warned, however, that mouse positions (both mouse_x/mouse_y and functions like ui_mouse_x()) will remain scaled-down, so you might want to save the previous pixel-scaling value and restore it before the mouse-based calculations.\n\nThis state is stored in the viewport/drawing stack, so it will be restored on ui_pop()."));
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_push();

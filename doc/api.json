@@ -557,6 +557,10 @@
 									"args": [{"type": "int", "name": "size", "min": 8, "max": 100, "start": 16}]
 								},
 								{
+									"function": "ui_fontsize",
+									"return": [{"type": "int", "name": "size", "min": 8, "max": 100, "start": 16}]
+								},
+								{
 									"function": "ui_fontbold",
 									"args": [{"type": "bool", "name": "bold", "start": 0}]
 								},
