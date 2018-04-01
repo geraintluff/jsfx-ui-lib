@@ -639,8 +639,8 @@
 								{"name": "max_y", "min": 0, "max": 2, "start": 1},
 								{"type": "int", "name": "offset", "min": 0, "max": 15, "start": 0}
 							],
-							"code": "i = 0;\nwhile (i < api_buffer_length) (\n\tapi_buffer[i] = sin((i/api_buffer_length*2)*2*$pi);\n\ti += 1\n);\n\nui_graph(api_buffer, api_buffer_length, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(api_buffer, api_buffer_length>>6, 64, offset, min_y, max_y);\n\n",
-							"displayCode": "ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(buffer, 16, 64, offset, min_y, max_y);",
+							"code": "i = 0;\nwhile (i < api_buffer_length) (\n\tapi_buffer[i] = sin((i/api_buffer_length*2)*2*$pi);\n\ti += 1\n);\n\nui_graph(api_buffer, api_buffer_length, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_circular(api_buffer, api_buffer_length>>6, 64, offset, min_y, max_y);\n\n",
+							"displayCode": "ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_circular(buffer, 16, 64, offset, min_y, max_y);",
 							"text": "Plots a graph from a buffer.  If min_y and max_y are the same, the graph is centered around that value, and auto-scaled to fit the data.",
 							"screenshot": "images/ui_graph.png"
 						},
