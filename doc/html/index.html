@@ -131,6 +131,7 @@
 		<li><a href="#section-introduction">Introduction</a></li>
 		<li><a href="#section-the-basics">The basics</a></li>
 		<li><a href="#section-rich-controls">Rich controls</a></li>
+		<li><a href="#section-retina-support">Retina support</a></li>
 	</ul>
 	<div class="children">
 <section id="section-introduction">
@@ -1176,7 +1177,7 @@ ui_text("Hello, world!");</code></pre>
 <pre class="code-example"><code>ui_graph(buffer, 1024, min_y, max_y);
 
 ui_color(0, 192, 255);
-ui_graph_step_circular(buffer, 16, 64, offset, min_y, max_y);</code></pre>
+ui_graph_circular(buffer, 16, 64, offset, min_y, max_y);</code></pre>
 		<div class="screenshots screenshots-1">
 			<a href="../images/ui_graph.png" target="_blank"><img class="screenshot" src="../images/ui_graph.png"></a>
 		</div>
@@ -2258,6 +2259,42 @@ ui_pop();</code></pre>
 	</div><!-- children for section-drawing-your-own-controls-->
 </section>
 	</div><!-- children for section-rich-controls-->
+</section>
+<section id="section-retina-support">
+	<a class="back-link" href="#section-index">⇧</a>
+	<h2><a class="self-link" href="#section-retina-support">Retina support</a></h2>
+	<div class="definitions">
+<a class="definition-permalink" href="#api-ui_retina-0">#</a>		<pre class="definition" id="api-ui_retina-0"><code><span class="function-return function-type-number">pixel_scale</span> = <span class="function-name">ui_retina</span>()</code></pre>
+<a class="definition-permalink" href="#api-ui_retina-1">#</a>		<pre class="definition" id="api-ui_retina-1"><code><span class="function-return function-type-number">old_pixel_scale</span> = <span class="function-name">ui_retina</span>(<span class="function-arg function-type-number">new_pixel_scale</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">new_pixel_scale</code></li>
+				<li><code class="function-arg function-type-number">pixel_scale</code> - The current pixel-scale</li>
+				<li><code class="function-arg function-type-number">old_pixel_scale</code> - the previous pixel scale, before it was changed</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>To enable JSFX support for Retina displays (double-resolution pixels on Macs), set gfx_ext_retina = 1 in @init.  It will be set to 2 in @gfx, the drawing area will be bigger, and mouse positions will be scaled.</p>
+		<p>The UI library matches this convention, by keeping the viewport dimensions in nominal pixels (equal to 2x2 actual pixels in the buffer).  However, if you need to draw your own custom controls, you now have a scaling factor to contend with.</p>
+		<p>The best way to handle this is ui_retina().  If called with no argument (or 0), it returns the current pixels-scaling value (2 for retina displays, 1 otherwise).</p>
+		<p>If called with an argument, it sets the pixel scaling value, and changes the viewport appropriately.</p>
+		<p>Be warned, however, that mouse positions (both mouse_x/mouse_y and functions like ui_mouse_x()) will not be compensated to the new scale, so they will need to be changed.</p>
+		<p>This state is stored in the viewport/drawing stack, so it will be restored on ui_pop().</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>// Reset to 1-to-1 scale
+old_pixel_scale = ui_retina(1);
+
+/* Draw something using viewport */
+gfx_rect(ui_left(), ui_top(), ...);
+
+//Set back to the old one
+ui_retina(old_pixel_scale);
+
+/* Logic involving mouse-pointer */
+xratio = ui_mouse_xratio();</code></pre>
+	</div>
 </section>
 	</div><!-- children for section-index-->
 </section>

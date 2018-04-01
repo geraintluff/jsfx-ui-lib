@@ -75,6 +75,14 @@ ui_screen() == "options" ? (
 				);
 			ui_pop();
 		ui_pop();
+	ui_split_toptext(-1);
+			ui_push_widthratio(0.5);
+				control_button("Retina support") ? (
+					ui_screen_open("section-retina-support");
+					section-retina-support_setup = 0;
+				);
+			ui_pop();
+		ui_pop();
 ) : ui_screen() == "section-introduction" ? (
 	control_navbar("Introduction", "options", "options");
 	ui_pad();
@@ -2023,7 +2031,7 @@ ui_screen() == "options" ? (
 		ui_graph(api_buffer, api_buffer_length, min_y, max_y);
 		
 		ui_color(0, 192, 255);
-		ui_graph_step_circular(api_buffer, api_buffer_length>>6, 64, offset, min_y, max_y);
+		ui_graph_circular(api_buffer, api_buffer_length>>6, 64, offset, min_y, max_y);
 	ui_pop();
 	ui_split_bottom(162);
 		control_group("parameters");
@@ -2072,7 +2080,7 @@ ui_screen() == "options" ? (
 				ui_pad();
 				ui_font("Courier New", 14, 1, 0);
 				ui_align(0, 0.5);
-				ui_text("ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step_circular(buffer, 16, 64, offset, min_y, max_y);");
+				ui_text("ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_circular(buffer, 16, 64, offset, min_y, max_y);");
 			ui_pop();
 			control_finish_technical();
 		ui_pop();
@@ -4438,6 +4446,26 @@ ui_screen() == "options" ? (
 				ui_font("Courier New", 14, 1, 0);
 				ui_align(0, 0.5);
 				ui_text("control_arrow(direction);");
+			ui_pop();
+			control_finish_technical();
+		ui_pop();
+) : ui_screen() == "section-retina-support" ? (
+	control_navbar("Retina support", "options", "options");
+	ui_pad();
+	api_print_function_signature("pixel_scale = ui_retina();");
+	api_print_function_signature("old_pixel_scale = ui_retina(new_pixel_scale);");
+	ui_padtop();
+	ui_align(0, 0);
+	ui_padtop(ui_wraptext("To enable JSFX support for Retina displays (double-resolution pixels on Macs), set gfx_ext_retina = 1 in @init.  It will be set to 2 in @gfx, the drawing area will be bigger, and mouse positions will be scaled.\n\nThe UI library matches this convention, by keeping the viewport dimensions in nominal pixels (equal to 2x2 actual pixels in the buffer).  However, if you need to draw your own custom controls, you now have a scaling factor to contend with.\n\nThe best way to handle this is ui_retina().  If called with no argument (or 0), it returns the current pixels-scaling value (2 for retina displays, 1 otherwise).\n\nIf called with an argument, it sets the pixel scaling value, and changes the viewport appropriately.\n\nBe warned, however, that mouse positions (both mouse_x/mouse_y and functions like ui_mouse_x()) will not be compensated to the new scale, so they will need to be changed.\n\nThis state is stored in the viewport/drawing stack, so it will be restored on ui_pop()."));
+	ui_padtop(ui_texth());
+	ui_align(0.5, 0.5);
+	ui_push();
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("// Reset to 1-to-1 scale\nold_pixel_scale = ui_retina(1);\n\n/* Draw something using viewport */\ngfx_rect(ui_left(), ui_top(), ...);\n\n//Set back to the old one\nui_retina(old_pixel_scale);\n\n/* Logic involving mouse-pointer */\nxratio = ui_mouse_xratio();");
 			ui_pop();
 			control_finish_technical();
 		ui_pop();
