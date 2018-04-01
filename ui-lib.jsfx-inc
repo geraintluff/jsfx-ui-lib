@@ -1404,7 +1404,7 @@ function control_start(defaultPage, theme, imageBuffer) local(reset, i, x, y) (
 			x = 0;
 			while (x < gfx_w) (
 				// TODO: how does retina affect this?
-				gfx_blit(uix_control_theme_buffer, 2, 0, 20, 20, 120, 120, x, y);
+				gfx_blit(uix_control_theme_buffer, ui_retina(), 0, 20, 20, 120, 120, x, y);
 				x += 120*ui_retina();
 			);
 			y += 120;

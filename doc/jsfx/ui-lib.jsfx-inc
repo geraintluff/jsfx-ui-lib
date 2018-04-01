@@ -204,7 +204,7 @@ function ui_reserve_image(index) (
 	uix_screen_reservations[index] = 1;
 );
 
-function ui_start(defaultScreen) local(i, click, clickdelta, imgW, imgH) (
+function ui_start(defaultScreen) local(i, click, clickdelta, imgW, imgH, retina_scaling) (
 	uix_drawconfig_currentindex = 0;
 	uix_drawconfig_current = uix_drawconfig;
 
@@ -226,13 +226,14 @@ function ui_start(defaultScreen) local(i, click, clickdelta, imgW, imgH) (
 		// Default colours
 		gfx_clear = uix_clearcolor(242, 242, 242);
 
-		uix_drawconfig_current[9/*uix_DRAWCONFIG:RETINA_SCALING*/] = gfx_ext_retina ? gfx_ext_retina : 1;
+		retina_scaling = gfx_ext_retina ? gfx_ext_retina : 1;
+		uix_drawconfig_current[9/*uix_DRAWCONFIG:RETINA_SCALING*/] = retina_scaling;
 
 		uix_drawconfig_current[10/*uix_DRAWCONFIG:CLIP_SCREEN*/] = -1;
 		uix_drawconfig_current[11/*uix_DRAWCONFIG:CLIP_LEFT*/] = 0;
-		uix_drawconfig_current[12/*uix_DRAWCONFIG:CLIP_WIDTH*/] = gfx_w;
+		uix_drawconfig_current[12/*uix_DRAWCONFIG:CLIP_WIDTH*/] = gfx_w/retina_scaling;
 		uix_drawconfig_current[13/*uix_DRAWCONFIG:CLIP_TOP*/] = 0;
-		uix_drawconfig_current[14/*uix_DRAWCONFIG:CLIP_HEIGHT*/] = gfx_h;
+		uix_drawconfig_current[14/*uix_DRAWCONFIG:CLIP_HEIGHT*/] = gfx_h/retina_scaling;
 		uix_drawconfig_current[15/*uix_DRAWCONFIG:CLIP_ALPHA*/] = 1;
 
 		uix_drawconfig_current[0/*uix_DRAWCONFIG:RED*/] = 0;
@@ -242,8 +243,8 @@ function ui_start(defaultScreen) local(i, click, clickdelta, imgW, imgH) (
 
 		uix_drawconfig_current[16/*uix_DRAWCONFIG:LEFT*/] = 0;
 		uix_drawconfig_current[17/*uix_DRAWCONFIG:TOP*/] = 0;
-		uix_drawconfig_current[18/*uix_DRAWCONFIG:WIDTH*/] = gfx_w;
-		uix_drawconfig_current[19/*uix_DRAWCONFIG:HEIGHT*/] = gfx_h;
+		uix_drawconfig_current[18/*uix_DRAWCONFIG:WIDTH*/] = gfx_w/retina_scaling;
+		uix_drawconfig_current[19/*uix_DRAWCONFIG:HEIGHT*/] = gfx_h/retina_scaling;
 		uix_drawconfig_current[20/*uix_DRAWCONFIG:HALIGN*/] = 0.5;
 		uix_drawconfig_current[21/*uix_DRAWCONFIG:VALIGN*/] = 0.5;
 		uix_drawconfig_current[22/*uix_DRAWCONFIG:HPADDING*/] = 10;
@@ -262,9 +263,9 @@ function ui_start(defaultScreen) local(i, click, clickdelta, imgW, imgH) (
 
 		uix_prev_mouse_x = uix_mouse_x;
 		uix_prev_mouse_y = uix_mouse_y;
-		uix_mouse_x = mouse_x;
-		uix_mouse_y = mouse_y;
-		(mouse_cap&67) && (mouse_x != uix_prev_mouse_x || mouse_y != uix_prev_mouse_y) ? uix_interacted = 1;
+		uix_mouse_x = mouse_x/retina_scaling;
+		uix_mouse_y = mouse_y/retina_scaling;
+		(mouse_cap&67) && (uix_mouse_x != uix_prev_mouse_x || uix_mouse_y != uix_prev_mouse_y) ? uix_interacted = 1;
 
 		uix_scroll_y = mouse_wheel;
 		uix_scroll_x = mouse_hwheel;
@@ -274,8 +275,8 @@ function ui_start(defaultScreen) local(i, click, clickdelta, imgW, imgH) (
 		uix_unclick1 = (!(mouse_cap&1) && uix_mousecap_prev&1);
 		uix_click1 = (mouse_cap&1 && !(uix_mousecap_prev&1)) ? (
 			clickdelta = time_precise() - uix_click1_t;
-			uix_click1_x = mouse_x;
-			uix_click1_y = mouse_y;
+			uix_click1_x = uix_mouse_x;
+			uix_click1_y = uix_mouse_y;
 			uix_click1 = 1;
 			uix_click1_t = time_precise() - 0.001;
 			clickdelta < uix_doubleclicktime ? (
@@ -289,8 +290,8 @@ function ui_start(defaultScreen) local(i, click, clickdelta, imgW, imgH) (
 		uix_click2 = (mouse_cap&2 && !(uix_mousecap_prev&2)) ? (
 			clickdelta = time_precise() - uix_click2_t;
 			uix_click2 = 1;
-			uix_click2_x = mouse_x;
-			uix_click2_y = mouse_y;
+			uix_click2_x = uix_mouse_x;
+			uix_click2_y = uix_mouse_y;
 			uix_click2_t = time_precise() - 0.001;
 			clickdelta < uix_doubleclicktime ? (
 				uix_click2count += 1;
@@ -302,8 +303,8 @@ function ui_start(defaultScreen) local(i, click, clickdelta, imgW, imgH) (
 		uix_click64 = (mouse_cap&64 && !(uix_mousecap_prev&64)) ? (
 			clickdelta = time_precise() - uix_click64_t;
 			uix_click64 = 1;
-			uix_click64_x = mouse_x;
-			uix_click64_y = mouse_y;
+			uix_click64_x = uix_mouse_x;
+			uix_click64_y = uix_mouse_y;
 			uix_click64_t = time_precise() - 0.001;
 			clickdelta < uix_doubleclicktime ? (
 				uix_click64count += 1;
@@ -1100,7 +1101,7 @@ function uix_clickwasinside(i) (
 );
 
 function ui_mouse_x() (
-	mouse_x - ui_left();
+	uix_mouse_x - ui_left();
 );
 
 function ui_mouse_xratio() (
@@ -1108,7 +1109,7 @@ function ui_mouse_xratio() (
 );
 
 function ui_mouse_y() (
-	mouse_y - ui_top();
+	uix_mouse_y - ui_top();
 );
 
 function ui_mouse_yratio() (
@@ -1116,7 +1117,7 @@ function ui_mouse_yratio() (
 );
 
 function ui_hover() (
-	mouse_x >= ui_left() && mouse_x < ui_right() && mouse_y >= ui_top() && mouse_y < ui_bottom();
+	uix_mouse_x >= ui_left() && uix_mouse_x < ui_right() && uix_mouse_y >= ui_top() && uix_mouse_y < ui_bottom();
 );
 
 function ui_mouse_down(i) (
@@ -1139,7 +1140,7 @@ function ui_drag(i) local(dragtime) (
 	!i ? i = 1;
 	mouse_cap&i && uix_clickwasinside(i) ? (
 		dragtime = time_precise() - uix_click_t(i);
-		dragtime >= uix_doubleclicktime || abs(uix_click_x(i) - mouse_x) >= uix_draglimit || abs(uix_click_y(i) - mouse_y) >= uix_draglimit ? (
+		dragtime >= uix_doubleclicktime || abs(uix_click_x(i) - uix_mouse_x) >= uix_draglimit || abs(uix_click_y(i) - uix_mouse_y) >= uix_draglimit ? (
 			dragtime;
 		) : 0;
 	) : 0;
@@ -1148,24 +1149,24 @@ function ui_drag(i) local(dragtime) (
 function ui_drag_x(i) (
 	!i ? i = 1;
 	mouse_cap&i && uix_clickwasinside(i) ? (
-		mouse_x - uix_click_x(i);
+		uix_mouse_x - uix_click_x(i);
 	) : 0;
 );
 
 function ui_drag_y(i) (
 	!i ? i = 1;
 	mouse_cap&i && uix_clickwasinside(i) ? (
-		mouse_y - uix_click_y(i);
+		uix_mouse_y - uix_click_y(i);
 	) : 0;
 );
 
 function ui_mouse_dx() (
-	mouse_x - uix_prev_mouse_x;
+	uix_mouse_x - uix_prev_mouse_x;
 );
 
 
 function ui_mouse_dy() (
-	mouse_y - uix_prev_mouse_y;
+	uix_mouse_y - uix_prev_mouse_y;
 );
 
 function ui_scroll_y() (
@@ -1403,8 +1404,8 @@ function control_start(defaultPage, theme, imageBuffer) local(reset, i, x, y) (
 			x = 0;
 			while (x < gfx_w) (
 				// TODO: how does retina affect this?
-				gfx_blit(uix_control_theme_buffer, 1, 0, 20, 20, 120, 120, x, y);
-				x += 120;
+				gfx_blit(uix_control_theme_buffer, ui_retina(), 0, 20, 20, 120, 120, x, y);
+				x += 120*ui_retina();
 			);
 			y += 120;
 		);
