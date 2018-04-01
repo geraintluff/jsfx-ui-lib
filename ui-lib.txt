@@ -690,8 +690,6 @@ function ui_wraptext(text) local(text_length, line_start, line_end, width, heigh
 	gfx_y = (valign ? (
 		ui_top() + (ui_height() - ui_wraptext_height(text))*valign;
 	) : ui_top())*uix_retina_scaling;
-	// TODO: text_w is never set - this is just the left-hand edge, right?
-	left_x = ui_left_retina() + (ui_width_retina() - text_w)*halign;
 
 	text_length = strlen(text);
 	line_start = 0;
@@ -700,7 +698,7 @@ function ui_wraptext(text) local(text_length, line_start, line_end, width, heigh
 		line = #;
 		strcpy_substr(line, text, line_start, line_end - line_start);
 		gfx_measurestr(line, text_w, text_h);
-		gfx_x = left_x;
+		gfx_x = ui_left_retina() + (ui_width_retina() - text_w)*halign;
 		gfx_drawstr(line);
 		gfx_y += gfx_texth;
 		height += gfx_texth;
@@ -768,6 +766,18 @@ function ui_set_rect_retina(left, top, width, height) (
 	uix_drawconfig_current[uix_DRAWCONFIG#TOP] = top/uix_retina_scaling;
 	uix_drawconfig_current[uix_DRAWCONFIG#WIDTH] = width/uix_retina_scaling;
 	uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT] = height/uix_retina_scaling;
+);
+function ui_rect_to_retina() (
+	uix_drawconfig_current[uix_DRAWCONFIG#LEFT] *= uix_retina_scaling;
+	uix_drawconfig_current[uix_DRAWCONFIG#TOP] *= uix_retina_scaling;
+	uix_drawconfig_current[uix_DRAWCONFIG#WIDTH] *= uix_retina_scaling;
+	uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT] *= uix_retina_scaling;
+);
+function ui_rect_from_retina() (
+	uix_drawconfig_current[uix_DRAWCONFIG#LEFT] /= uix_retina_scaling;
+	uix_drawconfig_current[uix_DRAWCONFIG#TOP] /= uix_retina_scaling;
+	uix_drawconfig_current[uix_DRAWCONFIG#WIDTH] /= uix_retina_scaling;
+	uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT] /= uix_retina_scaling;
 );
 function ui_push_rect(left, top, width, height) (
 	ui_push();
