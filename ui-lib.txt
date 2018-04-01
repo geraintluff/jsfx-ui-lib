@@ -6,7 +6,6 @@ uix_round = 1;
 uix_screenstack_step = 10 + UI_SCREEN#; // header + 10 vars
 uix_screenstack_layercount = 10;
 //uix_screenstack_currentlayer = 0;
-uix_retina_scaling = 1;
 
 //uix_drawconfig = 0;
 uix_drawconfig_step = uix_DRAWCONFIG##;
@@ -86,7 +85,7 @@ function uix_setgfxfont() (
 			gfx_setfont(
 				uix_drawconfig_current[uix_DRAWCONFIG#FONTINDEX],
 				uix_drawconfig_current[uix_DRAWCONFIG#FONTFACE],
-				uix_drawconfig_current[uix_DRAWCONFIG#FONTSIZE]*uix_retina_scaling,
+				uix_drawconfig_current[uix_DRAWCONFIG#FONTSIZE]*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING],
 				uix_fontflags()
 			);
 		);
@@ -207,7 +206,6 @@ function ui_reserve_image(index) (
 function ui_start(defaultScreen) local(i, click, clickdelta, imgW, imgH) (
 	uix_drawconfig_currentindex = 0;
 	uix_drawconfig_current = uix_drawconfig;
-	uix_retina_scaling = gfx_ext_retina ? gfx_ext_retina : 1;
 
 	uix_hassetup ? (
 		!ui_screen() ? (
@@ -226,6 +224,8 @@ function ui_start(defaultScreen) local(i, click, clickdelta, imgW, imgH) (
 		gfx_a = 1;
 		// Default colours
 		gfx_clear = uix_clearcolor(242, 242, 242);
+
+		uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING] = gfx_ext_retina ? gfx_ext_retina : 1;
 
 		uix_drawconfig_current[uix_DRAWCONFIG#CLIP_SCREEN] = -1;
 		uix_drawconfig_current[uix_DRAWCONFIG#CLIP_LEFT] = 0;
@@ -370,9 +370,9 @@ function ui_left() (
 );
 function ui_left_retina() (
 	uix_round ? (
-		floor(uix_drawconfig_current[uix_DRAWCONFIG#LEFT]*uix_retina_scaling + 0.5);
+		floor(uix_drawconfig_current[uix_DRAWCONFIG#LEFT]*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING] + 0.5);
 	) : (
-		uix_drawconfig_current[uix_DRAWCONFIG#LEFT]*uix_retina_scaling;
+		uix_drawconfig_current[uix_DRAWCONFIG#LEFT]*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 	);
 );
 function ui_top() (
@@ -384,9 +384,9 @@ function ui_top() (
 );
 function ui_top_retina() (
 	uix_round ? (
-		floor(uix_drawconfig_current[uix_DRAWCONFIG#TOP]*uix_retina_scaling + 0.5);
+		floor(uix_drawconfig_current[uix_DRAWCONFIG#TOP]*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING] + 0.5);
 	) : (
-		uix_drawconfig_current[uix_DRAWCONFIG#TOP]*uix_retina_scaling;
+		uix_drawconfig_current[uix_DRAWCONFIG#TOP]*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 	);
 );
 function ui_bottom() (
@@ -398,9 +398,9 @@ function ui_bottom() (
 );
 function ui_bottom_retina() (
 	uix_round ? (
-		floor((uix_drawconfig_current[uix_DRAWCONFIG#TOP] + uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT])*uix_retina_scaling + 0.5);
+		floor((uix_drawconfig_current[uix_DRAWCONFIG#TOP] + uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT])*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING] + 0.5);
 	) : (
-		(uix_drawconfig_current[uix_DRAWCONFIG#TOP] + uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT])*uix_retina_scaling
+		(uix_drawconfig_current[uix_DRAWCONFIG#TOP] + uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT])*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING]
 	);
 );
 function ui_right() (
@@ -412,9 +412,9 @@ function ui_right() (
 );
 function ui_right_retina() (
 	uix_round ? (
-		floor((uix_drawconfig_current[uix_DRAWCONFIG#LEFT] + uix_drawconfig_current[uix_DRAWCONFIG#WIDTH])*uix_retina_scaling + 0.5);
+		floor((uix_drawconfig_current[uix_DRAWCONFIG#LEFT] + uix_drawconfig_current[uix_DRAWCONFIG#WIDTH])*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING] + 0.5);
 	) : (
-		(uix_drawconfig_current[uix_DRAWCONFIG#LEFT] + uix_drawconfig_current[uix_DRAWCONFIG#WIDTH])*uix_retina_scaling;
+		(uix_drawconfig_current[uix_DRAWCONFIG#LEFT] + uix_drawconfig_current[uix_DRAWCONFIG#WIDTH])*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 	);
 );
 function ui_width() (
@@ -428,7 +428,7 @@ function ui_width_retina() (
 	uix_round ? (
 		ui_right_retina() - ui_left_retina();
 	) : (
-		uix_drawconfig_current[uix_DRAWCONFIG#WIDTH]*uix_retina_scaling;
+		uix_drawconfig_current[uix_DRAWCONFIG#WIDTH]*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 	);
 );
 function ui_height() (
@@ -442,7 +442,7 @@ function ui_height_retina() (
 	uix_round ? (
 		ui_bottom_retina() - ui_top_retina();
 	) : (
-		uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT]*uix_retina_scaling;
+		uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT]*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 	);
 );
 
@@ -529,7 +529,7 @@ function ui_texth_retina() (
 );
 
 function ui_texth() (
-	ui_texth_retina()/uix_retina_scaling;
+	ui_texth_retina()/uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 );
 
 function ui_text_width(text) local(text_h, text_w) (
@@ -537,7 +537,7 @@ function ui_text_width(text) local(text_h, text_w) (
 		text_w = text_h = 0;
 		uix_setgfxfont();
 		gfx_measurestr(text, text_w, text_h);
-		text_w/uix_retina_scaling;
+		text_w/uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 	) : 0;
 );
 
@@ -545,7 +545,7 @@ function ui_text_height(text) local(text_h, text_w) (
 	text >= 0 ? (
 		uix_setgfxfont();
 		gfx_measurestr(text, text_w, text_h);
-		text_h/uix_retina_scaling;
+		text_h/uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 	) : ui_texth();
 );
 
@@ -675,7 +675,7 @@ function ui_wraptext_height(text) local(text_length, line_start, line_end, width
 		height += gfx_texth;
 		line_start = line_end + 1;
 	);
-	height/uix_retina_scaling;
+	height/uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 );
 
 function ui_wraptext(text) local(text_length, line_start, line_end, width, height, line, halign, valign, text_h, text_w, left_x) (
@@ -689,7 +689,7 @@ function ui_wraptext(text) local(text_length, line_start, line_end, width, heigh
 
 	gfx_y = (valign ? (
 		ui_top() + (ui_height() - ui_wraptext_height(text))*valign;
-	) : ui_top())*uix_retina_scaling;
+	) : ui_top())*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 
 	text_length = strlen(text);
 	line_start = 0;
@@ -704,7 +704,7 @@ function ui_wraptext(text) local(text_length, line_start, line_end, width, heigh
 		height += gfx_texth;
 		line_start = line_end + 1;
 	);
-	height/uix_retina_scaling;
+	height/uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 );
 
 function ui_border_top() (
@@ -762,22 +762,22 @@ function ui_set_rect(left, top, width, height) (
 	uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT] = height;
 );
 function ui_set_rect_retina(left, top, width, height) (
-	uix_drawconfig_current[uix_DRAWCONFIG#LEFT] = left/uix_retina_scaling;
-	uix_drawconfig_current[uix_DRAWCONFIG#TOP] = top/uix_retina_scaling;
-	uix_drawconfig_current[uix_DRAWCONFIG#WIDTH] = width/uix_retina_scaling;
-	uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT] = height/uix_retina_scaling;
+	uix_drawconfig_current[uix_DRAWCONFIG#LEFT] = left/uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
+	uix_drawconfig_current[uix_DRAWCONFIG#TOP] = top/uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
+	uix_drawconfig_current[uix_DRAWCONFIG#WIDTH] = width/uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
+	uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT] = height/uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 );
-function ui_rect_to_retina() (
-	uix_drawconfig_current[uix_DRAWCONFIG#LEFT] *= uix_retina_scaling;
-	uix_drawconfig_current[uix_DRAWCONFIG#TOP] *= uix_retina_scaling;
-	uix_drawconfig_current[uix_DRAWCONFIG#WIDTH] *= uix_retina_scaling;
-	uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT] *= uix_retina_scaling;
-);
-function ui_rect_from_retina() (
-	uix_drawconfig_current[uix_DRAWCONFIG#LEFT] /= uix_retina_scaling;
-	uix_drawconfig_current[uix_DRAWCONFIG#TOP] /= uix_retina_scaling;
-	uix_drawconfig_current[uix_DRAWCONFIG#WIDTH] /= uix_retina_scaling;
-	uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT] /= uix_retina_scaling;
+function ui_retina(new_retina) local(old_retina, factor) (
+	new_retina ? (
+		old_retina = uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
+		factor = old_retina/new_retina;
+		uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING] = new_retina;
+		uix_drawconfig_current[uix_DRAWCONFIG#LEFT] *= factor;
+		uix_drawconfig_current[uix_DRAWCONFIG#TOP] *= factor;
+		uix_drawconfig_current[uix_DRAWCONFIG#WIDTH] *= factor;
+		uix_drawconfig_current[uix_DRAWCONFIG#HEIGHT] *= factor;
+		old_retina;
+	) : uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 );
 function ui_push_rect(left, top, width, height) (
 	ui_push();
@@ -1278,10 +1278,10 @@ function ui_debug() local(oldR, oldG, oldB, oldA, oldX, oldY, oldFont, i, corner
 	while (i <= uix_drawconfig_currentindex) (
 		config = uix_drawconfig + uix_drawconfig_step*i;
 
-		left = config[uix_DRAWCONFIG#LEFT]*uix_retina_scaling;
-		top = config[uix_DRAWCONFIG#TOP]*uix_retina_scaling;
-		right = (config[uix_DRAWCONFIG#LEFT] + config[uix_DRAWCONFIG#WIDTH])*uix_retina_scaling - 1;
-		bottom = (config[uix_DRAWCONFIG#TOP] + config[uix_DRAWCONFIG#HEIGHT])*uix_retina_scaling - 1;
+		left = config[uix_DRAWCONFIG#LEFT]*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
+		top = config[uix_DRAWCONFIG#TOP]*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
+		right = (config[uix_DRAWCONFIG#LEFT] + config[uix_DRAWCONFIG#WIDTH])*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING] - 1;
+		bottom = (config[uix_DRAWCONFIG#TOP] + config[uix_DRAWCONFIG#HEIGHT])*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING] - 1;
 
 		sprintf(#uix_debug_text, "%i", i + 1);
 		gfx_measurestr(#uix_debug_text, textW, textH);
@@ -1828,7 +1828,7 @@ function control_group(text) local(texth, textw, textl, textr, textv) (
 
 		ui_push();
 			ui_color(128, 128, 128);
-			gfx_roundrect(ui_left_retina(), ui_top_retina() + 1, ui_width_retina(), ui_height_retina() - 1, 10*uix_retina_scaling, 1);
+			gfx_roundrect(ui_left_retina(), ui_top_retina() + 1, ui_width_retina(), ui_height_retina() - 1, 10*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING], 1);
 		ui_pop();
 
 		strlen(text) > 0 ? (
@@ -1855,8 +1855,8 @@ function control_group(text) local(texth, textw, textl, textr, textv) (
 			textw = texth = 0;
 			text >= 0 ? gfx_measurestr(text, textw, texth);
 			!texth ? texth = gfx_texth;
-			texth /= uix_retina_scaling;
-			textw /= uix_retina_scaling;
+			texth /= uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
+			textw /= uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 
 			// Border color
 			uix_control_theme == uix_THEME#BLACK_AND_WHITE ? (
@@ -2246,7 +2246,7 @@ function uix_thick_line(x1, y1, x2, y2) (
 function uix_control_dial(value, range_low, range_high, curve_bias, hasDefault, defaultValue, linkToLeft)  local(valueratio, screenratio, centrex, centrey, radius, inner_radius, highangle, lowangle, angle, x1, x2, y1, y2) (
 	screenratio = uix_slider_value_to_ratio(value, range_low, range_high, curve_bias);
 
-	radius = min(min(ui_width_retina(), ui_height_retina())/2 - 1, 30*uix_retina_scaling);
+	radius = min(min(ui_width_retina(), ui_height_retina())/2 - 1, 30*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING]);
 	centrex = (ui_left_retina() + radius) + (ui_width_retina() - radius*2 - 1)*ui_halign();
 	centrey = (ui_top_retina() + radius) + (ui_height_retina() - radius*2 - 1)*ui_valign();
 	inner_radius = radius - 4;
@@ -2319,7 +2319,7 @@ function control_dial(value, range_low, range_high) (
 );
 
 function control_dial_angle(angle) local(radius, centrex, centrey, inner_radius, x1, x2, y1, y2) (
-	radius = min(min(ui_width_retina(), ui_height_retina())/2 - 1, 30*uix_retina_scaling);
+	radius = min(min(ui_width_retina(), ui_height_retina())/2 - 1, 30*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING]);
 	centrex = (ui_left_retina() + radius) + (ui_width_retina() - radius*2 - 1)*ui_halign();
 	centrey = (ui_top_retina() + radius) + (ui_height_retina() - radius*2 - 1)*ui_valign();
 
@@ -2611,9 +2611,9 @@ function control_textinput(text, prompt_selectpacked) local(text_length, prompt_
 				selectw = ui_text_width(#control_tmp1);
 
 				uix_control_theme == uix_THEME#BLACK_AND_WHITE ? (
-					select_padding = 1*uix_retina_scaling;
+					select_padding = 1*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 				) : uix_control_theme == uix_THEME#TRON ? (
-					select_padding = 2*uix_retina_scaling;
+					select_padding = 2*uix_drawconfig_current[uix_DRAWCONFIG#RETINA_SCALING];
 				) : (
 					select_padding = 0;
 				);
