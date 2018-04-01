@@ -231,9 +231,9 @@ function ui_start(defaultScreen) local(i, click, clickdelta, imgW, imgH, retina_
 
 		uix_drawconfig_current[10/*uix_DRAWCONFIG:CLIP_SCREEN*/] = -1;
 		uix_drawconfig_current[11/*uix_DRAWCONFIG:CLIP_LEFT*/] = 0;
-		uix_drawconfig_current[12/*uix_DRAWCONFIG:CLIP_WIDTH*/] = gfx_w/retina_scaling;
+		uix_drawconfig_current[12/*uix_DRAWCONFIG:CLIP_WIDTH*/] = gfx_w;
 		uix_drawconfig_current[13/*uix_DRAWCONFIG:CLIP_TOP*/] = 0;
-		uix_drawconfig_current[14/*uix_DRAWCONFIG:CLIP_HEIGHT*/] = gfx_h/retina_scaling;
+		uix_drawconfig_current[14/*uix_DRAWCONFIG:CLIP_HEIGHT*/] = gfx_h;
 		uix_drawconfig_current[15/*uix_DRAWCONFIG:CLIP_ALPHA*/] = 1;
 
 		uix_drawconfig_current[0/*uix_DRAWCONFIG:RED*/] = 0;
@@ -480,9 +480,11 @@ function ui_valign() (
 );
 
 function ui_fontsize(size) (
-	uix_drawconfig_current[8/*uix_DRAWCONFIG:FONTSIZE*/] = size ? size : uix_default_fontsize;
-	uix_font_dirty = 1;
-	uix_setgfxfont();
+	size ? (
+		uix_drawconfig_current[8/*uix_DRAWCONFIG:FONTSIZE*/] = size ? size : uix_default_fontsize;
+		uix_font_dirty = 1;
+		uix_setgfxfont();
+	) : uix_drawconfig_current[8/*uix_DRAWCONFIG:FONTSIZE*/];
 );
 
 function ui_fontface(face) (
@@ -572,7 +574,7 @@ function ui_text(text) local (text_h, text_w, boxwidth, boxheight, valign, halig
 			fontscale = min(boxheight/text_h, fontscale);
 		);
 		fontscale != 1 ? (
-			fontsize = max(8, floor(fontscale*uix_drawconfig_current[8/*uix_DRAWCONFIG:FONTSIZE*/]));
+			fontsize = max(8, floor(fontscale*uix_drawconfig_current[8/*uix_DRAWCONFIG:FONTSIZE*/]*uix_drawconfig_current[9/*uix_DRAWCONFIG:RETINA_SCALING*/]));
 			// TODO: why is fontscale set here?
 			fontscale = fontsize/uix_drawconfig_current[8/*uix_DRAWCONFIG:FONTSIZE*/];
 			gfx_setfont(
@@ -778,6 +780,7 @@ function ui_retina(new_retina) local(old_retina, factor) (
 		uix_drawconfig_current[17/*uix_DRAWCONFIG:TOP*/] *= factor;
 		uix_drawconfig_current[18/*uix_DRAWCONFIG:WIDTH*/] *= factor;
 		uix_drawconfig_current[19/*uix_DRAWCONFIG:HEIGHT*/] *= factor;
+		uix_drawconfig_current[8/*uix_DRAWCONFIG:FONTSIZE*/] *= factor;
 		old_retina;
 	) : uix_drawconfig_current[9/*uix_DRAWCONFIG:RETINA_SCALING*/];
 );
@@ -804,7 +807,6 @@ function ui_pop() local(prev) (
 		prev[10/*uix_DRAWCONFIG:CLIP_SCREEN*/] != uix_drawconfig_current[10/*uix_DRAWCONFIG:CLIP_SCREEN*/] ? (
 			gfx_a = prev[15/*uix_DRAWCONFIG:CLIP_ALPHA*/];
 			gfx_dest = uix_drawconfig_current[10/*uix_DRAWCONFIG:CLIP_SCREEN*/];
-			// TODO: how does clipping work with retina?
 			gfx_x = prev[11/*uix_DRAWCONFIG:CLIP_LEFT*/];
 			gfx_y = prev[13/*uix_DRAWCONFIG:CLIP_TOP*/];
 			gfx_blit(prev[10/*uix_DRAWCONFIG:CLIP_SCREEN*/], 1, 0, prev[11/*uix_DRAWCONFIG:CLIP_LEFT*/], prev[13/*uix_DRAWCONFIG:CLIP_TOP*/], prev[12/*uix_DRAWCONFIG:CLIP_WIDTH*/], prev[14/*uix_DRAWCONFIG:CLIP_HEIGHT*/]);
@@ -827,14 +829,15 @@ function uix_push_screen() local(oldscreen, newscreen) (
 	gfx_blit(oldscreen, 1, 0, uix_drawconfig_current[11/*uix_DRAWCONFIG:CLIP_LEFT*/], uix_drawconfig_current[13/*uix_DRAWCONFIG:CLIP_TOP*/], uix_drawconfig_current[12/*uix_DRAWCONFIG:CLIP_WIDTH*/], uix_drawconfig_current[14/*uix_DRAWCONFIG:CLIP_HEIGHT*/]);
 	uix_setgfxcolor();
 );
-function ui_push_clip(alpha) (
+function ui_push_clip(alpha) local(retina) (
 	!alpha ? alpha = 1;
 	uix_push_screen();
+	retina = uix_drawconfig_current[9/*uix_DRAWCONFIG:RETINA_SCALING*/];
 	uix_drawconfig_current[15/*uix_DRAWCONFIG:CLIP_ALPHA*/] = alpha;
-	uix_drawconfig_current[11/*uix_DRAWCONFIG:CLIP_LEFT*/] = uix_drawconfig_current[16/*uix_DRAWCONFIG:LEFT*/];
-	uix_drawconfig_current[13/*uix_DRAWCONFIG:CLIP_TOP*/] = uix_drawconfig_current[17/*uix_DRAWCONFIG:TOP*/];
-	uix_drawconfig_current[12/*uix_DRAWCONFIG:CLIP_WIDTH*/] = uix_drawconfig_current[18/*uix_DRAWCONFIG:WIDTH*/];
-	uix_drawconfig_current[14/*uix_DRAWCONFIG:CLIP_HEIGHT*/] = uix_drawconfig_current[19/*uix_DRAWCONFIG:HEIGHT*/];
+	uix_drawconfig_current[11/*uix_DRAWCONFIG:CLIP_LEFT*/] = uix_drawconfig_current[16/*uix_DRAWCONFIG:LEFT*/]*retina;
+	uix_drawconfig_current[13/*uix_DRAWCONFIG:CLIP_TOP*/] = uix_drawconfig_current[17/*uix_DRAWCONFIG:TOP*/]*retina;
+	uix_drawconfig_current[12/*uix_DRAWCONFIG:CLIP_WIDTH*/] = uix_drawconfig_current[18/*uix_DRAWCONFIG:WIDTH*/]*retina;
+	uix_drawconfig_current[14/*uix_DRAWCONFIG:CLIP_HEIGHT*/] = uix_drawconfig_current[19/*uix_DRAWCONFIG:HEIGHT*/]*retina;
 );
 
 function ui_split_top(height) local(oldTop) (
@@ -1403,7 +1406,6 @@ function control_start(defaultPage, theme, imageBuffer) local(reset, i, x, y) (
 		while (y < gfx_h) (
 			x = 0;
 			while (x < gfx_w) (
-				// TODO: how does retina affect this?
 				gfx_blit(uix_control_theme_buffer, ui_retina(), 0, 20, 20, 120, 120, x, y);
 				x += 120*ui_retina();
 			);
@@ -1549,7 +1551,6 @@ function control_background_enabled(state) local(shade) (
 			ui_color(162, 228, 255);
 		);
 	) : uix_control_theme == 3/*uix_THEME:BITMAP_SIMPLE*/ ? (
-		// TODO: check this
 		state == "press" ? (
 			gfx_blit(uix_control_theme_buffer, 1, 0, 180, 140, 120, 60, ui_left_retina(), ui_top_retina(), ui_width_retina(), ui_height_retina());
 			uix_control_color_from_theme(311, 150);
@@ -1597,7 +1598,6 @@ function uix_control_background_enabled_circle(state) (
 
 function control_finish_enabled(state) (
 	uix_control_theme == 3/*uix_THEME:BITMAP_SIMPLE*/ ? (
-		// TODO: check this
 		state == "press" ? (
 			gfx_blit(uix_control_theme_buffer, 1, 0, 340, 140, 120, 60, ui_left_retina(), ui_top_retina(), ui_width_retina(), ui_height_retina());
 			uix_control_color_from_theme(471, 150);
@@ -1665,10 +1665,10 @@ function control_finish_passive(state) (
 	ui_push();
 		uix_control_theme == 1/*uix_THEME:BLACK_AND_WHITE*/ ? (
 			ui_color(255, 255, 255);
-			uix_dotted_line(ui_left(), ui_top(), ui_right() - 1, ui_top(), 2, 2);
-			uix_dotted_line(ui_right() - 1, ui_top(), ui_right() - 1, ui_bottom(), 2, 2);
-			uix_dotted_line(ui_right() - 1, ui_bottom(), ui_left(), ui_bottom(), 2, 2);
-			uix_dotted_line(ui_left(), ui_bottom(), ui_left(), ui_top(), 2, 2);
+			uix_dotted_line(ui_left_retina(), ui_top_retina(), ui_right_retina() - 1, ui_top_retina(), 2, 2);
+			uix_dotted_line(ui_right_retina() - 1, ui_top_retina(), ui_right_retina() - 1, ui_bottom_retina(), 2, 2);
+			uix_dotted_line(ui_right_retina() - 1, ui_bottom_retina(), ui_left_retina(), ui_bottom_retina(), 2, 2);
+			uix_dotted_line(ui_left_retina(), ui_bottom_retina(), ui_left_retina(), ui_top_retina(), 2, 2);
 		) : uix_control_theme == 2/*uix_THEME:TRON*/ ? (
 			uix_gloss(1);
 		) : uix_control_theme == 3/*uix_THEME:BITMAP_SIMPLE*/ ? (
@@ -2251,7 +2251,7 @@ function uix_control_dial(value, range_low, range_high, curve_bias, hasDefault, 
 	radius = min(min(ui_width_retina(), ui_height_retina())/2 - 1, 30*uix_drawconfig_current[9/*uix_DRAWCONFIG:RETINA_SCALING*/]);
 	centrex = (ui_left_retina() + radius) + (ui_width_retina() - radius*2 - 1)*ui_halign();
 	centrey = (ui_top_retina() + radius) + (ui_height_retina() - radius*2 - 1)*ui_valign();
-	inner_radius = radius - 4;
+	inner_radius = radius - 2*(1 + ui_retina());
 
 	// Draw arc
 	lowangle = -2.3;
