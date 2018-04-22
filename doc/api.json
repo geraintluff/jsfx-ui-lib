@@ -1148,6 +1148,15 @@
 							"text": "Decline focus for this input element"
 						},
 						{
+							"api": {
+								"function": "control_textinput_select",
+								"args": ["opaquestate", {"name": "cursor", "type": "int"}, {"name": "select_end", "type": "int"}],
+								"return": {"name": "opaquestate", "type": "opaquestate"}
+							},
+							"displayCode": "should_select_all ? (\n\tstate = control_textinput_select(state, 0, strlen(#my_text));\n);\n\ncontrol_textinput(#my_text, state);",
+							"text": "Changes the selection in the text input (but not the focus state)."
+						},
+						{
 							"api": [
 								{
 									"function": "control_hidden_text",

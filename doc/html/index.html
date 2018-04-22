@@ -2033,6 +2033,7 @@ ui_pop();</code></pre>
 		<li><a href="#section-control_textinput_focused"><code>control_textinput_focused()</code></a></li>
 		<li><a href="#section-control_textinput_focus"><code>control_textinput_focus()</code></a></li>
 		<li><a href="#section-control_textinput_unfocus"><code>control_textinput_unfocus()</code></a></li>
+		<li><a href="#section-control_textinput_select"><code>control_textinput_select()</code></a></li>
 		<li><a href="#section-control_hidden_text"><code>control_hidden_text()</code> / <code>control_hidden_textnumber()</code></a></li>
 	</ul>
 	<div class="children">
@@ -2113,6 +2114,30 @@ ui_pop();</code></pre>
 	</div>
 	<div class="subsection"><h3>Example:</h3>
 <pre class="code-example"><code>opaquestate = control_textinput_unfocus(opaquestate);</code></pre>
+	</div>
+</section>
+<section id="section-control_textinput_select">
+	<a class="back-link" href="#section-text-inputs">⇧</a>
+	<h2><a class="self-link" href="#section-control_textinput_select"><code>control_textinput_select()</code></a></h2>
+	<div class="definitions">
+<a class="definition-permalink" href="#api-control_textinput_select-3">#</a>		<pre class="definition" id="api-control_textinput_select-3"><code><span class="function-return function-type-opaquestate">opaquestate</span> = <span class="function-name">control_textinput_select</span>(<span class="function-arg function-type-number">opaquestate</span>, <span class="function-arg function-type-int">cursor</span>, <span class="function-arg function-type-int">select_end</span>)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">opaquestate</code></li>
+				<li><code class="function-arg function-type-int">cursor</code> - integer</li>
+				<li><code class="function-arg function-type-int">select_end</code> - integer</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Changes the selection in the text input (but not the focus state).</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>should_select_all ? (
+	state = control_textinput_select(state, 0, strlen(#my_text));
+);
+
+control_textinput(#my_text, state);</code></pre>
 	</div>
 </section>
 <section id="section-control_hidden_text">

@@ -4062,6 +4062,14 @@ ui_screen() == "options" ? (
 		ui_pop();
 	ui_split_toptext(-1);
 			ui_push_widthratio(0.5);
+				control_button("control_textinput_select") ? (
+					ui_screen_open("section-control_textinput_select");
+					section-control_textinput_select_setup = 0;
+				);
+			ui_pop();
+		ui_pop();
+	ui_split_toptext(-1);
+			ui_push_widthratio(0.5);
 				control_button("control_hidden_text / control_hidden_textnumber") ? (
 					ui_screen_open("section-control_hidden_text");
 					section-control_hidden_text_setup = 0;
@@ -4165,6 +4173,25 @@ ui_screen() == "options" ? (
 				ui_font("Courier New", 14, 1, 0);
 				ui_align(0, 0.5);
 				ui_text("opaquestate = control_textinput_unfocus(opaquestate);");
+			ui_pop();
+			control_finish_technical();
+		ui_pop();
+) : ui_screen() == "section-control_textinput_select" ? (
+	control_navbar("control_textinput_select", "options", "options");
+	ui_pad();
+	api_print_function_signature("opaquestate = control_textinput_select(opaquestate, cursor, select_end);");
+	ui_padtop();
+	ui_align(0, 0);
+	ui_padtop(ui_wraptext("Changes the selection in the text input (but not the focus state)."));
+	ui_padtop(ui_texth());
+	ui_align(0.5, 0.5);
+	ui_push();
+			control_background_technical();
+			ui_push_clip();
+				ui_pad();
+				ui_font("Courier New", 14, 1, 0);
+				ui_align(0, 0.5);
+				ui_text("should_select_all ? (\n\tstate = control_textinput_select(state, 0, strlen(#my_text));\n);\n\ncontrol_textinput(#my_text, state);");
 			ui_pop();
 			control_finish_technical();
 		ui_pop();
