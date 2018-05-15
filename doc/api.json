@@ -900,6 +900,7 @@
 								{
 									"title": "Clear the mouse status",
 									"api": {"function": "ui_click_clear"},
+									"displayCode": "ui_click() ? (\n\t//Prevent anyone else from registering this click\n\tui_click_clear();\n)",
 									"text": "Prevents any later code from registering clicks, drags, and so on.  In essence, it release all currently-held mouse buttons, but without triggering any events.\n\nThis is most useful when what's on the screen is about to change - it is done automatically when opening/closing screens, so that the new page does not register any events it shouldn't.\n\nThis does not affect mouse_cap, only the functions available in this UI library."
 								}
 							]

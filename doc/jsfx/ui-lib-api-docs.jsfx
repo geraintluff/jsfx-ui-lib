@@ -3177,17 +3177,13 @@ ui_screen() == "options" ? (
 	ui_padtop(ui_wraptext("Prevents any later code from registering clicks, drags, and so on.  In essence, it release all currently-held mouse buttons, but without triggering any events.\n\nThis is most useful when what's on the screen is about to change - it is done automatically when opening/closing screens, so that the new page does not register any events it shouldn't.\n\nThis does not affect mouse_cap, only the functions available in this UI library."));
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
-	ui_split_rightratio(0.5);
-		ui_padleft();
-		ui_click_clear();
-	ui_pop();
 	ui_push();
 			control_background_technical();
 			ui_push_clip();
 				ui_pad();
 				ui_font("Courier New", 14, 1, 0);
 				ui_align(0, 0.5);
-				ui_text("ui_click_clear();");
+				ui_text("ui_click() ? (\n\t//Prevent anyone else from registering this click\n\tui_click_clear();\n)");
 			ui_pop();
 			control_finish_technical();
 		ui_pop();

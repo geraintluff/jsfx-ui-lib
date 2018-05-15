@@ -1615,7 +1615,10 @@ pressed ? ui_fill();</code></pre>
 		<p>This does not affect mouse_cap, only the functions available in this UI library.</p>
 	</div>
 	<div class="subsection"><h3>Example:</h3>
-<pre class="code-example"><code>ui_click_clear();</code></pre>
+<pre class="code-example"><code>ui_click() ? (
+	//Prevent anyone else from registering this click
+	ui_click_clear();
+)</code></pre>
 	</div>
 </section>
 	</div><!-- children for section-mouse-->

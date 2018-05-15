@@ -261,7 +261,6 @@ function ui_start(defaultScreen) local(i, click, clickdelta, imgW, imgH, retina_
 		uix_interacted = (!!mouse_cap) || (mouse_cap != uix_mousecap_prev);
 		uix_undo_pending ? (
 			sliderchange(-1);
-			debug.undo_points += 1;
 			uix_undo_pending = 0;
 		);
 
@@ -835,10 +834,10 @@ function uix_push_screen() local(oldscreen, newscreen) (
 	ui_push();
 	uix_drawconfig_current[uix_DRAWCONFIG#CLIP_ALPHA] = 1;
 	gfx_dest = uix_drawconfig_current[uix_DRAWCONFIG#CLIP_SCREEN] = newscreen;
-	-
 	gfx_a = 1;
-	gfx_x = prev[uix_DRAWCONFIG#CLIP_LEFT];
-	gfx_y = prev[uix_DRAWCONFIG#CLIP_TOP];
+	gfx_mode = 0;
+	gfx_x = uix_drawconfig_current[uix_DRAWCONFIG#CLIP_LEFT];
+	gfx_y = uix_drawconfig_current[uix_DRAWCONFIG#CLIP_TOP];
 	gfx_blit(oldscreen, 1, 0, uix_drawconfig_current[uix_DRAWCONFIG#CLIP_LEFT], uix_drawconfig_current[uix_DRAWCONFIG#CLIP_TOP], uix_drawconfig_current[uix_DRAWCONFIG#CLIP_WIDTH], uix_drawconfig_current[uix_DRAWCONFIG#CLIP_HEIGHT]);
 	uix_setgfxcolor();
 );
