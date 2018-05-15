@@ -2436,6 +2436,11 @@ function control_dialog(title, width, height, doneText, cancelText) local(accept
 		);
 	ui_pop();
 
+	ui_key() == 27 ? (
+		accepted = (cancelText >= 0) ? -1 : 1;
+	);
+	ui_key() == 13 ? accepted = 1;
+
 	doneText >= 0 || cancelText >= 0 ? (
 		ui_split_bottomtext(-1);
 			cancelText >= 0 && doneText < 0 ? (
