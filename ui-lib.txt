@@ -2816,7 +2816,7 @@ function control_hidden_textnumber(actualnumber, number, format) local(i) (
 	actualnumber;
 );
 function control_hidden_textnumber(number, format) (
-	control_hidden_textnumber(number, number, format);
+	control_hidden_textnumber(number, number*1.00000006 /* sprintf() bug */, format);
 );
 function control_hidden_textnumber(number) (
 	control_hidden_textnumber(number, "%f");
