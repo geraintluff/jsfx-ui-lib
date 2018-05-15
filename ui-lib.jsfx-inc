@@ -2029,6 +2029,7 @@ function control_selector(value, text, next_value, prev_value) local(buttonwidth
 				ui_click() ? (
 					value = next_value;
 					uix_undo_point(1);
+					ui_click_clear();
 				);
 			ui_split_next();
 				prev_value != value ? control_background_enabled() : control_background_disabled();
@@ -2037,6 +2038,7 @@ function control_selector(value, text, next_value, prev_value) local(buttonwidth
 				ui_click() ? (
 					value = prev_value;
 					uix_undo_point(1);
+					ui_click_clear();
 				);
 			ui_pop();
 		ui_pop();
