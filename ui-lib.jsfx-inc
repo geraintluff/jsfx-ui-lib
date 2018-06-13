@@ -2419,7 +2419,7 @@ function control_dialog(title, width, height, doneText, cancelText) local(accept
 	width = min(width + ui_padding_x()*2, ui_width());
 	height = min(height + ui_padding_y()*2, ui_height());
 	ui_pad((ui_width() - width)/2, (ui_height() - height)/2);
-	ui_push();
+	uix_control_theme == 3/*uix_THEME:BITMAP_SIMPLE*/ ? ui_push_clip(1) : ui_push();
 		uix_control_theme == 1/*uix_THEME:BLACK_AND_WHITE*/ ? (
 			ui_color(0, 0, 0);
 			ui_fill();
@@ -2430,6 +2430,16 @@ function control_dialog(title, width, height, doneText, cancelText) local(accept
 			ui_fill();
 			ui_color(255, 255, 255, 0.1);
 			ui_border();
+		) : uix_control_theme == 3/*uix_THEME:BITMAP_SIMPLE*/ ? (
+			y = 0;
+			while (y < gfx_h) (
+				x = 0;
+				while (x < gfx_w) (
+					gfx_blit(uix_control_theme_buffer, ui_retina(), 0, 20, 20, 120, 120, x, y);
+					x += 120*ui_retina();
+				);
+				y += 120;
+			);
 		) : (
 			ui_color(242, 242, 242);
 			ui_fill();
@@ -2437,6 +2447,19 @@ function control_dialog(title, width, height, doneText, cancelText) local(accept
 			ui_border();
 		);
 	ui_pop();
+
+
+	// set main colour
+	uix_control_theme == 1/*uix_THEME:BLACK_AND_WHITE*/ ? (
+		ui_color(255, 255, 255);
+	) : uix_control_theme == 2/*uix_THEME:TRON*/ ? (
+		ui_color(255, 255, 255);
+	) : uix_control_theme == 3/*uix_THEME:BITMAP_SIMPLE*/ ? (
+		uix_control_color_from_theme(151, 30);
+		ui_border();
+	) : (
+		ui_color(12, 12, 12);
+	);
 
 	ui_key() == 27 ? (
 		accepted = (cancelText >= 0) ? -1 : 1;
