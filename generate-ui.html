@@ -84,7 +84,7 @@ freemem = ui_setup(freemem); // returns the first index it's not using</code></p
 					<dt><code>// ui:row</code></dt><dd>starts a new row</dd>
 					<dt><code>// ui:group</code></dt><dd>starts a new group (within a row)</dd>
 					<dt><code>// ui:group name=Some Group Name</code></dt><dd>gives your group a name</dd>
-					<dt><code>// format=%i, bias=3</code></dt><dd>sets dial parameters for next control</dd>
+					<dt><code>// format=%i, bias=3, title=New Title</code></dt><dd>sets dial parameters for next control</dd>
 					<dt><code>// inverted=0, columns=3</code></dt><dd>sets switch/selector/popup parameters for next control</dd>
 				<li>Click "Generate"
 				<li>Copy the generated code displayed below as your <code>@gfx</code> section
@@ -231,7 +231,7 @@ slider8:value_switch_inverted=0<0,1,1{on,off}>Inverted</textarea>
 							step: step,
 							optionNames: optionNames,
 							hidden: hidden,
-							title: sliderTitle,
+							title: sliderOptions.title || sliderTitle,
 							config: sliderOptions
 						};
 						currentGroup.controls.push(sliderObj);
@@ -251,12 +251,14 @@ slider8:value_switch_inverted=0<0,1,1{on,off}>Inverted</textarea>
 									currentRow = [currentGroup];
 									rows.push(currentRow);
 								}
+								optionsObj = currentRow;
 							}
 							if (keyword === 'group') {
 								if (currentGroup.controls.length) {
-									currentGroup = optionsObj = {name: null, controls: []};
+									currentGroup = {name: null, controls: []};
 									currentRow.push(currentGroup);
 								}
+								optionsObj = currentGroup;
 							}
 							if (keyword === 'control') {
 								optionsObj = sliderOptions;
@@ -278,6 +280,7 @@ slider8:value_switch_inverted=0<0,1,1{on,off}>Inverted</textarea>
 								optionsObj[key] = value.trim();
 							}
 						});
+						console.log(keyword, optionsObj);
 					}
 
 					headerText = headerText.replace(/\/\*([^*]|\**[^\/])*\*\//g, '');
@@ -380,8 +383,6 @@ slider8:value_switch_inverted=0<0,1,1{on,off}>Inverted</textarea>
 							remainingControls -= group.controls.length;
 							if (group.name) {
 								code += indent('control_group(' + JSON.stringify(group.name) + ');');
-							} else {
-								code += indent('control_group(-1);');
 							}
 							code += indent('ui_split_leftratio(1/' + group.controls.length + ');');
 							code += group.controls.map(function (control) {
