@@ -180,7 +180,7 @@ slider8:value_switch_inverted=0<0,1,1{on,off}>Inverted</textarea>
 							return result.trim();
 						}
 						function consumeNumber() {
-							return consumeMatch(/^[0-9\.]*/);
+							return consumeMatch(/^\-?[0-9\.]*/);
 						}
 
 						var sliderVar = consumeMatch(/^slider[0-9]+/);
@@ -387,7 +387,8 @@ slider8:value_switch_inverted=0<0,1,1{on,off}>Inverted</textarea>
 								var unitMatch = title.match(/^(.*)\(([^\s\r\n]*)\)\s*$/);
 								if (unitMatch && !control.optionNames) {
 									title = unitMatch[1];
-									displayFormat += ' ' + unitMatch[2];
+									control.unit = control.unit || unitMatch[2];
+									displayFormat += ' ' + unitMatch[2].replace(/%/g, '%%');
 								}
 								control.title = title = title.replace(/^\s+|\s+$/g, '');
 								displayFormat = displayFormat.replace(/^\s+|\s+$/g, '');
