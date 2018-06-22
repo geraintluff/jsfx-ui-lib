@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>JSFX Transform</title>
+	</head>
+	<body>
+		<textarea id="input" style="width:100%; height: 10em;">
+slider1:sinput=0<0,64,1{Velocity,Pitch,0 Bank Sel M,1 Mod Wheel M,2 Breath M,3,4 Foot P M,5 Porta M,6 Data Entry M,7 Vol M,8 Balance M,9,10 Pan M,11 Expression M,12 Ctrl 1 M,13 Ctrl 2 M,14,15,16 GP Slider 1,17 GP Slider 2,18 GP Slider 3,19 GP Slider 4,20,21,22,23,24,25,26,27,28,29,30,31,64 Hold P sw,65 Porta sw,66 Sustenuto sw,67 Soft P sw,68 Legato P sw,69 Hold 2 P sw,70 S.Variation,71 S.Timbre,72 S.Release,73 S.Attack,74 S.Brightness,75 S.Ctrl 6,76 S.Ctrl 7,77 S.Ctrl 8,78 S.Ctrl 9,79 S.Ctrl 10,80 GP B.1 sw,81 GP B.2 sw,82 GP B.3 sw,83 GP B.4 sw,84,85,86,87,88,89,90,91 Effects Lv,92 Trem Lv,93 Chorus Lv,94 Celeste Lv,95 Phaser Lv}>Input
+slider2:soutput=21<0,63,1{0 Bank Sel M,1 Mod Wheel M,2 Breath M,3,4 Foot P M,5 Porta M,6 Data Entry M,7 Vol M,8 Balance M,9,10 Pan M,11 Expression M,12 Ctrl 1 M,13 Ctrl 2 M,14,15,16 GP Slider 1,17 GP Slider 2,18 GP Slider 3,19 GP Slider 4,20,21,22,23,24,25,26,27,28,29,30,31,64 Hold P sw,65 Porta sw,66 Sustenuto sw,67 Soft P sw,68 Legato P sw,69 Hold 2 P sw,70 S.Variation,71 S.Timbre,72 S.Release,73 S.Attack,74 S.Brightness,75 S.Ctrl 6,76 S.Ctrl 7,77 S.Ctrl 8,78 S.Ctrl 9,79 S.Ctrl 10,80 GP B.1 sw,81 GP B.2 sw,82 GP B.3 sw,83 GP B.4 sw,84,85,86,87,88,89,90,91 Effects Lv,92 Trem Lv,93 Chorus Lv,94 Celeste Lv,95 Phaser Lv}>CC Output
+slider3:schanout=1<0,16,1{All,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>MIDI Output Channel
+slider5:scurve=0<0,1,1{Bezier curve,Step}>Curve type
+// group=Range
+slider7:sp0=0<0,1,0.001>-Range Limit 1
+slider8:sp2=1<0,1,0.001>-Range Limit 2
+// group=Control
+slider10:sp1x=0.5<0,1>-Control X
+slider11:sp1y=0.5<0,1>-Control Y
+// group=none
+slider13:ends=0<0,3,1{Off,Hold upper and lower values,Hold upper value only,Hold lower value only}>-End Conditions
+slider16:sclass=0<0,3,1{None,Master,Slave}>Class
+slider17:sgroup=0<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>Class Group
+		</textarea>
+		<button id="translate-button">Translate</button>
+		<pre id="output"></pre>
+		<script>
+			function uiFromHeader(headerText) {
+				function parseGroups(headerText) {
+					var groupCounter = 0;
+					var groups = {};
+					var currentGroup = {global: true, sliders: [], order: 0, title: null};
+					var sliderOptions = {};
+					groups['none'] = currentGroup;
+
+					function addSlider(line) {
+						// Functions that match inputs on the front of the text, and remove them
+						// Whitespace is ignored/stripped
+						function consumeExact(exact) {
+							line = line.trim();
+							if (line.substr(0, exact.length) !== exact) {
+								throw new Error('Expected ' + JSON.stringify(exact));
+							}
+							line = line.substr(exact.length).trim();
+						}
+						function consumeMatch(regex) {
+							line = line.trim();
+							var match = line.match(regex);
+							if (!match) return null;
+							var result = match[0];
+							line = line.substr(result.length).trim();
+							return result.trim();
+						}
+						function consumeNumber() {
+							return consumeMatch(/^[0-9\.]*/);
+						}
+
+						var sliderVar = consumeMatch(/^slider[0-9]+/);
+						consumeExact(':');
+
+						if (/^[^<]+\=/.test(line)) {
+							sliderVar = consumeMatch(/^[^=]+/);
+							consumeExact('=');
+						}
+
+						var defaultValue = consumeNumber();
+						consumeExact('<');
+						var low = consumeNumber();
+						consumeExact(',');
+						var high = consumeNumber();
+						var step = 0, optionNames = null;
+						if (line[0] == ',') {
+							consumeExact(',');
+							var step = consumeNumber();
+
+							if (line[0] == '{') {
+								consumeExact('{');
+								var optionText = consumeMatch(/^[^}]*/);
+								optionNames = optionText.split(',');
+								consumeExact('}');
+							}
+						}
+						consumeExact('>');
+						var sliderTitle = line;
+						var hidden = false;
+						if (sliderTitle[0] == '-') {
+							hidden = true;
+							sliderTitle = sliderTitle.substr(1);
+						}
+
+						var sliderObj = {
+							name: sliderVar,
+							start: defaultValue,
+							low: low,
+							high: high,
+							step: step,
+							optionNames: optionNames,
+							hidden: hidden,
+							title: sliderTitle
+						};
+						currentGroup.sliders.push(sliderObj);
+
+						sliderOptions = {};
+					}
+					function parseOptions(line) {
+						var obj = {};
+						var components = line.split(',');
+						components.forEach(function(pair) {
+							var key = pair.split('=', 1)[0];
+							var value = pair.substr(key.length + 1);
+							obj[key.toLowerCase().trim()] = value.trim();
+						});
+
+						if ('group' in obj) {
+							var key = obj.group;
+							currentGroup = groups[key] = groups[key] || {title: key, sliders: [], order: ++groupCounter};
+						}
+						if ('grouptitle' in obj) {
+							currentGroup.title = obj.title;
+						}
+						if ('grouporder' in obj) {
+							currentGroup.order = parseFloat(obj.grouporder);
+						}
+						for (var key in obj) {
+							sliderOptions[key] = obj[key];
+						}
+						console.log(obj);
+					}
+
+					headerText.split('\n').forEach(function (line) {
+						line = line.trim();
+						if (/^slider[0-9]+\:/.test(line)) {
+							addSlider(line);
+						}
+						if (/^\/\//.test(line)) {
+							parseOptions(line.substr(2));
+						}
+					});
+
+					return groups;
+				}
+
+				/*
+				function layoutGroups(groups) {
+					var groupList = [];
+					for (var key in groups) groupList.push(groups[key]);
+
+					// Naive brute-force: there are 4^(N-1)*N! possible layouts based on repeatedly subdividing the screen
+					// This will get extremely nasty very quickly if we have large numbers of groups, so... don't?
+					var options = [
+						{type: 'group', group: groupList.pop()}
+					];
+					while (groupList.length) {
+						var newLayout = {type: 'group', group: groupList.pop()};
+						var newOptions = [];
+						options.forEach(function (layout) {
+							var newLayouts = (function splitLayout(layout) {
+								if (layout.type == 'split') {
+									var split0 = splitLayout(layout.first).map(function (childSplit) {
+										return {type: 'split', direction: layout.direction, first: childSplit, second: layout.second};
+									});
+									var split1 = splitLayout(layout.second).map(function (childSplit) {
+										return {type: 'split', direction: layout.direction, first: layout.first, second: childSplit};
+									});
+									return split0.concat(split1);
+								} else {
+									return [
+										{type: 'split', direction: 0, first: layout, second: newLayout},
+										{type: 'split', direction: 0, first: newLayout, second: layout},
+										{type: 'split', direction: 1, first: layout, second: newLayout},
+										{type: 'split', direction: 1, first: newLayout, second: layout}
+									]
+								}
+							})(layout);
+							newOptions = newOptions.concat(newLayouts);
+						});
+						options = newOptions;
+					}
+					console.log(options.length + ' layout options');
+
+					options.forEach(function (option) {
+						function setDimensions(layout) {
+							if (layout.type == 'group') {
+								// TODO: add a bit for grouping?
+								layout.width = layout.group.sliders.length;
+								layout.height = 1;
+							} else {
+								setDimensions(layout.first);
+								setDimensions(layout.second);
+								if (layout.direction == 0) {
+									layout.width = layout.first.width + layout.second.width;
+									layout.height = Math.max(layout.first.height, layout.second.height);
+								} else {
+									layout.width = Math.max(layout.first.width, layout.second.width);
+									layout.height = layout.first.height + layout.second.height;
+								}
+							}
+						}
+						function setCoordinates(layout, x, y) {
+							layout.x = x;
+							layout.y = y;
+							if (layout.type == 'split') {
+								if (layout.direction == 0) {
+									setCoordinates(layout.first, x, y);
+									setCoordinates(layout.second, x + layout.first.width, y);
+								} else {
+									setCoordinates(layout.first, x, y);
+									setCoordinates(layout.second, x, y + layout.first.height);
+								}
+							}
+						}
+						setDimensions(layout, 0, 0);
+						setCoordinates();
+					});
+				}
+				*/
+
+				function findBestLayout(groups) {
+					var groupList = [];
+					for (var key in groups) groupList.push(groups[key]);
+					groupList.sort(function (a, b) {
+						return a.order - b.order
+					});
+					console.log(groupList);
+
+					var bestLayoutScore = -Infinity, bestLayout = null, bestLayoutHeight = 0, bestLayoutWidth = 0;
+					var totalSliders = 0;
+					groupList.forEach(function (group) {totalSliders += group.sliders.length});
+
+					for (var layoutWidth = 1; layoutWidth <= totalSliders; layoutWidth++) {
+						var row = [], rowHeight = 1, rowWidth = 0;
+						var layout = [], layoutHeight = 0;
+						groupList.forEach(function (group) {
+							// TODO: proper calculation including padding?
+							var width = Math.ceil(group.sliders.length/rowHeight);
+							if (rowWidth + width > layoutWidth) {
+								// We don't fit - finish current row
+								if (row.length) {
+									layout.push({row: row, height: rowHeight, width: rowWidth});
+									layoutHeight += rowHeight;
+								}
+								// Start new row
+								rowWidth = 0;
+								row = [];
+
+								width = Math.min(group.sliders.length, layoutWidth);
+								rowHeight = Math.ceil(group.sliders.length/width);
+								width = Math.ceil(group.sliders.length/rowHeight);
+							}
+							row.push({group: group, width: width, height: rowHeight});
+							rowWidth += width;
+						});
+						// Finish current row
+						layout.push({row: row, height: rowHeight, width: rowWidth});
+						layoutHeight += rowHeight;
+
+						// Score layouts based on arbitrary target 5/3 aspect ratio
+						var aspectRatio = layoutWidth/layoutHeight;
+						var aspectRatioError = -Math.abs(Math.log(aspectRatio/5*3));
+
+						var layoutScore = -Math.sqrt(layoutWidth*layoutHeight) + aspectRatioError;
+						if (layoutScore > bestLayoutScore) {
+							bestLayoutScore = layoutScore;
+							bestLayout = layout;
+							bestLayoutWidth = layoutWidth;
+							bestLayoutHeight = layoutHeight;
+						}
+					}
+
+					return {
+						rows: bestLayout,
+						width: bestLayoutWidth,
+						height: bestLayoutHeight
+					};
+				}
+				var groups = parseGroups(headerText);
+				var layout = findBestLayout(groups);
+				console.log(layout);
+
+				var controlWidth = 130, controlHeight = 130;
+
+				var jsfx = `@gfx ` + controlWidth*layout.width + ' ' + controlHeight*layout.height + `
+control_start("main", "black");
+
+ui_screen() == "main" ? (`;
+				var rowsRemaining = layout.height;
+				layout.rows.forEach(function (row, rowIndex) {
+					jsfx += `
+	// Rows of control groups
+	ui_split_topratio(` + row.height + '/' + rowsRemaining + `);`;
+					rowsRemaining -= row.height;
+					var columnsRemaining = row.width;
+					row.row.forEach(function (group) {
+						jsfx += `
+		// Control groups within row ` + (rowIndex + 1) + ` (height ` + row.height + `)
+		ui_split_leftratio(` + group.width + '/' + columnsRemaining + `);`;
+						columnsRemaining -= group.width;
+						if (group.group.title) {
+							jsfx += `
+			control_group(` + JSON.stringify(group.group.title) + `);`;
+						} else {
+							jsfx += `
+			// No border`;
+						}
+						var sliders = group.group.sliders;
+						var sliderRows = [];
+						for (var i = 0; i < sliders.length; i += sliders.length/group.height) {
+							var i1 = Math.round(i), i2 = Math.round(i + sliders.length/group.height);
+							sliderRows.push(sliders.slice(i1, i2));
+						}
+						jsfx += `
+			// Rows within the control group
+			ui_split_topratio(1/` + sliderRows.length + `);`;
+						sliderRows.forEach(function (sliderRow, index) {
+							if (index > 0) {
+								jsfx += `
+			ui_split_next();`;
+							}
+							jsfx += `
+				// Inputs within the control group row
+				ui_split_leftratio(1/` + sliderRow.length + `);`;
+							sliderRow.forEach(function (slider, index) {
+								if (index > 0) {
+									jsfx += `
+				ui_split_next();`;
+								}
+								jsfx += `
+					// ` + slider.title + `
+					ui_push_above(50);
+						ui_text(` + JSON.stringify(slider.title) + `);
+					ui_pop();`;
+								if (slider.optionNames) {
+									jsfx += `
+					ui_push_height(50);
+					` + slider.name + `_display_text = `;
+									slider.optionNames.forEach(function (name, index) {
+										jsfx += slider.name + ' == ' + index + ' ? ' + JSON.stringify(name) + ' : ';
+									});
+									jsfx += '"???";';
+									var circular = slider.circular;
+									var N = slider.optionNames.length;
+									var nextCode = circular ? `(` + slider.name + ` + 1)%` + N : `min(` + slider.name + ` + 1, ` + (N - 1) + `)`;
+									var prevCode = circular ? `(` + slider.name + ` + ` + (N - 1) + `)%` + N : `max(` + slider.name + ' - 1, 0)';
+									jsfx += `
+					` + slider.name + ` = control_selector(` + slider.name + `, ` + slider.name + `_display_text, ` + nextCode + `, ` + prevCode + `);
+					ui_pop();`;
+								} else {
+									jsfx += `
+					ui_push_below(50);
+						` + slider.name + ` = control_hidden_textnumber(` + slider.name + `, "%.2f");
+					ui_pop();
+					ui_push_height(50);
+						` + slider.name + ` = control_dial(` + [slider.name, slider.low, slider.high, slider.bias || 0, slider.start].join(', ') + `);
+					ui_pop();`;
+									var valueCode = slider.name;
+									if (slider.step) {
+										valueCode = 'floor(' + slider.name + '/' + slider.step + ' + 0.5)*' + slider.step;
+									}
+								jsfx += `
+					` + slider.name + ` = min(` + slider.high + `, max(` + slider.low + `, ` + valueCode + `));`;
+								}
+							});
+							jsfx += `
+				ui_pop(); // close the slider row`;
+						});
+						jsfx += `
+			ui_pop(); // close the group (list of rows)
+		ui_pop(); // close the group (horizontal spacing)`;
+					});
+					jsfx += `
+	ui_pop();`;
+				});
+				jsfx += '\n) : control_system();\n\n';
+				return jsfx;
+			}
+
+			function translate() {
+				var headerText = document.getElementById('input').value;
+				var jsfx;
+				try {
+					jsfx = uiFromHeader(headerText);
+				} catch (e) {
+					jsfx = e.stack || e.message;
+				}
+				var pre = document.getElementById('output');
+				pre.innerHTML = '';
+				pre.appendChild(document.createTextNode(jsfx));
+			}
+			document.getElementById('translate-button').onclick = translate;
+			translate();
+		</script>
+	</body>
+</html>
