@@ -34,7 +34,7 @@ If you update your version of the UI library and it complains about missing func
 
 # Generator Tool
 
-There is a web-based tool to [generate UI code](https://geraintluff.github.io/jsfx-ui-lib/generate-ui.html) based on JSFX slider definitions.  It's not the tidiest code in the world, and it's definitely not a full-featured UI editor, but it can handle some basic layouts.
+There is an experimental web-based tool to [generate UI code](https://geraintluff.github.io/jsfx-ui-lib/generate-ui.html) based on JSFX slider definitions.  It's not the tidiest code in the world, and it's definitely not a full-featured UI editor, but it can handle some basic layouts.
 
 # Development
 

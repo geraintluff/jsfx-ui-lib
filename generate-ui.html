@@ -430,6 +430,14 @@ slider8:value_switch_inverted=0<0,1,1{on,off}>Inverted</textarea>
 
 			function controlToJsfx(control, defineFunction, defineScreen) {
 				if (control.optionNames) {
+					var valueText = defineFunction('layout_text', '(text) local(h) (\n'
+						+ indent('h = max((ui_height() - 60)/2, ui_height()*0.3);')
+						+ indent('ui_split_bottom(h);')
+						+ indent(indent('ui_align(0.5, 1);'))
+						+ indent(indent('ui_text(text);'))
+						+ indent('ui_pop();')
+						+ ');\n');
+
 					function range(low, high) {
 						if (high - low == 1) return JSON.stringify(control.optionNames[low]);
 						if (high - low == 2) return '(value === ' + low + ' ? ' + JSON.stringify(control.optionNames[low]) + ' : ' + JSON.stringify(control.optionNames[low + 1]) + ')';
@@ -441,13 +449,6 @@ slider8:value_switch_inverted=0<0,1,1{on,off}>Inverted</textarea>
 					}
 
 					if (control.optionNames.length == 2) {
-						var valueText = defineFunction('layout_text', '(text) local(h) (\n'
-							+ indent('h = max((ui_height() - 60)/2, ui_height()*0.3);')
-							+ indent('ui_split_bottom(h);')
-							+ indent(indent('ui_align(0.5, 1);'))
-							+ indent(indent('ui_text(text);'))
-							+ indent('ui_pop();')
-							+ ');\n');
 						var code = valueText + '(' + control.name + ' ? ' + JSON.stringify(control.optionNames[1]) + ' : ' + JSON.stringify(control.optionNames[0]) + ');\n';
 						if ('inverted' in control.config & parseFloat(control.config.inverted)) {
 							code += control.name + ' = !control_switch(!' + control.name + ');\n';
@@ -471,7 +472,8 @@ slider8:value_switch_inverted=0<0,1,1{on,off}>Inverted</textarea>
 							nextExpr = prevExpr;
 							prevExpr = tmp;
 						}
-						return control.name + ' = control_selector(' + control.name + ', ' + valueToString + '(' + control.name + '), ' + nextExpr + ', ' + prevExpr + ');';
+						var code = valueText + '("");\n';
+						return code + control.name + ' = control_selector(' + control.name + ', ' + valueToString + '(' + control.name + '), ' + nextExpr + ', ' + prevExpr + ');';
 					}
 
 					var radioPair = defineFunction('radio_option', '(value, optionValue, optionText) (\n'
