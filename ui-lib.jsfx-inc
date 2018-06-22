@@ -535,6 +535,12 @@ function ui_font_refresh() (
 	uix_setgfxfont();
 );
 
+function ui_font() (
+	uix_font_dirty = 1;
+	uix_setgfxcolor();
+	uix_setgfxfont();
+);
+
 function ui_fill() (
 	uix_setgfxcolor();
 	gfx_rect(ui_left_retina(), ui_top_retina(), ui_width_retina(), ui_height_retina());

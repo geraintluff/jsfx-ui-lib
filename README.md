@@ -32,6 +32,10 @@ The file `ui-lib-compat.jsfx-inc` bridges the gap between the current API and pr
 
 If you update your version of the UI library and it complains about missing functions, include this file as well.
 
+# Generator Tool
+
+There is a web-based tool to [generate UI code](https://geraintluff.github.io/jsfx-ui-lib/generate-ui.html) based on JSFX slider definitions.  It's not the tidiest code in the world, and it's definitely not a full-featured UI editor, but it can handle some basic layouts.
+
 # Development
 
 Development happens in "ui-lib.txt", and the actual library is generated using a [JSFX preprocessor](https://www.npmjs.com/package/jsfx-preprocessor).

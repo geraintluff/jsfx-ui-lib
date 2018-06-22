@@ -1,50 +1,162 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>JSFX Transform</title>
+		<title>JSFX UI Generator</title>
+		<style>
+			*, *::before, *::after {
+				box-sizing: border-box;
+				font-family: inherit;
+			}
+
+			body {
+				font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+				font-size: 15px;
+			}
+			pre, code, textarea {
+				font-family: Consolas, monaco, monospace;
+				font-size: inherit;
+			}
+			code {
+				color: #048;
+			}
+
+			h1 {
+				text-align: center;
+			}
+
+			#about {
+				max-width: 800px;
+				margin: auto;
+			}
+
+			#how-to {
+				max-width: 900px;
+				margin: 1em auto;
+				padding: 1em;
+				border: 1px solid black;
+				border-radius: 1em;
+			}
+
+			#how-to li {
+				margin: 1em;
+			}
+
+			#input-section {
+				max-width: 900px;
+				margin: auto;
+			}
+
+			#input {
+				width: 100%;
+				margin: 0;
+				height: 24em;
+			}
+
+			#output {
+				width: 100%;
+				color: #048;
+				height: 100%;
+				height: 95vh;
+				border: 1px solid grey;
+				background-color: #EEE;
+				padding: 1em;
+				font-size: 0.8em;
+			}
+		</style>
 	</head>
 	<body>
-		<h2>To use:</h2>
-		<ol>
-			<li>Place <a href="https://raw.githubusercontent.com/geraintluff/jsfx-ui-lib/master/ui-lib.jsfx-inc">ui-lib.jsfx-inc</a> in the same directory as your effect
-			<li>Add:<pre><code>import "ui-lib.jsfx-inc"</code></pre>to your header (e.g. underneath the sliders)
-			<li>Allocate the UI library some of the memory buffer in <code>@init</code>, e.g.
-<pre>@init
-freemem = 0; // some empty section of memory
-freemem = ui_setup(freemem); // it returns the end of its allocated buffer</pre>
-			<li>Paste your code (or just the headers) below, with these annotations:
-				<ul>
+		<h1>JSFX UI Generator</h1>
+		<div id="about">
+			<p>This is a tool to generate JSFX UIs (using my <a href="https://github.com/geraintluff/jsfx-ui-lib">UI library</a>) based on slider definitions.
+			<p>It's not intended to be full-featured UI editor, and it only produces limited layouts: rows, and groups within those rows.  The groups/rows have to be specified using simple comment annotations.  It might not work on older browsers.</p>
+			<p>However, it's hopefully an easy way to get some shinier controls on a JSFX, and the individual controls could be copied and used in a more customised layout if needed.</p>
+		</div>
+		<div id="how-to">
+			<h2>To use:</h2>
+			<ol>
+				<li>Place <code><a href="https://raw.githubusercontent.com/geraintluff/jsfx-ui-lib/master/ui-lib.jsfx-inc">ui-lib.jsfx-inc</a></code> in the same directory as your effect
+				<li>Add:<pre><code>import "ui-lib.jsfx-inc"</code></pre>to your header (e.g. underneath the sliders)
+				<li>Allocate the UI library some of the memory buffer in <code>@init</code>, e.g.
+<pre><code>@init
+freemem = 0; // some empty section of the memory buffer
+freemem = ui_setup(freemem); // returns the first index it's not using</code></pre>
+				<li>Paste your code (or just the headers) below, with these annotations between the sliders:
 					<dt><code>// ui:row</code></dt><dd>starts a new row</dd>
 					<dt><code>// ui:group</code></dt><dd>starts a new group (within a row)</dd>
-					<dt><code>// ui:group name=Some Name</code></dt><dd>gives your group a name</dd>
-				</ul>
-			<li>Click "Generate"
-			<li>Copy the generated code displayed below
-		</ol>
-		<textarea id="input" style="width:100%; height: 20em;">
-slider1:sinput=0<0,64,1{Velocity,Pitch,0 Bank Sel M,1 Mod Wheel M,2 Breath M,3,4 Foot P M,5 Porta M,6 Data Entry M,7 Vol M,8 Balance M,9,10 Pan M,11 Expression M,12 Ctrl 1 M,13 Ctrl 2 M,14,15,16 GP Slider 1,17 GP Slider 2,18 GP Slider 3,19 GP Slider 4,20,21,22,23,24,25,26,27,28,29,30,31,64 Hold P sw,65 Porta sw,66 Sustenuto sw,67 Soft P sw,68 Legato P sw,69 Hold 2 P sw,70 S.Variation,71 S.Timbre,72 S.Release,73 S.Attack,74 S.Brightness,75 S.Ctrl 6,76 S.Ctrl 7,77 S.Ctrl 8,78 S.Ctrl 9,79 S.Ctrl 10,80 GP B.1 sw,81 GP B.2 sw,82 GP B.3 sw,83 GP B.4 sw,84,85,86,87,88,89,90,91 Effects Lv,92 Trem Lv,93 Chorus Lv,94 Celeste Lv,95 Phaser Lv}>Input
-slider2:soutput=21<0,63,1{0 Bank Sel M,1 Mod Wheel M,2 Breath M,3,4 Foot P M,5 Porta M,6 Data Entry M,7 Vol M,8 Balance M,9,10 Pan M,11 Expression M,12 Ctrl 1 M,13 Ctrl 2 M,14,15,16 GP Slider 1,17 GP Slider 2,18 GP Slider 3,19 GP Slider 4,20,21,22,23,24,25,26,27,28,29,30,31,64 Hold P sw,65 Porta sw,66 Sustenuto sw,67 Soft P sw,68 Legato P sw,69 Hold 2 P sw,70 S.Variation,71 S.Timbre,72 S.Release,73 S.Attack,74 S.Brightness,75 S.Ctrl 6,76 S.Ctrl 7,77 S.Ctrl 8,78 S.Ctrl 9,79 S.Ctrl 10,80 GP B.1 sw,81 GP B.2 sw,82 GP B.3 sw,83 GP B.4 sw,84,85,86,87,88,89,90,91 Effects Lv,92 Trem Lv,93 Chorus Lv,94 Celeste Lv,95 Phaser Lv}>CC Output
-slider3:schanout=1<0,16,1{All,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>MIDI Output Channel
-slider5:scurve=0<0,1,1{Bezier curve,Step}>Curve type
+					<dt><code>// ui:group name=Some Group Name</code></dt><dd>gives your group a name</dd>
+					<dt><code>// format=%i, bias=3</code></dt><dd>sets dial parameters for next control</dd>
+					<dt><code>// inverted=0, columns=3</code></dt><dd>sets switch/selector/popup parameters for next control</dd>
+				<li>Click "Generate"
+				<li>Copy the generated code displayed below as your <code>@gfx</code> section
+			</ol>
+
+			<!--
+			<h3>Slider changes:</h3>
+			<p>Because the sliders are no longer being handled by the built-in sliders, we might miss out on <code>@slider</code> updates when the user changes them.  To avoid this:</p>
+			<ol>
+				<li>Define a flag, e.g. <code>needs_slider_update</code>.
+				<li>Move any existing <code>@slider</code> code to a function (in <code>@init</code>) with no arguments, which resets this flag:
+<pre><code>function slider_update_function() (
+	needs_slider_update = 0;
+
+	// previous @slider code
+);</code></pre>
+				<li>In <code>@gfx</code> (right at the end), set this flag if the user has interacted at all:
+<pre><code>ui_interacted() ? needs_slider_update = 1;</code></pre></li>
+				<li>Check this flag in <code>@block</code>, and call your function if needed:
+<pre><code>@block
+needs_slider_update ? slider_update_function();</code></pre>
+			</ol>
+			<aside>Note: we shouldn't call <code>slider_update_function()</code> directly from <code>@gfx</code>, because <code>@gfx</code> runs in a <i>different thread</i> to every other block.</aside>
+			-->
+
+			<h3>Including existing graphics code:</h3>
+			<ol>
+				<li>Move any existing graphics code to a function with these arguments:
+<pre><code>function custom_gfx_func(gfx_w, gfx_h, mouse_x, mouse_y) (
+	// previous @gfx code
+);</code></pre>
+				<li>add this annotation to the sliders/header:
+<pre><code>// ui:gfx function=custom_gfx_func, height=300</code></pre>
+			</ol>
+			<p>The custom graphics will draw below the generated controls.  This is done using an off-screen buffer (<code>gfx_dest</code>) so if the code also uses this, you'll need to change it.</p>
+			<p>The <code>height</code> parameter can be a percentage, or negative (in which case the controls are fixed-height, and this custom section scales). You can also specify a specific off-screen buffer to use (e.g. <code>buffer=19</code>).</p>
+		</div>
+		<div id="input-section">
+			<h2>JSFX sliders/source:</h2>
+			<textarea id="input">// ui:group
+slider1:value_continuous=0.3<0,1>Continuous
+slider2:value_stepped=0<0,1,0.1>Stepped
+
+// ui:group
+slider3:value_switch=0<0,1,1{off,on}>Switch
+slider4:value_selector=0<0,3,1{foo,bar,baz,bink}>Selector
+
 // ui:row
-slider7:sp0=0<0,1,0.001>-Range Limit 1 (unit)
-slider8:sp2=1<0,1,0.001>-Range Limit 2
-// ui:row
-slider10:sp1x=0.5<0,1>-Control X
-slider11:sp1y=0.5<0,1>-Control Y
-// ui:group name=foo
-slider13:ends=0<0,3,1{Off,Hold upper and lower values,Hold upper value only,Hold lower value only}>-End Conditions
-slider16:sclass=0<0,3,1{None,Master,Slave}>Class
-slider17:sgroup=0<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>Class Group
-		</textarea>
-		<button id="translate-button" style="width:100%;font-size:1.2em;">Generate</button>
-		<pre id="output" style="border: 1px solid grey; background-color: #EEE; padding: 1em;"></pre>
+// ui:group name=Custom Group Name
+slider5:value_with_implicit_unit=0<0,500,1>Time (ms)
+// format=%.1f!!, bias=3
+slider6:value_with_params=0<0,500>Biased dial
+// columns = 2
+slider7:value_popup=0<0,25,1{A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z}>Pop-up
+// inverted=1
+slider8:value_switch_inverted=0<0,1,1{on,off}>Inverted</textarea>
+			<button id="translate-button" style="width:100%;font-size:1.2em;">Generate</button>
+		</div>
+		<h2>Result:</h2>
+		<textarea id="output"></textarea>
 		<script>
+			var varPrefix = '_ui_gen_';
+			function indent(code) {
+				return '\t' + code.replace(/\n$/, '').split('\n').join('\n\t') + '\n';
+			}
+
 			function uiFromHeader(headerText) {
 				function parseLayout(headerText) {
 					var currentGroup = {name: null, controls: []};
 					var currentRow = [currentGroup];
 					var rows = [currentRow];
+					var gfxConfig = null;
 
 					var sliderOptions = {};
 
@@ -119,7 +231,7 @@ slider17:sgroup=0<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>Class Group
 						sliderOptions = {};
 					}
 					function parseOptions(line) {
-						var optionsObj = {};
+						var optionsObj = sliderOptions;
 						var keywordMatch = line.match(/^\s*ui\:([^\s]+)(.*)/i);
 						if (keywordMatch) {
 							line = keywordMatch[2];
@@ -141,6 +253,9 @@ slider17:sgroup=0<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>Class Group
 							if (keyword === 'control') {
 								optionsObj = sliderOptions;
 							}
+							if (keyword === 'gfx') {
+								optionsObj = gfxConfig = gfxConfig || {};
+							}
 						}
 
 						var components = line.split(',');
@@ -154,6 +269,7 @@ slider17:sgroup=0<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>Class Group
 						});
 					}
 
+					headerText = headerText.replace(/\/\*([^*]|\**[^\/])*\*\//g, '');
 					headerText.split('\n').forEach(function (line) {
 						line = line.trim();
 						if (/^slider[0-9]+\:/.test(line)) {
@@ -164,42 +280,93 @@ slider17:sgroup=0<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>Class Group
 						}
 					});
 
-					return rows;
+					return {
+						gfx: gfxConfig,
+						rows: rows
+					};
 				}
 
 				function layoutToJsfx(layout) {
-					function indent(code) {
-						return '\t' + code.replace(/\n$/, '').split('\n').join('\n\t') + '\n';
-					}
+					var rows = layout.rows;
 
-					var code = '@gfx 640 500\n\n';
-					code += 'function layout_control_title(title) local(h) (\n'
+					var extraFunctions = [];
+					function defineFunction(suffix, code) {
+						for (var i = 0; i < extraFunctions.length; i++) {
+							if (extraFunctions[i].code === code) return extraFunctions[i].name;
+						}
+						var name = 'gfx_ui_' + suffix;
+						extraFunctions.push({
+							name: name,
+							code: code
+						});
+						return name;
+					}
+					var screens = [];
+					function defineScreen(suffix, code) {
+						for (var i = 0; i < screens.length; i++) {
+							if (screens[i].code === code) return screens[i].name;
+						}
+						var name = JSON.stringify(suffix);
+						screens.push({
+							name: name,
+							code: code
+						});
+						return name;
+					};
+
+					var code = '';
+					var control_title_fn = defineFunction('layout_label', '(title) local(h) (\n'
 						+ indent('h = max((ui_height() - 60)/2, ui_height()*0.2);')
 						+ indent('ui_split_top(h);')
 						+ indent(indent('ui_align(0.5, 1);'))
 						+ indent(indent('ui_text(title);'))
 						+ indent('ui_pop();')
-						+ ');\n';
-					code += 'function layout_control_value(value, format) local(h) (\n'
-						+ indent('h = max((ui_height() - 60)/2, ui_height()*0.3);')
-						+ indent('ui_split_bottom(h);')
-						+ indent(indent('ui_align(0.5, 1);'))
-						+ indent(indent('value = control_hidden_textnumber(value, value*1.00000001, format);'))
-						+ indent('ui_pop();')
-						+ indent('value;')
-						+ ');\n';
+						+ ');\n');
 					code += 'ui_start("main");\n\n';
 					code += 'ui_screen() === "main" ? (\n';
-					code += indent('ui_split_topratio(1/' + layout.length + ');');
-					code += layout.map(function (row) {
+
+					if (layout.gfx) {
+						var fnName = layout.gfx['function'] || 'custom_gfx_func';
+						var varW = varPrefix + 'gfx_w', varH = varPrefix + 'gfx_h'
+						var height = layout.gfx.height || 300;
+						if (/%/.test(height)) {
+							height = 'ui_height()*' + (parseFloat(height)*0.01);
+						}
+						if (parseFloat(height) < 0) {
+							height = 'ui_height() - ' + -parseFloat(height);
+						}
+						var bufferId = layout.gfx.buffer = parseFloat(layout.gfx.buffer) || 64;
+						code += indent('ui_split_bottom(' + height + ');');
+						code += indent(indent('// use off-screen buffer #' + bufferId));
+						code += indent(indent('gfx_dest = ' + bufferId + ';'));
+						code += indent(indent('ui_retina(1);'));
+						code += indent(indent('gfx_setfont(0);'));
+						code += indent(indent('// set the size if needed'));
+						code += indent(indent('gfx_getimgdim(' + bufferId + ', ' + varW + ', ' + varH + ');'));
+						code += indent(indent(varW + ' != ui_width() || ' + varH + ' != ui_height() ? (\n'
+							+ indent('gfx_setimgdim(' + bufferId + ', ' + varW + ' = ui_width(), ' + varH + ' = ui_height());')
+							+ ');'
+						));
+						code += indent(indent('\n// Draw custom graphics\n' + fnName + '(' + varW + ', ' + varH + ', mouse_x - ui_left(), mouse_y - ui_top());\n\n'));
+						code += indent(indent('gfx_dest = -1;'));
+						code += indent(indent('gfx_blit(' + bufferId + ', 1, 0, 0, 0, ' + varW + ', ' + varH + ', ui_left(), ui_top(), ' + varW + ', ' + varH + ');'));
+						code += indent(indent('ui_font();'));
+						code += indent('ui_pop();');
+					}
+
+					code += indent('ui_split_topratio(1/' + rows.length + '); // ' + (rows.length > 1 ? rows.length + ' rows' : 'single row'));
+					var maxRowControls = 1;
+					code += rows.map(function (row, rowIndex) {
 						var totalControls = 0;
 						row.forEach(function (group) {
 							totalControls += group.controls.length;
 						});
+						maxRowControls = Math.max(maxRowControls, totalControls);
 						var remainingControls = totalControls;
 						var code = '';
-						row.forEach(function (group) {
+						row.forEach(function (group, groupIndex) {
 							code += 'ui_split_leftratio(' + group.controls.length + '/' + remainingControls + ');\n';
+							code += indent('// row ' + (rowIndex + 1) + ', group ' + (groupIndex + 1) + '\n');
 							remainingControls -= group.controls.length;
 							if (group.name) {
 								code += indent('control_group(' + JSON.stringify(group.name) + ');');
@@ -209,17 +376,23 @@ slider17:sgroup=0<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>Class Group
 							code += indent('ui_split_leftratio(1/' + group.controls.length + ');');
 							code += group.controls.map(function (control) {
 								var title = control.title;
-								var displayFormat = "%.3f";
-								var unitMatch = title.match(/^(.*)\((.*)\)\s*$/);
-								if (unitMatch) {
+								var displayFormat = "%.4f";
+								var step = parseFloat(control.step);
+								if (step >= 0.001) displayFormat = '%.3f';
+								if (step >= 0.01) displayFormat = '%.2f';
+								if (step >= 0.1) displayFormat = '%.1f';
+								if (step >= 1) displayFormat = '%i';
+
+								var unitMatch = title.match(/^(.*)\(([^\s\r\n]*)\)\s*$/);
+								if (unitMatch && !control.optionNames) {
 									title = unitMatch[1];
 									displayFormat += ' ' + unitMatch[2];
 								}
-								title = title.replace(/^\s+|\s+$/g, '');
+								control.title = title = title.replace(/^\s+|\s+$/g, '');
 								displayFormat = displayFormat.replace(/^\s+|\s+$/g, '');
 								control.config.format = control.config.format || displayFormat;
-								var code = 'layout_control_title(' + JSON.stringify(title) + ');\n';
-								return code + controlToJsfx(control);
+								var code = control_title_fn + '(' + JSON.stringify(title) + ');\n';
+								return code + controlToJsfx(control, defineFunction, defineScreen);
 							}).map(indent).map(indent).join(indent('ui_split_next();'));
 							code += indent('ui_pop();');
 							code += 'ui_pop();\n';
@@ -227,31 +400,176 @@ slider17:sgroup=0<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>Class Group
 						return code;
 					}).map(indent).map(indent).join(indent('ui_split_next();'));
 					code += indent('ui_pop();');
-					code += ') : control_system();\n';
-					return code + '\n/*' + JSON.stringify(layout, null, '\t') + '*/\n';
-code;
+					code += ') : ';
+
+					code += screens.map(function (screen) {
+						return 'ui_screen() === ' + screen.name + ' ? (\n' + indent(screen.code) + ') : ';
+					}).join('') + 'control_system();\n';
+
+					var gfx_w = 90*maxRowControls;
+					var gfx_h = 130*rows.length;
+					if (layout.gfx) {
+						gfx_h += (parseFloat(layout.gfx.height) || 300);
+					}
+
+					var header = '@gfx ' + gfx_w + ' ' + gfx_h + '\n';
+					code = extraFunctions.map(function (fn) {
+						return 'function ' + fn.name + fn.code;
+					}).join('\n') + '\n' + code;
+					code = '// generated from slider section: https://github.com/geraintluff/jsfx-ui-lib\n' + code;
+
+					return {
+						header: header,
+						code: code
+					};
 				}
 
 				var layout = parseLayout(headerText);
 				return layoutToJsfx(layout);
 			}
 
-			function controlToJsfx(control) {
-				var code = control.name + ' = layout_control_value(' + control.name + ', ' + JSON.stringify(control.config.format) + ');\n';
-				return code;
+			function controlToJsfx(control, defineFunction, defineScreen) {
+				if (control.optionNames) {
+					function range(low, high) {
+						if (high - low == 1) return JSON.stringify(control.optionNames[low]);
+						if (high - low == 2) return '(value === ' + low + ' ? ' + JSON.stringify(control.optionNames[low]) + ' : ' + JSON.stringify(control.optionNames[low + 1]) + ')';
+						var mid = Math.ceil((low + high)/2);
+						if (high - low < 8) {
+							return '(value < ' + mid + ' ? ' + (range(low, mid)) + ' : ' + (range(mid, high)) + ')';
+						}
+						return '(value < ' + mid + ' ? \n' + indent(range(low, mid)) + ' : ' + indent(range(mid, high)) + ')';
+					}
+
+					if (control.optionNames.length == 2) {
+						var valueText = defineFunction('layout_text', '(text) local(h) (\n'
+							+ indent('h = max((ui_height() - 60)/2, ui_height()*0.3);')
+							+ indent('ui_split_bottom(h);')
+							+ indent(indent('ui_align(0.5, 1);'))
+							+ indent(indent('ui_text(text);'))
+							+ indent('ui_pop();')
+							+ ');\n');
+						var code = valueText + '(' + control.name + ' ? ' + JSON.stringify(control.optionNames[1]) + ' : ' + JSON.stringify(control.optionNames[0]) + ');\n';
+						if ('inverted' in control.config & parseFloat(control.config.inverted)) {
+							code += control.name + ' = !control_switch(!' + control.name + ');\n';
+						} else {
+							code += control.name + ' = control_switch(' + control.name + ');\n';
+						}
+						return code;
+					}
+
+					var valueToString = defineFunction(control.name + '_to_text', '(value) (\n'
+						+ indent(range(0, control.optionNames.length) + ';')
+						+ ');\n'
+					);
+
+					if ((control.optionNames.length < 6 && !('columns' in control.config)) || (control.config.columns === "0")) {
+						// Simpler selector
+						var nextExpr = 'min(' + (control.optionNames.length - 1) + ', ' + control.name + ' + 1)';
+						var prevExpr = 'max(0, ' + control.name + ' - 1)';
+						if ('inverted' in control.config & parseFloat(control.config.inverted)) {
+							var tmp = nextExpr;
+							nextExpr = prevExpr;
+							prevExpr = tmp;
+						}
+						return control.name + ' = control_selector(' + control.name + ', ' + valueToString + '(' + control.name + '), ' + nextExpr + ', ' + prevExpr + ');';
+					}
+
+					var radioPair = defineFunction('radio_option', '(value, optionValue, optionText) (\n'
+						+ indent('ui_align(0.1, 0.5);')
+						+ indent('ui_split_left(30);')
+						+ indent(indent('value = control_radio(value, optionValue);'))
+						+ indent('ui_pop();')
+						+ indent('ui_text(optionText);')
+						+ indent('value;')
+						+ ');\n'
+					);
+					var screenColumns = Math.ceil(Math.min(3, control.optionNames.length/30));
+					if ('columns' in control.config) screenColumns = parseInt(control.config.columns, 10) || screenColumns;
+					var rowsPerColumn = Math.ceil(control.optionNames.length/screenColumns);
+
+					var screenCode = 'control_dialog(' + JSON.stringify(control.title) + ', ' + (screenColumns*220) + ', ' + (rowsPerColumn*30) + ', "done", -1);\n\n';
+					if (screenColumns > 1) screenCode += 'ui_split_leftratio(1/' + screenColumns + '); // ' + screenColumns + ' columns\n'
+					screenCode += 'ui_split_topratio(1/' + rowsPerColumn + '); // ' + (screenColumns > 1 ? 'open first column\n' : rowsPerColumn + ' rows\n');
+
+					var indexVar = varPrefix + 'index';
+					screenCode += indexVar + ' = 0;\n';
+					screenCode += 'while (' + indexVar + ' < ' + control.optionNames.length + ') (\n';
+					screenCode += indent(control.name + ' = ' + radioPair + '(' + control.name + ', ' + indexVar + ', ' + valueToString + '(' + indexVar + '));');
+					screenCode += indent(indexVar + ' += 1;');
+					if (screenColumns > 1) {
+						screenCode += indent(indexVar + ' < ' + control.optionNames.length + ' && !(' + indexVar + '%' + rowsPerColumn + ') ? (\n'
+							+ indent('// close this column and open the next')
+							+ indent('ui_pop();')
+							+ indent('ui_split_next();')
+							+ indent('ui_split_topratio(1/' + rowsPerColumn + ');')
+							+ ') : (\n'
+							+ indent('ui_split_next();')
+							+ ');'
+						);
+					} else {
+						screenCode += indent('ui_split_next();\n');
+					}
+					screenCode += ');\n';
+					screenCode += 'ui_pop();\n';
+					if (screenColumns > 1) screenCode += 'ui_pop();\n';
+
+					return ('ui_split_bottomtext("edit");\n'
+						+ indent('ui_push_widthtext("edit");')
+						+ indent(indent('control_button("edit") ? ui_screen_open('
+							+ defineScreen('edit-' + control.name, screenCode)
+						+ ');'))
+						+ indent('ui_pop();')
+					+ 'ui_pop();\n'
+					+ 'ui_text(' + valueToString + '(' + control.name + '));\n');
+				} else {
+					var textNumberFn = defineFunction('layout_textnumber', '(value, format) local(h) (\n'
+						+ indent('h = max((ui_height() - 60)/2, ui_height()*0.3);')
+						+ indent('ui_split_bottom(h);')
+						+ indent(indent('ui_align(0.5, 1);'))
+						+ indent(indent('value = control_hidden_textnumber(value, value*1.00000001, format);'))
+						+ indent('ui_pop();')
+						+ indent('value;')
+						+ ');\n');
+
+					var code = control.name + ' = ' + textNumberFn + '(' + control.name + ', ' + JSON.stringify(control.config.format) + ');\n';
+					var bias = 0;
+					if (parseFloat(control.low) < 0 && parseFloat(control.high) == 0) {
+						bias = -2;
+					} else if (parseFloat(control.low) > 0 && parseFloat(control.high) > 0) {
+						bias = 'log(' + control.high + '/' + control.low + ')';
+					} else if (parseFloat(control.low) == 0 && parseFloat(control.high) > 10) {
+						bias = 2;
+					}
+					if ('bias' in control.config) bias = control.config.bias;
+
+					code += control.name + ' = control_dial(' + control.name + ', ' + control.low + ', ' + control.high + ', ' + bias + ', ' + control.start + ');\n';
+					if (parseFloat(control.step)) {
+						code += control.name + ' = floor(' + control.name + '/' + control.step + ' + 0.5)*' + control.step + ';\n';
+					}
+					return code;
+				}
 			}
 
 			function translate() {
-				var headerText = document.getElementById('input').value;
+				var source = document.getElementById('input').value;
+				var headerText = source.replace(/^@.*/, '');
 				var jsfx;
+				var prefix = '// AUTOGENERATED UI //\n', suffix = '// END OF AUTOGENERATED UI //';
+				var regex = /\/\/ AUTOGENERATED UI \/\/((.|[\r\n])*)\/\/ END OF AUTOGENERATED UI \/\//;
 				try {
 					jsfx = uiFromHeader(headerText);
+					var match = regex.test(source);
+					if (match) {
+						jsfx = source.replace(regex, prefix + '// Default: ' + jsfx.header + jsfx.code + suffix);
+					} else {
+						jsfx = jsfx.header + '\n' + prefix + jsfx.code + suffix;
+					}
 				} catch (e) {
 					jsfx = e.stack || e.message;
 				}
-				var pre = document.getElementById('output');
-				pre.innerHTML = '';
-				pre.appendChild(document.createTextNode(jsfx));
+
+				var output = document.getElementById('output');
+				output.value = jsfx;
 			}
 			document.getElementById('translate-button').onclick = translate;
 			translate();
