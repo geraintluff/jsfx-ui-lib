@@ -451,6 +451,7 @@ slider8:value_switch_inverted=0<0,1,1{on,off}>Inverted</textarea>
 
 					if (control.optionNames.length == 2) {
 						var code = valueText + '(' + control.name + ' ? ' + JSON.stringify(control.optionNames[1]) + ' : ' + JSON.stringify(control.optionNames[0]) + ');\n';
+						code += 'ui_pad(-1, 0);\n';
 						if ('inverted' in control.config & parseFloat(control.config.inverted)) {
 							code += control.name + ' = !control_switch(!' + control.name + ');\n';
 						} else {
