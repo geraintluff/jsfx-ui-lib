@@ -129,6 +129,17 @@ needs_slider_update ? slider_update_function();</code></pre>
 			<p>If you have a lot of controls and want a more compact layout, you can add:</p>
 			<pre><code>// ui:layout compact=1</code></pre>
 			<p>This produces a layout that lets you fit more rows in.</p>
+
+			<h3>Custom Theme/Colours</h3>
+			<p>You can do some (fairly basic) customisation using a PNG template:
+			<ol>
+				<li>Create a bitmap according to the <a href="https://github.com/geraintluff/jsfx-ui-lib/tree/master/themes/bitmap-simple" target="_blank">template</a> - there's an example theme in there already, so you can see how it works.
+				<li>Place this bitmap in the same directory as your effect, and link to in the header:
+				<li>Next, place this annotation in the slider
+			<p>Next, add this annotation - the <code>bitmap-simple</code> parameter needs to match the the filename index:
+<pre><code>// ui:layout bitmap-simple=0
+filename:0,theme-cyan.png</code></pre>
+			<p>The basic layout is fixed, but you can change the colours and gloss effects.</p>
 		</div>
 		<div id="input-section">
 			<h2>JSFX source:</h2>
@@ -331,7 +342,11 @@ slider8:value_switch_inverted=0<0,1,1{on,off}>Inverted</textarea>
 					};
 
 					var code = '';
-					code += 'ui_start("main");\n\n';
+					if (layout.config['bitmap-simple']) {
+						code += 'control_start("main", "bitmap-simple", ' + layout.config['bitmap-simple'] + ');\n\n';
+					} else {
+						code += 'control_start("main", "default");\n\n';
+					}
 					if ('compact' in layout.config && parseFloat(layout.config.compact)) {
 						code += 'ui_fontsize(12);\n';
 						code += 'ui_padding(3, 3);\n';
