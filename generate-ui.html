@@ -221,6 +221,7 @@ slider8:value_switch_inverted=0<0,1,1{zero,one}>Inverted</textarea>
 							consumeExact(',');
 							var step = consumeNumber();
 
+							if (line[0] == ',') consumeExact(',');
 							if (line[0] == '{') {
 								consumeExact('{');
 								var optionText = consumeMatch(/^[^}]*/);
