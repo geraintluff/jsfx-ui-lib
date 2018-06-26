@@ -1156,29 +1156,32 @@ ui_text("Hello, world!");</code></pre>
 	<a class="back-link" href="#section-drawing">⇧</a>
 	<h2><a class="self-link" href="#section-plotting-graphs">Plotting graphs</a></h2>
 	<div class="definitions">
-<a class="definition-permalink" href="#api-ui_graph-4">#</a>		<pre class="definition" id="api-ui_graph-4"><code><span class="function-name">ui_graph</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">length</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
-<a class="definition-permalink" href="#api-ui_graph_step-5">#</a>		<pre class="definition" id="api-ui_graph_step-5"><code><span class="function-name">ui_graph_step</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">count</span>, <span class="function-arg function-type-int">step</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
-<a class="definition-permalink" href="#api-ui_graph_circular-6">#</a>		<pre class="definition" id="api-ui_graph_circular-6"><code><span class="function-name">ui_graph_circular</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">count</span>, <span class="function-arg function-type-int">step</span>, <span class="function-arg function-type-int">offset</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_graph-5">#</a>		<pre class="definition" id="api-ui_graph-5"><code><span class="function-name">ui_graph</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">count</span>, <span class="function-arg function-type-int">offset</span>=0, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_graph-6">#</a>		<pre class="definition" id="api-ui_graph-6"><code><span class="function-name">ui_graph</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">count</span>, <span class="function-arg function-type-int">offset</span>, <span class="function-arg function-type-int">wrap_length</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_graph_step-6">#</a>		<pre class="definition" id="api-ui_graph_step-6"><code><span class="function-name">ui_graph_step</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">count</span>, <span class="function-arg function-type-int">step</span>, <span class="function-arg function-type-int">offset</span>=0, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
+<a class="definition-permalink" href="#api-ui_graph_step-7">#</a>		<pre class="definition" id="api-ui_graph_step-7"><code><span class="function-name">ui_graph_step</span>(<span class="function-arg function-type-pointer">buffer</span>, <span class="function-arg function-type-int">count</span>, <span class="function-arg function-type-int">step</span>, <span class="function-arg function-type-int">offset</span>, <span class="function-arg function-type-int">wrap_length</span>, <span class="function-arg function-type-number">min_y</span>, <span class="function-arg function-type-number">max_y</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-pointer">buffer</code> - index in the memory array</li>
-				<li><code class="function-arg function-type-int">length</code> - integer >= 1</li>
+				<li><code class="function-arg function-type-int">count</code> - integer >= 1</li>
+				<li><code class="function-arg function-type-int">offset</code> - offset within the circular buffer, integer >= 0</li>
 				<li><code class="function-arg function-type-number">min_y</code></li>
 				<li><code class="function-arg function-type-number">max_y</code></li>
-				<li><code class="function-arg function-type-int">count</code> - integer >= 1</li>
+				<li><code class="function-arg function-type-int">wrap_length</code> - length of circular buffer (defaults to == count), integer >= 1</li>
 				<li><code class="function-arg function-type-int">step</code> - integer >= 1</li>
-				<li><code class="function-arg function-type-int">offset</code> - integer >= 0</li>
 			</ul>
 			</div>
 	</div>
 	<div class="about">
-		<p>Plots a graph from a buffer.  If min_y and max_y are the same, the graph is centered around that value, and auto-scaled to fit the data.</p>
+		<p>Plots a graph from a buffer.  &quot;offset&quot; sets the starting point, treating the buffer as circular. &quot;wrap_length&quot; is for when the circular buffer is longer than &quot;count&quot;.</p>
+		<p>ui_graph() chooses a step size so that not too many points are drawn per horizontal pixel.  If you need to draw every point, use ui_graph_step() with step=1.</p>
+		<p>If min_y and max_y are the same, the graph is centered around that value, and auto-scaled to fit the data.</p>
 	</div>
 	<div class="subsection"><h3>Example:</h3>
 <pre class="code-example"><code>ui_graph(buffer, 1024, min_y, max_y);
 
 ui_color(0, 192, 255);
-ui_graph_circular(buffer, 16, 64, offset, min_y, max_y);</code></pre>
+ui_graph_step(buffer, 16, 64, offset, min_y, max_y);</code></pre>
 		<div class="screenshots screenshots-1">
 			<a href="../images/ui_graph.png" target="_blank"><img class="screenshot" src="../images/ui_graph.png"></a>
 		</div>

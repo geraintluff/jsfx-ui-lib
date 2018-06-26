@@ -2008,12 +2008,13 @@ ui_screen() == "options" ? (
 ) : ui_screen() == "section-plotting-graphs" ? (
 	control_navbar("Plotting graphs", "options", "options");
 	ui_pad();
-	api_print_function_signature("ui_graph(buffer, length, min_y, max_y);");
-	api_print_function_signature("ui_graph_step(buffer, count, step, min_y, max_y);");
-	api_print_function_signature("ui_graph_circular(buffer, count, step, offset, min_y, max_y);");
+	api_print_function_signature("ui_graph(buffer, count, offset=0, min_y, max_y);");
+	api_print_function_signature("ui_graph(buffer, count, offset, wrap_length, min_y, max_y);");
+	api_print_function_signature("ui_graph_step(buffer, count, step, offset=0, min_y, max_y);");
+	api_print_function_signature("ui_graph_step(buffer, count, step, offset, wrap_length, min_y, max_y);");
 	ui_padtop();
 	ui_align(0, 0);
-	ui_padtop(ui_wraptext("Plots a graph from a buffer.  If min_y and max_y are the same, the graph is centered around that value, and auto-scaled to fit the data."));
+	ui_padtop(ui_wraptext("Plots a graph from a buffer.  \"offset\" sets the starting point, treating the buffer as circular. \"wrap_length\" is for when the circular buffer is longer than \"count\".\n\nui_graph() chooses a step size so that not too many points are drawn per horizontal pixel.  If you need to draw every point, use ui_graph_step() with step=1.\n\nIf min_y and max_y are the same, the graph is centered around that value, and auto-scaled to fit the data."));
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);
@@ -2032,7 +2033,7 @@ ui_screen() == "options" ? (
 		ui_graph(api_buffer, api_buffer_length, min_y, max_y);
 		
 		ui_color(0, 192, 255);
-		ui_graph_circular(api_buffer, api_buffer_length>>6, 64, offset, min_y, max_y);
+		ui_graph_step(api_buffer, api_buffer_length>>6, 64, offset, min_y, max_y);
 	ui_pop();
 	ui_split_bottom(162);
 		control_group("parameters");
@@ -2081,7 +2082,7 @@ ui_screen() == "options" ? (
 				ui_pad();
 				ui_font("Courier New", 14, 1, 0);
 				ui_align(0, 0.5);
-				ui_text("ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_circular(buffer, 16, 64, offset, min_y, max_y);");
+				ui_text("ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step(buffer, 16, 64, offset, min_y, max_y);");
 			ui_pop();
 			control_finish_technical();
 		ui_pop();

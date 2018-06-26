@@ -535,6 +535,12 @@ function ui_font_refresh() (
 	uix_setgfxfont();
 );
 
+function ui_font() (
+	uix_font_dirty = 1;
+	uix_setgfxcolor();
+	uix_setgfxfont();
+);
+
 function ui_fill() (
 	uix_setgfxcolor();
 	gfx_rect(ui_left_retina(), ui_top_retina(), ui_width_retina(), ui_height_retina());
@@ -1239,7 +1245,7 @@ function ui_key_next() (
 
 //////// Fancy graphics ////////
 
-function ui_graph_circular(buffer, length, step, offset, modulo_length, low, high) local(i, i2, v, x, y, mid, top, bottom, height, left, width) (
+function ui_graph_step(buffer, length, step, offset, modulo_length, low, high) local(i, i2, v, x, y, mid, top, bottom, height, left, width) (
 	low == high ? (
 		i = 0;
 		mid = low;
@@ -1278,14 +1284,24 @@ function ui_graph_circular(buffer, length, step, offset, modulo_length, low, hig
 	);
 	(high - low)/2;
 );
-function ui_graph_circular(buffer, length, step, offset, low, high) (
-	ui_graph_circular(buffer, length, step, offset, length, low, high);
+function ui_graph_step(buffer, length, step, offset, low, high) (
+	ui_graph_step(buffer, length, step, offset, length, low, high);
 );
 function ui_graph_step(buffer, length, step, low, high) (
-	ui_graph_circular(buffer, length, step, 0, low, high);
+	ui_graph_step(buffer, length, step, 0, length, low, high);
+);
+
+function ui_graph(buffer, length, offset, modulo_length, low, high) local(points, step) (
+	step = 1;
+	points = min(length, ui_width()*4);
+	step = ceil(length/points);
+	ui_graph_step(buffer + (offset%step), floor(length/step), step, floor(offset/step), floor(modulo_length/step), low, high);
+);
+function ui_graph(buffer, length, offset, low, high) (
+	ui_graph(buffer, length, offset, length, low, high);
 );
 function ui_graph(buffer, length, low, high) (
-	ui_graph_step(buffer, length, 1, low, high);
+	ui_graph(buffer, length, 0, low, high);
 );
 
 /////////////// DEBUG/TUTORIAL ///////////////
@@ -1887,7 +1903,7 @@ function control_group(text) local(texth, textw, textl, textr, textv) (
 			uix_control_theme == 1/*uix_THEME:BLACK_AND_WHITE*/ ? (
 				ui_color(255, 255, 255);
 			) : uix_control_theme == 3/*uix_THEME:BITMAP_SIMPLE*/ ? (
-				uix_control_color_from_theme(151, 30, 0.25);
+				uix_control_color_from_theme(151, 30, 0.5);
 			) : (
 				ui_color(102, 102, 102, 0.5);
 			);
@@ -1913,6 +1929,11 @@ function control_group(text) local(texth, textw, textl, textr, textv) (
 				ui_pop();
 			ui_pop();
 			ui_padbottom();
+
+			// Border colour is lighter
+			uix_control_theme == 3/*uix_THEME:BITMAP_SIMPLE*/ ? (
+				uix_control_color_from_theme(151, 30, 0.25);
+			);
 
 			!textw ? textl = textr = ui_left_retina();
 			ui_push();
@@ -2419,7 +2440,7 @@ function control_dialog(title, width, height, doneText, cancelText) local(accept
 	width = min(width + ui_padding_x()*2, ui_width());
 	height = min(height + ui_padding_y()*2, ui_height());
 	ui_pad((ui_width() - width)/2, (ui_height() - height)/2);
-	ui_push();
+	uix_control_theme == 3/*uix_THEME:BITMAP_SIMPLE*/ ? ui_push_clip(1) : ui_push();
 		uix_control_theme == 1/*uix_THEME:BLACK_AND_WHITE*/ ? (
 			ui_color(0, 0, 0);
 			ui_fill();
@@ -2430,6 +2451,16 @@ function control_dialog(title, width, height, doneText, cancelText) local(accept
 			ui_fill();
 			ui_color(255, 255, 255, 0.1);
 			ui_border();
+		) : uix_control_theme == 3/*uix_THEME:BITMAP_SIMPLE*/ ? (
+			y = 0;
+			while (y < gfx_h) (
+				x = 0;
+				while (x < gfx_w) (
+					gfx_blit(uix_control_theme_buffer, ui_retina(), 0, 20, 20, 120, 120, x, y);
+					x += 120*ui_retina();
+				);
+				y += 120;
+			);
 		) : (
 			ui_color(242, 242, 242);
 			ui_fill();
@@ -2437,6 +2468,19 @@ function control_dialog(title, width, height, doneText, cancelText) local(accept
 			ui_border();
 		);
 	ui_pop();
+
+
+	// set main colour
+	uix_control_theme == 1/*uix_THEME:BLACK_AND_WHITE*/ ? (
+		ui_color(255, 255, 255);
+	) : uix_control_theme == 2/*uix_THEME:TRON*/ ? (
+		ui_color(255, 255, 255);
+	) : uix_control_theme == 3/*uix_THEME:BITMAP_SIMPLE*/ ? (
+		uix_control_color_from_theme(151, 30);
+		ui_border();
+	) : (
+		ui_color(12, 12, 12);
+	);
 
 	ui_key() == 27 ? (
 		accepted = (cancelText >= 0) ? -1 : 1;

@@ -611,7 +611,19 @@
 									"function": "ui_graph",
 									"args": [
 										{"type": "pointer", "name": "buffer"},
-										{"type": "int", "name": "length", "min": 1},
+										{"type": "int", "name": "count", "min": 1},
+										{"type": "int", "name": "offset", "min": 0, "default": 0, "text": "offset within the circular buffer"},
+										{"name": "min_y"},
+										{"name": "max_y"}
+									]
+								},
+								{
+									"function": "ui_graph",
+									"args": [
+										{"type": "pointer", "name": "buffer"},
+										{"type": "int", "name": "count", "min": 1},
+										{"type": "int", "name": "offset", "min": 0},
+										{"type": "int", "name": "wrap_length", "min": 1, "text": "length of circular buffer (defaults to == count)"},
 										{"name": "min_y"},
 										{"name": "max_y"}
 									]
@@ -622,17 +634,19 @@
 										{"type": "pointer", "name": "buffer"},
 										{"type": "int", "name": "count", "min": 1},
 										{"type": "int", "name": "step", "min": 1},
+										{"type": "int", "name": "offset", "default": 0, "min": 0},
 										{"name": "min_y"},
 										{"name": "max_y"}
 									]
 								},
 								{
-									"function": "ui_graph_circular",
+									"function": "ui_graph_step",
 									"args": [
 										{"type": "pointer", "name": "buffer"},
 										{"type": "int", "name": "count", "min": 1},
 										{"type": "int", "name": "step", "min": 1},
 										{"type": "int", "name": "offset", "min": 0},
+										{"type": "int", "name": "wrap_length", "min": 1},
 										{"name": "min_y"},
 										{"name": "max_y"}
 									]
@@ -643,9 +657,9 @@
 								{"name": "max_y", "min": 0, "max": 2, "start": 1},
 								{"type": "int", "name": "offset", "min": 0, "max": 15, "start": 0}
 							],
-							"code": "i = 0;\nwhile (i < api_buffer_length) (\n\tapi_buffer[i] = sin((i/api_buffer_length*2)*2*$pi);\n\ti += 1\n);\n\nui_graph(api_buffer, api_buffer_length, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_circular(api_buffer, api_buffer_length>>6, 64, offset, min_y, max_y);\n\n",
-							"displayCode": "ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_circular(buffer, 16, 64, offset, min_y, max_y);",
-							"text": "Plots a graph from a buffer.  If min_y and max_y are the same, the graph is centered around that value, and auto-scaled to fit the data.",
+							"code": "i = 0;\nwhile (i < api_buffer_length) (\n\tapi_buffer[i] = sin((i/api_buffer_length*2)*2*$pi);\n\ti += 1\n);\n\nui_graph(api_buffer, api_buffer_length, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step(api_buffer, api_buffer_length>>6, 64, offset, min_y, max_y);\n\n",
+							"displayCode": "ui_graph(buffer, 1024, min_y, max_y);\n\nui_color(0, 192, 255);\nui_graph_step(buffer, 16, 64, offset, min_y, max_y);",
+							"text": "Plots a graph from a buffer.  \"offset\" sets the starting point, treating the buffer as circular. \"wrap_length\" is for when the circular buffer is longer than \"count\".\n\nui_graph() chooses a step size so that not too many points are drawn per horizontal pixel.  If you need to draw every point, use ui_graph_step() with step=1.\n\nIf min_y and max_y are the same, the graph is centered around that value, and auto-scaled to fit the data.",
 							"screenshot": "images/ui_graph.png"
 						},
 						{

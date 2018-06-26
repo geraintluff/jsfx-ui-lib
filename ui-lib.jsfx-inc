@@ -1245,7 +1245,7 @@ function ui_key_next() (
 
 //////// Fancy graphics ////////
 
-function ui_graph_circular(buffer, length, step, offset, modulo_length, low, high) local(i, i2, v, x, y, mid, top, bottom, height, left, width) (
+function ui_graph_step(buffer, length, step, offset, modulo_length, low, high) local(i, i2, v, x, y, mid, top, bottom, height, left, width) (
 	low == high ? (
 		i = 0;
 		mid = low;
@@ -1284,14 +1284,24 @@ function ui_graph_circular(buffer, length, step, offset, modulo_length, low, hig
 	);
 	(high - low)/2;
 );
-function ui_graph_circular(buffer, length, step, offset, low, high) (
-	ui_graph_circular(buffer, length, step, offset, length, low, high);
+function ui_graph_step(buffer, length, step, offset, low, high) (
+	ui_graph_step(buffer, length, step, offset, length, low, high);
 );
 function ui_graph_step(buffer, length, step, low, high) (
-	ui_graph_circular(buffer, length, step, 0, low, high);
+	ui_graph_step(buffer, length, step, 0, length, low, high);
+);
+
+function ui_graph(buffer, length, offset, modulo_length, low, high) local(points, step) (
+	step = 1;
+	points = min(length, ui_width()*4);
+	step = ceil(length/points);
+	ui_graph_step(buffer + (offset%step), floor(length/step), step, floor(offset/step), floor(modulo_length/step), low, high);
+);
+function ui_graph(buffer, length, offset, low, high) (
+	ui_graph(buffer, length, offset, length, low, high);
 );
 function ui_graph(buffer, length, low, high) (
-	ui_graph_step(buffer, length, 1, low, high);
+	ui_graph(buffer, length, 0, low, high);
 );
 
 /////////////// DEBUG/TUTORIAL ///////////////
