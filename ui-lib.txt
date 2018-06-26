@@ -39,6 +39,9 @@ uix_font_dirty = 0;
 uix_latestchar = 0;
 uix_char_consumed = 0;
 
+// Used to work around what I think might be a JSFX bug, where srate is sometimes = 0 in @init, but only if @gfx is defined, the UI is displaying, *and* an earlier effect has set latency with pdc_delay.
+uix_prev_srate = 44100;
+
 uix_error = 0;
 function uix_clamp255(v) (
 	min(255, max(0, floor(v + 0.5)));
@@ -178,6 +181,13 @@ function uix_unreserved_screen_below(limit) (
 );
 
 function ui_setup(stackstart) local(uix_screenstack_end, uix_drawconfig_end) (
+	// Mitigate some gnarly behaviour - see uix_prev_srate at top
+	!srate ? (
+		srate = uix_prev_srate;
+		debug.gnarly_srate_hack += 1;
+	);
+	uix_prev_srate = srate;
+
 	!uix_hassetup || stackstart != uix_screenstack ? (
 		uix_hassetup = 1;
 
@@ -1259,6 +1269,8 @@ function ui_graph_step(buffer, length, step, offset, modulo_length, low, high) l
 		high = max(high, 2*mid - low);
 	);
 
+	modulo_length = max(1, max(length>>4, modulo_length));
+
 	top = ui_top_retina() + 0.5;
 	bottom = ui_bottom_retina() - 0.5;
 	height = ui_height_retina() - 1;
@@ -1293,7 +1305,7 @@ function ui_graph_step(buffer, length, step, low, high) (
 function ui_graph(buffer, length, offset, modulo_length, low, high) local(points, step) (
 	step = 1;
 	points = min(length, ui_width()*4);
-	step = ceil(length/points);
+	step = max(1, ceil(length/points));
 	ui_graph_step(buffer + (offset%step), floor(length/step), step, floor(offset/step), floor(modulo_length/step), low, high);
 );
 function ui_graph(buffer, length, offset, low, high) (
