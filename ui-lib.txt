@@ -385,6 +385,14 @@ function uix_undo_point(soft) local(time) (
 	uix_last_undo_time = time;
 );
 
+function ui_automate(slidervar*, new_value) (
+	slidervar !== new_value ? (
+		slidervar = new_value;
+		slider_automate(slidervar);
+		1
+	) : 0;
+);
+
 function ui_left() (
 	uix_round ? (
 		floor(uix_drawconfig_current[uix_DRAWCONFIG#LEFT] + 0.5);
