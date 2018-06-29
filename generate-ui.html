@@ -471,6 +471,17 @@ slider8:value_switch_inverted=0<0,1,1{zero,one}>Inverted</textarea>
 			}
 
 			function controlToJsfx(control, layout, defineFunction, defineScreen) {
+				var automationFn = defineFunction('automate_slider', '(slidervar*, new_value) (\n'
+					+ indent('slidervar !== new_value ? (')
+					+ indent(indent('slidervar = new_value;'))
+					+ indent(indent('slider_automate(slidervar);'))
+					+ indent(');')
+					+ indent('new_value;')
+					+ ');\n');
+				function automationCode(valueExpr) {
+					return automationFn + '(' + control.name + ', ' + valueExpr + ');\n';
+				}
+
 				if (control.optionNames) {
 					if ('compact' in layout.config && parseFloat(layout.config.compact)) {
 						var valueText = defineFunction('layout_text', '(title, text) local(h) (\n'
@@ -521,9 +532,9 @@ slider8:value_switch_inverted=0<0,1,1{zero,one}>Inverted</textarea>
 						var code = valueText + '(' + JSON.stringify(control.title) + ', ' + control.name + ' ? ' + JSON.stringify(control.optionNames[1]) + ' : ' + JSON.stringify(control.optionNames[0]) + ');\n';
 						code += 'ui_pad(-1, 0);\n';
 						if ('inverted' in control.config & parseFloat(control.config.inverted)) {
-							code += control.name + ' = !control_switch(!' + control.name + ');\n';
+							code += automationCode('!control_switch(!' + control.name + ')');
 						} else {
-							code += control.name + ' = control_switch(' + control.name + ');\n';
+							code += automationCode('control_switch(' + control.name + ')');
 						}
 						return code;
 					}
@@ -543,7 +554,7 @@ slider8:value_switch_inverted=0<0,1,1{zero,one}>Inverted</textarea>
 							prevExpr = tmp;
 						}
 						var code = valueTitle + '(' + JSON.stringify(control.title) + ');\n';
-						return code + control.name + ' = control_selector(' + control.name + ', ' + valueToString + '(' + control.name + '), ' + nextExpr + ', ' + prevExpr + ');';
+						return code + automationCode('control_selector(' + control.name + ', ' + valueToString + '(' + control.name + '), ' + nextExpr + ', ' + prevExpr + ')');
 					}
 
 					var radioPair = defineFunction('radio_option', '(value, optionValue, optionText) (\n'
@@ -566,7 +577,7 @@ slider8:value_switch_inverted=0<0,1,1{zero,one}>Inverted</textarea>
 					var indexVar = varPrefix + 'index';
 					screenCode += indexVar + ' = 0;\n';
 					screenCode += 'while (' + indexVar + ' < ' + control.optionNames.length + ') (\n';
-					screenCode += indent(control.name + ' = ' + radioPair + '(' + control.name + ', ' + indexVar + ', ' + valueToString + '(' + indexVar + '));');
+					screenCode += indent(automationCode(radioPair + '(' + control.name + ', ' + indexVar + ', ' + valueToString + '(' + indexVar + '))'));
 					screenCode += indent(indexVar + ' += 1;');
 					if (screenColumns > 1) {
 						screenCode += indent(indexVar + ' < ' + control.optionNames.length + ' && !(' + indexVar + '%' + rowsPerColumn + ') ? (\n'
@@ -622,7 +633,7 @@ slider8:value_switch_inverted=0<0,1,1{zero,one}>Inverted</textarea>
 							+ ');\n');
 					}
 
-					var code = control.name + ' = ' + textNumberFn + '(' + JSON.stringify(control.title) + ', ' + control.name + ', ' + JSON.stringify(control.config.format) + ');\n';
+					var code = automationCode(textNumberFn + '(' + JSON.stringify(control.title) + ', ' + control.name + ', ' + JSON.stringify(control.config.format) + ')');
 					var bias = 0;
 					if (parseFloat(control.low) < 0 && parseFloat(control.high) == 0) {
 						bias = -2;
@@ -637,9 +648,9 @@ slider8:value_switch_inverted=0<0,1,1{zero,one}>Inverted</textarea>
 						var floatName = varPrefix + 'float_' + control.name;
 						code += control.name + ' != floor(' + floatName + '/' + control.step + ' + 0.5)*' + control.step + ' ? ' + floatName + ' = ' + control.name + ';\n';
 						code += floatName + ' = control_dial(' + floatName + ', ' + control.low + ', ' + control.high + ', ' + bias + ', ' + control.start + ');\n';
-						code += control.name + ' = floor(' + floatName + '/' + control.step + ' + 0.5)*' + control.step + ';\n';
+						code += automationCode('floor(' + floatName + '/' + control.step + ' + 0.5)*' + control.step);
 					} else {
-						code += control.name + ' = control_dial(' + control.name + ', ' + control.low + ', ' + control.high + ', ' + bias + ', ' + control.start + ');\n';
+						code += automationCode('control_dial(' + control.name + ', ' + control.low + ', ' + control.high + ', ' + bias + ', ' + control.start + ')');
 					}
 					return code;
 				}
