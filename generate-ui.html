@@ -635,20 +635,23 @@ slider8:value_switch_inverted=0<0,1,1{zero,one}>Inverted</textarea>
 
 					var code = automationCode(textNumberFn + '(' + JSON.stringify(control.title) + ', ' + control.name + ', ' + JSON.stringify(control.config.format) + ')');
 					var bias = 0;
-					if (parseFloat(control.low) < 0 && parseFloat(control.high) == 0) {
+					if (parseFloat(control.low) < 0 && parseFloat(control.high) == 0 && parseFloat(control.step) != 1) {
 						bias = -2;
 					} else if (parseFloat(control.low) > 0 && parseFloat(control.high) > 0) {
 						bias = 'log(' + control.high + '/' + control.low + ')';
-					} else if (parseFloat(control.low) == 0 && parseFloat(control.high) > 10) {
+					} else if (parseFloat(control.low) == 0 && parseFloat(control.high) > 10 && parseFloat(control.step) != 1) {
 						bias = 2;
 					}
 					if ('bias' in control.config) bias = control.config.bias;
 
 					if (parseFloat(control.step)) {
-						var floatName = varPrefix + 'float_' + control.name;
-						code += control.name + ' != floor(' + floatName + '/' + control.step + ' + 0.5)*' + control.step + ' ? ' + floatName + ' = ' + control.name + ';\n';
-						code += floatName + ' = control_dial(' + floatName + ', ' + control.low + ', ' + control.high + ', ' + bias + ', ' + control.start + ');\n';
-						code += automationCode('floor(' + floatName + '/' + control.step + ' + 0.5)*' + control.step);
+						var floatVar = 'slidervar.' + varPrefix + 'float';
+						var floatRoundingFn = defineFunction('dial_rounded', '(slidervar*, low, high, bias, default, step) (\n'
+							+ indent('slidervar != floor(' + floatVar + '/step + 0.5)*step ? ' + floatVar + ' = slidervar;')
+							+ indent(floatVar + ' = control_dial(' + floatVar + ', low, high, bias, default);')
+							+ indent(automationFn + '(slidervar, floor(' + floatVar + '/step + 0.5)*step);')
+							+ ');\n');
+						code += floatRoundingFn + '(' + control.name + ', ' + control.low + ', ' + control.high + ', ' + bias + ', ' + control.start + ', ' + control.step + ');\n';
 					} else {
 						code += automationCode('control_dial(' + control.name + ', ' + control.low + ', ' + control.high + ', ' + bias + ', ' + control.start + ')');
 					}
