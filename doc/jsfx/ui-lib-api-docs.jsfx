@@ -3957,9 +3957,10 @@ ui_screen() == "options" ? (
 	api_print_function_signature("value = control_dial_left(value, left_value, right_value, curve=0, default=null);");
 	api_print_function_signature("value = control_dial(value, left_value, right_value, curve=0, default=null);");
 	api_print_function_signature("angle = control_dial_angle(angle, default=null);");
+	api_print_function_signature("angle = control_dial_angle_unit(angle, default=null);");
 	ui_padtop();
 	ui_align(0, 0);
-	ui_padtop(ui_wraptext("Draws a rotating dial.  The \"curve\" parameter works the same was as for sliders.\n\nLike sliders, control_dial_left() will show a link between the current value and the left value, and control_slider() will not show that link (but may show a link to the default value).\n\ncontrol_dial_angle() provides a dial that can rotate freely, returning a value between 0 and 2*PI, where 0 is vertical."));
+	ui_padtop(ui_wraptext("Draws a rotating dial.  The \"curve\" parameter works the same was as for sliders.\n\nLike sliders, control_dial_left() will show a link between the current value and the left value, and control_slider() will not show that link (but may show a link to the default value).\n\ncontrol_dial_angle() provides a dial that can rotate freely, returning a value between 0 and 2*PI, where 0 is vertical.  control_dial_angle_unit() is similar, but uses values between 0 and 1."));
 	ui_padtop(ui_texth());
 	ui_align(0.5, 0.5);
 	ui_split_rightratio(0.5);

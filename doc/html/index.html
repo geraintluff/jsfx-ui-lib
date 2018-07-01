@@ -1997,6 +1997,7 @@ ui_pop();</code></pre>
 <a class="definition-permalink" href="#api-control_dial_left-5">#</a>		<pre class="definition" id="api-control_dial_left-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_dial_left</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
 <a class="definition-permalink" href="#api-control_dial-5">#</a>		<pre class="definition" id="api-control_dial-5"><code><span class="function-return function-type-number">value</span> = <span class="function-name">control_dial</span>(<span class="function-arg function-type-number">value</span>, <span class="function-arg function-type-number">left_value</span>, <span class="function-arg function-type-number">right_value</span>, <span class="function-arg function-type-number">curve</span>=0, <span class="function-arg function-type-number">default</span>)</code></pre>
 <a class="definition-permalink" href="#api-control_dial_angle-2">#</a>		<pre class="definition" id="api-control_dial_angle-2"><code><span class="function-return function-type-number">angle</span> = <span class="function-name">control_dial_angle</span>(<span class="function-arg function-type-number">angle</span>, <span class="function-arg function-type-number">default</span>)</code></pre>
+<a class="definition-permalink" href="#api-control_dial_angle_unit-2">#</a>		<pre class="definition" id="api-control_dial_angle_unit-2"><code><span class="function-return function-type-number">angle</span> = <span class="function-name">control_dial_angle_unit</span>(<span class="function-arg function-type-number">angle</span>, <span class="function-arg function-type-number">default</span>)</code></pre>
 		<div class="subsection">
 			<ul class="function-arg-list">
 				<li><code class="function-arg function-type-number">value</code></li>
@@ -2011,7 +2012,7 @@ ui_pop();</code></pre>
 	<div class="about">
 		<p>Draws a rotating dial.  The &quot;curve&quot; parameter works the same was as for sliders.</p>
 		<p>Like sliders, control_dial_left() will show a link between the current value and the left value, and control_slider() will not show that link (but may show a link to the default value).</p>
-		<p>control_dial_angle() provides a dial that can rotate freely, returning a value between 0 and 2*PI, where 0 is vertical.</p>
+		<p>control_dial_angle() provides a dial that can rotate freely, returning a value between 0 and 2*PI, where 0 is vertical.  control_dial_angle_unit() is similar, but uses values between 0 and 1.</p>
 	</div>
 	<div class="subsection"><h3>Example:</h3>
 <pre class="code-example"><code>ui_split_topratio(1/3);
