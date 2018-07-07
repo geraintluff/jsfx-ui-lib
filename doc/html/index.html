@@ -1111,6 +1111,7 @@ ui_text("Hello, world!");</code></pre>
 	</div>
 	<ul class="child-links">
 		<li><a href="#section-ui_fill"><code>ui_fill()</code></a></li>
+		<li><a href="#section-ui_image_fill"><code>ui_image_fill()</code></a></li>
 		<li><a href="#section-ui_border-and-others"><code>ui_border()</code> and others</a></li>
 		<li><a href="#section-plotting-graphs">Plotting graphs</a></li>
 		<li><a href="#section-ui_reserve_image"><code>ui_reserve_image()</code></a></li>
@@ -1130,6 +1131,26 @@ ui_text("Hello, world!");</code></pre>
 		<div class="screenshots screenshots-1">
 			<a href="../images/ui_fill.png" target="_blank"><img class="screenshot" src="../images/ui_fill.png"></a>
 		</div>
+	</div>
+</section>
+<section id="section-ui_image_fill">
+	<a class="back-link" href="#section-drawing">⇧</a>
+	<h2><a class="self-link" href="#section-ui_image_fill"><code>ui_image_fill()</code></a></h2>
+	<div class="definitions">
+<a class="definition-permalink" href="#api-ui_image_fill-2">#</a>		<pre class="definition" id="api-ui_image_fill-2"><code><span class="function-name">ui_image_fill</span>(<span class="function-arg function-type-number">image</span>, <span class="function-arg function-type-float">alpha</span>=1)</code></pre>
+		<div class="subsection">
+			<ul class="function-arg-list">
+				<li><code class="function-arg function-type-number">image</code> - image buffer index</li>
+				<li><code class="function-arg function-type-float">alpha</code> -  between 0 and 1</li>
+			</ul>
+			</div>
+	</div>
+	<div class="about">
+		<p>Fills the viewport with an image, scaled and cropped to fill the whole area.</p>
+		<p>The image index is the number used in the &quot;filename:&quot; declaration at the top (or the index of an off-screen buffer).</p>
+	</div>
+	<div class="subsection"><h3>Example:</h3>
+<pre class="code-example"><code>ui_image_fill(0);</code></pre>
 	</div>
 </section>
 <section id="section-ui_border-and-others">

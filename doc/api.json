@@ -195,7 +195,7 @@
 										}
 									],
 									"code": "ui_align(0.5, vertical_align);\n\nui_push_height(height);\n\tui_border();\n\tui_align(0.5, 0.5);\n\tui_text(\"viewport has fixed height\");\nui_pop();",
-									"params": [{"type": "int", "name": "height", "min": 0, "max": 150}, {"name": "vertical_align", "min": 0, "max": 1, "default": 0.5}],
+									"params": [{"type": "int", "name": "height", "min": 0, "max": 150, "default": 50}, {"name": "vertical_align", "min": 0, "max": 1, "default": 0.5}],
 									"text": "These methods let you push a new viewport to the stack, with a specified height/width.  Their position is determined by the current alignment.",
 									"screenshot": "images/ui_push_height.png"
 								},
@@ -590,6 +590,14 @@
 							},
 							"text": "Fills the viewport with the current colour.",
 							"screenshot": "images/ui_fill.png"
+						},
+						{
+							"api": {
+								"function": "ui_image_fill",
+								"args": [{"name": "image", "text": "image buffer index"}, {"name": "alpha", "type": "float", "min": 0, "max": 1, "default": 1}]
+							},
+							"text": "Fills the viewport with an image, scaled and cropped to fill the whole area.\n\nThe image index is the number used in the \"filename:\" declaration at the top (or the index of an off-screen buffer).",
+							"displayCode": "ui_image_fill(0);"
 						},
 						{
 							"title": "ui_border() and others",

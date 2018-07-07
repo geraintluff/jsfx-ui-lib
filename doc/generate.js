@@ -53,7 +53,7 @@ function filloutApi(api, pageId, options, usedIds) {
 	}
 	api.pageId = pageId;
 
-	api.setupVar = api.setupVar = api.pageId + '_setup';
+	api.setupVar = api.pageId.replace(/[^a-z_]+/g, '_') + '_setup';
 
 	if (api.params) api.params = filloutParams(api.params, pageId);
 	if (api.return) api.return = filloutParams(api.return, pageId);
@@ -249,18 +249,18 @@ function jsfxDemoCode(api) {
 
 					demoCode += indent('ui_split_bottom(44);');
 					demoCode += indent(`
-	ui_pad(-1, 0);
-	ui_split_leftratio(0.4);
-		ui_align(1, 0.5);
-		ui_text(` + JSON.stringify(returnParam.name + ': ') + `);
-	ui_pop();
+ui_pad(-1, 0);
+ui_split_leftratio(0.4);
+	ui_align(1, 0.5);
+	ui_text(` + JSON.stringify(returnParam.name + ': ') + `);
+ui_pop();
 
-	ui_pad(0, -0.5);
-	control_background_inset();
-	ui_push();
-		ui_padleft();
-		ui_align(0, 0.5);
-	`, 2);
+ui_pad(0, -0.5);
+control_background_inset();
+ui_push();
+	ui_padleft();
+	ui_align(0, 0.5);
+`, 2);
 
 					if (returnParam.type == 'text') {
 						demoCode += indent('ui_text(' + returnParam.var + ');', 3);
@@ -285,11 +285,11 @@ function jsfxDemoCode(api) {
 
 					var start = param.start || param.default;
 					demoCode += indent(`
-	ui_split_leftratio(0.4);
-		ui_align(1, 0.5);
-		ui_text(` + JSON.stringify(param.var + ': ') + `);
-	ui_pop();
-	`, 3);
+ui_split_leftratio(0.4);
+	ui_align(1, 0.5);
+	ui_text(` + JSON.stringify(param.var + ': ') + `);
+ui_pop();
+`, 3);
 					if (param.type === 'enum' && param.enum) {
 						var options = [].concat(param.enum);
 						var nextVar = pageId + '_param' + paramIndex + '_next';
@@ -308,22 +308,21 @@ function jsfxDemoCode(api) {
 						demoCode += indent(stateVar  + ' = control_textinput(' + param.var + ', ' + stateVar + ');', 3);
 					} else if (param.type === 'bool') {
 						demoCode += indent(`
-	ui_split_left(60);
-		` + param.var + ` = control_switch(` + param.var + `);
-	ui_pop();
-	ui_padright();
-	ui_align(1, 0.5);
-	ui_text(` + param.var + ` ? "on" : "off");
-	`, 3);
+ui_split_left(60);
+	` + param.var + ` = control_switch(` + param.var + `);
+ui_pop();
+ui_padright();
+ui_align(1, 0.5);
+ui_text(` + param.var + ` ? "on" : "off");`, 3);
 					} else {
 						var min = param.min || 0;
 						var max = (param.max === 0 || param.max) ? param.max : start ? start : (typeof min === 'number' ? min + 1 : 1);
 						demoCode += indent(`
-	ui_split_right(60);
-		ui_align(0, 0.5);
-		ui_textnumber(` + param.var + `, ` + (param.type === 'int' ? '"%i"' : '"%f"') + `);
-	ui_pop();
-	ui_padright();`, 3);
+ui_split_right(60);
+	ui_align(0, 0.5);
+	ui_textnumber(` + param.var + `, ` + (param.type === 'int' ? '"%i"' : '"%f"') + `);
+ui_pop();
+ui_padright();`, 3);
 						if (typeof start === 'number') {
 							demoCode += indent(param.var  + ' = control_slider_left(' + param.var + ', ' + min + ', ' + max + ', 0, ' + start + ');', 3);
 						} else {
@@ -340,29 +339,29 @@ function jsfxDemoCode(api) {
 		}
 		if (displayCode) {
 			demoCode += indent(`
-	ui_push();
-		control_background_technical();
-		ui_push_clip();
-			ui_pad();
-			ui_font("Courier New", 14, 1, 0);
-			ui_align(0, 0.5);
-			ui_text(` + JSON.stringify(displayCode) + `);
-		ui_pop();
-		control_finish_technical();
+ui_push();
+	control_background_technical();
+	ui_push_clip();
+		ui_pad();
+		ui_font("Courier New", 14, 1, 0);
+		ui_align(0, 0.5);
+		ui_text(` + JSON.stringify(displayCode) + `);
 	ui_pop();
+	control_finish_technical();
+ui_pop();
 	`);
 		}
 		if (!displayCode && !actualCode) {
 			(api.children || []).forEach((child, index) => {
 				demoCode += indent(`
-	ui_split_toptext(-1);
-		ui_push_widthratio(0.5);
-			control_button(` + JSON.stringify(child.title) + `) ? (
-				ui_screen_open(` + JSON.stringify(child.pageId) + `);
-				` + child.setupVar + ` = 0;
-			);
-		ui_pop();
-	ui_pop();`);
+ui_split_toptext(-1);
+	ui_push_widthratio(0.5);
+		control_button(` + JSON.stringify(child.title) + `) ? (
+			ui_screen_open(` + JSON.stringify(child.pageId) + `);
+			` + child.setupVar + ` = 0;
+		);
+	ui_pop();
+ui_pop();`);
 			});
 		}
 		demoCode += ') : ';
