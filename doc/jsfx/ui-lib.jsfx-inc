@@ -1297,6 +1297,7 @@ function ui_graph_step(buffer, length, step, offset, modulo_length, low, high) l
 		low = min(low, 2*mid - high);
 		high = max(high, 2*mid - low);
 	);
+	length < 1 ? length = 1;
 
 	modulo_length = max(1, max(length>>4, modulo_length));
 
