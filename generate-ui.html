@@ -347,6 +347,8 @@ slider8:value_switch_inverted=0<0,1,1{zero,one}>Inverted</textarea>
 					var code = '';
 					if (layout.config['bitmap-simple']) {
 						code += 'control_start("main", "bitmap-simple", ' + layout.config['bitmap-simple'] + ');\n\n';
+					} else if (layout.config.theme) {
+						code += 'control_start("main", ' + JSON.stringify(layout.config.theme) + ');\n\n';
 					} else {
 						code += 'control_start("main", "default");\n\n';
 					}
@@ -562,6 +564,7 @@ slider8:value_switch_inverted=0<0,1,1{zero,one}>Inverted</textarea>
 						+ indent('ui_split_left(30);')
 						+ indent(indent('value = control_radio(value, optionValue);'))
 						+ indent('ui_pop();')
+						+ indent('ui_click() ? value = optionValue;')
 						+ indent('ui_text(optionText);')
 						+ indent('value;')
 						+ ');\n'
